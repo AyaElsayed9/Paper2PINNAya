@@ -62,6 +62,28 @@ Findings:
 
 Decision needed (options in the message of this commit): hybrid physics-informed surrogate (GBT labels + energy consistency), physics fine-tuning per design, or further research on physics-only amortised training.
 
+### 2d. Research log: label-free training of one network for the family (Oct 2026)
+* **Physics of the panels.**
+  * The load introduction (stringer foot eccentricity) raises the pre-buckling stress near the loaded ends to up to 5× the mid-length value.
+  * Many critical modes are localised at the ends; on one panel, 78 % of the mode lies in the two end fifths.
+  * The lowest modes are close together (e.g. 16.02 / 16.08 / 16.74).
+* **Representations along z** (exact cross-section, Ritz, vs full GBT):
+
+  | representation | error |
+  |---|---|
+  | single wave (Kantorovich) | 1–13 % |
+  | wavenumber blocks, signature-curve shapes | 4–55 % |
+  | Fourier J = 16–24 (L-dependent) | ≤ 0.1 % |
+  | **dictionary** (`dictionary.py`): 6 bulk wavelengths 25–350 mm (sin, cos) + 8 cubic end-layer splines per end over l_e = b_s, physical units, independent of L | **0.05–0.27 %** on the hardest panels (`scripts/exp_dictionary.py`) |
+
+* **Training.** Every gradient-based method converges slowly on this problem:
+  * Rayleigh–Ritz loss on separable candidates, single panel: 4–12 % after 600–1000 steps.
+  * Neural LOBPCG targets (`spectral.py`), wavenumber-block preconditioner: about 150 iterations to 0.2 %.
+  * Energy-whitened outputs.
+  * L-BFGS on free variables: 7.8 % after 300 iterations.
+  * Only an exact stiffness solve converges fast (5 iterations), and it costs about one GBT solve per panel.
+* **Conclusion:** a label-free amortised network costs at least about one exact solve per training panel. The GBT oracle gives these modes at the same cost, so it is used as the physics teacher (as Abaqus was in Paper 1, but automatic).
+
 ## Phase 4 — Koiter imperfection sensitivity in GBT
 For a critical mode u₁ at λ_c (normalised), the post-buckling path and imperfection sensitivity follow from
 the cubic and quartic terms of the potential energy (membrane strains with the quadratic terms

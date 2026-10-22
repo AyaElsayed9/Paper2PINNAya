@@ -84,10 +84,11 @@ def times_bubble_t(psi, bb):
 
 def mode(tp: TorchPanel, U, psi0):
     """Per class: longitudinal functions with the end factor (3, nz, R) and the projected
-    cross-section vectors (nm, R)."""
+    cross-section vectors (nm, R).  psi0 is one set of functions for all classes (the end
+    factor of every class is applied here) or a list of per-class functions."""
     psi, Uc = [], []
-    for bb, Pi, PiT in zip(tp.bub, tp.Pi, tp.PiT):
-        psi.append(times_bubble_t(psi0, bb))
+    for c, (bb, Pi, PiT) in enumerate(zip(tp.bub, tp.Pi, tp.PiT)):
+        psi.append(psi0[c] if isinstance(psi0, (list, tuple)) else times_bubble_t(psi0, bb))
         Uc.append(Pi @ (PiT @ U))
     return psi, Uc
 
@@ -146,16 +147,19 @@ def teacher_cos2(tp: TorchPanel, KR, psi, Uc, jitter=1e-8):
     return (y * y).sum(0) / tp.tt
 
 
-def ritz_mu(KR, GR, jitter=1e-8):
-    """Largest mu of GR x = mu KR x (Jacobi-scaled Cholesky); returns mu and the combination x."""
+def ritz_mu(KR, GR, drop=None):
+    """Largest mu of GR x = mu KR x on the range of KR (Jacobi scaling, eigen-decomposition
+    of KR; directions with KR eigenvalues below drop * max are discarded, so dependent or
+    empty candidates are harmless).  Returns mu and the combination x."""
+    if drop is None:
+        drop = 1e-6 if KR.dtype == torch.float32 else 1e-11
     dsc = 1.0 / torch.sqrt(torch.clamp(torch.diagonal(KR), min=1e-30))
     Ks = KR * dsc[:, None] * dsc[None, :]; Gs = GR * dsc[:, None] * dsc[None, :]
-    Lc = torch.linalg.cholesky(Ks + jitter * torch.eye(Ks.shape[0], dtype=Ks.dtype))
-    X = torch.linalg.solve_triangular(Lc, Gs, upper=False)          # L^-1 Gs
-    A = torch.linalg.solve_triangular(Lc, X.T, upper=False)         # L^-1 Gs L^-T
-    ev, V = torch.linalg.eigh(0.5 * (A + A.T))
-    y = torch.linalg.solve_triangular(Lc.T, V[:, -1:], upper=True)[:, 0]
-    return ev[-1], y * dsc
+    ev, V = torch.linalg.eigh(0.5 * (Ks + Ks.T))
+    keep = ev > drop * ev.max()
+    W = V[:, keep] / torch.sqrt(ev[keep])
+    mu, Y = torch.linalg.eigh(W.T @ (0.5 * (Gs + Gs.T)) @ W)
+    return mu[-1], (W @ Y[:, -1]) * dsc
 
 
 def _mlp(n_in, width, depth):
@@ -163,6 +167,72 @@ def _mlp(n_in, width, depth):
     for _ in range(depth):
         layers += [nn.Linear(d, width), nn.SiLU()]; d = width
     return nn.Sequential(*layers)
+
+
+class GBTDictRitz(nn.Module):
+    """Dictionary longitudinal functions (`dictionary.py`: bulk waves + end layers, physical
+    units); the network gives s cross-section vectors per dictionary function."""
+
+    def __init__(self, n_in: int, nm: int, nD: int, s: int = 1, width: int = 256, depth: int = 4,
+                 whiten=None):
+        super().__init__()
+        self.nm, self.nD, self.s = nm, nD, s
+        self.body = _mlp(n_in, width, depth)
+        self.hU = nn.Linear(width, nm * nD * s)
+        self.hL = nn.Linear(width, 1)
+        # whiten (nD, nm, nm): u_f = W_f y_f with W_f = L_f^-T, L_f L_f^T = mean K(k_f)
+        self.register_buffer("W", None if whiten is None else torch.as_tensor(whiten, dtype=torch.float32))
+
+    def candidates(self, tp):
+        h = self.body(tp.x)
+        Y = self.hU(h).reshape(self.nm, self.nD, self.s)
+        if self.W is not None:
+            Y = torch.einsum("fmn,nfs->mfs", self.W.to(Y.dtype), Y)
+        U = Y.reshape(self.nm, self.nD * self.s)
+        psi = [D.repeat_interleave(self.s, dim=2) if self.s > 1 else D for D in tp.D]
+        return U, psi, self.hL(h).squeeze(-1)
+
+
+def dictionary_wavenumbers(op, labels):
+    """Characteristic wavenumber of every dictionary function [1/mm]."""
+    out = []
+    for lab in labels:
+        if lab.startswith("wave"):
+            out.append(math.pi / float(lab[4:-1]))
+        else:
+            out.append(math.pi / (2 * min(op.params["bs"], 0.5 * op.L) / 8.0))
+    return np.asarray(out)
+
+
+def cross_section_whitening(ops, kf, ridge=1e-8):
+    """W_f = L_f^-T with L_f L_f^T = mean over panels of K(k_f) = K00 + k^2 (K11 - K02 - K20) + k^4 K22
+    (energy density of a sin(k z) shape): panel-independent output coordinates in which the
+    cross-section energy is close to the identity."""
+    nm = ops[0].nm; W = []
+    blk = lambda op, d, e: op.K[d * nm:(d + 1) * nm, e * nm:(e + 1) * nm]
+    for k in kf:
+        M = sum(blk(o, 0, 0) + k ** 2 * (blk(o, 1, 1) - blk(o, 0, 2) - blk(o, 2, 0)) + k ** 4 * blk(o, 2, 2)
+                for o in ops) / len(ops)
+        M = 0.5 * (M + M.T); M = M + ridge * np.trace(M) / nm * np.eye(nm)
+        ev, V = np.linalg.eigh(M); ev = np.maximum(ev, 1e-12 * ev.max())
+        W.append((V / np.sqrt(ev)) @ V.T)                       # symmetric M^-1/2
+    return np.stack(W)
+
+
+def attach_dictionary(tp: TorchPanel, op, k0=math.pi / 30.0, **kw):
+    """Per-class dictionary functions on the panel, scaled to equal bending energy."""
+    from .dictionary import dictionary
+    D, labels = dictionary(op, **kw)
+    sc = []
+    for lab in labels:
+        if lab.startswith("wave"):
+            k = math.pi / float(lab[4:-1]); sc.append(1.0 / (1.0 + (k / k0) ** 2))
+        else:
+            h = min(op.params["bs"], 0.5 * op.L) / 8.0; k = math.pi / (2 * h); sc.append(1.0 / (1.0 + (k / k0) ** 2))
+    sc = np.asarray(sc)
+    tp.D = [torch.as_tensor(Dc * sc[None, None, :], dtype=tp.dtype) for Dc in D]
+    tp.D_labels = labels
+    return tp
 
 
 class GBTDeepRitz(nn.Module):
