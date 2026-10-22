@@ -5,3 +5,9 @@ out/
 data/**/*.npz
 *.lck
 .pytest_cache/
+# large or regenerable data
+data/shared_basis/snap_*.pkl
+data/shared_basis/old/
+data/operators/
+data/*.log
+runs/

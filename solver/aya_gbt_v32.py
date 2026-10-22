@@ -5475,6 +5475,8 @@ def truncated_section(sec, kc, ks=None, kmx=0, kms=0, hm=None, kref=None,
             T[np.ix_(ix, np.arange(c, c + Tb.shape[1]))] = Tb
         c += Tb.shape[1]
     r = copy.copy(sec)
+    for _k in ("_kg_pattern", "_hm"):                       # caches of the parent basis
+        r.__dict__.pop(_k, None)
     r.T_basis = T
     r.E = np.einsum("pcmd,mk->pckd", sec.E, T, optimize=True)
     r.Gd = np.einsum("pcamd,mk->pcakd", sec.Gd, T, optimize=True)
