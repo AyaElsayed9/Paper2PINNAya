@@ -16,7 +16,7 @@ thin-walled composite sections* (Composite Structures).
 | phase | content | status |
 |---|---|---|
 | 0 | frozen solver, package, design space, engine and oracle wrappers, tests | done (this commit) |
-| 1 | oracle datasets: omega (pilot → ~500), then members (~150 per section) | pilot running |
+| 1 | oracle datasets: omega (pilot → ~500), then members (~150 per section) | pilot done (16 omega samples) |
 | 2 | PINN per geometry (Paper 1 workflow): GBT energy, reduced basis, warm start from the neighbour, ensemble + strip oracle | next |
 | 3 | parametric surrogate on the PINN dataset (inputs: geometry + lamination parameters) and its uncertainty | |
 | 4 | Koiter imperfection sensitivity in GBT (see below) | |

@@ -3280,7 +3280,9 @@ def _sfs_breaks(L, h_int, h_end, zone):
     if ni:
         b = np.r_[b, np.linspace(zone, L - zone, ni + 1)[1:]]
     b = np.r_[b, np.linspace(L - zone, L, ne + 1)[1:]]
-    return np.unique(np.round(b, 12))
+    b = np.unique(np.round(b, 12))
+    b[0], b[-1] = 0.0, L            # exact ends: rounding must not move them past L
+    return b
 
 
 def _sfs_strip_sparts(b, ABD, As, al, bubble=True):
