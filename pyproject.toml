@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pinnbuck"
+version = "0.1.0"
+description = "Physics-informed learning of buckling of thin-walled composite sections (GBT physics engine, spline-strip oracle)"
+authors = [{name = "Aya Medhat Elsayed"}]
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26", "scipy>=1.11", "torch>=2.2", "pandas>=2.0", "matplotlib>=3.7", "pyyaml>=6"]
+
+[project.optional-dependencies]
+fast = ["pypardiso>=0.4"]
+test = ["pytest>=7"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = ["solver: runs real solves of the validated code (slow)"]

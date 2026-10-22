@@ -1,0 +1,11 @@
+# Pilot dataset of the omega panel: checks the pipeline end to end.
+family: omega
+n_samples: 16
+seed: 2026
+symmetric_share: 0.5          # half symmetric lay-ups (B = 0), half general
+workers: 1                    # laptop: 4 workers x 2 threads
+threads_per_worker: 2
+out_dir: data/omega_pilot
+jobs:
+  - {solver: strip, mesh: fast}       # oracle (training data)
+  - {solver: gbt,   mesh: standard}   # full GBT (physics reference)
