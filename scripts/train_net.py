@@ -29,6 +29,7 @@ from pinnbuck.net import (BucklingNet, ModeCodec, cross_section_whitening, load_
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--family", default="omega", choices=["omega", "c", "z", "l", "t", "i", "box"])
     ap.add_argument("--side", default="symmetry", choices=["symmetry", "periodic"])
     ap.add_argument("--epochs", type=int, default=400)
     ap.add_argument("--batch", type=int, default=32)
@@ -41,8 +42,9 @@ def main():
     ap.add_argument("--check", type=int, default=16, help="test designs with the physics check")
     a = ap.parse_args()
     torch.set_num_threads(a.threads)
-    base = ROOT / "data" / "teacher" / a.side
-    tr, te = load_teacher(base / "train"), load_teacher(base / "test")
+    tag = a.side if a.family == "omega" else a.family
+    base = ROOT / "data" / "teacher" / tag
+    tr, te = load_teacher(base / "train", a.family), load_teacher(base / "test", a.family)
     ops_w = [pickle.load(open(f, "rb")) for f in sorted((base / "test").glob("*.op.pkl"))[:16]]
     Wm, Wp = cross_section_whitening(ops_w)
     codec = ModeCodec.fit(tr, Wm, Wp, a.n_pc)
@@ -93,7 +95,7 @@ def main():
     conf = None
     cal_dir = base / "calib"
     if cal_dir.exists() and any(cal_dir.glob("*.npz")) and a.ensemble > 1:
-        ca = load_teacher(cal_dir)
+        ca = load_teacher(cal_dir, a.family)
         Xca = torch.tensor((np.stack([r["x"] for r in ca]) - mu_x) / sd_x, dtype=torch.float32)
         with torch.no_grad():
             lc = np.stack([m(Xca)[1][:, 0].numpy() for m in models])        # log N
@@ -125,7 +127,7 @@ def main():
         for _ in range(200):
             models[0](Xte)
     t_pred = (time.perf_counter() - t_pred) / 200 / len(te)
-    out = ROOT / "runs" / f"net_{a.side}"; out.mkdir(parents=True, exist_ok=True)
+    out = ROOT / "runs" / f"net_{tag}"; out.mkdir(parents=True, exist_ok=True)
     for e, m in enumerate(models):
         torch.save(m.state_dict(), out / f"model{e}.pt")
     pickle.dump(dict(codec=codec, mu_x=mu_x, sd_x=sd_x), open(out / "codec.pkl", "wb"))

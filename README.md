@@ -54,3 +54,20 @@ pytest -m solver                  regression against the validated values (a few
 python scripts/generate_oracle_data.py configs/omega_pilot.yaml --workers 4
 ```
 Runs are resumable: finished samples are skipped when the command is repeated.
+
+
+## Fast buckling network: workflow on the laptop (omega, symmetry sides)
+Run from the repository folder with the virtual environment active; every step can be stopped
+and restarted (finished designs are skipped). Times are for 8 cores.
+```
+python scripts/gen_teacher.py --side symmetry --set test  --n 64  --seed 99 --workers 6 --keep-ops   (~10 min)
+python scripts/gen_teacher.py --side symmetry --set calib --n 64  --seed 55 --workers 6              (~8 min)
+python scripts/gen_teacher.py --side symmetry --set train --n 1024 --seed 11 --workers 6             (~1.5 h)
+python scripts/train_net.py   --side symmetry --epochs 400 --ensemble 5 --threads 8                  (~20 min)
+```
+`train_net.py` prints:
+* the N_cr error of the fast prediction on the test designs;
+* the coverage and width of the calibrated (conformal) confidence interval;
+* the physics check of the predicted modes on the GBT energies.
+
+The same commands with `--side periodic` cover periodic sides. Members use `--family c` (or `z`, `l`, `t`, `i`, `box`) in `gen_teacher.py`.
