@@ -4553,7 +4553,8 @@ def _kg_flush(Kg, rows, cols, vals, ndof):
 
 
 def gbt_fsm_solve(cfg, L, bc="SS", method="spline", seg=5.0, families="CS", hx=None,
-                  harmonics=None, nev=2, return_mode=False, prestress="first-order"):
+                  harmonics=None, nev=2, return_mode=False, prestress="first-order",
+                  pre=None, pre_only=False):
     """Critical load P_cr [N] of the member: shear-deformable GBT (families
     "CS" = Silvestre & Camotim 2013; add "T", "M" for the extensions) solved
     by finite strips (method "spline": SS / CC, Abaqus ends, first-order
@@ -4607,6 +4608,11 @@ def gbt_fsm_solve(cfg, L, bc="SS", method="spline", seg=5.0, families="CS", hx=N
         strain = np.einsum("pamd,xmd->xpa", sec.E, amp, optimize=True)    # (nx, np, 8)
         Nres = -np.einsum("pca,xpa->xpc", sec.Cp[:, :3, :], strain, optimize=True)  # compression +
         Pxx, Pss, Pxs = Nres[..., 0], Nres[..., 1], Nres[..., 2]
+    if pre_only:                                  # first-order state only (pinnbuck operators)
+        release()
+        return dict(pre=(Pxx, Pss, Pxs), lb=lb)
+    if pre is not None:                           # imposed pre-buckling state (reduced bases)
+        Pxx, Pss, Pxs = pre
     # ---- assemble Kg span by span (cross-section tensors at the span's Gauss points)
     Bd = [lb.B[d].toarray().reshape(lb.nspan, 4, nb) for d in range(3)]
     gmask = np.abs(sec.Gd[:, (0, 1, 2) if full else (1, 2)]).sum(axis=(0, 1, 2, 4))
@@ -4634,11 +4640,14 @@ def gbt_fsm_solve(cfg, L, bc="SS", method="spline", seg=5.0, families="CS", hx=N
     release()
     ok = mu > 0; lam = 1.0 / mu[ok]; V = V[:, ok]; o = np.argsort(lam); lam, V = lam[o], V[:, o]
     vec = np.zeros(ndof); vec[free] = V[:, 0]; Cm = vec.reshape(nm, nb)
+    Call = []
+    for j in range(V.shape[1]):
+        vj = np.zeros(ndof); vj[free] = V[:, j]; Call.append(vj.reshape(nm, nb))
     res = dict(P=float(lam[0]), eigs=[float(v) for v in lam],
                participation=_gbt_participation(sec, lb, Cm), ndof=len(free), nmodes=nm,
                method="spline", bc=bc, families=sec.families)
     if return_mode:
-        res.update(sec=sec, lb=lb, coef=Cm)
+        res.update(sec=sec, lb=lb, coef=Cm, coefs=Call)
     return res
 
 

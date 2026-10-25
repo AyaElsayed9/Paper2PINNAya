@@ -142,33 +142,33 @@ def long_classes(m, sec, w, bc):
 
 def build_operator(sample: Sample, sb: SharedBasis, lam_full: float | None = None,
                    with_shared_reference: bool = True, n_teacher: int = 3) -> PanelOperator:
-    """lam_full = None runs the full GBT (validated model) and stores its n_teacher lowest
+    """Operators of one design (omega panel or member, `families.py`) in the shared basis.
+    lam_full = None runs the full GBT (validated model) and stores its n_teacher lowest
     modes as `teacher`; pass a number (or nan) to skip it."""
+    from .families import family_context
     p = sample.params
-    with configure(OMEGA_SIDE_BC=p["side"], OMEGA_GBT_NINT=list(NINT_REF)) as m:
-        sec = m.omega_gbt_section(omega_panel(sample)); L = omega_length(sample); hx = hx_of(sec, L)
-        lb = m._LongSpline(L, m._sfs_breaks(L, hx, hx, L))
+    with family_context(sample) as fc:
+        m, sec, L, lb = fc.m, fc.sec, fc.L, fc.lb
         rfull = None
         if lam_full is None:
-            rfull = m.omega_gbt_solve(sec, L, p["bc"], hx=hx, nev=n_teacher, return_mode=True)
+            rfull = fc.solve(nev=n_teacher, return_mode=True)
             lam_full = rfull["N"]
-        pre = m.omega_gbt_solve(sec, L, p["bc"], hx=hx, pre_only=True)["pre"]
+        pre = fc.pre()
         w = shared_section(m, sec, sb)
         teacher = teig = None
         if rfull is not None:                  # lowest modes, least-squares in the shared coordinates
             Tp = np.linalg.pinv(w.T_basis)                               # (nm, nm_full)
             teacher = np.stack([np.stack([Tp @ (lb.B[d] @ c.T).T for d in range(3)]).transpose(0, 2, 1)
-                                for c in rfull["coefs"]]).astype(np.float32)  # (k, 3, nz, nm)
-            teig = np.asarray(rfull["eigs"])
+                                for c in rfull["coefs"][:n_teacher]]).astype(np.float32)  # (k, 3, nz, nm)
+            teig = np.asarray(rfull["eigs"][:n_teacher])
         full = "T" in sec.families
         K, G, P = section_operators(w, pre, full)
-        classes = long_classes(m, sec, w, p["bc"])
-        lam_sh = (m.omega_gbt_solve(w, L, p["bc"], hx=hx, nev=2, pre=pre)["N"]
-                  if with_shared_reference else float("nan"))
+        classes = fc.classes(w)
+        lam_sh = fc.solve_reduced(w, pre) if with_shared_reference else float("nan")
     return PanelOperator(sid=sample.sid, params=dict(p), features=sample.features(), L=float(L), bc=p["bc"],
-                         side=p["side"], nm=int(w.nm), K=K, G=G, P=P, z=np.asarray(lb.xg),
+                         side=p.get("side", sample.family), nm=int(w.nm), K=K, G=G, P=P, z=np.asarray(lb.xg),
                          wz=np.asarray(lb.wx), classes=classes, lam_full=float(lam_full),
-                         lam_shared=float(lam_sh), info=dict(hx=hx, nspan=lb.nspan, sample=sample.to_dict()),
+                         lam_shared=float(lam_sh), info=dict(hx=fc.hx, nspan=lb.nspan, sample=sample.to_dict()),
                          teacher=teacher, teacher_eigs=teig)
 
 

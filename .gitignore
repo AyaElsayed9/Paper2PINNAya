@@ -11,3 +11,4 @@ data/shared_basis/old/
 data/operators/
 data/*.log
 runs/
+data/teacher/
