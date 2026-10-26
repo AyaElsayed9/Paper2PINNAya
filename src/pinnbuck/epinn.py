@@ -331,6 +331,53 @@ def train_ritz_ng(net, designs, outer=40, inner=20, batch=8, lr=1e-3, k=3, seed=
     return opt
 
 
+def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3, seed=0, log=print,
+                       w_tail=0.25, eval_fn=None, eval_every=2, opt=None):
+    """Energy natural gradient with full projection: every outer iteration computes the
+    physics step (Ritz line search, `ritz_ng_target`) for ALL designs from the current
+    network, then fits the network to all these targets for `epochs` passes (the
+    least-squares projection of the function-space step onto the network)."""
+    pool = _as_pool(designs)
+    gen = np.random.default_rng(seed)
+    opt = opt or torch.optim.Adam(net.parameters(), lr=lr)
+    R = net.R
+    w = torch.full((R,), w_tail, dtype=torch.float64); w[:k] = 1.0
+    nd = len(pool)
+    for it in range(1, outer + 1):
+        with torch.no_grad():
+            Y0 = torch.cat([net(pool.X[i:i + 64])[0] for i in range(0, nd, 64)], 0)
+        T, logNt = [None] * nd, [None] * nd
+        for i in range(nd):
+            d = pool.get(i); d.P = pool.P[i]
+            t, mu_t, mu_c = ritz_ng_target(d, Y0[i], R)
+            T[i] = t / t.norm(dim=1, keepdim=True); logNt[i] = torch.log(1.0 / mu_t[:k].clamp(min=1e-12)).float()
+            pool.hist[i].append(1.0 / float(mu_c[0]))
+        fit0 = fit1 = 0.0
+        for ep in range(epochs):
+            perm = gen.permutation(nd); tot = 0.0
+            for b0 in range(0, nd, batch):
+                bi = perm[b0:b0 + batch]
+                Y, logN = net(pool.X[bi])
+                lf = sum(subspace_fit_loss(Y[j], T[i], w) for j, i in enumerate(bi)) / len(bi)
+                loss = lf + sum(((logN[j] - logNt[i]) ** 2).sum() for j, i in enumerate(bi)) / len(bi)
+                opt.zero_grad(); loss.backward(); opt.step()
+                tot += float(lf) * len(bi)
+            if ep == 0:
+                fit0 = tot / nd
+            fit1 = tot / nd
+        with torch.no_grad():
+            for i in range(0, nd, 64):
+                Y1 = net(pool.X[i:i + 64])[0]
+                for j in range(Y1.shape[0]):
+                    pool.P[i + j] = Y1[j].double() - Y0[i + j].double()
+        e = _train_errors(pool)
+        log(f"outer {it:3d}: training designs, N of the network before the step vs full GBT: mean {100 * np.mean(e):.2f} %, "
+            f"max {100 * np.max(e):.2f} %; fit to the physics step: {fit0:.4f} -> {fit1:.4f}")
+        if eval_fn and (it % eval_every == 0 or it == outer):
+            eval_fn(it)
+    return opt
+
+
 def train_adam(net, designs, steps=1000, batch=8, lr=1e-3, k=3, seed=0, log=print, log_every=50,
                eval_fn=None, eval_every=200, opt=None, cosine=True):
     """Adam on the physics loss itself (Ky Fan Ritz sum + head)."""

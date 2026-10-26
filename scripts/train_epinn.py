@@ -45,7 +45,8 @@ def main():
     ap.add_argument("--test", required=True)
     ap.add_argument("--bc", default="CC", choices=["SS", "CC"])
     ap.add_argument("--n-train", type=int, default=64)
-    ap.add_argument("--method", default="ritzng", choices=["ritzng", "adam", "ritzng+adam"])
+    ap.add_argument("--method", default="ritzng", choices=["ritzng", "adam", "ritzng+adam", "ngfull", "ngfull+adam"])
+    ap.add_argument("--epochs", type=int, default=10, help="fit passes per outer iteration (ngfull)")
     ap.add_argument("--arch", default="decoder", choices=["decoder", "linear"])
     ap.add_argument("--cache", type=int, default=40, help="energy spaces kept in memory")
     ap.add_argument("--n-eval-train", type=int, default=16)
@@ -79,7 +80,13 @@ def main():
         print("   " + report(f"[{it}] test ", epinn.evaluate(net, te)) + f"   ({time.perf_counter() - t1:.0f} s)", flush=True)
 
     lg = lambda s: print(s + f"   ({time.perf_counter() - t1:.0f} s)", flush=True)
-    if a.method == "ritzng+adam":
+    if a.method.startswith("ngfull"):
+        opt = epinn.train_ritz_ng_full(net, tr, outer=a.outer, epochs=a.epochs, batch=a.batch, lr=a.lr, k=a.k,
+                                       seed=a.seed, log=lg, eval_fn=ev, eval_every=2)
+        if a.method.endswith("+adam"):
+            epinn.train_adam(net, tr, steps=a.steps, batch=a.batch, lr=a.lr, k=a.k, seed=a.seed, log=lg,
+                             eval_fn=ev, eval_every=200, opt=opt)
+    elif a.method == "ritzng+adam":
         opt = epinn.train_ritz_ng(net, tr, outer=a.outer, inner=a.inner, batch=a.batch, lr=a.lr, k=a.k, seed=a.seed,
                                   log=lg, eval_fn=ev, eval_every=5)
         epinn.train_adam(net, tr, steps=a.steps, batch=a.batch, lr=a.lr, k=a.k, seed=a.seed, log=lg,

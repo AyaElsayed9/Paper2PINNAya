@@ -116,6 +116,14 @@ Results (CC, symmetry, industrial lay-ups; errors vs full GBT, no labels in trai
 | generalisation: 19 training designs → 7 unseen | head 10 %, Ritz 42 % (train 1 %) |
 | 259 unlabelled training designs → 22 unseen (linear output, 10 passes) | test: head 9.4 %, Ritz 10.6 %; train 8.5 % |
 | decoder output (P2INN-style), 10 passes | test: head 9.5 %, Ritz 20.6 %; train 19.7 % (still falling) |
+| **decoder, full-projection natural gradient (`ngfull`), 20 outer, 40 min, 2 cores** | **22 unseen designs: head 5.0 % mean / 10.9 % max; Ritz 12.3 % / 25.9 %; train 9.3 %; still falling** |
+| certificate from these predictions, 3 / 5 / 8 / 12 steps | 2.8 / 1.9 / 1.1 / 0.54 % mean; 6.7 / 5.1 / 3.1 / 1.7 % max |
+
+Open: (i) the projection step (network fit to the physics step) limits the speed: the fit loss
+falls only 0.98 → 0.30 over 20 outer steps; (ii) longer training (laptop); (iii) more candidates
+(Ritz mixture of experts: the Rayleigh–Ritz layer itself selects the best candidates, so extra
+candidates act as experts without a gating network); (iv) experts per mode family or geometry
+range; (v) SS and periodic sides with the same scripts (`--bc SS`).
 
 Diagnosis of the generalisation plateau (analysis only, converged modes not used in training):
 the whitened modes of unseen designs lie 24 % (energy) outside the span of the modes of 45
