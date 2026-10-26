@@ -181,7 +181,28 @@ class FunctionDecoderPINN(nn.Module):
         return out[:, :, self.gidx], self.hN(h)
 
 
+class HybridPINN(FunctionDecoderPINN):
+    """Decoder output plus a linear head on the same design features: the linear part
+    learns the common span fast, the decoder adds what lies outside a fixed span."""
+
+    def __init__(self, X_train, rs, R=8, k=3, width=256, depth=4, lin_rank=64):
+        super().__init__(X_train, rs, R=R, k=k, width=width, depth=depth)
+        self.lin_in = nn.Linear(width, lin_rank)
+        self.lin_out = nn.Linear(lin_rank, R * rs.n)
+        with torch.no_grad():
+            self.lin_out.weight.mul_(0.1); self.lin_out.bias.zero_()
+
+    def forward(self, x):
+        h = self.body(self.scale(x))
+        z = self.inH(h)[:, None, :] + self.inE(self.codes)[None, :, :]
+        out = self.dec(z).reshape(h.shape[0], -1, self.R, self.kmax).permute(0, 2, 1, 3).reshape(h.shape[0], self.R, -1)
+        lin = self.lin_out(self.lin_in(h)).reshape(h.shape[0], self.R, self.n)
+        return out[:, :, self.gidx] + lin, self.hN(h)
+
+
 def build_net(arch, X_train, rs, R=8, k=3, width=256, depth=4):
+    if arch == "hybrid":
+        return HybridPINN(X_train, rs, R=R, k=k, width=width, depth=depth)
     if arch == "decoder":
         return FunctionDecoderPINN(X_train, rs, R=R, k=k, width=width, depth=depth)
     return EnergyRitzPINN(X_train, rs.n, R=R, k=k, width=width, depth=depth)

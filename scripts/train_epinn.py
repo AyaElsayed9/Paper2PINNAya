@@ -47,7 +47,7 @@ def main():
     ap.add_argument("--n-train", type=int, default=64)
     ap.add_argument("--method", default="ritzng", choices=["ritzng", "adam", "ritzng+adam", "ngfull", "ngfull+adam"])
     ap.add_argument("--epochs", type=int, default=10, help="fit passes per outer iteration (ngfull)")
-    ap.add_argument("--arch", default="decoder", choices=["decoder", "linear"])
+    ap.add_argument("--arch", default="decoder", choices=["decoder", "linear", "hybrid"])
     ap.add_argument("--cache", type=int, default=40, help="energy spaces kept in memory")
     ap.add_argument("--n-eval-train", type=int, default=16)
     ap.add_argument("--outer", type=int, default=30)

@@ -45,14 +45,16 @@ def main():
     ap.add_argument("--full", action="store_true")
     ap.add_argument("--shared-ref", action="store_true", help="also solve GBT in the shared basis (check of the basis)")
     ap.add_argument("--layups", default="general", choices=["general", "industrial"])
+    ap.add_argument("--bc", default=None, choices=["SS", "CC"], help="fix the end condition")
     a = ap.parse_args()
     for k in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
         os.environ.setdefault(k, "1")
     from pinnbuck.designspace import sample_design
-    tag = a.side if a.layups == "general" else f"{a.side}_{a.layups}"
+    tag = (a.side if a.layups == "general" else f"{a.side}_{a.layups}") + (f"_{a.bc}" if a.bc else "")
     d = ROOT / "data" / "operators" / tag / a.set; d.mkdir(parents=True, exist_ok=True)
     todo = [(s, a.side, a.full, d / f"{s.sid}.pkl", a.shared_ref)
-            for s in sample_design("omega", a.n, seed=a.seed, categorical={"side": a.side}, layups=a.layups)
+            for s in sample_design("omega", a.n, seed=a.seed, categorical={"side": a.side, **({"bc": a.bc} if a.bc else {})},
+                                         layups=a.layups)
             if not (d / f"{s.sid}.pkl").exists()]
     print(f"{a.side}/{a.set}: {len(todo)} panels to build with {a.workers} workers", flush=True)
     t0 = time.perf_counter()

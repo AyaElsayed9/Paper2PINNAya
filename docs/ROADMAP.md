@@ -119,6 +119,12 @@ Results (CC, symmetry, industrial lay-ups; errors vs full GBT, no labels in trai
 | **decoder, full-projection natural gradient (`ngfull`), 20 outer, 40 min, 2 cores** | **22 unseen designs: head 5.0 % mean / 10.9 % max; Ritz 12.3 % / 25.9 %; train 9.3 %; still falling** |
 | certificate from these predictions, 3 / 5 / 8 / 12 steps | 2.8 / 1.9 / 1.1 / 0.54 % mean; 6.7 / 5.1 / 3.1 / 1.7 % max |
 
+Periodic side edges, SS ends (the case validated in Verification-Aya-2-10_SS-PBC), industrial lay-ups
+(`build_operators.py --side periodic --layups industrial --bc SS`): shared basis vs full GBT on 32
+test designs 0.007 % mean, 0.036 % max; same fixed layout for every design (n = 6564, 7 classes
+incl. the periodic anchor); energy checks 1e-14; dictionary space +0.03 to +0.08 %; eigen-iteration
+with the metric within 0.1 % in 7–11 steps.
+
 Open: (i) the projection step (network fit to the physics step) limits the speed: the fit loss
 falls only 0.98 → 0.30 over 20 outer steps; (ii) longer training (laptop); (iii) more candidates
 (Ritz mixture of experts: the Rayleigh–Ritz layer itself selects the best candidates, so extra
