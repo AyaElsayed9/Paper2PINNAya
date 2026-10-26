@@ -124,6 +124,69 @@ class EnergyRitzPINN(nn.Module):
         return self.hY(h).reshape(-1, self.R, self.n), self.hN(h)
 
 
+def function_codes(rs: RitzSpace):
+    """Physical code of every longitudinal function of the fixed layout (class c, label f):
+    [log half-wave / 100 mm, sin, cos, left end, right end, end-spline index / 8, class one-hot]."""
+    nC = len(rs.k); codes, slots = [], []
+    for c, labs in enumerate(rs.labels):
+        for f, lab in enumerate(labs):
+            if lab.startswith("wave"):
+                v = [math.log(float(lab[4:-1]) / 100.0), float(lab[-1] == "s"), float(lab[-1] == "c"), 0.0, 0.0, 0.0]
+            else:
+                v = [0.0, 0.0, 0.0, float(lab[3] == "L"), float(lab[3] == "R"), int(lab[4:]) / 8.0]
+            codes.append(v + list(np.eye(nC)[c])); slots.append((c, f))
+    return np.asarray(codes, np.float32), slots
+
+
+class FunctionDecoderPINN(nn.Module):
+    """Nonlinear decoder (parameter encoder + coordinate encoder, as in P2INN): for design
+    features h and the code e_f of every longitudinal function f, an MLP gives the
+    cross-section vectors of the R candidates on that function.  Unlike a linear output
+    layer (outputs confined to a fixed span; Kolmogorov n-width barrier), the outputs can
+    follow modes whose wavelength and localisation change with the design."""
+
+    def __init__(self, X_train, rs: RitzSpace, R=8, k=3, width=256, depth=4, dec_width=256, dec_depth=2):
+        super().__init__()
+        self.R, self.k, self.n = R, k, rs.n
+        self.scale = Scaler(X_train)
+        layers, d = [], X_train.shape[1]
+        for _ in range(depth):
+            layers += [nn.Linear(d, width), nn.SiLU()]; d = width
+        self.body = nn.Sequential(*layers)
+        codes, slots = function_codes(rs)
+        self.register_buffer("codes", torch.as_tensor(codes))
+        self.kmax = max(rs.k)
+        offs = np.r_[0, np.cumsum([kc * nb for kc, nb in zip(rs.k, rs.nb)])]
+        slot_of = {cf: i for i, cf in enumerate(slots)}
+        gidx = np.zeros(rs.n, np.int64)
+        for c in range(len(rs.k)):
+            for kk in range(rs.k[c]):
+                for f in range(rs.nb[c]):
+                    gidx[offs[c] + kk * rs.nb[c] + f] = slot_of[(c, f)] * self.kmax + kk
+        self.register_buffer("gidx", torch.as_tensor(gidx))
+        self.inH = nn.Linear(width, dec_width); self.inE = nn.Linear(codes.shape[1], dec_width, bias=False)
+        dec = []
+        for _ in range(dec_depth - 1):
+            dec += [nn.SiLU(), nn.Linear(dec_width, dec_width)]
+        self.dec = nn.Sequential(*dec, nn.SiLU(), nn.Linear(dec_width, R * self.kmax))
+        self.hN = nn.Linear(width, k)
+        with torch.no_grad():
+            self.hN.weight.mul_(0.01); self.hN.bias.fill_(math.log(10.0))
+
+    def forward(self, x):
+        h = self.body(self.scale(x))                                       # (B, w)
+        z = self.inH(h)[:, None, :] + self.inE(self.codes)[None, :, :]     # (B, n_f, dw)
+        out = self.dec(z).reshape(h.shape[0], -1, self.R, self.kmax)       # (B, n_f, R, kmax)
+        out = out.permute(0, 2, 1, 3).reshape(h.shape[0], self.R, -1)      # (B, R, n_f * kmax)
+        return out[:, :, self.gidx], self.hN(h)
+
+
+def build_net(arch, X_train, rs, R=8, k=3, width=256, depth=4):
+    if arch == "decoder":
+        return FunctionDecoderPINN(X_train, rs, R=R, k=k, width=width, depth=depth)
+    return EnergyRitzPINN(X_train, rs.n, R=R, k=k, width=width, depth=depth)
+
+
 # ----------------------------------------------------------------------------- physics
 def ritz(d: Design, Y):
     """Ritz values mu (descending) and combinations of the whitened candidates Y (R, n)."""

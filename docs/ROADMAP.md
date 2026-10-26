@@ -112,6 +112,20 @@ Results (CC, symmetry, industrial lay-ups; errors vs full GBT, no labels in trai
 |---|---|
 | free variables, one design, Adam 1000 steps | raw 4.6 %, whitened 0.40 % |
 | network, 7 designs (Test 1), 40 outer steps, 4 min, 1 core | mean 0.23 %, max 1.10 % (Ritz and head) |
+| same network, Adam on the physics loss, 1000 steps, 21 min | mean 0.04 %, max 0.13 % |
+| generalisation: 19 training designs → 7 unseen | head 10 %, Ritz 42 % (train 1 %) |
+| 259 unlabelled training designs → 22 unseen (linear output, 10 passes) | test: head 9.4 %, Ritz 10.6 %; train 8.5 % |
+| decoder output (P2INN-style), 10 passes | test: head 9.5 %, Ritz 20.6 %; train 19.7 % (still falling) |
+
+Diagnosis of the generalisation plateau (analysis only, converged modes not used in training):
+the whitened modes of unseen designs lie 24 % (energy) outside the span of the modes of 45
+other designs (Kolmogorov n-width barrier), so a linear output layer, whose outputs live in a
+fixed span, cannot generalise. Hence `FunctionDecoderPINN`: design encoder + code of every
+longitudinal function (wavelength, sin/cos, end layer, class) → MLP → cross-section vectors.
+
+Physics certificate (`scripts/eval_epinn.py`, replaces the −15 %/+3 % check of Paper 1):
+operators of the design (~10 s) + block LOBPCG with the energy metric started from the
+predicted modes (~0.3 s per step); every value is an upper bound in the Ritz space.
 
 ## Phase 4 — Koiter imperfection sensitivity in GBT
 For a critical mode u₁ at λ_c (normalised), the post-buckling path and imperfection sensitivity follow from

@@ -46,6 +46,7 @@ def main():
     ap.add_argument("--bc", default="CC", choices=["SS", "CC"])
     ap.add_argument("--n-train", type=int, default=64)
     ap.add_argument("--method", default="ritzng", choices=["ritzng", "adam", "ritzng+adam"])
+    ap.add_argument("--arch", default="decoder", choices=["decoder", "linear"])
     ap.add_argument("--cache", type=int, default=40, help="energy spaces kept in memory")
     ap.add_argument("--n-eval-train", type=int, default=16)
     ap.add_argument("--outer", type=int, default=30)
@@ -68,7 +69,7 @@ def main():
     n = tr.get(0).rs.n
     print(f"{a.bc}: {len(tr)} training designs, {len(te)} test designs, n = {n} per mode; "
           f"inputs ready in {time.perf_counter() - t0:.0f} s", flush=True)
-    net = epinn.EnergyRitzPINN(tr.X.numpy(), n, R=a.R, k=a.k, width=a.width, depth=a.depth)
+    net = epinn.build_net(a.arch, tr.X.numpy(), tr.get(0).rs, R=a.R, k=a.k, width=a.width, depth=a.depth)
     ev_idx = list(range(min(a.n_eval_train, len(tr))))
     print(f"network: {sum(p.numel() for p in net.parameters()) / 1e6:.1f} M parameters", flush=True)
     t1 = time.perf_counter()
