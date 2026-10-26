@@ -84,6 +84,35 @@ Decision needed (options in the message of this commit): hybrid physics-informed
   * Only an exact stiffness solve converges fast (5 iterations), and it costs about one GBT solve per panel.
 * **Conclusion:** a label-free amortised network costs at least about one exact solve per training panel. The GBT oracle gives these modes at the same cost, so it is used as the physics teacher (as Abaqus was in Paper 1, but automatic).
 
+### 2e. Physics-only PINN in energy-whitened coordinates (Oct 2026, current direction)
+Decision: the network stays a PINN (physics loss only, no labels); GBT gives the operators and
+the test references. Omega with industrial lay-ups first (`designspace.industrial_layups`:
+symmetric, balanced, 0/±45/90, ≥ 10 % per direction: 24 skin × 12 stringer sequences), then
+further experts (lay-up groups, periodic sides, members).
+
+Diagnosis of 2c/2d: the obstacle was the conditioning, not the physics. The GBT stiffness in the
+mode coordinates has a condition number of 1e9–1e19, so every gradient method crawls.
+
+New pieces (`ritzspace.py`, `epinn.py`):
+* **Ritz space**: shared modes × dictionary functions with FIXED labels (same coordinates for
+  every design of one end condition), K as a sum of Kronecker products, compressed pointwise G;
+  both equal the direct z-integrals to 1e-14 (`tests/test_ritzspace.py`).
+* **Energy metric**: exact blocks of K per dictionary wavelength and per end layer, M = CᵀC.
+  In y = C a the energy is ≈ |y|²: median eigenvalue of M⁻¹K = 1, 99 % below ≈ 5 (cond(K) 1e9–1e19).
+  The block-preconditioned eigen-iteration reaches 0.1 % in 9–13 iterations (previously ~150).
+* **Network**: design vector + closed-form plate loads → R = 8 candidate modes in y, exact
+  Rayleigh–Ritz layer (N = upper bound), N head trained on the network's own Ritz values.
+* **Optimiser** (energy natural gradient with Ritz line search, "projected LOBPCG"): per design
+  one physics step span{y, residual, previous change} → Rayleigh–Ritz → the network follows it
+  with 20 inner Adam steps on the subspace distance. ENGD (Müller & Zeinhofer 2023) with the energy
+  metric = plain residual in y; LOBPCG supplies the exact step length.
+
+Results (CC, symmetry, industrial lay-ups; errors vs full GBT, no labels in training):
+| test | result |
+|---|---|
+| free variables, one design, Adam 1000 steps | raw 4.6 %, whitened 0.40 % |
+| network, 7 designs (Test 1), 40 outer steps, 4 min, 1 core | mean 0.23 %, max 1.10 % (Ritz and head) |
+
 ## Phase 4 — Koiter imperfection sensitivity in GBT
 For a critical mode u₁ at λ_c (normalised), the post-buckling path and imperfection sensitivity follow from
 the cubic and quartic terms of the potential energy (membrane strains with the quadratic terms

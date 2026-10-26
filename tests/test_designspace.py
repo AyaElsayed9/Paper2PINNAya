@@ -38,3 +38,18 @@ def test_symmetric_layups_are_symmetric():
     for n in (4, 7, 8):
         lay = sample_layup(n, rng, symmetric=True)
         assert lay == lay[::-1]
+
+
+def test_industrial_layups_follow_the_rules():
+    from pinnbuck.designspace import industrial_layups
+    for n, count in ((8, 24), (7, 12)):
+        seqs = industrial_layups(n)
+        assert len(seqs) == count
+        for s in seqs:
+            assert list(s) == list(s[::-1])                                   # symmetric
+            assert s.count(45.0) == s.count(-45.0)                            # balanced
+            assert set(s) == {0.0, 45.0, -45.0, 90.0}                         # >= 10 % each (1 ply)
+            xi = lamination_parameters(s, 0.125)
+            assert np.allclose(xi[4:8], 0.0) and abs(xi[1]) < 1e-12 and abs(xi[3]) < 1e-12   # B = 0, A16 = A26 = 0
+    smp = sample_design("omega", 16, seed=3, layups="industrial")
+    assert all(tuple(s.layups["skin"]) in industrial_layups(8) for s in smp)

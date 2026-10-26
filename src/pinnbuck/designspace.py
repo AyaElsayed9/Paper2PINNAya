@@ -48,6 +48,26 @@ def sample_layup(n: int, rng: np.random.Generator, symmetric: bool) -> list[floa
     return [float(a) for a in rng.choice(ANGLE_SET, size=n)]
 
 
+INDUSTRIAL_ANGLES = (0.0, 45.0, -45.0, 90.0)
+
+
+def industrial_layups(n: int) -> list[tuple[float, ...]]:
+    """All stacking sequences of n plies that follow the usual industrial design rules:
+    symmetric (B = 0), balanced (as many +45 as -45 plies), angles 0 / +-45 / 90 only,
+    and at least 10 % of the plies in each of the four directions.
+    n = 8 (skin): 24 sequences; n = 7 (stringer): 12 sequences."""
+    from itertools import product
+    half, odd = n // 2, n % 2
+    out = set()
+    for h in product(INDUSTRIAL_ANGLES, repeat=half):
+        for mid in (INDUSTRIAL_ANGLES if odd else ((),)):
+            seq = tuple(h) + ((mid,) if odd else ()) + tuple(h[::-1])
+            cnt = {a: seq.count(a) for a in INDUSTRIAL_ANGLES}
+            if cnt[45.0] == cnt[-45.0] and all(c >= 0.1 * n for c in cnt.values()):
+                out.add(tuple(float(a) for a in seq))
+    return sorted(out)
+
+
 def lamination_parameters(angles_deg, t_ply: float) -> np.ndarray:
     """12 lamination parameters [xi_A(1..4), xi_B(1..4), xi_D(1..4)] (Tsai-Pagano).
 
@@ -93,10 +113,11 @@ class Sample:
 
 
 def sample_design(family: str, n: int, seed: int = 0, symmetric_share: float = 0.5,
-                  categorical: dict | None = None) -> list[Sample]:
+                  categorical: dict | None = None, layups: str = "general") -> list[Sample]:
     """n samples: scrambled Sobol for the continuous parameters, independent
     seeded draws for categorical values and lay-ups.  `categorical` fixes some
-    categorical parameters (e.g. {"bc": "SS"})."""
+    categorical parameters (e.g. {"bc": "SS"}).  layups = "general" (ply by ply from
+    ANGLE_SET) or "industrial" (uniform over `industrial_layups` of every laminate)."""
     fam = FAMILIES[family]; keys = list(fam["continuous"])
     sob = qmc.Sobol(d=len(keys), scramble=True, seed=seed)
     m = int(np.ceil(np.log2(max(n, 2))))
@@ -111,6 +132,12 @@ def sample_design(family: str, n: int, seed: int = 0, symmetric_share: float = 0
             p[k] = (categorical or {}).get(k) or str(rng.choice(opts))
         sym = bool(rng.random() < symmetric_share)
         fx = dict(fam["fixed"])
+        if layups == "industrial":
+            pick = lambda k: [float(a) for a in (lambda L_: L_[rng.integers(len(L_))])(industrial_layups(k))]
+            lay = ({"skin": pick(fx["n_skin"]), "stringer": pick(fx["n_stringer"])} if family == "omega"
+                   else {"wall": pick(fx["n_plies"])})
+            out.append(Sample(family, p, lay, fx))
+            continue
         if family == "omega":
             lay = {"skin": sample_layup(fx["n_skin"], rng, sym), "stringer": sample_layup(fx["n_stringer"], rng, sym)}
         else:
