@@ -125,6 +125,10 @@ test designs 0.007 % mean, 0.036 % max; same fixed layout for every design (n = 
 incl. the periodic anchor); energy checks 1e-14; dictionary space +0.03 to +0.08 %; eigen-iteration
 with the metric within 0.1 % in 7–11 steps.
 
+Periodic SS result (decoder, `ngfull`, 30 outer steps, 320 unlabelled designs, 95 min on 2 cores),
+32 unseen designs, |error| vs full GBT mean / max: head 3.65 / 9.77 %; Ritz of the predicted modes
+10.7 / 34.2 %; certificate 3 / 5 / 8 / 12 steps: 1.78 / 1.01 / 0.46 / 0.22 % mean, 8.3 / 5.0 / 2.4 / 1.24 % max.
+
 Open: (i) the projection step (network fit to the physics step) limits the speed: the fit loss
 falls only 0.98 → 0.30 over 20 outer steps; (ii) longer training (laptop); (iii) more candidates
 (Ritz mixture of experts: the Rayleigh–Ritz layer itself selects the best candidates, so extra
