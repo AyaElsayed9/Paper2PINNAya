@@ -62,6 +62,10 @@ def main():
     ap.add_argument("--threads", type=int, default=2)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--init", default=None, help="start from these weights (transfer, as in Paper 1)")
+    ap.add_argument("--oracle", default=None, help="folder of training designs with an oracle N_cr (full GBT)")
+    ap.add_argument("--gamma", type=float, default=0.0, help="weight of the Paper 1 data term SmoothL1(N/N_oracle, 1)")
+    ap.add_argument("--n-oracle-batch", type=int, default=4)
     a = ap.parse_args()
     torch.set_num_threads(a.threads); torch.manual_seed(a.seed)
     t0 = time.perf_counter()
@@ -72,6 +76,17 @@ def main():
           f"inputs ready in {time.perf_counter() - t0:.0f} s", flush=True)
     net = epinn.build_net(a.arch, tr.X.numpy(), tr.get(0).rs, R=a.R, k=a.k, width=a.width, depth=a.depth)
     ev_idx = list(range(min(a.n_eval_train, len(tr))))
+    if a.init:
+        net.load_state_dict(torch.load(a.init, weights_only=False)["state"])
+        print(f"weights from {a.init}", flush=True)
+    oracle = {}
+    if a.oracle:
+        names = {f.name for f in Path(a.oracle).glob("*.pkl")}
+        for i, f in enumerate(tr.files):
+            if Path(f).name in names and np.isfinite(tr.lam_full[i]):
+                oracle[i] = tr.lam_full[i]
+        ev_idx = sorted(oracle)[:a.n_eval_train] or ev_idx
+        print(f"{len(oracle)} oracle designs (full GBT), gamma = {a.gamma}", flush=True)
     print(f"network: {sum(p.numel() for p in net.parameters()) / 1e6:.1f} M parameters", flush=True)
     t1 = time.perf_counter()
 
@@ -82,7 +97,7 @@ def main():
     lg = lambda s: print(s + f"   ({time.perf_counter() - t1:.0f} s)", flush=True)
     if a.method.startswith("ngfull"):
         opt = epinn.train_ritz_ng_full(net, tr, outer=a.outer, epochs=a.epochs, batch=a.batch, lr=a.lr, k=a.k,
-                                       seed=a.seed, log=lg, eval_fn=ev, eval_every=2)
+                                       seed=a.seed, log=lg, eval_fn=ev, eval_every=2, oracle=oracle, gamma=a.gamma)
         if a.method.endswith("+adam"):
             epinn.train_adam(net, tr, steps=a.steps, batch=a.batch, lr=a.lr, k=a.k, seed=a.seed, log=lg,
                              eval_fn=ev, eval_every=200, opt=opt)
@@ -97,8 +112,9 @@ def main():
                             eval_fn=ev, eval_every=5)
     else:
         epinn.train_adam(net, tr, steps=a.steps, batch=a.batch, lr=a.lr, k=a.k, seed=a.seed,
+                         oracle=oracle, gamma=a.gamma, n_oracle_batch=a.n_oracle_batch,
                          log=lambda s: print(s + f"   ({time.perf_counter() - t1:.0f} s)", flush=True),
-                         eval_fn=ev, eval_every=200)
+                         eval_fn=ev, eval_every=100)
     res = dict(train=epinn.evaluate(net, tr, idx=ev_idx), test=epinn.evaluate(net, te), args=vars(a))
     print(report("final train", res["train"])); print(report("final test ", res["test"]))
     for r in res["test"]:

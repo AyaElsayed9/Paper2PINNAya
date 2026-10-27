@@ -129,6 +129,23 @@ Periodic SS result (decoder, `ngfull`, 30 outer steps, 320 unlabelled designs, 9
 32 unseen designs, |error| vs full GBT mean / max: head 3.65 / 9.77 %; Ritz of the predicted modes
 10.7 / 34.2 %; certificate 3 / 5 / 8 / 12 steps: 1.78 / 1.01 / 0.46 / 0.22 % mean, 8.3 / 5.0 / 2.4 / 1.24 % max.
 
+Paper 1 data term (Elsayed et al., Compos. Struct. 399 (2026) 120959, Eq. 18:
+gamma * SmoothL1(N / N_FEA, 1), only where the supervisor calls the oracle), periodic SS.
+Supervisor (`scripts/flag_designs.py`): gap between the Ritz bound and the head; the 32 (10 %)
+most suspicious training designs get the full GBT. All runs start from the 30-outer periodic model.
+| continuation | oracle designs: Ritz / head | 32 unseen designs: Ritz / head |
+|---|---|---|
+| start | — | 10.7 / 3.65 % |
+| Adam 300 steps, data term on N_Ritz (gamma 1000) | 7.8 / 8.9 % | 11.0 / 8.3 % |
+| Adam 300 steps, no data term | 10.6 / 10.6 % | 9.5 / 7.1 % |
+| ngfull 10 outer, data term on the head (gamma 100) | 12.3 / 3.3 % | 10.3 / 3.66 % |
+| ngfull 10 outer, no data term | 11.9 / 5.3 % | 10.2 / 3.65 % |
+Findings: the data term corrects the designs it is applied to (as in Paper 1) but does not
+transfer to unseen designs; Adam on the physics loss degrades the head (it learns the Ritz upper
+bound of imperfect modes); 10 more ngfull steps do not improve unseen designs: plateau at about
+3.6 % (head) and 10 % (Ritz of the predicted modes), also on training designs, so the limit is the
+representation of the modes by the network (capacity), not data or optimiser steps.
+
 Open: (i) the projection step (network fit to the physics step) limits the speed: the fit loss
 falls only 0.98 → 0.30 over 20 outer steps; (ii) longer training (laptop); (iii) more candidates
 (Ritz mixture of experts: the Rayleigh–Ritz layer itself selects the best candidates, so extra

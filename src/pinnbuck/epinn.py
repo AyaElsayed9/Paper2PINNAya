@@ -215,14 +215,19 @@ def ritz(d: Design, Y):
     return ritz_values(*ritz_forms(d.rs, X))
 
 
-def physics_loss(d: Design, Y, logN, k=3, w_head=1.0):
-    """Ky Fan sum of the k largest Ritz values (each normalised: gradient of -sum log mu_i)
-    and the N_cr head trained on the network's own Ritz values."""
+def physics_loss(d: Design, Y, logN, k=3, w_head=1.0, n_oracle=None, gamma=0.0):
+    """Ky Fan sum of the k largest Ritz values (each normalised: gradient of -sum log mu_i =
+    gradient of sum log N_i, the lambda_cr term of Paper 1 for k modes), the N_cr head
+    trained on the network's own Ritz values and, for designs where the oracle was called,
+    the active-learning data term of Paper 1 (Eq. 18): gamma * SmoothL1(N_1 / N_oracle, 1)."""
     mu, _ = ritz(d, Y)
     kk = min(k, int((mu > 0).sum()))
     loss = -(mu[:kk] / mu[:kk].detach().abs()).sum()
     tgt = torch.log(1.0 / mu[:kk].detach()).float()
     loss = loss + w_head * ((logN[:kk] - tgt) ** 2).sum()
+    if n_oracle is not None and gamma > 0 and kk > 0:
+        ratio = (1.0 / mu[0]) / n_oracle
+        loss = loss + gamma * torch.nn.functional.smooth_l1_loss(ratio, torch.ones_like(ratio))
     return loss, mu.detach()
 
 
@@ -353,12 +358,15 @@ def train_ritz_ng(net, designs, outer=40, inner=20, batch=8, lr=1e-3, k=3, seed=
 
 
 def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3, seed=0, log=print,
-                       w_tail=0.25, eval_fn=None, eval_every=2, opt=None):
+                       w_tail=0.25, eval_fn=None, eval_every=2, opt=None, oracle=None, gamma=0.0):
     """Energy natural gradient with full projection: every outer iteration computes the
     physics step (Ritz line search, `ritz_ng_target`) for ALL designs from the current
     network, then fits the network to all these targets for `epochs` passes (the
-    least-squares projection of the function-space step onto the network)."""
+    least-squares projection of the function-space step onto the network).
+    oracle (index -> N_oracle), gamma: Paper 1 data term gamma * SmoothL1(N_head / N_oracle, 1)
+    on the instant answer of the designs where the oracle was called."""
     pool = _as_pool(designs)
+    oracle = oracle or {}
     gen = np.random.default_rng(seed)
     opt = opt or torch.optim.Adam(net.parameters(), lr=lr)
     R = net.R
@@ -381,6 +389,11 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
                 Y, logN = net(pool.X[bi])
                 lf = sum(subspace_fit_loss(Y[j], T[i], w) for j, i in enumerate(bi)) / len(bi)
                 loss = lf + sum(((logN[j] - logNt[i]) ** 2).sum() for j, i in enumerate(bi)) / len(bi)
+                if gamma > 0:
+                    for j, i in enumerate(bi):
+                        if int(i) in oracle:
+                            r = torch.exp(logN[j, 0]) / oracle[int(i)]
+                            loss = loss + gamma * torch.nn.functional.smooth_l1_loss(r, torch.ones_like(r)) / len(bi)
                 opt.zero_grad(); loss.backward(); opt.step()
                 tot += float(lf) * len(bi)
             if ep == 0:
@@ -400,20 +413,27 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
 
 
 def train_adam(net, designs, steps=1000, batch=8, lr=1e-3, k=3, seed=0, log=print, log_every=50,
-               eval_fn=None, eval_every=200, opt=None, cosine=True):
-    """Adam on the physics loss itself (Ky Fan Ritz sum + head)."""
+               eval_fn=None, eval_every=200, opt=None, cosine=True, oracle=None, gamma=0.0, n_oracle_batch=0):
+    """Adam on the physics loss itself (Ky Fan Ritz sum + head), with the Paper 1 data term
+    for the oracle designs (`oracle`: index -> N_oracle); every batch then contains
+    n_oracle_batch of them."""
     pool = _as_pool(designs)
     gen = np.random.default_rng(seed)
     opt = opt or torch.optim.Adam(net.parameters(), lr=lr)
     for g in opt.param_groups:
         g["lr"] = lr
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=steps, eta_min=0.05 * lr) if cosine else None
+    oracle = oracle or {}
+    o_idx = np.array(sorted(oracle)); rest = np.array([i for i in range(len(pool)) if i not in oracle])
     for it in range(1, steps + 1):
-        bi = gen.choice(len(pool), size=min(batch, len(pool)), replace=False)
+        no = min(n_oracle_batch, len(o_idx))
+        pool_rest = rest if no else np.arange(len(pool))
+        bi = np.r_[gen.choice(o_idx, size=no, replace=False) if no else np.array([], int),
+                   gen.choice(pool_rest, size=min(batch - no, len(pool_rest)), replace=False)].astype(int)
         Y, logN = net(pool.X[bi])
         opt.zero_grad()
         for j, i in enumerate(bi):
-            loss, mu = physics_loss(pool.get(i), Y[j], logN[j], k=k)
+            loss, mu = physics_loss(pool.get(i), Y[j], logN[j], k=k, n_oracle=oracle.get(int(i)), gamma=gamma)
             (loss / len(bi)).backward(retain_graph=j < len(bi) - 1)
             pool.hist[i].append(1.0 / float(mu[0]))
         opt.step()
