@@ -150,7 +150,7 @@ EQTBL = ('<w:tbl><w:tblPr><w:tblW w:w="7859" w:type="dxa"/><w:tblInd w:w="2608" 
          '<w:left w:w="0" w:type="dxa"/><w:right w:w="0" w:type="dxa"/></w:tblCellMar><w:tblLook w:val="04A0" '
          'w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr>'
          '<w:tblGrid><w:gridCol w:w="7428"/><w:gridCol w:w="431"/></w:tblGrid><w:tr><w:tc><w:tcPr><w:tcW w:w="7428" '
-         'w:type="dxa"/></w:tcPr><w:p><w:pPr><w:pStyle w:val="MDPI39equation"/><w:jc w:val="left"/></w:pPr>{math}</w:p>'
+         'w:type="dxa"/></w:tcPr><w:p><w:pPr><w:pStyle w:val="MDPI39equation"/><w:ind w:left="0"/><w:jc w:val="center"/></w:pPr>{math}</w:p>'
          '</w:tc><w:tc><w:tcPr><w:tcW w:w="431" w:type="dxa"/><w:vAlign w:val="center"/></w:tcPr><w:p><w:pPr>'
          '<w:pStyle w:val="MDPI3aequationnumber"/></w:pPr><w:r><w:t>({n})</w:t></w:r></w:p></w:tc></w:tr></w:tbl>')
 neq = 0
@@ -170,7 +170,7 @@ def fix_eq(m):
     neq += 1
     # left-aligned math inside the cell
     mth = math.group(0).replace('<m:oMathParaPr><m:jc m:val="center" /></m:oMathParaPr>', '')
-    mth = mth.replace('<m:oMathPara>', '<m:oMathPara><m:oMathParaPr><m:jc m:val="left"/></m:oMathParaPr>', 1) if '<m:oMathParaPr>' not in mth else mth
+    mth = mth.replace('<m:oMathPara>', '<m:oMathPara><m:oMathParaPr><m:jc m:val="center"/></m:oMathParaPr>', 1)
     return EQTBL.format(math=mth, n=n)
 doc = re.sub(r'<w:p>(?:(?!</w:p>).)*?EQNUM\d+.*?</w:p>', fix_eq, doc, flags=re.S)
 assert 'EQNUM' not in doc, 'unprocessed equation marker'
@@ -181,6 +181,7 @@ doc = doc.replace('<m:nor /><m:sty m:val="p" />', '<m:nor />')
 doc = re.sub(r'(<m:begChr [^>]*/>)(<m:endChr [^>]*/>)(<m:sepChr [^>]*/>)', r'\1\3\2', doc)
 doc = re.sub(r'<w:jc w:val="start" ?/></w:tblPr>', '</w:tblPr>', doc)
 doc = re.sub(r'(<m:mcJc [^>]*/>)(<m:count [^>]*/>)', r'\2\1', doc)
+doc = re.sub(r'<w:bidi ?/>', '', doc)   # template artefact: RTL section
 files['word/document.xml'] = doc.encode('utf-8')
 num = files['word/numbering.xml'].decode('utf-8')
 num = re.sub(r'<w:nsid w:val="([0-9A-Fa-f]+)" ?/>', lambda m: '<w:nsid w:val="%s"/>' % m.group(1).upper().zfill(8)[-8:], num)

@@ -60,8 +60,43 @@ txt = (f"Except for one case, all changes are within {max(abs(v) for v in others
        f"The link walls were checked in the same way: for the isotropic cell with simply supported loaded edges, $b_s = 150$ mm and "
        f"$\\beta = 1.5$, the critical load is {conv['linkk']['100.0']:.3f}, {conv['linkk']['1000.0']:.3f} and {conv['linkk']['10000.0']:.3f} N/mm "
        f"for $k_L = 10^2$, $10^3$ and $10^4$, whereas a link wall with the stiff twisting term $D^L_{{66}} = k_L D_{{0,66}}$ gives "
-       f"{conv['link_stiffD66']:.3f} N/mm ({m(100 * (conv['link_stiffD66'] - conv['linkk']['1000.0']) / conv['linkk']['1000.0'])} %).")
+       f"{conv['link_stiffD66']:.3f} N/mm ({100 * (conv['link_stiffD66'] - conv['linkk']['1000.0']) / conv['linkk']['1000.0']:+.1f} %).")
 s = s.replace("@@CONVTEXT@@", txt)
+
+# hierarchical (reduced) bases
+red = json.loads((H / "results" / "reduced2.json").read_text())
+red1 = json.loads((H / "results" / "reduced.json").read_text())
+names = {"Isotropic|150.0|1.5|SS": ("Isotropic", "SS", 150), "Cross-ply|150.0|1.5|SS": ("Cross-ply", "SS", 150),
+         "Sym2|150.0|1.5|SS": ("Sym2", "SS", 150), "Unsym|150.0|1.5|SS": ("Unsym", "SS", 150),
+         "Unsym|150.0|1.5|CC": ("Unsym", "CC", 150), "Sym1|285.5|1.5|CC": ("Sym1", "CC", 285.5)}
+rows = ["| Lay-up | Ends | $b_s$ [mm] | $n_C = 20$ | $n_C = 40$ | $n_C = 60$ | $n_C = 100$ | $n_C = 150$ | no Mindlin modes |",
+        "|:--|:--|--:|--:|--:|--:|--:|--:|--:|"]
+dev = lambda v, f: 100 * (v - f) / f
+for k, (lay, bc, bs) in names.items():
+    r = red[k]; f0 = r["full"][0]
+    rows.append(f"| {lay} | {bc} | {bs:g} | " + " | ".join(m(dev(r[c][0], f0)) for c in ("c20", "c40", "c60", "c100", "c150", "noM")) + " |")
+s = s.replace("@@TABRED@@", "\n".join(rows))
+nM = {k: dev(r["noM"][0], r["full"][0]) for k, r in red.items()}
+c40 = {k: dev(r["c40"][0], r["full"][0]) for k, r in red.items()}
+c100 = {k: dev(r["c100"][0], r["full"][0]) for k, r in red.items()}
+unc = ["Isotropic|150.0|1.5|SS", "Cross-ply|150.0|1.5|SS"]
+cpl = [k for k in red if k not in unc]
+sm = {k: v for k, v in red1.items()}
+iso = sm["Isotropic|285.5|0.75|SS"]["a_20"]; cro = sm["Cross-ply|150.0|1.5|SS"]["a_20"]
+uss = sm["Unsym|150.0|1.5|SS"]["a_20"]; ucc = sm["Unsym|150.0|1.5|CC"]["a_20"]
+txt = (f"The hierarchical ordering is effective for the conventional modes: for the uncoupled lay-ups, 40 conventional modes reproduce the "
+       f"complete result within {max(abs(c40[k]) for k in unc):.2f} %, and 100 within {max(abs(c100[k]) for k in unc):.2f} %. For the coupled lay-ups, "
+       f"more conventional modes are needed ({min(c40[k] for k in cpl):.1f} % to {max(c40[k] for k in cpl):.1f} % with 40 and "
+       f"{min(c100[k] for k in cpl):.2f} % to {max(c100[k] for k in cpl):.2f} % with 100 modes), because the skewed buckles of these laminates "
+       f"combine many local modes. The transverse shear (Mindlin) modes are not negligible: omitting them raises the critical load by "
+       f"{min(nM.values()):.2f} % to {max(nM.values()):.2f} %. A small basis in the classical sense, consisting of the first 20 conventional modes, "
+       f"the warping (shear-mode) field that each of them activates at $k_r$ and no Mindlin modes ({iso[1]} modes), gives "
+       f"{m(iso[2])} % for the isotropic cell with $b_s = 285.5$ mm and $\\beta = 0.75$ and {m(cro[2])} % for the cross-ply cell with $b_s = 150$ mm and $\\beta = 1.5$, "
+       f"but {m(uss[2])} % and {m(ucc[2])} % for the Unsym cell with simply supported and clamped loaded edges. Compact GBT bases are therefore "
+       f"adequate for uncoupled laminates, whereas for coupled laminates the complete basis, or a basis that is enriched in the local and Mindlin "
+       f"families, is required; the construction of such bases is left for future work.")
+s = s.replace("@@REDTEXT@@", txt)
+
 (H / "part3_filled.md").write_text(s)
 left = [p for p in s.split("@@")[1::2]]
 print("unfilled:", left)
