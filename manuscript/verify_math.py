@@ -128,7 +128,7 @@ def periodicity(sec):
 
 
 if __name__ == "__main__":
-    for lay in ():
+    for lay in ("Cross-ply", "Sym2", "Unsym"):
         m, sec = get(lay)
         print(lay, "nm", sec.nm, "nip", sec.nip, "periodicity", {k: f"{v:.1e}" for k, v in periodicity(sec).items()})
         print("  worst explicit-vs-code", f"{check_blocks(m, sec, lay):.2e}")

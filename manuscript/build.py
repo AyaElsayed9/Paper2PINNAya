@@ -37,6 +37,13 @@ NAME = 'GBT_periodic_omega_manuscript'
 
 src = '\n\n'.join(open(f, encoding='utf-8').read() for f in ('part1.md', 'part2.md', 'part3_filled.md', 'part4.md'))
 
+# ---------- figures at their natural size (600 dpi): all figures keep 8 pt lettering ----------
+from PIL import Image as _Im
+def _fw(m):
+    w_px, _h = _Im.open(os.path.join(H, m.group(1))).size
+    return f"]({m.group(1)}){{width={min(17.0, w_px / 600 * 2.54):.2f}cm}}"
+src = re.sub(r"\]\((fig/[^)]+\.png)\)\{width=[^}]*\}", _fw, src)
+
 # ---------- headings: manual MDPI numbering ----------
 lines, c1, c2, c3, heads = [], 0, 0, 0, []
 in_math = False

@@ -97,6 +97,26 @@ txt = (f"The hierarchical ordering is effective for the conventional modes: for 
        f"families, is required; the construction of such bases is left for future work.")
 s = s.replace("@@REDTEXT@@", txt)
 
+# figure data (figures_paper.py)
+fd = json.loads((H / "results" / "figdata.json").read_text())["fig08"]
+modes = [(int(k[4:]), v) for k, v in fd.items() if k.startswith("mode")]
+rel = abs(fd["N_hier"] - fd["N_full"]) / fd["N_full"]
+ex = int(np.floor(np.log10(rel)))
+s = s.replace("@@HN@@", f"{fd['N_full']:.2f}").replace("@@HDIFF@@", f"${rel / 10 ** ex:.1f}\\times10^{{{ex}}}$")
+s = s.replace("@@HMODES@@", ", ".join(str(k) for k, _v in modes[:-1]) + f" and {modes[-1][0]}")
+s = s.replace("@@H4@@", f"{sum(v for _k, v in modes):.1f}").replace("@@H20@@", f"{fd['sum20']:.1f}")
+
+hc = json.loads((H / "results" / "figdata.json").read_text())["fig09"]
+nm_ = {"Isotropic|150.0|1.5|SS": "the isotropic", "Cross-ply|150.0|1.5|SS": "the Cross-ply", "Sym2|150.0|1.5|SS": "the Sym2",
+       "Unsym|150.0|1.5|SS": "the Unsym (SS)", "Unsym|150.0|1.5|CC": "the Unsym (CC)", "Sym1|285.5|1.5|CC": "the Sym1 (CC, $b_s = 285.5$ mm)"}
+r16 = [(v["nc"]["16"] / v["full"] - 1) / (v["nc"]["20"] / v["full"] - 1) for v in json.loads((H / "results" / "hier_conv.json").read_text()).values()]
+parts = sorted(((v["n_lt1"], nm_[k]) for k, v in hc.items()), key=lambda t: t[0])
+txt = ("The convergence is stepwise (Figure 9): some groups of hierarchical modes do not change the critical load, whereas the four modes "
+       "between $n_C = 16$ and 20 reduce the deviation by a factor of " + f"{min(r16):.0f} to {max(r16):.0f}. A deviation below 1 % requires " +
+       ", ".join(f"{n} modes for {name} cell" for n, name in parts[:-1]) + f" and {parts[-1][0]} modes for {parts[-1][1]} cell, "
+       "i.e. 20 to 40 of the 273 (or 231) conventional modes for the isotropic, cross-ply and angle-ply cells, but about one third of them for the unsymmetric laminate.")
+s = s.replace("@@HCONV@@", txt)
+
 (H / "part3_filled.md").write_text(s)
 left = [p for p in s.split("@@")[1::2]]
 print("unfilled:", left)
