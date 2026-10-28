@@ -1,197 +1,109 @@
 
-## Strain energy and GBT modal matrices
+# Results and discussion
 
-With Eq. (@strainop), the strain energy of the cell becomes
+This section verifies the formulation and discusses the buckling behaviour of omega-stringer-stiffened panels with periodic side edges. The critical loads predicted by the GBT–Ritz formulation are compared with Abaqus shell models with periodic constraint equations for simply supported loaded edges and with an independent spline finite strip model for clamped loaded edges. Particular attention is given to the critical loads, the buckling modes, the contribution of the individual deformation modes and the influence of the laminate coupling. The geometry of the cross-section and the material properties are summarised in Table 4, and the lay-ups in Table 5. They include an isotropic reference, a cross-ply laminate without coupling, two symmetric angle-ply laminates with bending–twisting coupling ($D_{16}, D_{26} \neq 0$; Sym2 and the seven-ply stringer of Sym1 also with $A_{16}, A_{26} \neq 0$), and an unsymmetric laminate with membrane–bending coupling ($\mathbf B \neq \mathbf 0$). Ply angles are measured from the stringer axis $x$. Two stringer pitches, $b_s = 150$ mm and $285.5$ mm, and aspect ratios $0.5 \le \beta \le 3$ are considered.
 
-$$
-\begin{gathered}
-U = \frac12\int_0^L\!\!\int_\Gamma \hat{\boldsymbol\varepsilon}^{\mathsf T}\mathbf C\,\hat{\boldsymbol\varepsilon}\,ds\,dx
-= \frac12\int_0^L \sum_{d=0}^{2}\sum_{e=0}^{2}\mathbf q^{(d)\mathsf T}\mathbf A^{(de)}\,\mathbf q^{(e)}\,dx,\\
-\mathbf A^{(de)} = \int_\Gamma \mathbf E^{(d)\mathsf T}\,\mathbf C\,\mathbf E^{(e)}\,ds,
-\end{gathered} \eqn{energy}
-$$
+::: {custom-style="MDPI_4.1_table_caption"}
+**Table 4.** Geometry of the cross-section (Figure 1) and material properties.
+:::
 
-where $\Gamma$ is the mid-line of the cross-section and $\mathbf A^{(ed)} = \mathbf A^{(de)\mathsf T}$. In matrix form, with $\boldsymbol\Phi = \left[\mathbf q;\ \mathbf q_{,x};\ \mathbf q_{,xx}\right]$,
+| Parameter | Value |
+|:--|:--|
+| stringer pitch $b_s$ | 150 mm, 285.5 mm |
+| web root half-width $b_3$, web height $h$, web inclination | 27.75 mm, 30 mm, 25° from the vertical |
+| crown half-width $h_t = b_3 - h\tan 25^\circ$ | 13.76 mm |
+| foot width $b_1 = 0.1\,(b_s - 2b_3)$ | 9.45 mm, 23.00 mm |
+| skin and stringer thickness $t_s$, $t_f$ | 1.0 mm, 0.875 mm (8 and 7 plies of 0.125 mm) |
+| stringer offset $c = (t_s+t_f)/2$ | 0.9375 mm |
+| CFRP ply | $E_1 = 150$ GPa, $E_2 = 9$ GPa, $G_{12} = G_{13} = G_{23} = 5.3$ GPa, $\nu_{12} = 0.33$ |
+| isotropic material | $E = 200$ GPa, $\nu = 0.3$ |
 
-$$
-\begin{gathered}
-U = \frac12\int_0^L \boldsymbol\Phi^{\mathsf T}\,\boldsymbol\Xi\,\boldsymbol\Phi\,dx,\\
-\boldsymbol\Xi = \begin{bmatrix}\bar{\mathbf B} & \bar{\mathbf F}_1 & \bar{\mathbf D}_2\\ \bar{\mathbf F}_1^{\mathsf T} & \bar{\mathbf D}_1 & \bar{\mathbf H}_1\\ \bar{\mathbf D}_2^{\mathsf T} & \bar{\mathbf H}_1^{\mathsf T} & \bar{\mathbf C}\end{bmatrix}
-= \begin{bmatrix}\mathbf A^{(00)} & \mathbf A^{(01)} & \mathbf A^{(02)}\\ \mathbf A^{(10)} & \mathbf A^{(11)} & \mathbf A^{(12)}\\ \mathbf A^{(20)} & \mathbf A^{(21)} & \mathbf A^{(22)}\end{bmatrix},
-\end{gathered} \eqn{xi}
-$$
+::: {custom-style="MDPI_4.1_table_caption"}
+**Table 5.** Lay-ups of skin and stringer (angles in degrees from the $x$-axis; subscript s: symmetric, subscript 2: repeated twice).
+:::
 
-which is the GBT matrix $\boldsymbol\Xi$ of the GBT–Ritz approach {{kharghani2025jcs,kharghani2026jcs}} written for the full set of modes. For the conventional modes $k, l \in \mathcal C$, Table 2 and Eq. (@abd) give the classical GBT modal matrices of a laminated wall with coupling:
+| Name | Skin | Stringer | Coupling |
+|:--|:--|:--|:--|
+| Isotropic | – | – | none |
+| Cross-ply | [0/90/0/90]$_\mathrm{s}$ | [0/90/0/90/0/90/0] | none |
+| Sym1 | [45/−45/−45/45]$_\mathrm{s}$ | [45/−45/45/−45/45/−45/45] | $D_{16}, D_{26}$ (stringer also $A_{16}, A_{26}$) |
+| Sym2 | [60/−30/−30/60]$_\mathrm{s}$ | [60/−30/60/−30/60/−30/60] | $A_{16}, A_{26}, D_{16}, D_{26}$ |
+| Unsym | [0/30/60/90]$_2$ | [0/30/60/90/0/30/60] | $\mathbf A$, $\mathbf B$, $\mathbf D$ fully populated |
 
-$$
-\bar B_{kl} = \int_\Gamma\Big[A_{22}\,\bar v_{k,s}\bar v_{l,s} - B_{22}\left(\bar v_{k,s}\bar w_{l,ss}+\bar w_{k,ss}\bar v_{l,s}\right) + D_{22}\,\bar w_{k,ss}\bar w_{l,ss}\Big]ds, \eqn{Bmat}
-$$
+A uniform compressive line load of 1 N/mm acts at both loaded edges on the skin, the webs and the crowns, and 2 N/mm on a foot, which carries skin and flange; the foot load acts at the height of its resultant, $Y = c/2$. The eigenvalue $\lambda$ is therefore the critical line load $N_{cr}$ in N/mm, the quantity reported by the buckling analysis of the shell model.
 
-$$
-\bar C_{kl} = \int_\Gamma\Big[A_{11}\,\bar u_k\bar u_l - B_{11}\left(\bar u_k\bar w_l+\bar w_k\bar u_l\right) + D_{11}\,\bar w_k\bar w_l\Big]ds, \eqn{Cmat}
-$$
+The shell models are linear buckling analyses in Abaqus with S4R and S3 elements and a seed of 3.7 mm. The stringer is tied to the skin by \*TIE with the true offset of the mid-surfaces, and the loads are applied as shell edge loads. The simply supported loaded edges are modelled by $\mathcal U_2 = 0$ on every end edge of skin and stringer. For the periodic side edges, every skin node of the edge $X = -W$ is paired with the node of $X = 0$ at the same $x$, and one constraint equation $\mathcal U_\alpha(-W,x) - \mathcal U_\alpha(0,x) = 0$ is written for each pair and each of the six degrees of freedom, as in Eq. (@pbc); at the two end corners the equation for $\mathcal U_2$ is omitted because $\mathcal U_2 = 0$ is already prescribed there. The rigid-body motions left by periodicity are removed by $\mathcal U_1 = \mathcal U_3 = 0$ at the corner $X = 0$, $x = 0$. The GBT model imposes the same physical conditions (Table 2). Abaqus results with periodic side edges are available for the simply supported loaded edges.
 
-$$
-\begin{gathered}
-\bar D_{1,kl} = \int_\Gamma\Big[A_{66}\,\gamma_k\gamma_l - 2B_{66}\left(\gamma_k\bar w_{l,s}+\bar w_{k,s}\gamma_l\right) + 4D_{66}\,\bar w_{k,s}\bar w_{l,s}\Big]ds,\\
- \gamma_k = \bar u_{k,s}+\bar v_k,
-\end{gathered} \eqn{D1mat}
-$$
+For the clamped loaded edges, an in-house spline finite strip model (FSM) {{cheung1976,lau1986}} serves as the reference. It discretises the same geometry, laminates, loads and end conditions with flat laminated Mindlin strips of width $b_s/50$ (twice as fine as the GBT segments), linear interpolation across each strip, a mid-strip transverse shear strain against shear locking, and six degrees of freedom per nodal line in global axes. Along $x$ it uses the same cubic B-splines as the GBT model. The web roots are joined to the skin by rigid offset links, the direct analogue of the \*TIE of the shell model, and the periodic condition is applied node by node by merging the six degrees of freedom of the two side nodal lines for every spline coefficient, which is literally the constraint set of the shell model. The pre-buckling state and the geometric stiffness are computed as in Section 2.3. The FSM shares the plate theory with GBT but none of the cross-section discretisation: it has no deformation modes, a finer mesh, rigid links instead of link walls, and boundary conditions on nodal degrees of freedom instead of built into modes. Its agreement with GBT is therefore an independent check of the mode construction. With simply supported loaded edges it agrees with Abaqus within 0.59 % on average and 1.37 % at most (Table 6).
 
-$$
-\bar D_{2,kl} = \int_\Gamma\Big[A_{12}\,\bar v_{k,s}\bar u_l - B_{12}\left(\bar v_{k,s}\bar w_l+\bar w_{k,ss}\bar u_l\right) + D_{12}\,\bar w_{k,ss}\bar w_l\Big]ds, \eqn{D2mat}
-$$
+## Verification of the formulation
 
-$$
-\bar F_{1,kl} = \int_\Gamma\Big[A_{26}\,\bar v_{k,s}\gamma_l - B_{26}\left(2\bar v_{k,s}\bar w_{l,s}+\bar w_{k,ss}\gamma_l\right) + 2D_{26}\,\bar w_{k,ss}\bar w_{l,s}\Big]ds, \eqn{F1mat}
-$$
+Since the periodic condition is built into the modes, every buckling mode satisfies it identically. For the cross-ply cell with $b_s = 150$ mm, the largest difference between the two side nodes over all conventional modes is $7.9\times10^{-15}$ for the in-plane displacements, $1.1\times10^{-16}$ for the rotation $\theta$ and $2.3\times10^{-11}$ for the warping (modes scaled to a unit maximum), and it is zero for the shear and Mindlin modes. In the buckling mode of the Unsym panel with clamped loaded edges, $b_s = 150$ mm and $\beta = 1.5$, the largest differences between the side edges along the whole length are $1.2\times10^{-18}$ ($U_X$), $6.9\times10^{-18}$ ($U_Y$), $1.4\times10^{-20}$ ($\theta$) and $1.1\times10^{-15}$ (warping), with modal amplitudes of order $10^{-5}$ to $10^{-1}$, while the side edges themselves move.
 
-$$
-\bar H_{1,kl} = \int_\Gamma\Big[A_{16}\,\gamma_k\bar u_l - B_{16}\left(\gamma_k\bar w_l+2\bar w_{k,s}\bar u_l\right) + 2D_{16}\,\bar w_{k,s}\bar w_l\Big]ds. \eqn{H1mat}
-$$
+The explicit modal matrices of Eqs. (@Bmat)–(@Xitildemat) were compared with the general expression of Eq. (@Xi) evaluated by the implementation for the Cross-ply, Sym2 and Unsym cells; all blocks agree to within $2\times10^{-15}$ relative to their largest entry, i.e. to round-off. The classical limit of Section 2.3 was checked for the Cross-ply cell with $b_s = 150$ mm by restricting the model to the conventional modes and imposing a uniform compressive membrane force and the classical end condition $\varphi_i(0) = \varphi_i(L) = 0$. The B-spline Ritz solution then reproduces the minimum of the signature-curve eigenvalue problem of Eq. (@signature), 33.747 N/mm with three half-waves for $L = 225$ mm, to within 0.001 %; the same value is obtained for $L = 450$ mm with six half-waves.
 
-The transverse-extension stiffness enters through the $A_{22}$ term of $\bar{\mathbf B}$, the bending–twisting coupling through $\bar{\mathbf F}_1$ and $\bar{\mathbf H}_1$, and the membrane–bending coupling through all $B_{ij}$ terms. For the shear modes $j, j' \in \mathcal S$, Table 2 gives
+## Simply supported loaded edges
 
-$$
-A^{(00)}_{jj'} = \int_\Gamma A_{66}\,\bar u_{j,s}\bar u_{j',s}\,ds,\qquad
-A^{(01)}_{jj'} = \int_\Gamma A_{16}\,\bar u_{j,s}\bar u_{j'}\,ds,\qquad
-A^{(11)}_{jj'} = \int_\Gamma A_{11}\,\bar u_{j}\bar u_{j'}\,ds, \eqn{shearmat}
-$$
+Figure 3 shows the critical load as a function of the aspect ratio for the two stringer pitches and all lay-ups, together with the Abaqus results, and Table 6 lists all 30 cases that were computed with Abaqus. GBT agrees with Abaqus within 0.57 % on average and 1.25 % at most; the FSM agrees within 0.59 % and 1.37 %, and GBT and FSM differ by 0.22 % on average. The accuracy is the same for the uncoupled and the coupled laminates (mean deviation 0.49–0.73 % for every lay-up), which confirms the treatment of the bending–twisting and membrane–bending coupling in Eqs. (@Bmat)–(@Xitildemat).
 
-which correspond to the matrices $\check{\mathbf D}_1$, $\check{\mathbf H}_1$ and $\check{\mathbf C}$ of shear-deformable GBT {{silvestre2013shear,kharghani2025jcs}}, while the conventional–shear coupling blocks are the matrices $\tilde{\mathbf F}$, $\tilde{\mathbf D}$, $\tilde{\mathbf H}$ and $\tilde{\mathbf C}$ of the same references, evaluated with the strains of Table 2 (e.g. $A^{(12)}_{jk} = \int_\Gamma[A_{11}\bar u_j\bar u_k - B_{11}\bar u_j\bar w_k]ds$ for the extension of a shear mode against the warping and bending of a conventional mode). The Mindlin modes add the transverse shear energy $\int_\Gamma[\bar c_m A_{s,11}\bar c_{m'} + \bar b_m A_{s,22}\bar b_{m'} + \dots]ds$ and their bending and twisting contributions through $\mathbf D$ and $\mathbf B$. In the implementation, all blocks are evaluated by the same Gauss quadrature over the segments from the operators $\mathbf E^{(d)}$ of Table 2, so that no coupling term is omitted.
+![**Figure 3.** Critical load $N_{cr}$ as a function of the aspect ratio $\beta$ of the periodic cell with simply supported loaded edges for (a) $b_s = 150$ mm and (b) $b_s = 285.5$ mm: GBT (lines) and Abaqus shell models with periodic constraint equations (markers).](fig/fig3_ncr_ss.png){width=15.5cm}
 
-## Amplitude functions and end conditions
+For the isotropic, cross-ply and unsymmetric cells, the critical load varies only little with the aspect ratio, with local maxima where the length of the cell does not accommodate an integer number of buckle half-waves of the preferred length, as known from the garland curves of plates. For $b_s = 150$ mm such a maximum occurs at $\beta = 0.75$, and the Abaqus results follow it (cross-ply: 34.848 N/mm in Abaqus and 34.530 N/mm in GBT at $\beta = 0.75$, against 31.464 and 31.243 N/mm at $\beta = 1.5$). For the angle-ply cells Sym1 and Sym2, the critical load decreases monotonically with $\beta$ towards the value of the long cell. Their bending–twisting coupling skews the buckles, which therefore cannot adapt to the straight loaded edges by an integer number of half-waves, and the end conditions stiffen short cells.
 
-### Ritz approximation along the cell
+::: {custom-style="MDPI_4.1_table_caption"}
+**Table 6.** Critical loads $N_{cr}$ [N/mm] with periodic side edges and simply supported loaded edges: Abaqus, GBT and spline finite strip model (FSM), and their deviations $e$ from Abaqus.
+:::
 
-As in the GBT–Ritz approach {{kharghani2025jcs,kharghani2026jcs}}, the amplitude functions are approximated by admissible functions with unknown coefficients, $\boldsymbol\Phi = \boldsymbol\Psi\,\mathbf a$. Instead of global trigonometric series, cubic B-splines on an open, uniform knot vector are used,
+@@TABSS@@
 
-$$
-q_k(x) = \sum_{b=1}^{n_b} N_b(x)\,a_{kb}, \eqn{spline}
-$$
+The deviations depend mainly on the stringer pitch. For $b_s = 285.5$ mm the mean deviation of GBT is 0.20 % (maximum 0.46 %). For $b_s = 150$ mm it is 0.93 % (maximum 1.25 %), and all 15 GBT results and all 15 FSM results lie below Abaqus (GBT −1.25 % to −0.63 %). This offset is therefore common to the two plate models and not caused by the GBT mode basis, and the refinement study of Section 3.5 shows that it is not a discretisation error of GBT either, since finer segments lower the GBT result slightly. Its likely origins are differences between the S4R shell elements and the plate model in the short skin bays of the narrow pitch, and the representation of the tie; it has not been resolved in this study.
 
-with spans of length $h_x = \min(15\ \text{mm},\ \max(2\ \text{mm},\ W/40),\ L/10)$, i.e. $h_x = b_s/20$ for all cases studied. Local support is essential here, because the pre-buckling state of the cell varies strongly near the loaded edges (Section 3.7), which a single trigonometric series cannot represent efficiently, and because the B-splines represent simply supported and clamped edges alike. Inserting Eq. (@spline) into Eq. (@energy) gives the stiffness matrix as a sum of Kronecker products,
+## Clamped loaded edges
 
-$$
-\mathbf K = \sum_{d=0}^{2}\sum_{e=0}^{2}\mathbf A^{(de)}\otimes\mathbf X^{(de)},\qquad X^{(de)}_{ab} = \int_0^L \frac{d^dN_a}{dx^d}\,\frac{d^eN_b}{dx^e}\,dx, \eqn{kmat}
-$$
+The critical loads with clamped loaded edges are shown in Figure 4 and listed in Table 7. Clamping raises the critical load of short cells considerably, e.g. by 59 % for the isotropic cell with $b_s = 150$ mm and $\beta = 0.5$, and the curves decrease monotonically with $\beta$. For long cells the clamped values approach, and for some lay-ups fall slightly below, the simply supported ones (e.g. 118.13 against 121.41 N/mm for the isotropic cell with $\beta = 3$); the FSM gives the same trend (118.17 against 121.40 N/mm). In the present models the clamped edges also restrain the in-plane displacements of the loaded edges, which changes the pre-buckling state near the ends. GBT and FSM agree within 0.30 % on average and 1.17 % at most over the 30 cases, with the largest deviations for the Sym1 lay-up with $b_s = 285.5$ mm, where the long skin bays and the bending–twisting coupling produce steep gradients of the mode near the clamped ends (Section 3.5). Abaqus results with periodic side edges and clamped loaded edges are not yet available, so that the clamped results are verified by the FSM only.
 
-with four Gauss points per span. For $b_s = 150$ mm and $L = 225$ mm the model has $569\times 33 = 18\,777$ coefficients. With open knots, $q_k(0) = a_{k1}$ and $q_k(L) = a_{kn_b}$, and $q_{k,x}(0) = 0$ is equivalent to $a_{k2} = a_{k1}$, so that the essential end conditions act directly on the end coefficients.
+![**Figure 4.** Critical load $N_{cr}$ as a function of the aspect ratio $\beta$ of the periodic cell with clamped loaded edges for (a) $b_s = 150$ mm and (b) $b_s = 285.5$ mm: GBT (lines) and spline finite strip model (markers).](fig/fig4_ncr_cc.png){width=15.5cm}
 
-### End conditions
+::: {custom-style="MDPI_4.1_table_caption"}
+**Table 7.** Critical loads $N_{cr}$ [N/mm] with periodic side edges and clamped loaded edges: spline finite strip model (FSM) and GBT, and the deviation $e$ of GBT from the FSM.
+:::
 
-The loaded edges are supported as in the Abaqus models:
+@@TABCC@@
 
-* **SS** (out-of-plane support of every end edge, $U_2 = 0$): $U_Y = 0$ at every node at $x = 0$ and $x = L$, i.e. $\sum_{k\in\mathcal C}U_{Y,ik}\,\varphi_k(0) = \sum_{k\in\mathcal C}U_{Y,ik}\,\varphi_k(L) = 0$ for every node $i$. These linear conditions on the end coefficients are imposed by a null-space reduction; the in-plane displacement $U_X$, the warping and the rotations remain free. Rigid-body motions are removed by $\varphi_a(0) = 0$ and, for periodic side edges, $U_X(s_R, 0) = 0$.
-* **CC** (clamped loaded edges): $\varphi_k = \varphi_{k,x} = 0$ at both ends for every conventional mode (in-plane displacements and the rotations $w_{,x}$ and $\theta$ vanish), $\chi_m = \vartheta_m = 0$ at both ends, and $\varphi_a(0) = \varphi_j(0) = 0$, so that $u = 0$ on the whole edge $x = 0$; the edge $x = L$ is free to warp under the uniform load.
+## Mode decomposition and buckling modes
 
-In classical GBT, simply supported ends are represented by $\varphi_k = \sin(m\pi x/L)$, which suppresses all in-plane displacements of the end cross-sections while leaving their warping free (rigid end diaphragms). The present SS condition is weaker: like the Abaqus model it only suppresses the out-of-plane displacement $U_Y$ of the end edges. The classical end condition is recovered by prescribing $\varphi_k(0) = \varphi_k(L) = 0$ for all conventional modes.
+Figure 5 shows the skin deflection of the critical mode of the Unsym cell with $b_s = 150$ mm and $\beta = 1.5$ for both end conditions. In both cases the mode is a local buckling of the skin bays between the stringers; the buckles are skewed by the laminate coupling, and the deflection at the side edges $X = -W$ and $X = 0$ is identical (largest difference $2.2\times10^{-16}$ of the maximum deflection), so that the half-bays at the two sides join into one full bay of the same shape as the central one. With clamped loaded edges the buckles are concentrated away from the loaded edges.
 
-## Loads and pre-buckling state
+![**Figure 5.** Skin deflection $w/|w|_{max}$ of the critical mode of the Unsym cell with periodic side edges, $b_s = 150$ mm and $\beta = 1.5$: (a) simply supported loaded edges; (b) clamped loaded edges. The stringers lie at $X = -75$ mm and $X = -225$ mm.](fig/fig5_buckling_modes.png){width=15.5cm}
 
-The external work of the end loads, a line load $q(s)$ per unit length acting at a distance $e(s)$ from the wall reference surface, is
+The energy-based mode decomposition of Eq. (@rho) quantifies these observations for all panels (Table 8). In every case the local family carries 96–101 % of the strain energy of the critical mode, the global family up to @@GMAX@@ % and the distortional family between @@DMIN@@ % and @@DMAX@@ %; the transverse-extension, shear and Mindlin families contribute less than @@TSMMAX@@ %. Contributions slightly above 100 % or below zero are possible in Eq. (@rho), because $U_g$ contains the interaction energy of family $g$ with the other families; small negative distortional contributions of the angle-ply laminates indicate that the distortional modes interact with the local skin buckles. The global participation is largest for the cross-ply cell with $b_s = 285.5$ mm, i.e. the local buckles of the wide skin bays are accompanied by a small overall bending of the cell. The decomposition does not change significantly with the aspect ratio, i.e. no transition to a distortional or global buckling mode occurs in the range studied.
 
-$$
-W_{ext} = \int_\Gamma q(s)\left[u_q(s,0)-u_q(s,L)\right]ds,\qquad u_q = u - e(s)\,w_{,x}, \eqn{wext}
-$$
+::: {custom-style="MDPI_4.1_table_caption"}
+**Table 8.** Energy-based participation $\rho_g$ [%] of the mode families in the critical mode, range over $0.5 \le \beta \le 3$ (eight aspect ratios).
+:::
 
-where $u_q$ is the axial displacement of the fibre at which the load acts ($e = c/2$ on a foot, $e = 0$ elsewhere). Inserting Eqs. (@kin) and (@spline) gives the load vector
+@@TABRHO@@
 
-$$
-\begin{aligned}
-f_{\varphi_k,b} &= \left(\int_\Gamma q\,\bar u_k\,ds - \int_\Gamma q\,e\,\bar w_k\,ds\right)\left[N_{b,x}(0)-N_{b,x}(L)\right],\\
-f_{\varphi_j,b} &= \int_\Gamma q\,\bar u_j\,ds\left[N_b(0)-N_b(L)\right],\qquad
-f_{\varphi_a,b} = \int_\Gamma q\,ds\left[N_b(0)-N_b(L)\right]
-\end{aligned} \eqn{load}
-$$
+## Accuracy and efficiency
 
-The pre-buckling state is not assumed: it is the first-order solution $\mathbf K\mathbf a^0 = \mathbf f$ under the end and side conditions above. The membrane resultants of this state, compression positive, are
+The default discretisation (segments of at most $b_s/25$, spline spans $h_x = b_s/20$) was checked by refining each parameter in turn (Table 9). @@CONVTEXT@@
 
-$$
-\left[P_{xx},\ P_{ss},\ P_{xs}\right]^{\mathsf T} = -\left(\mathbf A\,\boldsymbol\varepsilon^{0}_m + \mathbf B\,\boldsymbol\kappa^{0}\right), \eqn{pre}
-$$
+::: {custom-style="MDPI_4.1_table_caption"}
+**Table 9.** Critical load $N_{cr}$ [N/mm] with the default discretisation and with refined spline spans or cross-section segments (periodic side edges); in brackets the change from the default.
+:::
 
-with the membrane strains $\boldsymbol\varepsilon^0_m$ and curvatures $\boldsymbol\kappa^0$ of $\mathbf a^0$. They vary along $s$ and $x$: the load is introduced at the ends and shared between skin and stringer by shear lag, the eccentric foot load bends the cell near the ends, and the restrained Poisson expansion produces a transverse resultant $P_{ss}$. Periodic and symmetry side edges both prevent a net lateral expansion of the cell and therefore both produce $P_{ss}$; they differ in the shear and rotation of the side edges.
+@@TABCONV@@
 
-## Geometric stiffness and eigenvalue problem
+The model sizes and computing times are compared in Table 10. With the full basis of 482–569 modes, a GBT analysis, including the cross-section analysis, the pre-buckling solution and the eigenvalue problem, takes @@TGSEQ@@ s on average for the ten cells with $b_s = 150$ mm and $\beta = 1.5$ on two cores of a standard workstation; over all 160 cases of Figures 3 and 4, computed two at a time on the same two cores, it ranged from @@TMIN@@ to @@TMAX@@ s. The GBT model has about half the unknowns of the FSM and less than half the degrees of freedom of the shell model, but with the full basis it is not faster than the FSM (@@TSSEQ@@ s): the global and distortional modes extend over the whole cross-section and couple with all other modes, so that its matrices are less sparse than those of the nodal FSM. The cross-section analysis itself takes about 0.1 s and is reused for all lengths of a parametric study. The efficiency of the GBT formulation therefore lies in its modal description, which provides the mode decomposition and is the basis for reduced mode sets, rather than in the solution time of the full basis.
 
-### Geometric stiffness
+::: {custom-style="MDPI_4.1_table_caption"}
+**Table 10.** Model size and computing time for $b_s = 150$ mm and $L = 225$ mm.
+:::
 
-The second-order membrane energy of the pre-buckling resultants is
+| Model | Unknowns | Computing time per case |
+|:--|:--|:--|
+| Abaqus shell model (S4R/S3, seed 3.7 mm) | approx. $5\times10^{4}$ DOFs (estimated from the seed) | [to be added by the authors] |
+| spline finite strip model | 37 170 (177 nodal lines × 6 × 35 splines) | @@TSSEQ@@ s on average |
+| GBT–Ritz (present) | 18 777 (569 modes × 33 splines) | @@TGSEQ@@ s on average |
 
-$$
-\begin{aligned}
-U_G &= \frac12\int_0^L\!\!\int_\Gamma \sum_{c\in\{u,v,w\}}\Big[P_{xx}\,g_{c,x}^2 + P_{ss}\,g_{c,s}^2 + 2P_{xs}\,g_{c,x}\,g_{c,s}\Big]ds\,dx,\\
-g_{c,\alpha}(x,s) &= \sum_k\sum_{d}G^{(d)}_{k,c\alpha}(s)\,q^{(d)}_k(x),
-\end{aligned} \eqn{ug}
-$$
-
-where $g_{c,\alpha}$ is the derivative of the displacement component $c$ with respect to $\alpha\in\{x,s\}$. For a conventional mode, $g_{u,x} = \bar u_k\varphi_{k,xx}$, $g_{u,s} = \bar u_{k,s}\varphi_{k,x}$, $g_{v,x} = \bar v_k\varphi_{k,x}$, $g_{v,s} = \bar v_{k,s}\varphi_k$, $g_{w,x} = \bar w_k\varphi_{k,x}$ and $g_{w,s} = \bar w_{k,s}\varphi_k$. All three displacement components and all three resultants are kept. With Eq. (@ug),
-
-$$
-\begin{gathered}
-U_G = \frac12\int_0^L\sum_{d,e}\mathbf q^{(d)\mathsf T}\,\boldsymbol{\mathcal X}^{(de)}(x)\,\mathbf q^{(e)}\,dx,\\
-\mathcal X^{(de)}_{kl}(x) = \sum_{t}\int_\Gamma P_t(s,x)\sum_{c}G^{(d)}_{k,c\alpha_t}(s)\,G^{(e)}_{l,c\beta_t}(s)\,ds,
-\end{gathered} \eqn{xmat}
-$$
-
-with $(P_t,\alpha_t,\beta_t)\in\{(P_{xx},x,x),(P_{ss},s,s),(P_{xs},x,s),(P_{xs},s,x)\}$. Since the resultants depend on $x$, the geometric matrices $\boldsymbol{\mathcal X}^{(de)}(x)$ are evaluated at every Gauss point along the length, and the geometric stiffness matrix is
-
-$$
-\mathbf K_G = \sum_{d,e}\int_0^L\left(\mathbf N^{(d)}\mathbf N^{(e)\mathsf T}\right)\otimes\boldsymbol{\mathcal X}^{(de)}(x)\,dx, \eqn{kg}
-$$
-
-with $\mathbf N^{(d)}$ the vector of the $d$-th derivatives of the B-splines. The Mindlin modes do not move the mid-surface and do not enter $\mathbf K_G$.
-
-### Eigenvalue problem and modal participation
-
-The critical load follows from the stationarity of $U - \lambda U_G$:
-
-$$
-\left(\mathbf K - \lambda\,\mathbf K_G\right)\mathbf a = \mathbf 0,\qquad N_{cr} = \lambda_1\times 1\ \text{N/mm}, \eqn{eig}
-$$
-
-on the coefficients that satisfy the end conditions. Since $\mathbf K_G$ is indefinite (the pre-buckling state contains membrane shear and some transverse tension), the problem is solved as $\mathbf K_G\,\mathbf a = \mu\,\mathbf K\,\mathbf a$ for the largest $\mu = 1/\lambda$, with the implicitly restarted Lanczos method {{lehoucq1998}} and a sparse direct factorisation of $\mathbf K$ (tolerance $10^{-8}$).
-
-The participation of a mode family $g$ in the buckling mode is measured as in {{kharghani2026jcs}} by the share of the displacement field that the family produces,
-
-$$
-p_g = \frac{\int_0^L \lVert\mathbf F_g(x)\rVert\,dx}{\sum_h\int_0^L\lVert\mathbf F_h(x)\rVert\,dx}, \eqn{part}
-$$
-
-where $\lVert\mathbf F_g(x)\rVert$ is the root mean square over the cross-section of the displacements produced by family $g$ alone.
-
-## Classical limits
-
-The formulation contains classical GBT as a special case. For the conventional modes alone, uncoupled orthotropic walls ($\mathbf B = \mathbf 0$, $A_{16} = A_{26} = D_{16} = D_{26} = 0$) and a uniform pre-buckling resultant $P_{xx} = N^0$ with $P_{ss} = P_{xs} = 0$, the odd blocks vanish, $\bar{\mathbf F}_1 = \bar{\mathbf H}_1 = \mathbf 0$, and the geometric matrices of Eq. (@xmat) reduce to
-
-$$
-\begin{gathered}
-\boldsymbol{\mathcal X}^{(11)} = \boldsymbol{\mathcal X}^{VW},\quad \mathcal X^{VW}_{kl} = \int_\Gamma N^0\left(\bar v_k\bar v_l+\bar w_k\bar w_l\right)ds,\\
-\boldsymbol{\mathcal X}^{(22)} = \boldsymbol{\mathcal X}^{U},\quad \mathcal X^{U}_{kl} = \int_\Gamma N^0\,\bar u_k\bar u_l\,ds,
-\end{gathered} \eqn{xclassical}
-$$
-
-which are the geometric matrices of the GBT–Ritz approach {{kharghani2025jcs,kharghani2026jcs}}. The Euler–Lagrange equations of $U - \lambda U_G$ with Eqs. (@xi) and (@xclassical) are
-
-$$
-\begin{gathered}
-\bar{\mathbf C}\,\boldsymbol\varphi_{,xxxx} - \bar{\mathbf D}\,\boldsymbol\varphi_{,xx} + \bar{\mathbf B}\,\boldsymbol\varphi + \lambda\left(\boldsymbol{\mathcal X}^{VW}\boldsymbol\varphi_{,xx} - \boldsymbol{\mathcal X}^{U}\boldsymbol\varphi_{,xxxx}\right) = \mathbf 0,\\
-\bar{\mathbf D} = \bar{\mathbf D}_1 - \bar{\mathbf D}_2 - \bar{\mathbf D}_2^{\mathsf T},
-\end{gathered} \eqn{classical}
-$$
-
-where the integration by parts of the $\bar{\mathbf D}_2$ terms gives the classical torsion-related matrix $\bar{\mathbf D}$. Without the warping contribution $\boldsymbol{\mathcal X}^U$, Eq. (@classical) is the classical GBT buckling equation $\bar{\mathbf C}\boldsymbol\varphi'''' - \bar{\mathbf D}\boldsymbol\varphi'' + \bar{\mathbf B}\boldsymbol\varphi + \lambda\boldsymbol{\mathcal X}\boldsymbol\varphi'' = \mathbf 0$ of Schardt {{schardt1994}} and of Silvestre and Camotim for orthotropic members {{silvestre2002b}}. For simply supported ends and $\boldsymbol\varphi = \hat{\boldsymbol\varphi}\sin k_mx$, $k_m = m\pi/L$, it becomes the algebraic eigenproblem
-
-$$
-\left[\bar{\mathbf B} + k_m^2\bar{\mathbf D} + k_m^4\bar{\mathbf C} - \lambda\left(k_m^2\boldsymbol{\mathcal X}^{VW} + k_m^4\boldsymbol{\mathcal X}^{U}\right)\right]\hat{\boldsymbol\varphi} = \mathbf 0, \eqn{signature}
-$$
-
-whose lowest eigenvalue over $m$ is the classical GBT signature curve. The periodic condition of Section 3.4 does not alter this structure: it only restricts the admissible modes of the cross-section. Equation (@signature) also explains the hierarchical ordering used in Figure 2. The present model differs from the classical one only through the terms that the panel requires and that classical GBT omits: laminate coupling ($\bar{\mathbf F}_1$, $\bar{\mathbf H}_1$, $B_{ij}$), shear and Mindlin modes, a non-uniform pre-buckling state with $P_{ss}$ and $P_{xs}$, and end conditions that support the loaded edges without restraining their warping.
-
-## Numerical aspects
-
-*Empty modes.* The Mindlin vectors $\boldsymbol\Omega_i$ are an orthonormal basis of the span of the tangents of the segments meeting at node $i$. At some intermediate nodes of the inclined webs, the two segment tangents are identical up to round-off, and a rank detection without tolerance keeps a spurious second vector normal to the web. For it $\bar c_m = \mathbf t\cdot\boldsymbol\Omega\approx 10^{-15}$ on every segment, so that the mode carries neither strain energy ($A^{(de)}_{kk}\approx10^{-25}$ against $10^9$ for the stiffest mode) nor displacement gradients. There are 11 such modes for $b_s = 150$ mm and 8 for $b_s = 285.5$ mm. They cannot change any eigenvalue, but left free they make $\mathbf K$ singular; they are identified by $\sum_{d,e}|A^{(de)}_{kk}|\le10^{-12}\max_l\sum_{d,e}|A^{(de)}_{ll}|$ together with $\mathbf G_k\equiv\mathbf 0$ and their coefficients are held. With this treatment the result does not depend on the sparse solver (e.g. 31.2431 N/mm for Cross-ply, SS, periodic, $b_s = 150$ mm, $\beta = 1.5$, with both PARDISO and SuperLU).
-
-*Sparse geometric stiffness.* At a cross-section Gauss point $s_p$ only the modes with support there are non-zero (about 25 of 569 for $b_s = 150$ mm). Writing Eq. (@xmat) with quadrature, $\mathcal X^{(de)}_{kl}(x) = \sum_t\sum_p P_t(s_p,x)\,M^{(de)}_{t,p,(kl)}$, the sparse factors $M^{(de)}_{t,p,(kl)} = w_p\sum_c G^{(d)}_{k,c\alpha_t}(s_p)G^{(e)}_{l,c\beta_t}(s_p)$ depend only on the cross-section and are computed once; for every panel length only $P_t(s_p,x_g)$ changes.
-
+The following limitations should be noted. First, GBT and the FSM share the plate assumptions: laminated Reissner–Mindlin walls with a shear correction factor of 5/6, an offset tie represented by stiff link walls or rigid links, and linear buckling about a first-order pre-buckling state. An error common to both, such as the −1 % offset for $b_s = 150$ mm, cannot be detected by comparing them. Second, the periodic condition of Eq. (@pbc), like the constraint equations of the shell model, keeps the width of the cell constant. The Poisson expansion of the cell under the axial load is therefore restrained, and transverse membrane forces $S_{ss}$ arise in the pre-buckling state; for the isotropic cell with $b_s = 150$ mm and $\beta = 3$, omitting $S_{ss}$ from $\mathbf G$ would raise the critical load by 23 %. The condition thus represents a panel whose lateral expansion is restrained by the surrounding structure. A periodic condition with free lateral expansion, in which the two side edges differ by a common jump in $U_X$, requires one additional generalised coordinate and is left for future work. Third, a cell of width $2b_s$ admits the Bloch wavenumbers $\kappa b_s = 0$ and $\pi$ only; buckling modes with a longer period across the stringers require a wider cell. Fourth, the full mode basis was used throughout; reduced hierarchical bases of a few tens of modes have not yet been validated for the coupled lay-ups with clamped loaded edges.

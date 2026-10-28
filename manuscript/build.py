@@ -35,7 +35,7 @@ os.chdir(H)
 OUT = os.path.join(H, 'out'); os.makedirs(OUT, exist_ok=True)
 NAME = 'GBT_periodic_omega_manuscript'
 
-src = '\n\n'.join(open(f'part{i}.md', encoding='utf-8').read() for i in range(1, 6))
+src = '\n\n'.join(open(f, encoding='utf-8').read() for f in ('part1.md', 'part2.md', 'part3_filled.md', 'part4.md'))
 
 # ---------- headings: manual MDPI numbering ----------
 lines, c1, c2, c3, heads = [], 0, 0, 0, []
