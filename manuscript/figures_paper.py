@@ -265,26 +265,36 @@ def fig03():
 # Figures 4-6 -- critical loads and accuracy
 # =====================================================================================
 def _load():
+    """GBT curves, Abaqus SS (results table) and, when available, Abaqus CC
+    (src/abaqus_cc_periodic.csv = omega_validation_eigs_CC_PBC.csv of the CC script)."""
     import csv
     cur = [json.loads(l) for l in (P.H / "results" / "periodic_curves.jsonl").read_text().splitlines()]
-    ref = list(csv.DictReader(open(P.H / "src" / "omega_results_V32.csv")))
+    gbt = {(c["layup"], c["bs"], c["beta"], c["bc"]): c["N"] for c in cur}
+    ref = []
+    for r in csv.DictReader(open(P.H / "src" / "omega_results_V32.csv")):
+        if r["bc"] == "SS":
+            ref.append(dict(layup=r["layup"], bc="SS", bs=float(r["bs"]), beta=float(r["beta"]), abq=float(r["abq_per"])))
+    fcc = P.H / "src" / "abaqus_cc_periodic.csv"
+    if fcc.exists():
+        for r in csv.DictReader(open(fcc)):
+            if r["Ncr"] not in ("", "NA"):
+                ref.append(dict(layup=r["layup"], bc="CC", bs=float(r["bs"]), beta=float(r["beta"]), abq=float(r["Ncr"])))
     for r in ref:
-        for k in ("bs", "beta", "gbt_per", "strip_per"):
-            r[k] = float(r[k])
-        r["abq_per"] = float(r["abq_per"]) if r["abq_per"] not in ("", None) else None
+        r["gbt"] = gbt[(r["layup"], r["bs"], r["beta"], r["bc"])]
     return cur, ref
 
 
 def _curves(bc, name):
     cur, ref = _load()
     fig, axs = plt.subplots(1, 2, figsize=(FULL, 66 * MM), gridspec_kw=dict(wspace=0.2))
+    has_ref = any(r["bc"] == bc for r in ref)
     for k, (ax, bs) in enumerate(zip(axs, (150.0, 285.5))):
         for lay in LAY:
             d = sorted([c for c in cur if c["layup"] == lay and c["bs"] == bs and c["bc"] == bc], key=lambda c: c["beta"])
             ax.plot([c["beta"] for c in d], [c["N"] for c in d], "-", color=COL[lay], lw=1.0, marker=".", ms=3.2, zorder=3)
             rr = [r for r in ref if r["layup"] == lay and r["bs"] == bs and r["bc"] == bc]
-            yr = [r["abq_per"] if bc == "SS" else r["strip_per"] for r in rr]
-            ax.plot([r["beta"] for r in rr], yr, MK[lay], ls="none", mfc="none", mec=COL[lay], ms=6.5, mew=0.9, zorder=4)
+            ax.plot([r["beta"] for r in rr], [r["abq"] for r in rr], MK[lay], ls="none", mfc="none", mec=COL[lay], ms=6.5,
+                    mew=0.9, zorder=4)
         ax.set_yscale("log"); ax.set_xlim(0.4, 3.1); ax.set_xlabel(r"aspect ratio $\beta = L/b_s$")
         ax.yaxis.set_major_formatter(mt.FuncFormatter(lambda v, _p: f"{v:g}"))
         ax.yaxis.set_minor_formatter(mt.FuncFormatter(lambda v, _p: f"{v:g}" if str(f"{v:g}")[0] in "2357" and v < 1000 else ""))
@@ -292,11 +302,12 @@ def _curves(bc, name):
         grid(ax); ax.grid(True, which="minor", axis="y", color=P.GRID, lw=0.3)
         panel_label(ax, rf"({'ab'[k]}) $b_s = {bs:g}$ mm")
     axs[0].set_ylabel(r"critical load $N_{cr}$ [N/mm]")
-    refname = "Abaqus shell model" if bc == "SS" else "spline finite strip model"
     hs = [Line2D([], [], color=COL[l], lw=1.0, marker=MK[l], ms=5, mfc="none", mew=0.8) for l in LAY] + \
-         [Line2D([], [], color=INK, lw=1.0, marker=".", ms=3.2), Line2D([], [], ls="none", marker="o", mfc="none", mec=INK, ms=5.5, mew=0.8)]
-    fig.legend(hs, LAY + ["GBT", refname], ncol=7, loc="upper center", bbox_to_anchor=(0.5, 1.07), fontsize=6.8,
-               columnspacing=1.1, handlelength=1.8)
+         [Line2D([], [], color=INK, lw=1.0, marker=".", ms=3.2)]
+    lab = LAY + ["GBT"]
+    if has_ref:
+        hs.append(Line2D([], [], ls="none", marker="o", mfc="none", mec=INK, ms=5.5, mew=0.8)); lab.append("Abaqus shell model")
+    fig.legend(hs, lab, ncol=7, loc="upper center", bbox_to_anchor=(0.5, 1.07), fontsize=6.8, columnspacing=1.1, handlelength=1.8)
     save(fig, name)
 
 
@@ -305,45 +316,45 @@ def fig04():
 
 
 def fig05():
-    _curves("CC", "fig06_ncr_cc")
-
-
-def fig06():
+    """Deviation of GBT from Abaqus, case by case (SS; CC once the Abaqus CC results exist)."""
     cur, ref = _load()
-    fig, axs = plt.subplots(1, 2, figsize=(FULL, 66 * MM), gridspec_kw=dict(wspace=0.12), sharey=True)
+    bcs = [b for b in ("SS", "CC") if any(r["bc"] == b for r in ref)]
+    fig, axs = plt.subplots(1, len(bcs), figsize=(FULL if len(bcs) == 2 else 0.6 * FULL, 66 * MM),
+                            gridspec_kw=dict(wspace=0.12), sharey=True, squeeze=False)
     out = {}
-    for k, (ax, bc) in enumerate(zip(axs, ("SS", "CC"))):
-        devs = []; devf = []
+    for k, (ax, bc) in enumerate(zip(axs[0], bcs)):
+        devs = []
         for g, lay in enumerate(LAY):
             rr = sorted([r for r in ref if r["layup"] == lay and r["bc"] == bc], key=lambda r: (r["bs"], r["beta"]))
             for q, r in enumerate(rr):
                 x = g + (q - 2.5) * 0.12 + (0.06 if r["bs"] > 200 else -0.06)
-                if bc == "SS":
-                    e = 100 * (r["gbt_per"] / r["abq_per"] - 1); f = 100 * (r["strip_per"] / r["abq_per"] - 1)
-                    ax.plot(x, f, "x", color=MUTED, ms=3.6, mew=0.7, zorder=3); devf.append(f)
-                else:
-                    e = 100 * (r["gbt_per"] / r["strip_per"] - 1)
+                e = 100 * (r["gbt"] / r["abq"] - 1)
                 fill = COL[lay] if r["bs"] < 200 else "w"
                 ax.plot(x, e, MK[lay], mfc=fill, mec=COL[lay], ms=4.6, mew=0.8, zorder=4); devs.append(e)
             if g:
                 ax.axvline(g - 0.5, color=P.GRID, lw=0.6, zorder=0)
         ax.axhspan(-1, 1, color="#f1f4f7", zorder=0, lw=0); ax.axhline(0, color=INK, lw=0.5, zorder=1)
         ax.set_xticks(range(5)); ax.set_xticklabels(LAY); ax.tick_params(axis="x", which="both", length=0)
-        ax.set_xlim(-0.55, 4.55); ax.set_ylim(-1.75, 1.75); ax.yaxis.set_major_locator(mt.MultipleLocator(0.5))
+        lim = max(1.75, 0.25 * np.ceil(4 * (max(np.abs(devs)) + 0.2)))
+        ax.set_xlim(-0.55, 4.55); ax.set_ylim(-lim, lim); ax.yaxis.set_major_locator(mt.MultipleLocator(0.5))
         ax.tick_params(axis="x", top=False)
         mean_abs = float(np.mean(np.abs(devs))); mx = float(np.max(np.abs(devs)))
-        out[bc] = dict(mean_abs=mean_abs, max_abs=mx, n=len(devs), fsm_mean=float(np.mean(np.abs(devf))) if devf else None)
-        ttl = (r"(a) SS: GBT and FSM against Abaqus" if bc == "SS" else r"(b) CC: GBT against the spline FSM")
-        panel_label(ax, ttl)
-        ax.text(0.99, 0.03, rf"GBT: mean $|\Delta|$ = {mean_abs:.2f}\,\%, max = {mx:.2f}\,\%", transform=ax.transAxes,
+        out[bc] = dict(mean_abs=mean_abs, max_abs=mx, n=len(devs))
+        panel_label(ax, (rf"({'ab'[k]}) " if len(bcs) == 2 else "") +
+                    ("simply supported loaded edges" if bc == "SS" else "clamped loaded edges"))
+        ax.text(0.99, 0.03, rf"mean $|\Delta|$ = {mean_abs:.2f}\,\%, max = {mx:.2f}\,\%", transform=ax.transAxes,
                 ha="right", va="bottom", fontsize=6.8)
-    axs[0].set_ylabel(r"deviation $\Delta$ of $N_{cr}$ [\%]")
+    axs[0][0].set_ylabel(r"deviation $\Delta$ of GBT from Abaqus [\%]")
     hs = [Line2D([], [], ls="none", marker="o", mfc=INK, mec=INK, ms=4.6), Line2D([], [], ls="none", marker="o", mfc="w", mec=INK, ms=4.6, mew=0.8),
-          Line2D([], [], ls="none", marker="x", color=MUTED, ms=3.6, mew=0.7), plt.Rectangle((0, 0), 1, 1, fc="#f1f4f7")]
-    fig.legend(hs, [r"GBT, $b_s = 150$ mm", r"GBT, $b_s = 285.5$ mm", "spline FSM (SS)", r"$\pm 1\,\%$"], ncol=4,
+          plt.Rectangle((0, 0), 1, 1, fc="#f1f4f7")]
+    fig.legend(hs, [r"$b_s = 150$ mm", r"$b_s = 285.5$ mm", r"$\pm 1\,\%$"], ncol=3,
                loc="upper center", bbox_to_anchor=(0.5, 1.07), fontsize=6.8, columnspacing=1.6)
     save(fig, "fig05_accuracy")
     return out
+
+
+def fig06():
+    _curves("CC", "fig06_ncr_cc")
 
 
 # =====================================================================================
@@ -552,7 +563,7 @@ def fig08():
 # =====================================================================================
 # Figure 9 -- convergence with the number of hierarchical conventional modes
 # =====================================================================================
-def fig09():
+def fig11():
     hc = json.loads((P.H / "results" / "hier_conv.json").read_text())
     fig, ax = plt.subplots(figsize=(122 * MM, 70 * MM))
     out = {}
@@ -574,7 +585,127 @@ def fig09():
         ax.axhline(yv, color=MUTED, lw=0.5, ls=(0, (1, 1.5)), zorder=1)
     grid(ax)
     ax.legend(loc="upper right", fontsize=6.8, ncol=1, handlelength=2.4)
-    save(fig, "fig09_hierarchical")
+    save(fig, "fig11_hierarchical")
+    return out
+
+
+# =====================================================================================
+# Figures 9, 10 -- long cells: mode transition and the effect of the fixed cell width
+# =====================================================================================
+def _long():
+    """All SS curves of b_s = 150 mm: short cells (periodic_curves) + long cells (long_curves);
+    pss = 1: complete pre-buckling state, pss = 0: S_ss removed from G."""
+    cur = [json.loads(l) for l in (P.H / "results" / "periodic_curves.jsonl").read_text().splitlines()]
+    lng = [json.loads(l) for l in (P.H / "results" / "long_curves.jsonl").read_text().splitlines()]
+    out = {}
+    for c in cur:
+        if c["bs"] == 150.0 and c["bc"] == "SS":
+            out[(c["layup"], c["beta"], 1.0)] = c
+    for c in lng:
+        out[(c["layup"], c["beta"], float(c.get("pss", 1.0)))] = c     # later lines win
+    return out
+
+
+def _abq_long():
+    import csv
+    f = P.H / "src" / "abaqus_long.csv"          # layup,beta,sides,Ncr  (sides = PBC | PBC_FREE)
+    return [dict(layup=r["layup"], beta=float(r["beta"]), sides=r["sides"], N=float(r["Ncr"]))
+            for r in csv.DictReader(open(f))] if f.exists() else []
+
+
+def fig09():
+    D = _long(); A = _abq_long()
+    fig = plt.figure(figsize=(FULL, 128 * MM))
+    gs = fig.add_gridspec(2, 5, height_ratios=[1.35, 0.8], hspace=0.45, wspace=0.12)
+    ax = fig.add_subplot(gs[0, :])
+    out = {}
+    for lay in LAY:
+        for pss, ls in ((1.0, "-"), (0.0, (0, (3.5, 1.6)))):
+            d = sorted([v for (l, b, p_), v in D.items() if l == lay and p_ == pss], key=lambda c: c["beta"])
+            if len(d) < 2:
+                continue
+            ax.plot([c["beta"] for c in d], [c["N"] for c in d], ls=ls, color=COL[lay], lw=1.0, marker=MK[lay], ms=3.2,
+                    mfc="w" if pss == 1.0 else COL[lay], mew=0.7, zorder=3)
+            out[f"{lay}_{int(pss)}"] = [(c["beta"], round(c["N"], 3), {g: round(100 * c["rho"].get(g, 0), 1) for g in "GDL"}) for c in d]
+        for r in A:
+            if r["layup"] == lay:
+                ax.plot(r["beta"], r["N"], "*" if r["sides"] == "PBC" else "X", color=COL[lay], ms=8, mec=INK, mew=0.5, zorder=5)
+    ax.set_xscale("log"); ax.set_yscale("log"); ax.set_xlim(0.45, 22)
+    for a_ in (ax.xaxis, ax.yaxis):
+        a_.set_major_formatter(mt.FuncFormatter(lambda v, _p: f"{v:g}"))
+    ax.xaxis.set_minor_formatter(mt.FuncFormatter(lambda v, _p: f"{v:g}" if f"{v:g}"[0] in "25" else ""))
+    ax.yaxis.set_minor_formatter(mt.FuncFormatter(lambda v, _p: f"{v:g}" if f"{v:g}"[0] in "25" else ""))
+    ax.tick_params(which="minor", labelsize=6.3)
+    ax.set_xlabel(r"aspect ratio $\beta = L/b_s$"); ax.set_ylabel(r"critical load $N_{cr}$ [N/mm]")
+    grid(ax); ax.grid(True, which="minor", color=P.GRID, lw=0.3)
+    panel_label(ax, r"(a) simply supported loaded edges, $b_s = 150$ mm")
+    hs = [Line2D([], [], color=COL[l], lw=1.0, marker=MK[l], ms=3.5, mfc="w", mew=0.7) for l in LAY] + \
+         [Line2D([], [], color=INK, lw=1.0), Line2D([], [], color=INK, lw=1.0, ls=(0, (3.5, 1.6)))]
+    lab = LAY + [r"GBT, complete pre-buckling state", r"GBT, $S_{ss}$ omitted"]
+    if A:
+        hs += [Line2D([], [], ls="none", marker="*", color=MUTED, mec=INK, mew=0.5, ms=8),
+               Line2D([], [], ls="none", marker="X", color=MUTED, mec=INK, mew=0.5, ms=7)]
+        lab += ["Abaqus, constant width", "Abaqus, free lateral expansion"]
+    ax.legend(hs, lab, ncol=4, loc="lower center", bbox_to_anchor=(0.5, 1.07), fontsize=6.6, columnspacing=1.0, handlelength=2.2)
+    for k, lay in enumerate(LAY):
+        b = fig.add_subplot(gs[1, k])
+        d = sorted([v for (l, bb, p_), v in D.items() if l == lay and p_ == 1.0], key=lambda c: c["beta"])
+        be = [c["beta"] for c in d]
+        for g, mk in (("L", "o"), ("D", "s"), ("G", "^")):
+            b.plot(be, [100 * c["rho"].get(g, 0) for c in d], "-", marker=mk, color=FAMC[g], ms=2.4, mfc="w", mew=0.6, lw=0.8)
+        b.set_xscale("log"); b.set_xlim(0.45, 22); b.set_ylim(-5, 105)
+        b.xaxis.set_major_formatter(mt.FuncFormatter(lambda v, _p: f"{v:g}"))
+        b.set_xlabel(r"$\beta$"); grid(b)
+        if k:
+            b.tick_params(labelleft=False)
+        else:
+            b.set_ylabel(r"$\rho_g$ [\%]")
+        panel_label(b, rf"({'bcdef'[k]}) {lay}")
+    hs = [Line2D([], [], color=FAMC[g], lw=0.8, marker=mk, ms=2.8, mfc="w", mew=0.6) for g, mk in (("L", "o"), ("D", "s"), ("G", "^"))]
+    fig.legend(hs, [FAMN["L"], FAMN["D"], FAMN["G"]], ncol=3, loc="lower center", bbox_to_anchor=(0.5, -0.025), fontsize=6.8)
+    save(fig, "fig09_long_cells")
+    return out
+
+
+def fig10():
+    """Critical modes of long cells: S_ss-driven long-wave mode, the same cell without S_ss, global mode."""
+    cases = [("Isotropic", 8.0, 1.0, r"(a) Isotropic, $\beta = 8$, complete pre-buckling state"),
+             ("Isotropic", 8.0, 0.0, r"(b) Isotropic, $\beta = 8$, $S_{ss}$ omitted"),
+             ("Unsym", 16.0, 1.0, r"(c) Unsym, $\beta = 16$, complete pre-buckling state")]
+    fig = plt.figure(figsize=(FULL, 150 * MM))
+    gs = fig.add_gridspec(3, 2, width_ratios=[1.0, 0.62], hspace=0.25, wspace=0.08)
+    norm = TwoSlopeNorm(0, -1, 1); cmap = plt.get_cmap("RdBu_r")
+    out = {}
+    for k, (lay, beta, pss, ttl) in enumerate(cases):
+        def run(lay=lay, beta=beta, pss=pss):
+            m, sec, L = P.case(lay, 150.0, beta, "SS")
+            r = m.omega_gbt_solve(sec, L, "SS", hx=10.0 if beta >= 14 else None, nev=1, return_mode=True, pss_scale=pss)
+            xs = np.linspace(0, L, 161)
+            U, u = P.nodal_disp(sec, r["lb"], np.asarray(r["coef"]), xs)
+            return dict(L=L, xs=xs, U=U, u=u, N=r["N"], X=sec.X.copy(),
+                        S=[(s_["a"], s_["b"], sec.wpart[s_["w"]], s_["n"]) for s_ in sec.S], sides=sec.sides)
+        d = cached(f"longmode_{lay}_{beta}_{pss}", run)
+        sk = np.array(sorted([n for n in range(len(d["X"])) if abs(d["X"][n, 1]) < 1e-9], key=lambda n: d["X"][n, 0]))
+        if d["U"].flat[np.argmax(np.abs(d["U"]))] < 0:
+            d["U"] = -d["U"]
+        a = fig.add_subplot(gs[k, 0]); _mode3d(a, d, amp=22.0, c=0.30, sn=0.12, cmap=cmap, norm=norm)
+        panel_label(a, ttl + rf": $N_{{cr}} = {d['N']:.2f}$ N/mm", x=0.0, y=0.92)
+        # deformed cross-section at the section of largest displacement
+        b = fig.add_subplot(gs[k, 1])
+        i = int(np.argmax(np.abs(d["U"]).max(axis=(1, 2))))
+        Ui = d["U"][i] / np.abs(d["U"][i]).max()
+        segs0 = [[d["X"][a_], d["X"][b_]] for a_, b_, p_, _n in d["S"] if p_ != "link"]
+        segs1 = [[d["X"][a_] + 20 * Ui[a_], d["X"][b_] + 20 * Ui[b_]] for a_, b_, p_, _n in d["S"] if p_ != "link"]
+        b.add_collection(LineCollection(segs0, colors="#c9d0d8", linewidths=0.5))
+        b.add_collection(LineCollection(segs1, colors=INK, linewidths=0.9))
+        b.set_xlim(-310, 10); b.set_ylim(-28, 58); b.set_aspect("equal"); b.axis("off")
+        b.set_title(rf"cross-section at $x/L = {d['xs'][i] / d['L']:.2f}$", fontsize=7, pad=1)
+        out[f"{lay}_{beta}_{pss}"] = d["N"]
+    cax = fig.add_axes([0.13, 0.065, 0.35, 0.010])
+    cb = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cax, orientation="horizontal")
+    cb.set_label(r"normal displacement $w/|w|_{\max}$", fontsize=7.5); cb.ax.tick_params(labelsize=6.5, length=2)
+    cb.outline.set_linewidth(0.4)
+    save(fig, "fig10_long_modes")
     return out
 
 

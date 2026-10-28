@@ -1,40 +1,39 @@
 # -*- coding: utf-8 -*-
 # =============================================================================
-#  Omegastiffener_PBC_CC.py  --  periodic side edges + CLAMPED loaded edges
+#  Omegastiffener_PBC_v2.py  --  periodic omega-stringer cells, SS or CC ends,
+#  any list of cells, buckling mode 1 exported for the GBT-Abaqus figures.
 #
-#  Same 30 cells as Omegastiffener_PBC.py (bs 150 / 285.5, beta 0.75 / 1.5 / 3,
-#  Isotropic, Cross-ply, Sym1, Sym2, Unsym), same geometry, materials, mesh
-#  (S4R/S3, seed 3.7 mm), *TIE and periodic *EQUATIONs.  Only the loaded edges
-#  differ.  They reproduce the CC conditions of the GBT and spline-strip models
-#  (solver V32, OMEGA_CC_END = "edge-load"):
+#  Geometry, materials, mesh (S4R/S3, seed 3.7 mm), *TIE and the periodic
+#  *EQUATIONs are those of Omegastiffener_PBC.py (your validated SS model).
 #
-#     z = 0 : every end node  U1 = U2 = U3 = UR1 = UR2 = UR3 = 0
-#     z = L : every end node  U1 = U2 = UR1 = UR2 = UR3 = 0, U3 FREE
-#     load  : the same uniform 1 N/mm ShellEdgeLoad on every end edge as in the
-#             SS model (a bonded foot thus carries 2 N/mm); at z = 0 it is
-#             reacted by the support, at z = L it compresses the cell.
-#     -> eigenvalue = critical line load N_cr [N/mm], as for SS.
+#  End conditions (environment variable PANEL_BC):
+#     SS (default) : every end edge U2 = 0, 1 N/mm ShellEdgeLoad on every end
+#                    edge (identical to Omegastiffener_PBC.py)
+#     CC           : z = 0  every end node U1=U2=U3=UR1=UR2=UR3 = 0
+#                    z = L  every end node U1=U2=UR1=UR2=UR3 = 0, U3 free
+#                    the same 1 N/mm ShellEdgeLoad on every end edge
+#                    (clamped edges as in GBT; NOT rigid end plates)
 #
-#  NOT rigid end plates: with a rigid plate U3 is common to the whole end
-#  section, which is a different (stiffer) end condition.
+#  Side edges (environment variable PANEL_SIDES):
+#     PBC (default) : periodic, the width of the cell is constant (as in GBT)
+#     PBC_FREE      : periodic with free lateral expansion and in-plane shear of
+#                     the cell (common jump of U1 and U3 between the two side
+#                     edges, dummy node PBC_DUMMY); SS ends only
 #
-#  The clamping BCs are put on the skin end nodes and on the stringer end nodes
-#  that are not tie-secondary nodes (webs and crowns); the flange end nodes
-#  follow the skin through the *TIE (tieRotations=ON), which avoids
-#  over-constraints.  At the periodic corner nodes only the equation of U3 at
-#  z = L remains (all other DOFs are prescribed on both nodes).
+#  Cells (environment variable PANEL_CASES, optional):
+#     "bs:beta:layup,bs:beta:layup,..."   any pitch / aspect ratio / lay-up,
+#     e.g. "150:12:Cross-ply,150:8:Isotropic"
+#     not set -> the 30 standard cells (bs 150/285.5, beta 0.75/1.5/3, 5 lay-ups)
 #
-#  Output (in PANEL_OUT, default ~/Downloads):
-#     omega_validation_eigs_CC_PBC.csv    eigenvalues (as before)
-#     omega_validation_times_CC_PBC.csv   model / solver / post times [s]
-#     fe_modes/MODE1_<tag>.csv            mode 1: every node of skin and
-#                                         stringers, x, y, z, U1, U2, U3
-#                                         (for the GBT-Abaqus mode figures)
+#  Output (folder PANEL_OUT, default ~/Downloads):
+#     omega_validation_eigs_<BC>_PBC.csv     eigenvalues   (SS: ..._PBC.csv)
+#     omega_validation_times_<BC>_PBC.csv    times [s]
+#     fe_modes/MODE1_<cell>.csv              mode 1, all nodes: x,y,z,U1,U2,U3
 #
 #  RUN (PowerShell, in the folder of this file):
-#     abaqus cae noGUI=Omegastiffener_PBC_CC.py
-#  only some cases, e.g. the two used for the mode figure:
-#     $env:PANEL_CASES="150:1.5:Unsym"; abaqus cae noGUI=Omegastiffener_PBC_CC.py
+#     $env:PANEL_BC="CC"; abaqus cae noGUI=Omegastiffener_PBC_v2.py
+#     $env:PANEL_BC="SS"; $env:PANEL_CASES="150:12:Cross-ply"; abaqus cae noGUI=Omegastiffener_PBC_v2.py
+#  (Remove-Item Env:PANEL_CASES  resets to the 30 standard cells)
 # =============================================================================
 
 import os
@@ -63,14 +62,20 @@ for bs in BS_VALS:
         for lname, mtype, skin_seq, stiff_seq in LAYUPS:
             TEST_POINTS.append((bs, beta, lname, mtype, skin_seq, stiff_seq))
 
-BC_LIST = ["CC"]
-SIDES_LIST = ["PBC"]
-_cases = os.environ.get("PANEL_CASES", "").strip()        # e.g. "150:1.5:Unsym,285.5:3:Sym1"
+BC_LIST = [b.strip().upper() for b in os.environ.get("PANEL_BC", "SS").split(",") if b.strip()]
+SIDES_LIST = [b.strip().upper() for b in os.environ.get("PANEL_SIDES", "PBC").split(",") if b.strip()]   # PBC | PBC_FREE (SS only)
+_cases = os.environ.get("PANEL_CASES", "").strip()        # e.g. "150:12:Cross-ply,150:8:Isotropic"
 if _cases:
-    _want = [c.split(":") for c in _cases.split(",") if c.strip()]
-    TEST_POINTS = [p for p in TEST_POINTS
-                   if any(abs(p[0] - float(w[0])) < 1e-6 and abs(p[1] - float(w[1])) < 1e-6 and p[2] == w[2]
-                          for w in _want)]
+    _lay = dict((l[0], l) for l in LAYUPS)
+    TEST_POINTS = []
+    for c in _cases.split(","):
+        if not c.strip():
+            continue
+        bs_, beta_, name_ = [x.strip() for x in c.split(":")]
+        if name_ not in _lay:
+            raise ValueError("unknown lay-up %s (use %s)" % (name_, ", ".join(_lay)))
+        l_ = _lay[name_]
+        TEST_POINTS.append((float(bs_), float(beta_), l_[0], l_[1], l_[2], l_[3]))
 
 OUTPUT_DIR = os.environ.get(
     "PANEL_OUT", os.path.join(os.path.expanduser("~"), "Downloads"))
@@ -458,7 +463,7 @@ def run_case(bs_val, beta_val, layup_name, mat_type, seq_skin, seq_stiff, out_di
 
 if __name__ == "__main__":
     if not ABAQUS_OK:
-        sys.stderr.write("\nRun with the Abaqus kernel, e.g.:\n    abaqus cae noGUI=Omegastiffener_PBC_CC.py\n")
+        sys.stderr.write("\nRun with the Abaqus kernel, e.g.:\n    abaqus cae noGUI=Omegastiffener_PBC_v2.py\n")
         sys.exit(1)
     if not os.path.isdir(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)

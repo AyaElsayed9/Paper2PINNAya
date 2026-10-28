@@ -35,7 +35,7 @@ os.chdir(H)
 OUT = os.path.join(H, 'out'); os.makedirs(OUT, exist_ok=True)
 NAME = 'GBT_periodic_omega_manuscript'
 
-src = '\n\n'.join(open(f, encoding='utf-8').read() for f in ('part1.md', 'part2.md', 'part3_filled.md', 'part4.md'))
+src = '\n\n'.join(open(f, encoding='utf-8').read() for f in ('part1_filled.md', 'part2.md', 'part3_filled.md', 'part4_filled.md'))
 
 # ---------- figures at their natural size (600 dpi): all figures keep 8 pt lettering ----------
 from PIL import Image as _Im
