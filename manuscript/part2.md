@@ -128,7 +128,7 @@ $$
 
 *Proof.* Sufficiency follows from Eq. (@pbcmodal) and its analogues. For necessity, set all amplitude functions but one to zero; the bracket of the remaining mode must then vanish. $\square$
 
-The periodic condition is thus a property of the cross-section analysis. A mode-wise periodic basis carries it into every combination and truncation of the modes, and the member analysis needs neither penalty terms nor Lagrange multipliers, whereas a classical basis of the open contour violates it mode by mode.
+The periodic condition is thus a property of the cross-section analysis. A mode-wise periodic basis carries it into every combination and truncation of the modes: every trial function of the Ritz solution (Section 2.3.4) is kinematically admissible with respect to the side edges, and the member analysis needs neither penalty terms nor Lagrange multipliers, whereas a classical basis of the open contour violates the condition mode by mode.
 
 ### Conventional modes: constrained family subspaces
 
