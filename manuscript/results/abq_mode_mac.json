@@ -1,0 +1,38 @@
+{
+ "mode_Unsym_150.0_1.5_SS": {
+  "abq_file": "MODE1_val_bs150_beta1p5_Unsym_PBC.csv",
+  "abq_eig": 32.561,
+  "gbt_N": 32.26028383825773,
+  "mac_skin": 0.9997711373627268
+ },
+ "mode_Unsym_150.0_1.5_CC": {
+  "abq_file": "MODE1_val_bs150_beta1p5_Unsym_CC_PBC.csv",
+  "abq_eig": 30.238,
+  "gbt_N": 30.029545648008114,
+  "mac_skin": 0.9999403795829875
+ },
+ "longmode_Isotropic_8.0_1.0": {
+  "abq_file": "MODE1_val_bs150_beta8_Isotropic_PBC.csv",
+  "abq_eig": 75.317,
+  "gbt_N": 75.0930896107743,
+  "mac_skin": 0.99999836048956
+ },
+ "longmode_Sym1_8.0_1.0": {
+  "abq_file": "MODE1_val_bs150_beta8_Sym1_PBC.csv",
+  "abq_eig": 5.222,
+  "gbt_N": 5.197739373405925,
+  "mac_skin": 0.999998304248995
+ },
+ "longmode_Unsym_12.0_1.0": {
+  "abq_file": "MODE1_val_bs150_beta12_Unsym_PBC.csv",
+  "abq_eig": 22.368,
+  "gbt_N": 22.40841291950428,
+  "mac_skin": 0.9999999720668473
+ },
+ "longmode_Cross-ply_14.0_1.0": {
+  "abq_file": "MODE1_val_bs150_beta14_Crossmply_PBC.csv",
+  "abq_eig": 22.287,
+  "gbt_N": 22.30767721435833,
+  "mac_skin": 0.999999998911611
+ }
+}

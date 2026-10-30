@@ -172,6 +172,38 @@ if fal.exists():
 else:
     s = s.replace("@@ABQLONG@@", " [Abaqus check with constant width and free lateral expansion pending]").replace("@@FIG9ABQ@@", " (Abaqus results to be added)")
 
+# ---------------- Abaqus long cells, free expansion, mode MAC, timing (Aya's runs of 30 Oct 2026)
+AL = {(r["layup"], float(r["beta"]), r["sides"]): float(r["Ncr"]) for r in csv.DictReader(open(H / "src" / "abaqus_long.csv"))}
+MAC = json.loads((H / "results" / "abq_mode_mac.json").read_text())
+s = re.sub(r"@@AL:([A-Za-z0-9-]+):([\d.]+):([A-Z_]+)@@", lambda mo: f"{AL[(mo.group(1), float(mo.group(2)), mo.group(3))]:.2f}", s)
+dl = [100 * (LONG[(l, b, 1.0)]["N"] / AL[(l, b, "PBC")] - 1) for (l, b, sd) in AL if sd == "PBC"]
+fr = {l: AL[(l, b, "PBC_FREE")] / AL[(l, b, "PBC")] for (l, b, sd) in AL if sd == "PBC_FREE"}
+appi = 100 * (LONG[("Isotropic", 8.0, 0.0)]["N"] / AL[("Isotropic", 8.0, "PBC_FREE")] - 1)
+apps = 100 * (LONG[("Sym1", 8.0, 0.0)]["N"] / AL[("Sym1", 8.0, "PBC_FREE")] - 1)
+macl = [v["mac_skin"] for k, v in MAC.items() if k.startswith("longmode")]
+rep = {"@@ALMAX@@": f"{max(abs(v) for v in dl):.2f}", "@@MACLONG@@": f"{np.floor(min(macl) * 1e4) / 1e4:.4f}",
+       "@@FR:Isotropic@@": f"{fr['Isotropic']:.1f}", "@@FR:Sym1@@": f"{fr['Sym1']:.1f}",
+       "@@APPI@@": f"{abs(appi):.1f}", "@@APPS@@": f"{apps:.0f}",
+       "@@MAC_SS@@": f"{MAC['mode_Unsym_150.0_1.5_SS']['mac_skin']:.4f}", "@@MAC_CC@@": f"{MAC['mode_Unsym_150.0_1.5_CC']['mac_skin']:.4f}",
+       "@@MACMIN@@": f"{np.floor(min(v['mac_skin'] for v in MAC.values()) * 1e4) / 1e4:.4f}",
+       "@@FRMIN@@": f"{min(fr.values()):.1f}", "@@FRMAX@@": f"{max(fr.values()):.1f}"}
+assert appi < 0 < apps
+# Table 7: four long cells with measured times
+ta = {(r["layup"], float(r["beta"])): float(r["t_solver_s"]) for r in csv.DictReader(open(H / "src" / "abaqus_times_PBC_long.csv"))}
+js = {r["job"]: r for r in csv.DictReader(open(H / "src" / "abaqus_job_summary.csv"))}
+rows = ["| Cell | Abaqus DOFs | Abaqus time [s] | GBT unknowns | GBT time [s] |", "|:--|--:|--:|--:|--:|"]
+dr, tr = [], []
+for (lay, beta) in [("Isotropic", 8.0), ("Sym1", 8.0), ("Unsym", 12.0), ("Cross-ply", 14.0)]:
+    var = float(js[f"val_bs150_beta{beta:g}_{lay.replace('-', 'm')}_PBC"]["variables"]); c = LONG[(lay, beta, 1.0)]
+    dr.append(c["ndof"] / var); tr.append(c["time"] / ta[(lay, beta)])
+    sp_ = lambda v: f"{v:,.0f}".replace(",", " ")
+    rows.append(f"| {lay}, $\\beta = {beta:g}$ | {sp_(var)} | {ta[(lay, beta)]:.0f} | {sp_(c['ndof'])} | {c['time']:.0f} |")
+s = s.replace("@@TABTIME@@", "\n".join(rows))
+rng_ = lambda v: (f"{100 * min(v):.0f}–{100 * max(v):.0f} %" if round(100 * min(v)) != round(100 * max(v)) else f"about {100 * min(v):.0f} %")
+rep["@@DOFR@@"] = rng_(dr); rep["@@TR@@"] = rng_(tr)
+for k_, v_ in rep.items():
+    s = s.replace(k_, v_); s1 = s1.replace(k_, v_); s4 = s4.replace(k_, v_)
+
 (H / "part3_filled.md").write_text(s); (H / "part1_filled.md").write_text(s1); (H / "part4_filled.md").write_text(s4)
 left = [p for t in (s, s1, s4) for p in t.split("@@")[1::2]]
 print("unfilled:", left)

@@ -1,0 +1,7 @@
+layup,beta,sides,Ncr
+Isotropic,8,PBC,75.31700
+Sym1,8,PBC,5.22200
+Unsym,12,PBC,22.36800
+Cross-ply,14,PBC,22.28700
+Isotropic,8,PBC_FREE,152.44000
+Sym1,8,PBC_FREE,15.39600

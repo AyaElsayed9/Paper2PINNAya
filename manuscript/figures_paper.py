@@ -352,8 +352,8 @@ def fig05():
         out[bc] = dict(mean_abs=mean_abs, max_abs=mx, n=len(devs))
         panel_label(ax, (rf"({'ab'[k]}) " if len(bcs) == 2 else "") +
                     ("simply supported loaded edges" if bc == "SS" else "clamped loaded edges"))
-        ax.text(0.99, 0.03, rf"mean $|\Delta|$ = {mean_abs:.2f}\,\%, max = {mx:.2f}\,\%", transform=ax.transAxes,
-                ha="right", va="bottom", fontsize=6.8)
+        ax.text(0.99, 0.97, rf"mean $|\Delta|$ = {mean_abs:.2f}\,\%, max = {mx:.2f}\,\%", transform=ax.transAxes,
+                ha="right", va="top", fontsize=6.8, bbox=dict(fc="white", ec="none", pad=1.0))
     axs[0][0].set_ylabel(r"deviation $\Delta$ of GBT from Abaqus [\%]")
     hs = [Line2D([], [], ls="none", marker="o", mfc=INK, mec=INK, ms=4.6), Line2D([], [], ls="none", marker="o", mfc="w", mec=INK, ms=4.6, mew=0.8),
           plt.Rectangle((0, 0), 1, 1, fc="#f1f4f7")]
@@ -473,9 +473,30 @@ def _mode3d_ortho(ax, d, amp=22.0, azim=-35.0, elev=28.0, cmap=None, norm=None, 
     ax.set_aspect("equal"); ax.axis("off"); ax.autoscale_view()
 
 
+def _skinmap(b, Xg, zg, wn, cmap, norm, tri=False):
+    """Skin deflection map with contour lines (GBT on its grid, Abaqus on its node triangulation)."""
+    lv = [-0.75, -0.5, -0.25, 0.25, 0.5, 0.75]
+    if tri:
+        import matplotlib.tri as mtri
+        T = mtri.Triangulation(Xg, zg)
+        pc = b.tripcolor(T, wn, cmap=cmap, norm=norm, shading="gouraud", rasterized=True)
+        b.tricontour(T, wn, levels=lv, colors=INK, linewidths=0.3, alpha=0.6)
+        b.tricontour(T, wn, levels=[0.0], colors=INK, linewidths=0.45, linestyles="dashed")
+    else:
+        pc = b.pcolormesh(Xg, zg, wn, cmap=cmap, norm=norm, shading="gouraud", rasterized=True)
+        b.contour(Xg, zg, wn, levels=lv, colors=INK, linewidths=0.3, alpha=0.6)
+        b.contour(Xg, zg, wn, levels=[0.0], colors=INK, linewidths=0.45, linestyles="dashed")
+    for Xs in (-75.0, -225.0):
+        b.axvline(Xs, color=MUTED, lw=0.5, ls=(0, (1, 1.5)))
+    b.set_aspect("equal"); b.set_xlim(-300, 0)
+    b.xaxis.set_major_locator(mt.MultipleLocator(50)); b.yaxis.set_major_locator(mt.MultipleLocator(50))
+    return pc
+
+
 def fig06():
-    fig = plt.figure(figsize=(FULL, 112 * MM))
-    gs = fig.add_gridspec(2, 2, height_ratios=[0.85, 1.0], hspace=0.10, wspace=0.10)
+    import abq_modes as AQ
+    fig = plt.figure(figsize=(FULL, 168 * MM))
+    gs = fig.add_gridspec(3, 2, height_ratios=[0.78, 1.0, 1.0], hspace=0.16, wspace=0.10)
     norm = TwoSlopeNorm(0, -1, 1); cmap = plt.get_cmap("RdBu_r")
     out = {}
     for k, bc in enumerate(("SS", "CC")):
@@ -485,21 +506,27 @@ def fig06():
         if w.flat[np.argmax(np.abs(w))] < 0:              # sign: largest skin deflection positive
             d["U"] = -d["U"]; w = -w
         a = fig.add_subplot(gs[0, k]); _mode3d_ortho(a, d, amp=18.0, azim=-38.0, elev=30.0, cmap=cmap, norm=norm)
-        panel_label(a, rf"({'ab'[k]}) {bc}: $N_{{cr}} = {d['N']:.2f}$ N/mm", x=0.0, y=0.98)
+        panel_label(a, rf"({'ab'[k]}) GBT, {bc}: $N_{{cr}} = {d['N']:.2f}$ N/mm", x=0.0, y=0.98)
         b = fig.add_subplot(gs[1, k])
         wn = w / np.abs(w).max()
-        pc = b.pcolormesh(d["X"][sk, 0], d["xs"], wn, cmap=cmap, norm=norm, shading="gouraud", rasterized=True)
-        b.contour(d["X"][sk, 0], d["xs"], wn, levels=[-0.75, -0.5, -0.25, 0.25, 0.5, 0.75], colors=INK, linewidths=0.3, alpha=0.6)
-        b.contour(d["X"][sk, 0], d["xs"], wn, levels=[0.0], colors=INK, linewidths=0.45, linestyles="dashed")
-        for Xs in (-75.0, -225.0):
-            b.axvline(Xs, color=MUTED, lw=0.5, ls=(0, (1, 1.5)))
-        b.set_aspect("equal"); b.set_xlim(-300, 0); b.set_ylim(0, d["L"]); b.set_xlabel(r"$X$ [mm]")
-        b.xaxis.set_major_locator(mt.MultipleLocator(50)); b.yaxis.set_major_locator(mt.MultipleLocator(50))
+        pc = _skinmap(b, d["X"][sk, 0], d["xs"], wn, cmap, norm)
+        b.set_ylim(0, d["L"]); b.tick_params(labelbottom=False)
         if k == 0:
             b.set_ylabel(r"$x$ [mm]")
-        panel_label(b, rf"({'cd'[k]}) {bc}: skin deflection $w/|w|_{{\max}}$")
-        out[bc] = dict(N=d["N"], edge=float(np.abs(wn[:, 0] - wn[:, -1]).max()))
-    cax = fig.add_axes([0.925, 0.11, 0.012, 0.42])
+        panel_label(b, rf"({'cd'[k]}) GBT, {bc}: skin deflection")
+        # Abaqus mode of the same cell
+        ab = AQ.read_abq("MODE1_val_bs150_beta1p5_Unsym_PBC.csv" if bc == "SS" else "MODE1_val_bs150_beta1p5_Unsym_CC_PBC.csv")
+        mac, sg = AQ.mac(d, ab)
+        mk = ab["inst"] == "INST_SKIN"
+        wa = sg * ab["U"][mk, 1]; wa = wa / np.abs(wa).max()
+        c = fig.add_subplot(gs[2, k])
+        _skinmap(c, ab["xyz"][mk, 0], ab["xyz"][mk, 2], wa, cmap, norm, tri=True)
+        c.set_ylim(0, d["L"]); c.set_xlabel(r"$X$ [mm]")
+        if k == 0:
+            c.set_ylabel(r"$x$ [mm]")
+        panel_label(c, rf"({'ef'[k]}) Abaqus, {bc}: $N_{{cr}} = {ab['eig']:.2f}$ N/mm; MAC {mac:.4f}")
+        out[bc] = dict(N=d["N"], abq=ab["eig"], mac=mac, edge=float(np.abs(wn[:, 0] - wn[:, -1]).max()))
+    cax = fig.add_axes([0.935, 0.12, 0.012, 0.5])
     cb = fig.colorbar(pc, cax=cax); cb.ax.tick_params(labelsize=6.5, length=2); cb.outline.set_linewidth(0.4)
     cb.set_label(r"normal displacement $w/|w|_{\max}$", fontsize=7.5)
     save(fig, "fig06_buckling_modes")
@@ -729,14 +756,15 @@ def fig08():
 
 def fig09():
     """Critical modes of long cells: S_ss-driven long-wave mode, the same cell without S_ss, global mode."""
-    cases = [("Isotropic", 8.0, 1.0, r"(a) Isotropic, $\beta = 8$, complete pre-buckling state"),
-             ("Isotropic", 8.0, 0.0, r"(b) Isotropic, $\beta = 8$, $S_{ss}$ omitted"),
-             ("Unsym", 16.0, 1.0, r"(c) Unsym, $\beta = 16$, complete pre-buckling state")]
+    import abq_modes as AQ
+    cases = [("Isotropic", 8.0, 1.0, r"(a) Isotropic, $\beta = 8$, complete pre-buckling state", "MODE1_val_bs150_beta8_Isotropic_PBC.csv"),
+             ("Isotropic", 8.0, 0.0, r"(b) Isotropic, $\beta = 8$, $S_{ss}$ omitted", None),
+             ("Unsym", 12.0, 1.0, r"(c) Unsym, $\beta = 12$, complete pre-buckling state", "MODE1_val_bs150_beta12_Unsym_PBC.csv")]
     fig = plt.figure(figsize=(FULL, 122 * MM))
     gs = fig.add_gridspec(3, 2, width_ratios=[1.0, 0.62], hspace=0.12, wspace=0.06)
     norm = TwoSlopeNorm(0, -1, 1); cmap = plt.get_cmap("RdBu_r")
     out = {}
-    for k, (lay, beta, pss, ttl) in enumerate(cases):
+    for k, (lay, beta, pss, ttl, afile) in enumerate(cases):
         def run(lay=lay, beta=beta, pss=pss):
             m, sec, L = P.case(lay, 150.0, beta, "SS")
             r = m.omega_gbt_solve(sec, L, "SS", hx=10.0 if beta >= 14 else None, nev=1, return_mode=True, pss_scale=pss)
@@ -758,6 +786,22 @@ def fig09():
         segs1 = [[d["X"][a_] + 20 * Ui[a_], d["X"][b_] + 20 * Ui[b_]] for a_, b_, p_, _n in d["S"] if p_ != "link"]
         b.add_collection(LineCollection(segs0, colors="#c9d0d8", linewidths=0.5))
         b.add_collection(LineCollection(segs1, colors=INK, linewidths=0.9))
+        if afile:                                     # Abaqus mode, same section (nearest node plane)
+            ab = AQ.read_abq(afile); mac, sg = AQ.mac(d, ab)
+            zc = ab["xyz"][np.argmin(np.abs(ab["xyz"][:, 2] - d["xs"][i])), 2]
+            sel = np.abs(ab["xyz"][:, 2] - zc) < 1e-3
+            Ua = sg * ab["U"][sel][:, :2]; Ua = Ua / np.abs(Ua).max()
+            b.plot(ab["xyz"][sel, 0] + 20 * Ua[:, 0], ab["xyz"][sel, 1] + 20 * Ua[:, 1], "o", ms=1.1, mfc="#c0392b",
+                   mec="none", zorder=4)
+            b.text(0.5, -0.04, rf"line: GBT; dots: Abaqus ({ab['eig']:.2f} N/mm, MAC {mac:.4f})", transform=b.transAxes,
+                   ha="center", va="top", fontsize=6.5, color="#c0392b")
+            out[f"{lay}_{beta}_abq"] = dict(N=ab["eig"], mac=mac)
+        elif pss == 0.0:
+            fr = [r for r in AQ.csv.DictReader(open(P.H / "src" / "abaqus_long.csv")) if r["layup"] == lay and r["sides"] == "PBC_FREE"
+                  and float(r["beta"]) == beta]
+            if fr:
+                b.text(0.5, -0.04, rf"Abaqus with free lateral expansion: {float(fr[0]['Ncr']):.2f} N/mm (local mode)",
+                       transform=b.transAxes, ha="center", va="top", fontsize=6.5, color="#c0392b")
         b.set_xlim(-310, 10); b.set_ylim(-28, 58); b.set_aspect("equal"); b.axis("off")
         b.set_title(rf"cross-section at $x/L = {d['xs'][i] / d['L']:.2f}$", fontsize=7, pad=1)
         out[f"{lay}_{beta}_{pss}"] = d["N"]
