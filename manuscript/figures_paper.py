@@ -285,34 +285,44 @@ def _load():
 
 
 def _curves(bc, name):
+    """N_cr versus beta: rows SS (and CC), columns b_s = 150 and 285.5 mm; Abaqus markers where available."""
     cur, ref = _load()
-    fig, axs = plt.subplots(1, 2, figsize=(FULL, 66 * MM), gridspec_kw=dict(wspace=0.2))
-    has_ref = any(r["bc"] == bc for r in ref)
-    for k, (ax, bs) in enumerate(zip(axs, (150.0, 285.5))):
-        for lay in LAY:
-            d = sorted([c for c in cur if c["layup"] == lay and c["bs"] == bs and c["bc"] == bc], key=lambda c: c["beta"])
-            ax.plot([c["beta"] for c in d], [c["N"] for c in d], "-", color=COL[lay], lw=1.0, marker=".", ms=3.2, zorder=3)
-            rr = [r for r in ref if r["layup"] == lay and r["bs"] == bs and r["bc"] == bc]
-            ax.plot([r["beta"] for r in rr], [r["abq"] for r in rr], MK[lay], ls="none", mfc="none", mec=COL[lay], ms=6.5,
-                    mew=0.9, zorder=4)
-        ax.set_yscale("log"); ax.set_xlim(0.4, 3.1); ax.set_xlabel(r"aspect ratio $\beta = L/b_s$")
-        ax.yaxis.set_major_formatter(mt.FuncFormatter(lambda v, _p: f"{v:g}"))
-        ax.yaxis.set_minor_formatter(mt.FuncFormatter(lambda v, _p: f"{v:g}" if str(f"{v:g}")[0] in "2357" and v < 1000 else ""))
-        ax.tick_params(axis="y", which="minor", labelsize=6.3)
-        grid(ax); ax.grid(True, which="minor", axis="y", color=P.GRID, lw=0.3)
-        panel_label(ax, rf"({'ab'[k]}) $b_s = {bs:g}$ mm")
-    axs[0].set_ylabel(r"critical load $N_{cr}$ [N/mm]")
+    bcs = ["SS", "CC"] if bc is None else [bc]
+    fig, axs = plt.subplots(len(bcs), 2, figsize=(FULL, (58 * len(bcs) + 8) * MM), squeeze=False,
+                            gridspec_kw=dict(wspace=0.18, hspace=0.38))
+    k = 0
+    for row, b_ in enumerate(bcs):
+        for col, bs in enumerate((150.0, 285.5)):
+            ax = axs[row][col]
+            for lay in LAY:
+                d = sorted([c for c in cur if c["layup"] == lay and c["bs"] == bs and c["bc"] == b_], key=lambda c: c["beta"])
+                ax.plot([c["beta"] for c in d], [c["N"] for c in d], "-", color=COL[lay], lw=1.0, marker=".", ms=3.2, zorder=3)
+                rr = [r for r in ref if r["layup"] == lay and r["bs"] == bs and r["bc"] == b_]
+                ax.plot([r["beta"] for r in rr], [r["abq"] for r in rr], MK[lay], ls="none", mfc="none", mec=COL[lay], ms=6.0,
+                        mew=0.9, zorder=4)
+            ax.set_yscale("log"); ax.set_xlim(0.4, 3.1)
+            ax.yaxis.set_major_formatter(mt.FuncFormatter(lambda v, _p: f"{v:g}"))
+            ax.yaxis.set_minor_formatter(mt.FuncFormatter(lambda v, _p: f"{v:g}" if f"{v:g}"[0] in "2357" and v < 1000 else ""))
+            ax.tick_params(axis="y", which="minor", labelsize=6.3)
+            grid(ax); ax.grid(True, which="minor", axis="y", color=P.GRID, lw=0.3)
+            if row == len(bcs) - 1:
+                ax.set_xlabel(r"aspect ratio $\beta = L/b_s$")
+            if col == 0:
+                ax.set_ylabel(r"$N_{cr}$ [N/mm]")
+            ends = "simply supported" if b_ == "SS" else "clamped"
+            panel_label(ax, rf"({'abcd'[k]}) {ends} loaded edges, $b_s = {bs:g}$ mm")
+            k += 1
     hs = [Line2D([], [], color=COL[l], lw=1.0, marker=MK[l], ms=5, mfc="none", mew=0.8) for l in LAY] + \
-         [Line2D([], [], color=INK, lw=1.0, marker=".", ms=3.2)]
-    lab = LAY + ["GBT"]
-    if has_ref:
-        hs.append(Line2D([], [], ls="none", marker="o", mfc="none", mec=INK, ms=5.5, mew=0.8)); lab.append("Abaqus shell model")
-    fig.legend(hs, lab, ncol=7, loc="upper center", bbox_to_anchor=(0.5, 1.07), fontsize=6.8, columnspacing=1.1, handlelength=1.8)
+         [Line2D([], [], color=INK, lw=1.0, marker=".", ms=3.2),
+          Line2D([], [], ls="none", marker="o", mfc="none", mec=INK, ms=5.5, mew=0.8)]
+    fig.subplots_adjust(top=0.90 if len(bcs) == 2 else 0.82)
+    fig.legend(hs, LAY + ["GBT", "Abaqus"], ncol=7, loc="upper center", bbox_to_anchor=(0.5, 1.0), fontsize=6.8,
+               columnspacing=1.2, handlelength=1.8)
     save(fig, name)
 
 
 def fig04():
-    _curves("SS", "fig04_ncr_ss")
+    _curves(None, "fig04_ncr")
 
 
 def fig05():
@@ -353,8 +363,6 @@ def fig05():
     return out
 
 
-def fig06():
-    _curves("CC", "fig06_ncr_cc")
 
 
 # =====================================================================================
@@ -413,9 +421,61 @@ def _mode3d(ax, d, amp=22.0, c=0.62, sn=0.36, cmap=None, norm=None):
     ax.set_ylim(-amp - 5, X[:, 1].max() + sn * xs[-1] + amp + 5)
 
 
-def fig07():
+def _mode3d_ortho(ax, d, amp=22.0, azim=-35.0, elev=28.0, cmap=None, norm=None, xstride=1, edge_lw=0.55):
+    """Orthographic 3D view (azimuth about the vertical Y axis, elevation) of the deformed cell, painter's
+    algorithm along the viewing direction, colour = displacement normal to the walls, Lambert shading."""
+    X, U, xs = d["X"], d["U"], d["xs"]
+    Um = np.abs(U).max(); Ui = U * amp / Um
+    a, e = np.radians(azim), np.radians(elev)
+    def proj(Xc, Yc, zc):                     # world: X across, Y up, z = x along the stringers
+        h = np.cos(a) * Xc + np.sin(a) * zc
+        dpt = -np.sin(a) * Xc + np.cos(a) * zc
+        return h, np.cos(e) * Yc + np.sin(e) * dpt, -np.sin(e) * Yc + np.cos(e) * dpt
+    light = np.array([0.4, 1.0, -0.6]); light /= np.linalg.norm(light)
+    idx = list(range(0, len(xs), xstride)) + ([len(xs) - 1] if (len(xs) - 1) % xstride else [])
+    polys, cols, depth = [], [], []
+    for (pa, pb, part, n) in d["S"]:
+        if part == "link":
+            continue
+        for i0, i1 in zip(idx[:-1], idx[1:]):
+            P3 = []
+            for (node, xi) in ((pa, i0), (pb, i0), (pb, i1), (pa, i1)):
+                Xd = X[node] + Ui[xi, node]
+                P3.append((Xd[0], Xd[1], xs[xi]))
+            P3 = np.array(P3)
+            nrm = np.cross(P3[2] - P3[0], P3[3] - P3[1]); nrm /= max(np.linalg.norm(nrm), 1e-30)
+            shade = 0.55 + 0.45 * abs(nrm @ light)
+            wv = 0.25 * sum(n @ U[xi_, nd] for nd, xi_ in ((pa, i0), (pb, i0), (pb, i1), (pa, i1))) / Um
+            rgb = np.clip(np.array(cmap(norm(wv))[:3]) * shade, 0, 1)
+            h, v, dp = proj(P3[:, 0], P3[:, 1], P3[:, 2])
+            polys.append(np.c_[h, v]); cols.append(rgb); depth.append(dp.mean())
+    o = np.argsort(depth)[::-1]                # far (large depth) first
+    ax.add_collection(PolyCollection([polys[k] for k in o], facecolors=[cols[k] for k in o],
+                                     edgecolors=[cols[k] for k in o], linewidths=0.15, rasterized=True, zorder=2))
+    # outline: end cross-sections and the fold lines of the stringers
+    for xi in (0, len(xs) - 1):
+        for (pa, pb, part, n) in d["S"]:
+            if part == "link":
+                continue
+            P_ = np.array([X[pa] + Ui[xi, pa], X[pb] + Ui[xi, pb]])
+            h, v, _ = proj(P_[:, 0], P_[:, 1], np.full(2, xs[xi]))
+            ax.plot(h, v, color=INK, lw=edge_lw, zorder=3, solid_capstyle="round")
+    web = {q for (pa, pb, part, n) in d["S"] if part == "web" for q in (pa, pb)}
+    fold = sorted({q for (pa, pb, part, n) in d["S"] if part == "crown" for q in (pa, pb)} & web)
+    for q in fold:
+        P_ = X[q] + Ui[:, q]
+        h, v, _ = proj(P_[:, 0], P_[:, 1], xs)
+        ax.plot(h, v, color=INK, lw=0.3, alpha=0.8, zorder=3)
+    for q in d["sides"]:
+        P_ = X[q] + Ui[:, q]
+        h, v, _ = proj(P_[:, 0], P_[:, 1], xs)
+        ax.plot(h, v, color="#c0392b", lw=0.8, zorder=3)
+    ax.set_aspect("equal"); ax.axis("off"); ax.autoscale_view()
+
+
+def fig06():
     fig = plt.figure(figsize=(FULL, 112 * MM))
-    gs = fig.add_gridspec(2, 2, height_ratios=[0.62, 1.0], hspace=0.12, wspace=0.12)
+    gs = fig.add_gridspec(2, 2, height_ratios=[0.85, 1.0], hspace=0.10, wspace=0.10)
     norm = TwoSlopeNorm(0, -1, 1); cmap = plt.get_cmap("RdBu_r")
     out = {}
     for k, bc in enumerate(("SS", "CC")):
@@ -424,8 +484,8 @@ def fig07():
         w = d["U"][:, sk, 1]
         if w.flat[np.argmax(np.abs(w))] < 0:              # sign: largest skin deflection positive
             d["U"] = -d["U"]; w = -w
-        a = fig.add_subplot(gs[0, k]); _mode3d(a, d, cmap=cmap, norm=norm)
-        panel_label(a, rf"({'ab'[k]}) {bc}: $N_{{cr}} = {d['N']:.2f}$ N/mm", x=0.0, y=0.94)
+        a = fig.add_subplot(gs[0, k]); _mode3d_ortho(a, d, amp=18.0, azim=-38.0, elev=30.0, cmap=cmap, norm=norm)
+        panel_label(a, rf"({'ab'[k]}) {bc}: $N_{{cr}} = {d['N']:.2f}$ N/mm", x=0.0, y=0.98)
         b = fig.add_subplot(gs[1, k])
         wn = w / np.abs(w).max()
         pc = b.pcolormesh(d["X"][sk, 0], d["xs"], wn, cmap=cmap, norm=norm, shading="gouraud", rasterized=True)
@@ -442,7 +502,7 @@ def fig07():
     cax = fig.add_axes([0.925, 0.11, 0.012, 0.42])
     cb = fig.colorbar(pc, cax=cax); cb.ax.tick_params(labelsize=6.5, length=2); cb.outline.set_linewidth(0.4)
     cb.set_label(r"normal displacement $w/|w|_{\max}$", fontsize=7.5)
-    save(fig, "fig07_buckling_modes")
+    save(fig, "fig06_buckling_modes")
     return out
 
 
@@ -473,7 +533,7 @@ def _hier_mode(lay, bs, beta, bc):
     return cached(f"hier_{lay}_{bs}_{beta}_{bc}", run)
 
 
-def fig08():
+def fig07():
     cur, _ref = _load()
     fig = plt.figure(figsize=(FULL, 150 * MM))
     outer = fig.add_gridspec(3, 1, height_ratios=[1.0, 0.95, 0.42], hspace=0.5)
@@ -555,7 +615,7 @@ def fig08():
         ax.set_title(rf"mode {k + 1}: $\rho_k = {rho[k]:.1f}\,\%$", fontsize=7, pad=1)
         out[f"mode{k + 1}"] = float(rho[k])
     fig.text(0.125, outer[2].get_position(fig).y1 + 0.012, r"(f) in-plane shapes of the dominant hierarchical modes", fontsize=8)
-    save(fig, "fig08_participation")
+    save(fig, "fig07_participation")
     out["sum20"] = float(s20); out["S"] = float(sS); out["M"] = float(sM)
     return out
 
@@ -563,7 +623,7 @@ def fig08():
 # =====================================================================================
 # Figure 9 -- convergence with the number of hierarchical conventional modes
 # =====================================================================================
-def fig11():
+def fig10():
     hc = json.loads((P.H / "results" / "hier_conv.json").read_text())
     fig, ax = plt.subplots(figsize=(122 * MM, 70 * MM))
     out = {}
@@ -585,7 +645,7 @@ def fig11():
         ax.axhline(yv, color=MUTED, lw=0.5, ls=(0, (1, 1.5)), zorder=1)
     grid(ax)
     ax.legend(loc="upper right", fontsize=6.8, ncol=1, handlelength=2.4)
-    save(fig, "fig11_hierarchical")
+    save(fig, "fig10_hierarchical")
     return out
 
 
@@ -613,7 +673,7 @@ def _abq_long():
             for r in csv.DictReader(open(f))] if f.exists() else []
 
 
-def fig09():
+def fig08():
     D = _long(); A = _abq_long()
     fig = plt.figure(figsize=(FULL, 128 * MM))
     gs = fig.add_gridspec(2, 5, height_ratios=[1.35, 0.8], hspace=0.45, wspace=0.12)
@@ -663,17 +723,17 @@ def fig09():
         panel_label(b, rf"({'bcdef'[k]}) {lay}")
     hs = [Line2D([], [], color=FAMC[g], lw=0.8, marker=mk, ms=2.8, mfc="w", mew=0.6) for g, mk in (("L", "o"), ("D", "s"), ("G", "^"))]
     fig.legend(hs, [FAMN["L"], FAMN["D"], FAMN["G"]], ncol=3, loc="lower center", bbox_to_anchor=(0.5, -0.025), fontsize=6.8)
-    save(fig, "fig09_long_cells")
+    save(fig, "fig08_long_cells")
     return out
 
 
-def fig10():
+def fig09():
     """Critical modes of long cells: S_ss-driven long-wave mode, the same cell without S_ss, global mode."""
     cases = [("Isotropic", 8.0, 1.0, r"(a) Isotropic, $\beta = 8$, complete pre-buckling state"),
              ("Isotropic", 8.0, 0.0, r"(b) Isotropic, $\beta = 8$, $S_{ss}$ omitted"),
              ("Unsym", 16.0, 1.0, r"(c) Unsym, $\beta = 16$, complete pre-buckling state")]
-    fig = plt.figure(figsize=(FULL, 150 * MM))
-    gs = fig.add_gridspec(3, 2, width_ratios=[1.0, 0.62], hspace=0.25, wspace=0.08)
+    fig = plt.figure(figsize=(FULL, 122 * MM))
+    gs = fig.add_gridspec(3, 2, width_ratios=[1.0, 0.62], hspace=0.12, wspace=0.06)
     norm = TwoSlopeNorm(0, -1, 1); cmap = plt.get_cmap("RdBu_r")
     out = {}
     for k, (lay, beta, pss, ttl) in enumerate(cases):
@@ -688,7 +748,7 @@ def fig10():
         sk = np.array(sorted([n for n in range(len(d["X"])) if abs(d["X"][n, 1]) < 1e-9], key=lambda n: d["X"][n, 0]))
         if d["U"].flat[np.argmax(np.abs(d["U"]))] < 0:
             d["U"] = -d["U"]
-        a = fig.add_subplot(gs[k, 0]); _mode3d(a, d, amp=22.0, c=0.30, sn=0.12, cmap=cmap, norm=norm)
+        a = fig.add_subplot(gs[k, 0]); _mode3d_ortho(a, d, amp=40.0, azim=-62.0, elev=24.0, cmap=cmap, norm=norm, xstride=2)
         panel_label(a, ttl + rf": $N_{{cr}} = {d['N']:.2f}$ N/mm", x=0.0, y=0.92)
         # deformed cross-section at the section of largest displacement
         b = fig.add_subplot(gs[k, 1])
@@ -701,11 +761,11 @@ def fig10():
         b.set_xlim(-310, 10); b.set_ylim(-28, 58); b.set_aspect("equal"); b.axis("off")
         b.set_title(rf"cross-section at $x/L = {d['xs'][i] / d['L']:.2f}$", fontsize=7, pad=1)
         out[f"{lay}_{beta}_{pss}"] = d["N"]
-    cax = fig.add_axes([0.13, 0.065, 0.35, 0.010])
+    cax = fig.add_axes([0.16, 0.075, 0.30, 0.010])
     cb = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cax, orientation="horizontal")
     cb.set_label(r"normal displacement $w/|w|_{\max}$", fontsize=7.5); cb.ax.tick_params(labelsize=6.5, length=2)
     cb.outline.set_linewidth(0.4)
-    save(fig, "fig10_long_modes")
+    save(fig, "fig09_long_modes")
     return out
 
 
