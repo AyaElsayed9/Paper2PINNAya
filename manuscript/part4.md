@@ -20,5 +20,9 @@ Future work will address periodic conditions with free lateral expansion, enrich
 :::
 
 ::: {custom-style="MDPI_6.2_back_matter"}
+**Acknowledgments:** During the preparation of this work, the authors used Claude (Anthropic) for code development, data analysis, figure generation and drafting of the manuscript text. The authors have reviewed and edited all output and take full responsibility for the content of this publication. [Wording to be confirmed by the authors.]
+:::
+
+::: {custom-style="MDPI_6.2_back_matter"}
 **Conflicts of Interest:** The authors declare no conflicts of interest.
 :::

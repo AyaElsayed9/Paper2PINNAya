@@ -135,7 +135,9 @@ others = [v for k, r in conv.items() if k in lab and k != "Sym1|285.5|1.5|CC"
 lk = conv["linkk"]
 txt = (f"All changes are within {max(abs(v) for v in others):.2f} %, except for the Sym1 cell with CC edges, $b_s = 285.5$ mm and $\\beta = 1.5$, "
        f"for which halving the spans repeatedly raises the critical load by {m(qc('spans_half'))}, {m(qc('spans_quarter'))} and {m(qc('spans_eighth'))} %, "
-       f"so that the converged value lies about 1 % above the default; finer segments lower the critical load slightly for $b_s = 150$ mm. "
+       f"so that the converged value lies about 1 % above the default; with the finest spans its deviation from Abaqus drops from "
+       f"{m(100 * (q['default'] / abq[('Sym1', 285.5, 1.5, 'CC')] - 1))} to {m(100 * (q['spans_eighth'] / abq[('Sym1', 285.5, 1.5, 'CC')] - 1))} %. "
+       f"Finer segments lower the critical load slightly for $b_s = 150$ mm. "
        f"The critical load does not depend on the link-wall factor ({lk['100.0']:.3f}, {lk['1000.0']:.3f} and {lk['10000.0']:.3f} N/mm for "
        f"$k_L = 10^2$, $10^3$, $10^4$; isotropic cell, SS, $b_s = 150$ mm, $\\beta = 1.5$), whereas a stiff twisting term "
        f"$D^L_{{66}} = k_L D_{{0,66}}$ would lock the web roots ({100 * (conv['link_stiffD66'] - lk['1000.0']) / lk['1000.0']:+.1f} %).")
