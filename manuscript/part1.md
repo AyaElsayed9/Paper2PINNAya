@@ -15,11 +15,19 @@ Aya Medhat Elsayed ^1^, Navid Kharghani ^1,\*^ and Christian Mittelstedt ^1^
 :::
 
 ::: {custom-style="MDPI_1.6_affiliation"}
-\* Correspondence: navid.kharghani\@lsm.tu-darmstadt.de [author list, affiliations and corresponding author to be confirmed by the authors]
+\* Correspondence: navid.kharghani\@lsm.tu-darmstadt.de
+:::
+
+::: {custom-style="MDPI_1.6_affiliation"}
+A.M.E.: [e-mail to be added]; C.M.: christian.mittelstedt\@lsm.tu-darmstadt.de [author list, affiliations and corresponding author to be confirmed by the authors]
 :::
 
 ::: {custom-style="MDPI_1.7_abstract"}
-**Abstract:** Stringer-stiffened composite panels are commonly analysed on one representative cell whose side edges satisfy periodic boundary conditions. Generalized Beam Theory (GBT) describes the buckling of thin-walled members by cross-section deformation modes, but periodic side edges have not been treated in its cross-section analysis. This paper builds the periodic condition into every family of GBT modes, so that every mode and every truncated basis satisfies it exactly. A shear-deformable GBT–Ritz member analysis of omega-stringer-stiffened panels follows, with laminated Reissner–Mindlin walls, the true stringer offset, a computed pre-buckling state and B-spline amplitude functions. The formulation is derived in the notation of Silvestre and Camotim and reduces to classical GBT for uncoupled walls. For 30 cells with simply supported loaded edges, the critical loads agree with Abaqus shell models with periodic constraint equations within @@SSMEAN@@ % on average and @@SSMAX@@ % at most@@ABS_CC@@. Short cells buckle locally. Longer cross-ply and unsymmetric cells buckle globally, whereas isotropic and angle-ply cells buckle in a long-wave mode that is driven by the transverse compression induced by the constant cell width; Abaqus confirms this mode and gives @@FRMIN@@–@@FRMAX@@ times higher critical loads for cells free to expand laterally.
+**Abstract**
+:::
+
+::: {custom-style="MDPI_1.7_abstract"}
+Stringer-stiffened composite panels are commonly analysed on one representative cell whose side edges satisfy periodic boundary conditions. Generalized Beam Theory (GBT) describes the buckling of thin-walled members by cross-section deformation modes, but periodic side edges have not been treated in its cross-section analysis. This paper builds the periodic condition into every family of GBT modes, so that every mode and every truncated basis satisfies it exactly. A shear-deformable GBT–Ritz member analysis of omega-stringer-stiffened panels follows, with laminated Reissner–Mindlin walls, the true stringer offset, a computed pre-buckling state and B-spline amplitude functions. The formulation is derived in the notation of Silvestre and Camotim and reduces to classical GBT for uncoupled walls. For 30 cells with simply supported loaded edges, the critical loads agree with Abaqus shell models with periodic constraint equations within @@SSMEAN@@ % on average and @@SSMAX@@ % at most@@ABS_CC@@. Short cells buckle locally. Longer cross-ply and unsymmetric cells buckle globally, whereas isotropic and angle-ply cells buckle in a long-wave mode that is driven by the transverse compression induced by the constant cell width; Abaqus confirms this mode and gives @@FRMIN@@–@@FRMAX@@ times higher critical loads for cells free to expand laterally.
 :::
 
 ::: {custom-style="MDPI_1.8_keywords"}

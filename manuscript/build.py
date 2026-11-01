@@ -137,6 +137,7 @@ def fix_table(m):
     wide = ncol > 8
     t = re.sub(r'<w:tblW [^>]*/>', '<w:tblW w:w="%d" w:type="dxa"/><w:jc w:val="%s"/>' % ((10467, 'center') if wide else (7859, 'right')), t, count=1)
     t = t.replace('<w:tblLayout w:type="fixed" />', '').replace('<w:tblLayout w:type="fixed"/>', '')
+    t = re.sub(r'<w:jc w:val="(?:start|end|left|right)" ?/>(?=</w:pPr>)', '<w:jc w:val="center"/>', t)   # cells centred as in the template
     # header row: bottom rule
     first = re.search(r'<w:tr>.*?</w:tr>|<w:tr .*?</w:tr>', t, re.S)
     if first:
@@ -146,6 +147,15 @@ def fix_table(m):
         r2 = re.sub(r'(<w:tcPr>)(<w:tcW [^>]*/>)?(?!<w:tcBorders>)', lambda m: m.group(1) + (m.group(2) or '') + B, r2)
         r2 = r2.replace(B + B, B)
         t = t.replace(r, r2, 1)
+    if wide:  # group rules between the lay-ups, as between the groups of the template tables
+        rows = re.findall(r'<w:tr>.*?</w:tr>|<w:tr .*?</w:tr>', t, re.S)
+        T = '<w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>'
+        for r in rows[2:]:
+            c1 = re.search(r'<w:tc>.*?</w:tc>', r, re.S).group(0)
+            if re.findall(r'<w:t[^>]*>([^<]+)</w:t>', c1):
+                r2 = re.sub(r'<w:tcPr ?/>', '<w:tcPr>' + T + '</w:tcPr>', r)
+                r2 = re.sub(r'(<w:tcPr>)(<w:tcW [^>]*/>)(?!<w:tcBorders>)', lambda m: m.group(1) + m.group(2) + T, r2)
+                t = t.replace(r, r2, 1)
     if wide:  # small font for the wide appendix tables
         t = re.sub(r'(<w:pStyle w:val="MDPI42tablebody"/>)', r'\1', t)
         t = re.sub(r'<w:r>', '<w:r><w:rPr><w:sz w:val="14"/></w:rPr>', t)
