@@ -252,7 +252,7 @@ $$
 For modes satisfying Vlasov's assumptions, Eqs. (@Cik)–(@couplingT) are the tensors of Eqs. (10)–(12) of {{silvestre2013shear}}; the terms with $\gamma_k$ and $v_{k,s}$ are the additions for closed contours and transverse extension. The Mindlin terms follow analogously, e.g. $\int_b A_{s,11}\xi_r\xi_{r'}\,ds$. In the matrix notation of the GBT–Ritz approach {{kharghani2026jcs}}, the conventional tensors form
 
 $$
-\boldsymbol\Xi = \begin{bmatrix}\mathbf B & \mathbf F^{I} & \mathbf D^{II\mathsf T}\\ \mathbf F^{I\mathsf T} & \mathbf D^{I} & \mathbf H^{I\mathsf T}\\ \mathbf D^{II} & \mathbf H^{I} & \mathbf C\end{bmatrix},\qquad
+\boldsymbol\Xi = \begin{bmatrix}\mathbf B & \mathbf F^{I} & (\mathbf D^{II})^{\mathsf T}\\ (\mathbf F^{I})^{\mathsf T} & \mathbf D^{I} & (\mathbf H^{I})^{\mathsf T}\\ \mathbf D^{II} & \mathbf H^{I} & \mathbf C\end{bmatrix},\qquad
 \delta U = \int_L \delta\boldsymbol\Phi^{\mathsf T}\boldsymbol\Xi\,\boldsymbol\Phi\,dx,\qquad
 \boldsymbol\Phi = \begin{bmatrix}\boldsymbol\phi\\ \boldsymbol\phi_{,x}\\ \boldsymbol\phi_{,xx}\end{bmatrix}, \eqn{Xi}
 $$
