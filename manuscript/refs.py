@@ -3,6 +3,7 @@
 REFS = {
 "zhang2024": "Zhang, G.; Hu, Y.; Yan, B.; Tong, M.; Wang, F. Buckling and post-buckling analysis of composite stiffened panels: A ten-year review (2014–2023). *Thin-Walled Structures* **2024**, *205*, 112525.",
 "mittelstedt2025book": "Mittelstedt, C. *Mechanics of Composite Structures*; Springer: Berlin, Heidelberg, Germany, **2025**. https://doi.org/10.1007/978-3-662-70788-3",
+"hughes2005iga": "Hughes, T.J.R.; Cottrell, J.A.; Bazilevs, Y. Isogeometric analysis: CAD, finite elements, NURBS, exact geometry and mesh refinement. *Computer Methods in Applied Mechanics and Engineering* **2005**, *194*, 4135–4195. https://doi.org/10.1016/j.cma.2004.10.008",
 "mittelstedt2025gbtch": "Mittelstedt, C. Generalized Beam Theory. In *Mechanics of Composite Structures*; Springer: Berlin, Heidelberg, Germany, **2025**; pp. 1013–1036. https://doi.org/10.1007/978-3-662-70788-3_26",
 "mittelstedt2025stiff": "Mittelstedt, C. Buckling of Stiffened Laminates. In *Mechanics of Composite Structures*; Springer: Berlin, Heidelberg, Germany, **2025**. https://doi.org/10.1007/978-3-662-70788-3",
 "mittelstedt2025ritz": "Mittelstedt, C. The Ritz Method for Buckling Analysis of Shear-Deformable Laminates. In *Mechanics of Composite Structures*; Springer: Berlin, Heidelberg, Germany, **2025**; pp. 511–563.",
