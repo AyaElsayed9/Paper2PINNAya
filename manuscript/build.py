@@ -189,6 +189,19 @@ doc = re.sub(r'(<m:begChr [^>]*/>)(<m:endChr [^>]*/>)(<m:sepChr [^>]*/>)', r'\1\
 doc = re.sub(r'<w:jc w:val="start" ?/></w:tblPr>', '</w:tblPr>', doc)
 doc = re.sub(r'(<m:mcJc [^>]*/>)(<m:count [^>]*/>)', r'\2\1', doc)
 doc = re.sub(r'<w:bidi ?/>', '', doc)   # template artefact: RTL section
+# ---------- MDPI first-page box (academic editor, history, citation, copyright) and publisher's note,
+#            copied unchanged from the template (only revision attributes removed and the year updated)
+_t = zipfile.ZipFile(os.path.join(H, 'src', 'template.docx')).read('word/document.xml').decode('utf-8')
+def _clean(x):
+    x = re.sub(r' w14:(paraId|textId)="[^"]*"', '', x)
+    return re.sub(r' w:rsid[A-Za-z]*="[^"]*"', '', x)
+_i = _t.find('Academic Editor'); _box = _clean(_t[_t.rfind('<w:tbl>', 0, _i):_t.find('</w:tbl>', _i) + 8]).replace('© 2025', '© 2026')
+_j = _t.find('Disclaimer'); _note = _clean(_t[_t.rfind('<w:p ', 0, _j):_t.find('</w:p>', _j) + 6])
+assert 'w14:' not in _box and 'w14:' not in _note
+_m = re.search(r'<w:p>(?:(?!</w:p>).)*?MDPI13authornames.*?</w:p>', doc, flags=re.S)
+doc = doc[:_m.end()] + _box + doc[_m.end():]
+_k = doc.rfind('<w:sectPr')
+doc = doc[:_k] + _note + doc[_k:]
 files['word/document.xml'] = doc.encode('utf-8')
 num = files['word/numbering.xml'].decode('utf-8')
 num = re.sub(r'<w:nsid w:val="([0-9A-Fa-f]+)" ?/>', lambda m: '<w:nsid w:val="%s"/>' % m.group(1).upper().zfill(8)[-8:], num)
