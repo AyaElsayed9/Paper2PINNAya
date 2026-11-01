@@ -103,7 +103,7 @@ $$
 \mathcal U_\alpha(X=-W,\,x) - \mathcal U_\alpha(X=0,\,x) = 0,\qquad \alpha = 1,\dots,6,\qquad 0\le x\le L, \eqn{pbc}
 $$
 
-where $\mathcal U_\alpha$ are the translations and rotations of a shell node; this is the constraint set of a shell model with one equation per pair of side nodes and degree of freedom {{mittelstedt2007,mittelstedt2009periodic,schilling2020rineng}}. Table 1 relates these degrees of freedom to the GBT quantities.
+where $\mathcal U_\alpha$ are the translations and rotations of a shell node; this is the constraint set of a shell model with one equation per pair of side nodes and degree of freedom {{mittelstedt2007,mittelstedt2009periodic,schilling2020rineng}}. Table 1 relates these degrees of freedom (DOFs) to the GBT quantities.
 
 ::: {custom-style="MDPI_4.1_table_caption"}
 **Table 1.** Degrees of freedom of a skin side node and the corresponding modal conditions.

@@ -81,7 +81,7 @@ js = list(csv.DictReader(open(fjs))) if fjs.exists() else []
 sel = [r for r in js if "bs150_beta1p5" in r["job"] and r["job"].endswith("_PBC") and "_CC_" not in r["job"] and r["wallclock_s"]]
 if sel:
     var = np.mean([float(r["variables"]) for r in sel]); wall = np.mean([float(r["wallclock_s"]) for r in sel])
-    s = s.replace("@@ABQROW@@", f"| Abaqus shell model (S4R/S3, seed 3.7 mm) | {var:,.0f} DOFs | {wall:.1f} s on average (wall clock) |".replace(",", " "))
+    s = s.replace("@@ABQROW@@", f"| Abaqus shell model (S4R/S3, seed 3.7 mm) | {var:,.0f} DOFs | {wall:.1f} s on average (wall clock) |")
     s = s.replace("@@ABQRATIO@@", f"18 777 unknowns, i.e. {100 * 18777 / var:.0f} % of")
 else:
     s = s.replace("@@ABQROW@@", "| Abaqus shell model (S4R/S3, seed 3.7 mm) | [from the .dat files] | [to be added] |")
@@ -198,7 +198,7 @@ dr, tr = [], []
 for (lay, beta) in [("Isotropic", 8.0), ("Sym1", 8.0), ("Unsym", 12.0), ("Cross-ply", 14.0)]:
     var = float(js[f"val_bs150_beta{beta:g}_{lay.replace('-', 'm')}_PBC"]["variables"]); c = LONG[(lay, beta, 1.0)]
     dr.append(c["ndof"] / var); tr.append(c["time"] / ta[(lay, beta)])
-    sp_ = lambda v: f"{v:,.0f}".replace(",", " ")
+    sp_ = lambda v: f"{v:,.0f}" if v >= 10000 else f"{v:.0f}"   # MDPI: commas in numbers with five or more digits
     rows.append(f"| {lay}, $\\beta = {beta:g}$ | {sp_(var)} | {ta[(lay, beta)]:.0f} | {sp_(c['ndof'])} | {c['time']:.0f} |")
 s = s.replace("@@TABTIME@@", "\n".join(rows))
 rng_ = lambda v: (f"{100 * min(v):.0f}–{100 * max(v):.0f} %" if round(100 * min(v)) != round(100 * max(v)) else f"about {100 * min(v):.0f} %")

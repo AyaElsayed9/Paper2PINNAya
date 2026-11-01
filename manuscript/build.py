@@ -158,7 +158,7 @@ def fix_table(m):
                 t = t.replace(r, r2, 1)
     if wide:  # small font for the wide appendix tables
         t = re.sub(r'(<w:pStyle w:val="MDPI42tablebody"/>)', r'\1', t)
-        t = re.sub(r'<w:r>', '<w:r><w:rPr><w:sz w:val="14"/></w:rPr>', t)
+        t = re.sub(r'<w:r>', '<w:r><w:rPr><w:sz w:val="16"/></w:rPr>', t)   # 8 pt, MDPI minimum
     return t
 doc = re.sub(r'<w:tbl>.*?</w:tbl>', fix_table, doc, flags=re.S)
 
@@ -198,7 +198,11 @@ doc = doc.replace('<m:nor /><m:sty m:val="p" />', '<m:nor />')
 doc = re.sub(r'(<m:begChr [^>]*/>)(<m:endChr [^>]*/>)(<m:sepChr [^>]*/>)', r'\1\3\2', doc)
 doc = re.sub(r'<w:jc w:val="start" ?/></w:tblPr>', '</w:tblPr>', doc)
 doc = re.sub(r'(<m:mcJc [^>]*/>)(<m:count [^>]*/>)', r'\2\1', doc)
-doc = re.sub(r'<w:bidi ?/>', '', doc)   # template artefact: RTL section
+doc = re.sub(r'<w:bidi ?/>', '', doc)
+# as in the template: <w:bidi/> in the section properties puts the line numbers on the right margin
+_k = doc.rfind('<w:sectPr')
+doc = doc[:_k] + re.sub(r'(<w:titlePg ?/>|(?=<w:docGrid))', lambda m: m.group(1) + '<w:bidi/>' if m.group(1) else '<w:bidi/>', doc[_k:], count=1)
+assert doc.count('<w:bidi/>') == 1 and doc.rfind('<w:bidi/>') > _k
 # ---------- MDPI first-page box (academic editor, history, citation, copyright) and publisher's note,
 #            copied unchanged from the template (only revision attributes removed and the year updated)
 _t = zipfile.ZipFile(os.path.join(H, 'src', 'template.docx')).read('word/document.xml').decode('utf-8')

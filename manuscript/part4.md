@@ -12,15 +12,15 @@ Future work will address periodic conditions with free lateral expansion, enrich
 :::
 
 ::: {custom-style="MDPI_6.2_back_matter"}
-**Funding:** [To be completed by the authors.]
+**Funding:** This research received no external funding. [To be confirmed by the authors; if funded, replace by: "This research was funded by [funder name as in the Crossref Funder Registry], grant number [number]."]
 :::
 
 ::: {custom-style="MDPI_6.2_back_matter"}
-**Data Availability Statement:** The data presented in this study are available on request from the corresponding author.
+**Data Availability Statement:** The data presented in this study are available on request from the corresponding author. [To be decided by the authors: MDPI asks that novel code be released in a public repository; if the GBT–Ritz code is deposited (e.g., GitHub with a Zenodo DOI), replace by: "The GBT–Ritz code and the data presented in this study are openly available in [repository] at [DOI/URL]."]
 :::
 
 ::: {custom-style="MDPI_6.2_back_matter"}
-**Acknowledgments:** During the preparation of this work, the authors used Claude (Anthropic) for code development, data analysis, figure generation and drafting of the manuscript text. The authors have reviewed and edited all output and take full responsibility for the content of this publication. [Wording to be confirmed by the authors.]
+**Acknowledgments:** During the preparation of this work, the authors used Claude (Anthropic) [model version to be confirmed] for code development, data analysis, figure generation and drafting of the manuscript text. The authors have reviewed and edited all output and take full responsibility for the content of this publication. [Wording to be confirmed by the authors.]
 :::
 
 ::: {custom-style="MDPI_6.2_back_matter"}
