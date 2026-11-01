@@ -135,7 +135,7 @@ $$
 \left[u_k(s_L)-u_k(s_R)\right]\phi_{k,x}(x) + \left[u_j(s_L)-u_j(s_R)\right]\varphi_j(x) = 0\qquad \forall\,x\in[0,L]. \eqn{pbcmodal}
 $$
 
-**Proposition.** Equation (@pbc) holds for arbitrary amplitude functions if, and only if, every mode satisfies it individually: $\mathbf U_k$, $\theta_k$ and $u_k$ of all conventional modes, $u_j$ of all shear modes and $\xi_r$, $\zeta_r$ of all Mindlin modes take equal values at $s_L$ and $s_R$.
+**Proposition 1.** Equation (@pbc) holds for arbitrary amplitude functions if, and only if, every mode satisfies it individually: $\mathbf U_k$, $\theta_k$ and $u_k$ of all conventional modes, $u_j$ of all shear modes and $\xi_r$, $\zeta_r$ of all Mindlin modes take equal values at $s_L$ and $s_R$.
 
 *Proof.* If every bracket vanishes, Eq. (@pbcmodal) and its analogues hold for any amplitudes. Conversely, if all amplitude functions but one are set to zero, the bracket of the remaining mode must vanish. $\square$
 
