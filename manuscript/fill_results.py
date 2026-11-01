@@ -133,12 +133,14 @@ q = conv["Sym1|285.5|1.5|CC"]; qc = lambda key: 100 * (q[key] - q["default"]) / 
 others = [v for k, r in conv.items() if k in lab and k != "Sym1|285.5|1.5|CC"
           for v in (100 * (r["spans_half"] - r["default"]) / r["default"], 100 * (r["seg40"] - r["default"]) / r["default"])]
 lk = conv["linkk"]
+ls_ = json.loads((H / "results" / "link_soft.json").read_text())["Isotropic"]
 txt = (f"All changes are within {max(abs(v) for v in others):.2f} %, except for the Sym1 cell with CC edges, $b_s = 285.5$ mm and $\\beta = 1.5$, "
        f"for which halving the spans repeatedly raises the critical load by {m(qc('spans_half'))}, {m(qc('spans_quarter'))} and {m(qc('spans_eighth'))} %, "
        f"which lowers its deviation from Abaqus from "
        f"{m(100 * (q['default'] / abq[('Sym1', 285.5, 1.5, 'CC')] - 1))} to {m(100 * (q['spans_eighth'] / abq[('Sym1', 285.5, 1.5, 'CC')] - 1))} %. "
-              f"The critical load does not depend on the link-wall factor ({lk['100.0']:.3f}, {lk['1000.0']:.3f} and {lk['10000.0']:.3f} N/mm for "
-       f"$k_L = 10^2$, $10^3$, $10^4$; isotropic cell, SS, $\\beta = 1.5$), whereas a stiff twisting term "
+              f"The critical load depends neither on the link-wall factor ({lk['100.0']:.3f}, {lk['1000.0']:.3f} and {lk['10000.0']:.3f} N/mm for "
+       f"$k_L = 10^2$, $10^3$, $10^4$; isotropic cell, SS, $\\beta = 1.5$) nor on the soft factor of Eq. (@link) "
+       f"({ls_['0.01']:.3f}, {ls_['0.001']:.3f}, {ls_['0.0001']:.3f} and {ls_['0']:.3f} N/mm for $10^{{-2}}$, $10^{{-3}}$, $10^{{-4}}$ and 0), whereas a stiff twisting term "
        f"$D^L_{{66}} = k_L D_{{0,66}}$ would lock the web roots ({100 * (conv['link_stiffD66'] - lk['1000.0']) / lk['1000.0']:+.1f} %).")
 s = s.replace("@@CONVTEXT@@", txt)
 
