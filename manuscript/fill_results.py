@@ -111,12 +111,12 @@ unc = [k for k in hc if k.split("|")[0] in ("Isotropic", "Cross-ply", "Sym1", "S
 uns = [k for k in hc if k.split("|")[0] == "Unsym"]
 nM = [100 * (r["noM"][0] / r["full"][0] - 1) for r in red.values()]
 iso = red1["Isotropic|285.5|0.75|SS"]["a_20"]; uss = red1["Unsym|150.0|1.5|SS"]["a_20"]
-txt = (f"The convergence is stepwise: some groups of modes leave the critical load unchanged, whereas the four modes from $n_C = 17$ to 20 "
+txt = (f"The convergence is stepwise; the four modes from $n_C = 17$ to 20 "
        f"reduce the deviation by a factor of {min(r16):.0f} to {max(r16):.0f}. A deviation below 1 % requires {min(n1[k] for k in unc)} to "
        f"{max(n1[k] for k in unc)} modes for the isotropic, cross-ply and angle-ply cells, but {min(n1[k] for k in uns)} to {max(n1[k] for k in uns)} "
-       f"of the 273 modes for the unsymmetric cell, whose skewed buckles combine many local modes. The Mindlin modes are not negligible: "
-       f"omitting them raises the critical load by {min(nM):.2f} % to {max(nM):.2f} %. A small basis in the classical sense (20 conventional "
-       f"modes, the warping each of them activates at $k_r$, no Mindlin modes; {iso[1]} modes) gives {m(iso[2])} % for the isotropic cell "
+       f"of the 273 modes for the unsymmetric cell, whose skewed buckles combine many local modes. "
+       f"Omitting the Mindlin modes raises the critical load by {min(nM):.2f} % to {max(nM):.2f} %. A classical small basis (20 conventional "
+       f"modes, their warping at $k_r$, no Mindlin modes; {iso[1]} modes) gives {m(iso[2])} % for the isotropic cell "
        f"with $b_s = 285.5$ mm and $\\beta = 0.75$, but {m(uss[2])} % for the Unsym cell with SS edges.")
 s = s.replace("@@HCONV@@", txt)
 
@@ -135,11 +135,10 @@ others = [v for k, r in conv.items() if k in lab and k != "Sym1|285.5|1.5|CC"
 lk = conv["linkk"]
 txt = (f"All changes are within {max(abs(v) for v in others):.2f} %, except for the Sym1 cell with CC edges, $b_s = 285.5$ mm and $\\beta = 1.5$, "
        f"for which halving the spans repeatedly raises the critical load by {m(qc('spans_half'))}, {m(qc('spans_quarter'))} and {m(qc('spans_eighth'))} %, "
-       f"so that the converged value lies about 1 % above the default; with the finest spans its deviation from Abaqus drops from "
+       f"which lowers its deviation from Abaqus from "
        f"{m(100 * (q['default'] / abq[('Sym1', 285.5, 1.5, 'CC')] - 1))} to {m(100 * (q['spans_eighth'] / abq[('Sym1', 285.5, 1.5, 'CC')] - 1))} %. "
-       f"Finer segments lower the critical load slightly for $b_s = 150$ mm. "
-       f"The critical load does not depend on the link-wall factor ({lk['100.0']:.3f}, {lk['1000.0']:.3f} and {lk['10000.0']:.3f} N/mm for "
-       f"$k_L = 10^2$, $10^3$, $10^4$; isotropic cell, SS, $b_s = 150$ mm, $\\beta = 1.5$), whereas a stiff twisting term "
+              f"The critical load does not depend on the link-wall factor ({lk['100.0']:.3f}, {lk['1000.0']:.3f} and {lk['10000.0']:.3f} N/mm for "
+       f"$k_L = 10^2$, $10^3$, $10^4$; isotropic cell, SS, $\\beta = 1.5$), whereas a stiff twisting term "
        f"$D^L_{{66}} = k_L D_{{0,66}}$ would lock the web roots ({100 * (conv['link_stiffD66'] - lk['1000.0']) / lk['1000.0']:+.1f} %).")
 s = s.replace("@@CONVTEXT@@", txt)
 
