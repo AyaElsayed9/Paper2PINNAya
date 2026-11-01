@@ -19,7 +19,7 @@ Aya Medhat Elsayed ^1^, Navid Kharghani ^1,\*^ and Christian Mittelstedt ^1^
 :::
 
 ::: {custom-style="MDPI_1.6_affiliation"}
-A.M.E.: [e-mail to be added]; C.M.: christian.mittelstedt\@lsm.tu-darmstadt.de [author list, affiliations and corresponding author to be confirmed by the authors]
+A.M.E.: ayaallah.elsayed\@stud.tu-darmstadt.de; C.M.: christian.mittelstedt\@lsm.tu-darmstadt.de [author list, affiliations and corresponding author to be confirmed by the authors]
 :::
 
 ::: {custom-style="MDPI_1.7_abstract"}
