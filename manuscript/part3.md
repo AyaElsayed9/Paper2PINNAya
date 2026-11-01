@@ -1,7 +1,7 @@
 
 # Results and discussion
 
-Tables 3 and 4 give the geometry, materials and lay-ups: an isotropic reference, an uncoupled cross-ply laminate, two angle-ply laminates with bending–twisting coupling (Sym2 and the stringer of Sym1 also with $A_{16}, A_{26} \neq 0$) and an unsymmetric laminate with membrane–bending coupling. The pitches $b_s = 150$ mm and $285.5$ mm with $0.5 \le \beta \le 3$ are considered first; longer cells follow in Section 3.5.
+Tables 3 and 4 give the geometry, materials and lay-ups: an isotropic reference, an uncoupled cross-ply laminate, two angle-ply laminates with bending–twisting coupling and an unsymmetric laminate with membrane–bending coupling. The pitches $b_s = 150$ mm and $285.5$ mm with $0.5 \le \beta \le 3$ are considered first; longer cells follow in Section 3.5.
 
 ::: {custom-style="MDPI_4.1_table_caption"}
 **Table 3.** Geometry of the cross-section (Figure 1) and material properties (CFRP: carbon fibre-reinforced polymer).
@@ -64,7 +64,7 @@ All short cells buckle locally. For the Unsym cell with $b_s = 150$ mm and $\bet
 
 ![**Figure 6.** Critical mode of the Unsym cell, $b_s = 150$ mm, $\beta = 1.5$: (a, b) deformed cell from GBT (colour: displacement normal to the walls); skin deflection $w/|w|_{\max}$ from (c, d) GBT and (e, f) Abaqus (contours at $\pm0.25$, $\pm0.5$, $\pm0.75$; dashed: $w = 0$); left: SS, right: CC.](fig/fig06_buckling_modes.png){width=15.5cm}
 
-In the manner of classical GBT, the hierarchical modes give a finer decomposition (Figure 7d–f). For the Unsym cell with SS edges, computed with the complete basis in hierarchical form ($N_{cr}$ = @@HN@@ N/mm, relative difference from the nodal basis @@HDIFF@@), the four modes @@HMODES@@ carry @@H4@@ % of the strain energy and the first 20 modes @@H20@@ %. They share three half-waves and combine skin-bay bending with a small rotation and distortion of the stringers.
+In the manner of classical GBT, the hierarchical modes give a finer decomposition (Figure 7d–f). For the Unsym cell with SS edges, computed with the complete basis in hierarchical form ($N_{cr}$ = @@HN@@ N/mm, relative difference from the nodal basis @@HDIFF@@), the four modes @@HMODES@@ carry @@H4@@ % of the strain energy and the first 20 modes @@H20@@ %.
 
 ![**Figure 7.** Mode decomposition. (a)–(c) Family participation $\rho_g$ versus $\beta$: (a) Cross-ply, $b_s = 285.5$ mm, SS; (b) Unsym, $b_s = 150$ mm, SS; (c) the same, CC. (d) Participation $\rho_k$ of the first 60 hierarchical conventional modes in the critical mode of the Unsym cell, $b_s = 150$ mm, $\beta = 1.5$, SS; (e) amplitude functions and (f) in-plane shapes of the four dominant modes.](fig/fig07_participation.png){width=15.5cm}
 

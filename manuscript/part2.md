@@ -1,7 +1,7 @@
 
 # Theory and formulations
 
-The formulation follows the two stages of GBT {{schardt1994,silvestre2002a,bebiano2015}}: a cross-section analysis, which determines the deformation modes and their modal tensors, and a member analysis, which determines the amplitude functions. The notation is that of the shear-deformable GBT of Silvestre and Camotim {{silvestre2013shear}}, and the member analysis follows the GBT–Ritz approach {{kharghani2025jcs,kharghani2026jcs}}. Three extensions, which recover classical GBT as a special case (Section 2.3.4), are introduced: periodic modes (Section 2.2), no Vlasov assumptions in the closed contours, and shear-deformable laminated walls.
+The formulation follows the two stages of GBT {{schardt1994,silvestre2002a,bebiano2015}}: a cross-section analysis (deformation modes and modal tensors) and a member analysis (amplitude functions). The notation is that of the shear-deformable GBT of Silvestre and Camotim {{silvestre2013shear}}, and the member analysis follows the GBT–Ritz approach {{kharghani2025jcs,kharghani2026jcs}}. Three extensions, which recover classical GBT as a special case (Section 2.3.4), are introduced: periodic modes (Section 2.2), no Vlasov assumptions in the closed contours, and shear-deformable laminated walls.
 
 ## Cross-section analysis
 
@@ -9,7 +9,7 @@ The formulation follows the two stages of GBT {{schardt1994,silvestre2002a,bebia
 
 The cell of the infinitely wide panel with identical omega stringers at the pitch $b_s$ contains two stringers; it has the width $W = 2b_s$ and the length $L = \beta b_s$ (Figure 1). $X$ runs across the panel, $Y$ normal to the skin and $x$ along the stringers; the skin occupies $-W \le X \le 0$, with the side edges $s_L$ ($X = -W$) and $s_R$ ($X = 0$) in the middle of a skin bay. Every wall has the local axes $(x, s, z)$ and the displacements $u$, $v$, $w$ {{silvestre2013shear}}. The walls (skin, feet, webs, crowns) are divided into segments of at most $b_s/25$ {{schardt1994,bebiano2015}}; for $b_s = 150$ mm the cell has $N = 92$ nodes, 19 walls and 93 segments.
 
-![**Figure 1.** Periodic cell of the omega-stringer-stiffened panel. (a) Oblique view of the cell of width $W = 2b_s$ and length $L = \beta b_s$ with the compressive end load $n_0$ and the two side edges $s_L$ and $s_R$ that are linked by the periodic condition. (b) Infinitely wide panel and the cell (shaded). (c) GBT discretisation for $b_s = 150$ mm with nodes, wall types and local axes $(x, s, z)$.](fig/fig01_geometry.png){width=15.5cm}
+![**Figure 1.** Periodic cell of the omega-stringer-stiffened panel. (a) Cell of width $W = 2b_s$ and length $L = \beta b_s$ with the end load $n_0$ and the side edges $s_L$, $s_R$ linked by the periodic condition. (b) Infinitely wide panel and the cell (shaded). (c) GBT discretisation for $b_s = 150$ mm with nodes, wall types and local axes $(x, s, z)$.](fig/fig01_geometry.png){width=15.5cm}
 
 The displacement field of shear-deformable GBT {{silvestre2013shear}},
 
@@ -249,7 +249,7 @@ F^{II}_{ij} = \int_b\left(A_{26}v_{i,s} - B_{26}w_{i,ss}\right)u_{j,s}\,ds .
 \end{gathered} \eqn{couplingT}
 $$
 
-For modes satisfying Vlasov's assumptions, Eqs. (@Cik)–(@couplingT) are the tensors of Eqs. (10)–(12) of {{silvestre2013shear}}; the terms with $\gamma_k$ and $v_{k,s}$ are the additions for closed contours and transverse extension. The Mindlin terms follow analogously, e.g. $\int_b A_{s,11}\xi_r\xi_{r'}\,ds$. In the matrix notation of the GBT–Ritz approach {{kharghani2026jcs}}, the conventional tensors form
+For modes satisfying Vlasov's assumptions, Eqs. (@Cik)–(@couplingT) are the tensors of Eqs. (10)–(12) of {{silvestre2013shear}}; the terms with $\gamma_k$ and $v_{k,s}$ are the additions for closed contours and transverse extension. In the matrix notation of the GBT–Ritz approach {{kharghani2026jcs}}, the conventional tensors form
 
 $$
 \boldsymbol\Xi = \begin{bmatrix}\mathbf B & \mathbf F^{I} & (\mathbf D^{II})^{\mathsf T}\\ (\mathbf F^{I})^{\mathsf T} & \mathbf D^{I} & (\mathbf H^{I})^{\mathsf T}\\ \mathbf D^{II} & \mathbf H^{I} & \mathbf C\end{bmatrix},\qquad
@@ -257,7 +257,14 @@ $$
 \boldsymbol\Phi = \begin{bmatrix}\boldsymbol\phi\\ \boldsymbol\phi_{,x}\\ \boldsymbol\phi_{,xx}\end{bmatrix}, \eqn{Xi}
 $$
 
-which is extended by the shear, coupling and Mindlin tensors for the complete vector $\boldsymbol\Phi$ of amplitude functions.
+which is the conventional part of the general form used for all modes, including the Mindlin terms $\delta U_M$. With the generalised strains of Eq. (@claw) written as $[\boldsymbol\varepsilon^{M};\boldsymbol\kappa;\boldsymbol\gamma_z] = \sum_{d=0}^{2}\mathbf E^{(d)}(s)\,\boldsymbol\Phi^{(d)}(x)$, where $\boldsymbol\Phi^{(d)}$ is the $d$-th derivative of the vector of all amplitude functions and the columns of $\mathbf E^{(d)}$ are the strain profiles of Eq. (@strain),
+
+$$
+\delta U = \int_L\sum_{d,e=0}^{2}\delta\boldsymbol\Phi^{(d)\mathsf T}\,\boldsymbol\Xi^{(de)}\,\boldsymbol\Phi^{(e)}\,dx,\qquad
+\boldsymbol\Xi^{(de)} = \int_b\mathbf E^{(d)\mathsf T}\,\hat{\mathbf C}\,\mathbf E^{(e)}\,ds, \eqn{Xide}
+$$
+
+with $\hat{\mathbf C}$ the stiffness matrix of Eq. (@claw). For a Mindlin mode $r$, the non-zero entries of $\mathbf E^{(0)}$ are $\zeta_{r,s}$ ($\kappa_{ss}$), $\xi_{r,s}$ ($\kappa_{xs}$), $\xi_r$ ($\gamma_{xz}$) and $\zeta_r$ ($\gamma_{sz}$), and those of $\mathbf E^{(1)}$ are $\xi_r$ ($\kappa_{xx}$) and $\zeta_r$ ($\kappa_{xs}$); for the conventional and shear modes, Eq. (@Xide) gives Eqs. (@Cik)–(@couplingT).
 
 ### Geometric tensors, loads and pre-buckling state
 
@@ -281,7 +288,13 @@ X^{R}_{ik} = \int_b S_{xs}\,u_{i,s}u_k\,ds,
 \end{gathered} \eqn{Xgeo}
 $$
 
-where the dots stand for the shear-mode terms; the Mindlin modes do not contribute. For a uniform $S_{xx}$ and $S_{ss} = S_{xs} = 0$, only $X^{U}_{ik}$ and $X^{VW}_{ik}$ remain, the geometric matrices of the GBT–Ritz approach {{kharghani2025jcs,kharghani2026jcs}}, $X^{VW}_{ik}$ being the tensor $X_{pik}$ of classical GBT {{silvestre2002b,silvestre2013shear}}. The end load $n_0(s)$, acting at the distance $e_0(s)$ from the wall reference surface, enters through generalised end forces, as $q^{I}_i$ in {{silvestre2013shear}}; with $u_0 = u - e_0 w_{,x}$,
+where the dots stand for the shear-mode terms. In general form, with the displacement gradients $\partial[u,v,w]^{\mathsf T}/\partial\alpha = \sum_d\mathbf G^{(d)}_\alpha\boldsymbol\Phi^{(d)}$, $\alpha\in\{x,s\}$, of all modes,
+
+$$
+\boldsymbol{\mathcal X}^{(de)} = \int_b\Big[S_{xx}\,\mathbf G_x^{(d)\mathsf T}\mathbf G_x^{(e)} + S_{ss}\,\mathbf G_s^{(d)\mathsf T}\mathbf G_s^{(e)} + S_{xs}\left(\mathbf G_x^{(d)\mathsf T}\mathbf G_s^{(e)} + \mathbf G_s^{(d)\mathsf T}\mathbf G_x^{(e)}\right)\Big]ds, \eqn{Xgen}
+$$
+
+which contains Eq. (@Xgeo) and, with $\partial u/\partial x = u_j\varphi_{j,x}$ and $\partial u/\partial s = u_{j,s}\varphi_j$, the shear-mode terms; the Mindlin modes do not move the mid-surface and do not contribute. For a uniform $S_{xx}$ and $S_{ss} = S_{xs} = 0$, only $X^{U}_{ik}$ and $X^{VW}_{ik}$ remain, the geometric matrices of the GBT–Ritz approach {{kharghani2025jcs,kharghani2026jcs}}, $X^{VW}_{ik}$ being the tensor $X_{pik}$ of classical GBT {{silvestre2002b,silvestre2013shear}}. The end load $n_0(s)$, acting at the distance $e_0(s)$ from the wall reference surface, enters through generalised end forces, as $q^{I}_i$ in {{silvestre2013shear}}; with $u_0 = u - e_0 w_{,x}$,
 
 $$
 \begin{gathered}
@@ -359,7 +372,7 @@ $$
 \mathbf G = \int_0^L\boldsymbol\Psi^{\mathsf T}\boldsymbol{\mathcal X}(x)\,\boldsymbol\Psi\,dx, \eqn{eig}
 $$
 
-integrated with four Gauss points per span. The smallest positive $\lambda$ multiplies the reference load of 1 N/mm, so that $N_{cr} = \lambda\times1$ N/mm. Since $\mathbf G$ is indefinite, the largest $\mu = 1/\lambda$ of $-\mathbf G\mathbf a = \mu\mathbf K\mathbf a$ is computed by the implicitly restarted Lanczos method {{lehoucq1998}}. For $b_s = 150$ mm and $L = 225$ mm the model has $569\times33 = 18{,}777$ coefficients.
+where $\boldsymbol\Xi$ and $\boldsymbol{\mathcal X}$ collect the blocks of Eqs. (@Xide) and (@Xgen), integrated with four Gauss points per span. The smallest positive $\lambda$ multiplies the reference load of 1 N/mm, so that $N_{cr} = \lambda\times1$ N/mm. Since $\mathbf G$ is indefinite, the largest $\mu = 1/\lambda$ of $-\mathbf G\mathbf a = \mu\mathbf K\mathbf a$ is computed by the implicitly restarted Lanczos method {{lehoucq1998}}. For $b_s = 150$ mm and $L = 225$ mm the model has $569\times33 = 18{,}777$ coefficients.
 
 For uncoupled walls, a uniform $S_{xx}$ and the conventional modes only, $H_{ik} = F_{ik} = 0$ and Eq. (@equil) becomes
 
@@ -383,4 +396,4 @@ $$
 U_g = \tfrac12\,\mathbf a_g^{\mathsf T}\mathbf K\,\mathbf a,\qquad \rho_g = \frac{U_g}{U},\qquad \sum_g\rho_g = 1 . \eqn{rho}
 $$
 
-Unlike the self-energies $\tfrac12\mathbf a_g^{\mathsf T}\mathbf K\mathbf a_g$ used for members {{kharghani2026jcs}}, which do not add up when families are coupled, Eq. (@rho) divides the strain energy exactly. This matters in the cell, where the D modes move the wall junctions and the L rotation modes restore wall continuity: for the Unsym cell ($b_s = 150$ mm, $\beta = 1.5$, SS) the self-energies would assign 41 % to D and 58 % to L, Eq. (@rho) 1 % and 97 %. Since $\mathbf K\mathbf a = -\lambda\mathbf G\mathbf a$ and the Mindlin modes do not enter $\mathbf G$, $\rho_M = 0$; their influence is assessed by omitting them (Section 3.6). The partition also applies to individual hierarchical modes.
+Unlike the self-energies $\tfrac12\mathbf a_g^{\mathsf T}\mathbf K\mathbf a_g$ used for members {{kharghani2026jcs}}, which do not add up when families are coupled, Eq. (@rho) divides the strain energy exactly. This matters in the cell, where D and L modes are strongly coupled: for the Unsym cell ($b_s = 150$ mm, $\beta = 1.5$, SS) the self-energies would assign 41 % to D and 58 % to L, Eq. (@rho) 1 % and 97 %. Since $\mathbf K\mathbf a = -\lambda\mathbf G\mathbf a$ and the Mindlin modes do not enter $\mathbf G$, $\rho_M = 0$; their influence is assessed by omitting them (Section 3.6). The partition also applies to individual hierarchical modes.
