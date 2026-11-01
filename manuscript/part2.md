@@ -199,12 +199,12 @@ $$
 + C_{hj}\varphi_{j,x}\delta\varphi_{h,x} + H^{I}_{hj}\varphi_{j}\delta\varphi_{h,x} + H^{I}_{jh}\varphi_{j,x}\delta\varphi_{h} + D^{I}_{hj}\varphi_{j}\delta\varphi_{h}\\
 + C_{ij}\varphi_{j,x}\delta\phi_{i,xx} + H^{I}_{ij}\varphi_{j}\delta\phi_{i,xx} + H^{II}_{ji}\varphi_{j,x}\delta\phi_{i,x}\\
 + D^{I}_{ji}\varphi_{j}\delta\phi_{i,x} + D^{II}_{ji}\varphi_{j,x}\delta\phi_{i} + F^{II}_{ij}\varphi_{j}\delta\phi_{i}\\
-+ C_{kh}\phi_{k,xx}\delta\varphi_{h,x} + H^{I}_{kh}\phi_{k,xx}\delta\varphi_{h} + H^{II}_{hk}\phi_{k,x}\delta\varphi_{h,x}\\
++ C_{hk}\phi_{k,xx}\delta\varphi_{h,x} + H^{II}_{kh}\phi_{k,xx}\delta\varphi_{h} + H^{I}_{hk}\phi_{k,x}\delta\varphi_{h,x}\\
 + D^{I}_{hk}\phi_{k,x}\delta\varphi_{h} + D^{II}_{hk}\phi_{k}\delta\varphi_{h,x} + F^{II}_{kh}\phi_{k}\delta\varphi_{h}\Big)dx + \delta U_M,
 \end{gathered} \eqn{dU}
 $$
 
-where the last two lines mirror the preceding two with conventional and shear modes exchanged, and $\delta U_M$ contains the Mindlin terms. As in {{silvestre2013shear}}, $C$ pairs axial, $B$ transverse, $D^{I}$ shear, $D^{II}$ axial with transverse, $F$ transverse with shear and $H$ axial with shear quantities. For the conventional modes,
+where the tensors of the last two lines follow from those of the preceding two by exchanging the roles of conventional and shear modes ($C_{ij}\to C_{hk}$, $H^{I}_{ij}\to H^{II}_{kh}$, $H^{II}_{ji}\to H^{I}_{hk}$, $D^{I}_{ji}\to D^{I}_{hk}$, $D^{II}_{ji}\to D^{II}_{hk}$, $F^{II}_{ij}\to F^{II}_{kh}$, as in Eq. (12) of {{silvestre2013shear}}), and $\delta U_M$ contains the Mindlin terms. Here $C$ pairs axial, $B$ transverse, $D^{I}$ shear, $D^{II}$ axial with transverse, $F$ transverse with shear and $H$ axial with shear quantities. For the conventional modes,
 
 $$
 C_{ik} = \int_b\Big[A_{11}\,u_k u_i - B_{11}\left(w_k u_i + w_i u_k\right) + D_{11}\,w_k w_i\Big]ds, \eqn{Cik}
@@ -249,7 +249,7 @@ F^{II}_{ij} = \int_b\left(A_{26}v_{i,s} - B_{26}w_{i,ss}\right)u_{j,s}\,ds .
 \end{gathered} \eqn{couplingT}
 $$
 
-For modes satisfying Vlasov's assumptions, Eqs. (@Cik)–(@couplingT) reduce to the tensors of {{silvestre2013shear}}; the terms with $\gamma_k$ and $v_{k,s}$ are the additions for closed contours and transverse extension. In the matrix notation of the GBT–Ritz approach {{kharghani2026jcs}}, the conventional tensors form
+For modes satisfying Vlasov's assumptions, Eqs. (@Cik)–(@couplingT) reduce to Eqs. (10)–(12) of {{silvestre2013shear}}; the terms with $\gamma_k$ and $v_{k,s}$ are the additions for closed contours and transverse extension. In the matrix notation of the GBT–Ritz approach {{kharghani2026jcs}}, the conventional tensors form
 
 $$
 \boldsymbol\Xi = \begin{bmatrix}\mathbf B & \mathbf F^{I} & (\mathbf D^{II})^{\mathsf T}\\ (\mathbf F^{I})^{\mathsf T} & \mathbf D^{I} & (\mathbf H^{I})^{\mathsf T}\\ \mathbf D^{II} & \mathbf H^{I} & \mathbf C\end{bmatrix},\qquad
@@ -294,7 +294,7 @@ $$
 \boldsymbol{\mathcal X}^{(de)} = \int_b\Big[S_{xx}\,\mathbf G_x^{(d)\mathsf T}\mathbf G_x^{(e)} + S_{ss}\,\mathbf G_s^{(d)\mathsf T}\mathbf G_s^{(e)} + S_{xs}\left(\mathbf G_x^{(d)\mathsf T}\mathbf G_s^{(e)} + \mathbf G_s^{(d)\mathsf T}\mathbf G_x^{(e)}\right)\Big]ds, \eqn{Xgen}
 $$
 
-which contains Eq. (@Xgeo) and, with $\partial u/\partial x = u_j\varphi_{j,x}$ and $\partial u/\partial s = u_{j,s}\varphi_j$, the shear-mode terms; the Mindlin modes do not move the mid-surface and do not contribute. For a uniform $S_{xx}$ and $S_{ss} = S_{xs} = 0$, only $X^{U}_{ik}$ and $X^{VW}_{ik}$ remain, the geometric matrices of the GBT–Ritz approach {{kharghani2025jcs,kharghani2026jcs}}, $X^{VW}_{ik}$ being the tensor $X_{pik}$ of classical GBT {{silvestre2002b,silvestre2013shear}}. The end load $n_0(s)$, acting at the distance $e_0(s)$ from the wall reference surface, enters through generalised end forces, as $q^{I}_i$ in {{silvestre2013shear}}; with $u_0 = u - e_0 w_{,x}$,
+which contains Eq. (@Xgeo) and, with $\partial u/\partial x = u_j\varphi_{j,x}$ and $\partial u/\partial s = u_{j,s}\varphi_j$, the shear-mode terms; the Mindlin modes do not move the mid-surface and do not contribute. For a uniform $S_{xx}$ and $S_{ss} = S_{xs} = 0$, only $X^{U}_{ik}$ and $X^{VW}_{ik}$ remain, the geometric matrices of the GBT–Ritz approach {{kharghani2025jcs,kharghani2026jcs}}, $X^{VW}_{ik}$ corresponding to $X_{pik}W^{o}_{p}$ of {{silvestre2002b,silvestre2013shear}}. The end load $n_0(s)$, acting at the distance $e_0(s)$ from the wall reference surface, enters through generalised end forces, as $q^{I}_i$ in {{silvestre2013shear}}; with $u_0 = u - e_0 w_{,x}$,
 
 $$
 \begin{gathered}
@@ -328,12 +328,12 @@ $$
 \begin{gathered}
 \mathcal K_{ik} = C_{ik}\frac{d^4}{dx^4} + H_{ik}\frac{d^3}{dx^3} - D_{ik}\frac{d^2}{dx^2} + F_{ik}\frac{d}{dx} + B_{ik},\\
 \mathcal K_{ij} = C_{ij}\frac{d^3}{dx^3} + \left(H^{I}_{ij} - H^{II}_{ji}\right)\frac{d^2}{dx^2} - \left(D^{I}_{ji} - D^{II}_{ji}\right)\frac{d}{dx} + F^{II}_{ij},\\
-\mathcal K_{hk} = C_{kh}\frac{d^3}{dx^3} + \left(H^{II}_{hk} - H^{I}_{kh}\right)\frac{d^2}{dx^2} - \left(D^{I}_{hk} - D^{II}_{hk}\right)\frac{d}{dx} - F^{II}_{kh},\\
+\mathcal K_{hk} = C_{hk}\frac{d^3}{dx^3} + \left(H^{I}_{hk} - H^{II}_{kh}\right)\frac{d^2}{dx^2} - \left(D^{I}_{hk} - D^{II}_{hk}\right)\frac{d}{dx} - F^{II}_{kh},\\
 \mathcal K_{hj} = C_{hj}\frac{d^2}{dx^2} + H_{hj}\frac{d}{dx} - D^{I}_{hj},
 \end{gathered} \eqn{Kop}
 $$
 
-where the second equation is multiplied by $-1$ as in {{silvestre2013shear}}, and
+where the second equation is multiplied by $-1$, as $\mathcal K_{hj}$ in {{silvestre2013shear}}, and
 
 $$
 H_{ik} = H^{I}_{ik} - H^{I}_{ki},\qquad D_{ik} = D^{I}_{ik} - D^{II}_{ik} - D^{II}_{ki},\qquad F_{ik} = F^{I}_{ik} - F^{I}_{ki},\qquad H_{hj} = H^{I}_{hj} - H^{I}_{jh} . \eqn{combined}
@@ -350,7 +350,7 @@ with the generalised normal stress resultants
 $$
 \begin{gathered}
 W^{\sigma}_i = C_{ik}\phi_{k,xx} + H^{I}_{ik}\phi_{k,x} + D^{II}_{ik}\phi_{k} + C_{ij}\varphi_{j,x} + H^{I}_{ij}\varphi_{j},\\
-W^{\sigma}_h = C_{hj}\varphi_{j,x} + H^{I}_{hj}\varphi_{j} + C_{kh}\phi_{k,xx} + H^{II}_{hk}\phi_{k,x} + D^{II}_{hk}\phi_k,
+W^{\sigma}_h = C_{hj}\varphi_{j,x} + H^{I}_{hj}\varphi_{j} + C_{hk}\phi_{k,xx} + H^{I}_{hk}\phi_{k,x} + D^{II}_{hk}\phi_k,
 \end{gathered} \eqn{Wsig}
 $$
 
