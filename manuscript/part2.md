@@ -48,7 +48,7 @@ $$
 \gamma^{NL}_{xs} = u_{,x}u_{,s}+v_{,x}v_{,s}+w_{,x}w_{,s}, \eqn{strainNL}
 $$
 
-of which classical GBT retains $\tfrac12(v_{,x}^2+w_{,x}^2)$ {{silvestre2002b,silvestre2013shear}}. The stress resultants of a wall follow from classical lamination theory with a shear correction factor of 5/6 {{mindlin1951,whitney1970,reddy2004}},
+of which classical GBT retains $\tfrac12(v_{,x}^2+w_{,x}^2)$ {{silvestre2002b,silvestre2013shear}}. The stress resultants of a wall follow from first-order shear deformation laminate theory with a shear correction factor of 5/6 {{mindlin1951,whitney1970,reddy2004}},
 
 $$
 \begin{bmatrix}\mathbf N\\ \mathbf M\\ \mathbf Q\end{bmatrix} =
@@ -139,7 +139,7 @@ $$
 \mathbf R = \begin{bmatrix}\mathbf e^{\mathsf T}_{X,s_L}-\mathbf e^{\mathsf T}_{X,s_R}\\ \mathbf e^{\mathsf T}_{Y,s_L}-\mathbf e^{\mathsf T}_{Y,s_R}\\ \mathbf e^{\mathsf T}_{\theta,s_L}-\mathbf e^{\mathsf T}_{\theta,s_R}\end{bmatrix}\in\mathbb R^{3\times 3N},\qquad \operatorname{rank}\mathbf R = 3, \eqn{rows}
 $$
 
-whose null space, of dimension $3N-3$, contains the admissible in-plane deformations. With $\mathbf V_g$ the nodal fields of family $g\in\{G,D,L,T\}$ of the unconstrained cell: (1) columns with $\mathbf R\mathbf v = \mathbf 0$ are kept; (2) the remaining columns $\mathbf V'_g$ are replaced by $\mathbf V'_g\mathbf Z_g$ with $\mathbf Z_g$ a basis of $\ker(\mathbf R\mathbf V'_g)$, which spans the largest periodic subspace of family $g$; (3) the part of $\ker\mathbf R$ not reached by steps 1–2, $(\mathbf I - \boldsymbol\Pi_B)\ker\mathbf R$, is added to T if it elongates a segment and to D otherwise; (4) every mode is scaled to a unit maximum. Then $\mathbf R\mathbf V = \mathbf 0$ and $\operatorname{span}\mathbf V = \ker\mathbf R$: no admissible deformation is lost and none is spurious; $n_C = 3N-3$. The rigid rotation about $x$ violates $\mathbf R$ ($U_{Y,s_L}-U_{Y,s_R} = -W\omega$), so that family G contains the two translations only. Equal lateral translations and rotations of the side nodes enter family D in step 3.
+whose null space, of dimension $3N-3$, contains the admissible in-plane deformations. With $\mathbf V_g$ the nodal fields of family $g\in\{G,D,L,T\}$ of the unconstrained cell: (1) columns with $\mathbf R\mathbf v = \mathbf 0$ are kept; (2) the remaining columns $\mathbf V'_g$ are replaced by $\mathbf V'_g\mathbf Z_g$ with $\mathbf Z_g$ a basis of $\ker(\mathbf R\mathbf V'_g)$, which spans the largest periodic subspace of family $g$; (3) the part of $\ker\mathbf R$ not reached by steps 1–2, $(\mathbf I - \boldsymbol\Pi_B)\ker\mathbf R$ with $\boldsymbol\Pi_B$ the orthogonal projector onto their span, is added to T if it elongates a segment and to D otherwise; (4) every mode is scaled to a unit maximum. Then $\mathbf R\mathbf V = \mathbf 0$ and $\operatorname{span}\mathbf V = \ker\mathbf R$: no admissible deformation is lost and none is spurious; $n_C = 3N-3$. The rigid rotation about $x$ violates $\mathbf R$ ($U_{Y,s_L}-U_{Y,s_R} = -W\omega$), so that family G contains the two translations only. Equal lateral translations and rotations of the side nodes enter family D in step 3.
 
 ### Warping: the periodic cell as a closed contour
 
@@ -163,7 +163,7 @@ h_{s_R}\leftarrow h_{s_R}+h_{s_L},\qquad
 \zeta_{s_R}\leftarrow\zeta_{s_R}+\zeta_{s_L},\qquad h_{s_L},\ \boldsymbol\Omega_{s_L},\ \zeta_{s_L}\ \text{removed}. \eqn{merge}
 $$
 
-which spans exactly the periodic subspace, since $\mathbf S\mathbf a$ satisfies $a_{s_L} = a_{s_R}$ if, and only if, it lies in the span of the merged functions; $\boldsymbol\Omega_{s_L}$ and $\boldsymbol\Omega_{s_R}$ can be paired because both side nodes lie in the straight skin. This gives $n_S = N-1$ shear modes, including the axial mode, and $n_M = \sum_q m_q - m_{s_L} + N - 1$ Mindlin modes, with $m_q$ vectors $\boldsymbol\Omega_q$ at node $q$ (Table 2).
+which spans exactly the periodic subspace, since $\mathbf S\mathbf a$ satisfies $a_{s_L} = a_{s_R}$ if, and only if, it lies in the span of the merged functions; $\boldsymbol\Omega_{s_L}$ and $\boldsymbol\Omega_{s_R}$ can be paired because both side nodes lie in the straight skin. This gives $n_S = N-1$ shear modes, including the axial mode, and $n_M = \sum_q m_q - m_{s_L} + N - 1$ Mindlin modes, with $m_q$ independent vectors $\boldsymbol\Omega_q$ at node $q$ ($m_q = 2$ at a kink of the contour, $m_q = 1$ between collinear segments; Table 2).
 
 ::: {custom-style="MDPI_4.1_table_caption"}
 **Table 2.** Number of deformation modes per family of the periodic cell (independent of the lay-up).
@@ -171,8 +171,8 @@ which spans exactly the periodic subspace, since $\mathbf S\mathbf a$ satisfies 
 
 | $b_s$ [mm] | $N$ | G | D | L | T | S (incl. axial) | M | total |
 |:--|--:|--:|--:|--:|--:|--:|--:|--:|
-| 150 | 92 | 2 | 13 | 166 | 92 | 91 | 205 | 569 |
-| 285.5 | 78 | 2 | 13 | 138 | 78 | 77 | 174 | 482 |
+| 150 | 92 | 2 | 13 | 166 | 92 | 91 | 194 | 558 |
+| 285.5 | 78 | 2 | 13 | 138 | 78 | 77 | 166 | 474 |
 
 ### Properties and hierarchical ordering
 
@@ -249,7 +249,7 @@ F^{II}_{ij} = \int_b\left(A_{26}v_{i,s} - B_{26}w_{i,ss}\right)u_{j,s}\,ds .
 \end{gathered} \eqn{couplingT}
 $$
 
-For modes satisfying Vlasov's assumptions, Eqs. (@Cik)–(@couplingT) are the tensors of Eqs. (10)–(12) of {{silvestre2013shear}}; the terms with $\gamma_k$ and $v_{k,s}$ are the additions for closed contours and transverse extension. In the matrix notation of the GBT–Ritz approach {{kharghani2026jcs}}, the conventional tensors form
+For modes satisfying Vlasov's assumptions, Eqs. (@Cik)–(@couplingT) reduce to the tensors of {{silvestre2013shear}}; the terms with $\gamma_k$ and $v_{k,s}$ are the additions for closed contours and transverse extension. In the matrix notation of the GBT–Ritz approach {{kharghani2026jcs}}, the conventional tensors form
 
 $$
 \boldsymbol\Xi = \begin{bmatrix}\mathbf B & \mathbf F^{I} & (\mathbf D^{II})^{\mathsf T}\\ (\mathbf F^{I})^{\mathsf T} & \mathbf D^{I} & (\mathbf H^{I})^{\mathsf T}\\ \mathbf D^{II} & \mathbf H^{I} & \mathbf C\end{bmatrix},\qquad
@@ -364,7 +364,7 @@ $$
 \phi_k(x) = \sum_{b=1}^{n_b} N_b(x)\,a_{kb},\qquad \varphi_j(x) = \sum_{b=1}^{n_b} N_b(x)\,a_{jb},\qquad \chi_r(x) = \sum_{b=1}^{n_b} N_b(x)\,a_{rb} . \eqn{Psi}
 $$
 
-where, instead of trigonometric series {{kharghani2026jcs}}, $N_b$ are cubic B-splines on an open uniform knot vector with spans $h_x = b_s/20$, which resolve the end zones and act directly on the end coefficients ($\phi(0) = a_1$; $\phi_{,x}(0) = 0 \Leftrightarrow a_2 = a_1$). Cubic B-splines are established in spline finite strips {{lau1986}} and isogeometric analysis {{hughes2005iga}}; like the Hermite elements of GBT-based finite elements {{bebiano2018}} they are piecewise cubic, but $C^2$-continuous. As in the shell models, the loaded edges are either **simply supported (SS)**, with $U_Y = 0$ at every end node, i.e. $\sum_k U_{Y,qk}\phi_k = 0$ at $x = 0, L$ (null-space reduction), with $U_X$, warping and rotations free, or **clamped (CC)**, with $\phi_k = \phi_{k,x} = 0$ and $\chi_r = 0$ at both ends and $\varphi_j(0) = 0$ ($x = L$ free to warp under the load). Unlike the classical condition $\phi_k = \sin(m\pi x/L)$, the SS condition suppresses only $U_Y$ of the end edges. Equations (@dU) and (@Xgeo) give the eigenvalue problem
+where, instead of trigonometric series {{kharghani2026jcs}}, $N_b$ are cubic B-splines on an open uniform knot vector with spans $h_x = b_s/20$, which resolve the end zones and act directly on the end coefficients ($\phi(0) = a_1$; $\phi_{,x}(0) = 0 \Leftrightarrow a_2 = a_1$). Cubic B-splines are established in spline finite strips {{lau1986}} and isogeometric analysis {{hughes2005iga}}; like the Hermite elements of GBT-based finite elements {{bebiano2018}} they are piecewise cubic, but $C^2$-continuous. As in the shell models, the loaded edges are either **simply supported (SS)**, with $U_Y = 0$ at every end node, i.e. $\sum_k U_{Y,qk}\phi_k = 0$ at $x = 0, L$ (null-space reduction), with $U_X$, warping and rotations free, or **clamped (CC)**, with $\phi_k = \phi_{k,x} = 0$ and $\chi_r = 0$ at both ends and $\varphi_j(0) = 0$ ($x = L$ free to warp under the load). Unlike the classical condition $\phi_k = \sin(m\pi x/L)$, the SS condition suppresses only $U_Y$ of the end edges. Equations (@Xide) and (@Xgen) give the eigenvalue problem
 
 $$
 \left(\mathbf K + \lambda\,\mathbf G\right)\mathbf a = \mathbf 0,\qquad
@@ -372,7 +372,7 @@ $$
 \mathbf G = \int_0^L\boldsymbol\Psi^{\mathsf T}\boldsymbol{\mathcal X}(x)\,\boldsymbol\Psi\,dx, \eqn{eig}
 $$
 
-where $\boldsymbol\Xi$ and $\boldsymbol{\mathcal X}$ collect the blocks of Eqs. (@Xide) and (@Xgen), integrated with four Gauss points per span. The smallest positive $\lambda$ multiplies the reference load of 1 N/mm, so that $N_{cr} = \lambda\times1$ N/mm. Since $\mathbf G$ is indefinite, the largest $\mu = 1/\lambda$ of $-\mathbf G\mathbf a = \mu\mathbf K\mathbf a$ is computed by the implicitly restarted Lanczos method {{lehoucq1998}}. For $b_s = 150$ mm and $L = 225$ mm the model has $569\times33 = 18{,}777$ coefficients.
+with $\boldsymbol\Xi = [\boldsymbol\Xi^{(de)}]$ and $\boldsymbol{\mathcal X} = [\boldsymbol{\mathcal X}^{(de)}]$, integrated with four Gauss points per span. The smallest positive $\lambda$ multiplies the reference load of 1 N/mm, so that $N_{cr} = \lambda\times1$ N/mm. Since $\mathbf G$ is indefinite, the largest $\mu = 1/\lambda$ of $-\mathbf G\mathbf a = \mu\mathbf K\mathbf a$ is computed by the implicitly restarted Lanczos method {{lehoucq1998}}. For $b_s = 150$ mm and $L = 225$ mm (33 B-splines), the SS model has 18,230 unknowns.
 
 For uncoupled walls, a uniform $S_{xx}$ and the conventional modes only, $H_{ik} = F_{ik} = 0$ and Eq. (@equil) becomes
 
@@ -390,10 +390,10 @@ whose smallest eigenvalue over $m$ is the signature curve. The periodic conditio
 
 ## Mode decomposition
 
-The buckling mode is decomposed into the contributions of the families $g\in\{G,D,L,T,S,M\}$ by an energy partition {{kharghani2026jcs}}: with $\mathbf a_g$ the vector $\mathbf a$ restricted to family $g$,
+As in {{kharghani2026jcs}}, the buckling mode is decomposed into the contributions of the families $g\in\{G,D,L,T,S,M\}$, here by an exact energy partition: with $\mathbf a_g$ the vector $\mathbf a$ restricted to family $g$,
 
 $$
 U_g = \tfrac12\,\mathbf a_g^{\mathsf T}\mathbf K\,\mathbf a,\qquad \rho_g = \frac{U_g}{U},\qquad \sum_g\rho_g = 1 . \eqn{rho}
 $$
 
-Unlike the self-energies $\tfrac12\mathbf a_g^{\mathsf T}\mathbf K\mathbf a_g$ used for members {{kharghani2026jcs}}, which do not add up when families are coupled, Eq. (@rho) divides the strain energy exactly. This matters in the cell, where D and L modes are strongly coupled: for the Unsym cell ($b_s = 150$ mm, $\beta = 1.5$, SS) the self-energies would assign 41 % to D and 58 % to L, Eq. (@rho) 1 % and 97 %. Since $\mathbf K\mathbf a = -\lambda\mathbf G\mathbf a$ and the Mindlin modes do not enter $\mathbf G$, $\rho_M = 0$; their influence is assessed by omitting them (Section 3.6). The partition also applies to individual hierarchical modes.
+Unlike the self-energies $\tfrac12\mathbf a_g^{\mathsf T}\mathbf K\mathbf a_g$ used for members, which do not add up when families are coupled, Eq. (@rho) divides the strain energy exactly. This matters in the cell, where D and L modes are strongly coupled: for the Unsym cell ($b_s = 150$ mm, $\beta = 1.5$, SS) the self-energies would assign 41 % to D and 58 % to L, Eq. (@rho) 1 % and 97 %. Since $\mathbf K\mathbf a = -\lambda\mathbf G\mathbf a$ and the Mindlin modes do not enter $\mathbf G$, $\rho_M = 0$; their influence is assessed by omitting them (Section 3.6). The partition also applies to individual hierarchical modes.
