@@ -199,10 +199,11 @@ doc = re.sub(r'(<m:begChr [^>]*/>)(<m:endChr [^>]*/>)(<m:sepChr [^>]*/>)', r'\1\
 doc = re.sub(r'<w:jc w:val="start" ?/></w:tblPr>', '</w:tblPr>', doc)
 doc = re.sub(r'(<m:mcJc [^>]*/>)(<m:count [^>]*/>)', r'\2\1', doc)
 doc = re.sub(r'<w:bidi ?/>', '', doc)
-# as in the template: <w:bidi/> in the section properties puts the line numbers on the right margin
+# RIGHT_LN=1: <w:bidi/> in the section properties, as in the template, puts the line numbers on the right margin
+# in Microsoft Word only; LibreOffice-based viewers then break the layout, so it is off by default
 _k = doc.rfind('<w:sectPr')
-doc = doc[:_k] + re.sub(r'(<w:titlePg ?/>|(?=<w:docGrid))', lambda m: m.group(1) + '<w:bidi/>' if m.group(1) else '<w:bidi/>', doc[_k:], count=1)
-assert doc.count('<w:bidi/>') == 1 and doc.rfind('<w:bidi/>') > _k
+if os.environ.get('RIGHT_LN') == '1': doc = doc[:_k] + re.sub(r'(<w:titlePg ?/>|(?=<w:docGrid))', lambda m: m.group(1) + '<w:bidi/>' if m.group(1) else '<w:bidi/>', doc[_k:], count=1)
+assert doc.count('<w:bidi/>') == (os.environ.get('RIGHT_LN') == '1')
 # ---------- MDPI first-page box (academic editor, history, citation, copyright) and publisher's note,
 #            copied unchanged from the template (only revision attributes removed and the year updated)
 _t = zipfile.ZipFile(os.path.join(H, 'src', 'template.docx')).read('word/document.xml').decode('utf-8')
