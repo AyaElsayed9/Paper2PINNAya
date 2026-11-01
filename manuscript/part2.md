@@ -56,10 +56,10 @@ $$
 \begin{bmatrix}\boldsymbol\varepsilon^{M}\\ \boldsymbol\kappa\\ \boldsymbol\gamma_z\end{bmatrix}, \eqn{claw}
 $$
 
-retaining all couplings of $\mathbf A$, $\mathbf B$, $\mathbf D$ {{silvestre2013shear,kharghani2026jcs}}; $N_{ss}$ is not condensed out. A stringer foot (skin and flange) forms one wall referred to the skin mid-plane, with the stiffnesses $\mathbf A_0$, $\mathbf B_0$, $\mathbf D_0$ of the combined stack and the distance $z_f$ between the mid-planes,
+retaining all couplings of $\mathbf A$, $\mathbf B$, $\mathbf D$ {{silvestre2013shear,kharghani2026jcs}}; $N_{ss}$ is not condensed out. A stringer foot (skin and flange) forms one wall referred to the skin mid-plane: with the stiffnesses $\tilde{\mathbf A}$, $\tilde{\mathbf B}$, $\tilde{\mathbf D}$ of the combined stack about its own mid-plane, which lies at $z_f = t_f/2$ from the skin mid-plane towards the flange, the shift of the reference plane gives
 
 $$
-\mathbf A_f = \mathbf A_0,\qquad \mathbf B_f = \mathbf B_0 + z_f\,\mathbf A_0,\qquad \mathbf D_f = \mathbf D_0 + 2z_f\,\mathbf B_0 + z_f^2\,\mathbf A_0 . \eqn{foot}
+\mathbf A_f = \tilde{\mathbf A},\qquad \mathbf B_f = \tilde{\mathbf B} + z_f\,\tilde{\mathbf A},\qquad \mathbf D_f = \tilde{\mathbf D} + 2z_f\,\tilde{\mathbf B} + z_f^2\,\tilde{\mathbf A} . \eqn{foot}
 $$
 
 The stringer is offset from the skin by $c = (t_s+t_f)/2$: every web root is a node at $Y = c$, joined to the skin node below by a link wall that acts like a rigid offset link without adding axial or twisting stiffness,
