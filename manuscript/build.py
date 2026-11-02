@@ -199,6 +199,7 @@ doc = re.sub(r'(<m:begChr [^>]*/>)(<m:endChr [^>]*/>)(<m:sepChr [^>]*/>)', r'\1\
 doc = re.sub(r'<w:jc w:val="start" ?/></w:tblPr>', '</w:tblPr>', doc)
 doc = re.sub(r'(<m:mcJc [^>]*/>)(<m:count [^>]*/>)', r'\2\1', doc)
 doc = re.sub(r'<w:bidi ?/>', '', doc)
+doc = doc.replace('<m:chr m:val="‾" />', '<m:chr m:val="̅" />')   # bar accent as in Word's equation editor
 # RIGHT_LN=1: <w:bidi/> in the section properties, as in the template, puts the line numbers on the right margin
 # in Microsoft Word only; LibreOffice-based viewers then break the layout, so it is off by default
 _k = doc.rfind('<w:sectPr')

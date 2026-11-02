@@ -166,15 +166,15 @@ with the Lagrange multipliers $\boldsymbol\tau$. The solution is unique, since t
 
 ### Shear and Mindlin modes: merging of the side-edge functions
 
-The shear and Mindlin modes are defined node by node (hat function $\hat u_q$, vectors $\boldsymbol\Omega_q$ and function $\zeta_q$ of node $q$). A combination with the coefficients $a_q$ is periodic if, and only if, $a_{s_L} = a_{s_R}$, so the periodic basis follows by merging the function of $s_L$ into that of $s_R$,
+The shear and Mindlin modes are defined node by node (hat function $\hat u_q$, vectors $\boldsymbol\Omega_q$ and function $\zeta_q$ of node $q$). A combination with the coefficients $a_q$ is periodic if, and only if, $a_{s_L} = a_{s_R}$, so the periodic basis replaces the separate functions of the two side nodes by their sums,
 
 $$
-\hat u_{s_R}\leftarrow\hat u_{s_R}+\hat u_{s_L},\qquad
-\boldsymbol\Omega_{s_R}\leftarrow\boldsymbol\Omega_{s_R}+\boldsymbol\Omega_{s_L},\qquad
-\zeta_{s_R}\leftarrow\zeta_{s_R}+\zeta_{s_L},\qquad \hat u_{s_L},\ \boldsymbol\Omega_{s_L},\ \zeta_{s_L}\ \text{removed}, \eqn{merge}
+\bar u = \hat u_{s_L}+\hat u_{s_R},\qquad
+\bar{\boldsymbol\Omega} = \boldsymbol\Omega_{s_L}+\boldsymbol\Omega_{s_R},\qquad
+\bar\zeta = \zeta_{s_L}+\zeta_{s_R}, \eqn{merge}
 $$
 
-which spans exactly the periodic subspace ($\boldsymbol\Omega_{s_L}$ and $\boldsymbol\Omega_{s_R}$ can be paired because both side nodes lie in the straight skin). This gives $n_S = N-1$ shear modes, including the axial mode, and $n_M = \sum_q m_q - m_{s_L} + N - 1$ Mindlin modes, with $m_q$ independent vectors $\boldsymbol\Omega_q$ at node $q$ ($m_q = 2$ at a kink, $m_q = 1$ between collinear segments); see Table 2.
+while the functions of all other nodes are kept. This basis spans exactly the periodic subspace ($\boldsymbol\Omega_{s_L}$ and $\boldsymbol\Omega_{s_R}$ can be paired because both side nodes lie in the straight skin). This gives $n_S = N-1$ shear modes, including the axial mode, and $n_M = \sum_q m_q - m_{s_L} + N - 1$ Mindlin modes, with $m_q$ independent vectors $\boldsymbol\Omega_q$ at node $q$ ($m_q = 2$ at a kink, $m_q = 1$ between collinear segments); see Table 2.
 
 ::: {custom-style="MDPI_4.1_table_caption"}
 **Table 2.** Number of deformation modes per family of the periodic cell (independent of the lay-up).
