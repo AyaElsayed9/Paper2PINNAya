@@ -54,7 +54,7 @@ REFS = {
 "whitney1970": "Whitney, J.M.; Pagano, N.J. Shear deformation in heterogeneous anisotropic plates. *Journal of Applied Mechanics* **1970**, *37*, 1031–1036. https://doi.org/10.1115/1.3408654",
 "reddy2004": "Reddy, J.N. *Mechanics of Laminated Composite Plates and Shells: Theory and Analysis*, 2nd ed.; CRC Press: Boca Raton, FL, USA, **2004**.",
 "lehoucq1998": "Lehoucq, R.B.; Sorensen, D.C.; Yang, C. *ARPACK Users’ Guide: Solution of Large-Scale Eigenvalue Problems with Implicitly Restarted Arnoldi Methods*; SIAM: Philadelphia, PA, USA, **1998**.",
-"vlasov1961": "Vlasov, V.Z. *Thin-Walled Elastic Beams*; Israel Program for Scientific Translations: Jerusalem, Israel, **1961**.",
+"vlasov1961": "Vlasov, V.Z. *Tonkostennye Uprugie Sterzhni (Thin-Walled Elastic Beams)*, 2nd ed.; Fizmatgiz: Moscow, USSR, **1959**. (In Russian)",
 "mittelstedt2020amr": "Mittelstedt, C. Buckling and post-buckling of thin-walled composite laminated beams—A review of engineering analysis methods. *Applied Mechanics Reviews* **2020**, *72*, 020802. https://doi.org/10.1115/1.4045680",
 "kuehn2014": "Kuehn, T.; Pasternak, H.; Mittelstedt, C. Local buckling of shear-deformable laminated composite beams with arbitrary cross-sections using discrete plate analysis. *Composite Structures* **2014**, *113*, 236–248. https://doi.org/10.1016/j.compstruct.2014.03.022",
 }
