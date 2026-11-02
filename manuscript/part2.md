@@ -52,11 +52,11 @@ of which classical GBT retains $\tfrac12(v_{,x}^2+w_{,x}^2)$ {{silvestre2002b,si
 
 $$
 \begin{bmatrix}\mathbf N\\ \mathbf M\\ \mathbf Q\end{bmatrix} =
-\begin{bmatrix} \mathbf A & \mathbf B & \mathbf 0\\ \mathbf B & \mathbf D & \mathbf 0\\ \mathbf 0 & \mathbf 0 & \mathbf A_s\end{bmatrix}
+\begin{bmatrix} \mathbf A & \mathbf B & \mathbf 0\\ \mathbf B & \mathbf D & \mathbf 0\\ \mathbf 0 & \mathbf 0 & \mathbf A_z\end{bmatrix}
 \begin{bmatrix}\boldsymbol\varepsilon^{M}\\ \boldsymbol\kappa\\ \boldsymbol\gamma_z\end{bmatrix}, \eqn{claw}
 $$
 
-with the membrane, coupling, bending and transverse shear stiffnesses $\mathbf A$, $\mathbf B$, $\mathbf D$, $\mathbf A_s$. All couplings are retained {{silvestre2013shear,kharghani2026jcs}}, and $N_{ss}$ is not set to zero as in beam theories, since the cell restrains the transverse expansion of the skin (Section 3.2).
+with the membrane, coupling, bending and transverse shear stiffnesses $\mathbf A$, $\mathbf B$, $\mathbf D$, $\mathbf A_z$. All couplings are retained {{silvestre2013shear,kharghani2026jcs}}, and $N_{ss}$ is not set to zero as in beam theories, since the cell restrains the transverse expansion of the skin (Section 3.2).
 
 Two walls need special treatment. A stringer foot (skin plus bonded flange) is one wall whose stiffness is referred to the skin mid-plane, so that it joins the neighbouring skin at the same height. With the stiffnesses $\tilde{\mathbf A}$, $\tilde{\mathbf B}$, $\tilde{\mathbf D}$ of the combined stack about its own mid-plane, at $z_f = t_f/2$ from the skin mid-plane towards the flange, the standard shift of the reference plane ($z = z' + z_f$ in the stiffness integrals) gives
 
@@ -64,12 +64,12 @@ $$
 \mathbf A_f = \tilde{\mathbf A},\qquad \mathbf B_f = \tilde{\mathbf B} + z_f\,\tilde{\mathbf A},\qquad \mathbf D_f = \tilde{\mathbf D} + 2z_f\,\tilde{\mathbf B} + z_f^2\,\tilde{\mathbf A} . \eqn{foot}
 $$
 
-The second wall reproduces the offset $c = (t_s+t_f)/2$ between the stringer and skin mid-surfaces (thicknesses $t_s$, $t_f$), bridged by a tie in the shell model. Every web root is a node at $Y = c$, joined to the skin node below by a link wall that must transfer displacements and rotation rigidly without adding material; its stiffnesses are multiples of the skin stiffnesses $\mathbf A_0$, $\mathbf D_0$, $\mathbf A_{s0}$,
+The second wall reproduces the offset $c = (t_s+t_f)/2$ between the stringer and skin mid-surfaces (thicknesses $t_s$, $t_f$), bridged by a tie in the shell model. Every web root is a node at $Y = c$, joined to the skin node below by a link wall that must transfer displacements and rotation rigidly without adding material; its stiffnesses are multiples of the skin stiffnesses $\mathbf A_0$, $\mathbf D_0$, $\mathbf A_{z0}$,
 
 $$
 \begin{gathered}
 A^{L}_{11} = 10^{-3}A_{0,11},\quad A^{L}_{22} = k_L A_{0,22},\quad A^{L}_{66} = k_L A_{0,66},\\
-D^{L}_{11} = 10^{-3}D_{0,11},\quad D^{L}_{22} = k_L D_{0,22},\quad D^{L}_{66} = 10^{-3}D_{0,66},\quad \mathbf A^{L}_s = k_L\mathbf A_{s0},
+D^{L}_{11} = 10^{-3}D_{0,11},\quad D^{L}_{22} = k_L D_{0,22},\quad D^{L}_{66} = 10^{-3}D_{0,66},\quad \mathbf A^{L}_z = k_L\mathbf A_{z0},
 \end{gathered} \eqn{link}
 $$
 
@@ -81,8 +81,8 @@ As in modern GBT {{bebiano2015,goncalves2014shear}}, the modes are built from no
 
 $$
 \begin{gathered}
-w(\eta) = H_1(\eta)\,w_q + b_p H_2(\eta)\,\theta_q + H_3(\eta)\,w_{q'} + b_p H_4(\eta)\,\theta_{q'},\\
-H_1 = 1-3\eta^2+2\eta^3,\quad H_2 = \eta-2\eta^2+\eta^3,\quad H_3 = 3\eta^2-2\eta^3,\quad H_4 = -\eta^2+\eta^3 .
+w(\eta) = \mathcal H_1(\eta)\,w_q + b_p \mathcal H_2(\eta)\,\theta_q + \mathcal H_3(\eta)\,w_{q'} + b_p \mathcal H_4(\eta)\,\theta_{q'},\\
+\mathcal H_1 = 1-3\eta^2+2\eta^3,\quad \mathcal H_2 = \eta-2\eta^2+\eta^3,\quad \mathcal H_3 = 3\eta^2-2\eta^3,\quad \mathcal H_4 = -\eta^2+\eta^3 .
 \end{gathered} \eqn{hermite}
 $$
 
@@ -150,7 +150,7 @@ $$
 \mathbf R = \begin{bmatrix}\mathbf e^{\mathsf T}_{X,s_L}-\mathbf e^{\mathsf T}_{X,s_R}\\ \mathbf e^{\mathsf T}_{Y,s_L}-\mathbf e^{\mathsf T}_{Y,s_R}\\ \mathbf e^{\mathsf T}_{\theta,s_L}-\mathbf e^{\mathsf T}_{\theta,s_R}\end{bmatrix}\in\mathbb R^{3\times 3N},\qquad \operatorname{rank}\mathbf R = 3, \eqn{rows}
 $$
 
-where the unit vectors $\mathbf e$ pick the $U_X$, $U_Y$ or $\theta$ entry of a side node and the three rows are independent ($\operatorname{rank}\mathbf R = 3$). The periodic deformations form the null space $\ker\mathbf R$ of dimension $3N-3$. To keep the GBT meaning of the modes, they are built family by family. With $\mathbf V_g$ the nodal fields of family $g\in\{G,D,L,T\}$ of the non-periodic cell: (1) columns with $\mathbf R\mathbf v = \mathbf 0$ are kept; (2) the other columns $\mathbf V'_g$ are replaced by the largest periodic subspace $\mathbf V'_g\mathbf Z_g$, with $\mathbf Z_g$ a basis of $\ker(\mathbf R\mathbf V'_g)$, i.e. of all $\mathbf z$ with $\mathbf R\mathbf V'_g\mathbf z = \mathbf 0$; (3) periodic deformations not reached by steps 1–2, $(\mathbf I - \boldsymbol\Pi_B)\ker\mathbf R$ with $\boldsymbol\Pi_B$ the orthogonal projector onto their span, are added to T if they elongate a segment and to D otherwise; (4) every mode is scaled to a unit maximum. The columns of the modal matrix $\mathbf V$ then span exactly $\ker\mathbf R$: no admissible deformation is lost and none is spurious ($n_C = 3N-3$). Family G keeps only the two translations, since a rigid rotation $\omega$ about $x$ would lift one side edge and lower the other ($U_{Y,s_L}-U_{Y,s_R} = -W\omega$). Equal lateral translations and rotations of the side nodes enter family D in step 3.
+where the unit vectors $\mathbf e$ pick the $U_X$, $U_Y$ or $\theta$ entry of a side node and the three rows are independent ($\operatorname{rank}\mathbf R = 3$). The periodic deformations form the null space $\ker\mathbf R$ of dimension $3N-3$. To keep the GBT meaning of the modes, they are built family by family. With $\mathbf V_g$ the nodal fields of family $g\in\{G,D,L,T\}$ of the non-periodic cell: (1) columns with $\mathbf R\mathbf v = \mathbf 0$ are kept; (2) the other columns $\mathbf V'_g$ are replaced by the largest periodic subspace $\mathbf V'_g\mathbf Z_g$, with $\mathbf Z_g$ a basis of $\ker(\mathbf R\mathbf V'_g)$, i.e. of all $\mathbf z$ with $\mathbf R\mathbf V'_g\mathbf z = \mathbf 0$; (3) periodic deformations not reached by steps 1–2, $(\mathbf I - \mathbf P)\ker\mathbf R$ with $\mathbf P$ the orthogonal projector onto their span, are added to T if they elongate a segment and to D otherwise; (4) every mode is scaled to a unit maximum. The columns of the modal matrix $\mathbf V$ then span exactly $\ker\mathbf R$: no admissible deformation is lost and none is spurious ($n_C = 3N-3$). Family G keeps only the two translations, since a rigid rotation $\omega$ about $x$ would lift one side edge and lower the other ($U_{Y,s_L}-U_{Y,s_R} = -W\omega$). Equal lateral translations and rotations of the side nodes enter family D in step 3.
 
 ### Warping: the periodic cell as a closed contour
 
@@ -166,7 +166,7 @@ with the Lagrange multipliers $\boldsymbol\tau$. The solution is unique, since t
 
 ### Shear and Mindlin modes: merging of the side-edge functions
 
-The shear and Mindlin modes are defined node by node (hat function $\hat u_q$, vectors $\boldsymbol\Omega_q$ and function $\zeta_q$ of node $q$). A combination with the coefficients $a_q$ is periodic if, and only if, $a_{s_L} = a_{s_R}$, so the periodic basis replaces the separate functions of the two side nodes by their sums,
+The shear and Mindlin modes are defined node by node (hat function $\hat u_q$, vectors $\boldsymbol\Omega_q$ and function $\zeta_q$ of node $q$). A combination with the coefficients $y_q$ is periodic if, and only if, $y_{s_L} = y_{s_R}$, so the periodic basis replaces the separate functions of the two side nodes by their sums,
 
 $$
 \bar u = \hat u_{s_L}+\hat u_{s_R},\qquad
@@ -187,7 +187,7 @@ while the functions of all other nodes are kept. This basis spans exactly the pe
 
 ### Properties and hierarchical ordering
 
-The periodic basis is exact (every truncation satisfies Eq. (@pbc)), complete (the full basis is equivalent to imposing Eq. (@pbc) node by node), interpretable through the GBT families and consistent with Bloch–Floquet theory {{mead1996}}: a cell of width $2b_s$ contains the Bloch waves $\mathbf u(X+b_s,x) = e^{\mathrm i\kappa_B b_s}\mathbf u(X,x)$ with the Bloch wavenumbers $\kappa_B b_s = 0$ and $\pi$, i.e. modes that repeat in every bay and modes that alternate. To order them from global to local, the conventional modes are recombined by $\mathbf B\,\mathbf y = \Lambda(k_r^2\mathbf D^{I} + k_r^4\mathbf C)\,\mathbf y$ (tensors of Section 2.3, reference wavenumber $k_r$); a small ratio $\Lambda$ of transverse to longitudinal stiffness indicates a global mode, and the recombined modes remain periodic. In Figure 2, modes 1 and 2 are rigid translations; the others combine skin-bay bending with stringer translation, rotation and distortion and, unlike modes of open members, belong to no single family.
+The periodic basis is exact (every truncation satisfies Eq. (@pbc)), complete (the full basis is equivalent to imposing Eq. (@pbc) node by node), interpretable through the GBT families and consistent with Bloch–Floquet theory {{mead1996}}: a cell of width $2b_s$ contains the Bloch waves $\mathbf u(X+b_s,x) = e^{\mathrm i k_B b_s}\mathbf u(X,x)$ with the Bloch wavenumbers $k_B b_s = 0$ and $\pi$, i.e. modes that repeat in every bay and modes that alternate. To order them from global to local, the conventional modes are recombined by $\hat{\mathbf B}\,\mathbf y = \Lambda(k_r^2\hat{\mathbf D}^{I} + k_r^4\hat{\mathbf C})\,\mathbf y$ (matrices of the modal tensors, Eq. (@Xi); reference wavenumber $k_r$); a small ratio $\Lambda$ of transverse to longitudinal stiffness indicates a global mode, and the recombined modes remain periodic. In Figure 2, modes 1 and 2 are rigid translations; the others combine skin-bay bending with stringer translation, rotation and distortion and, unlike modes of open members, belong to no single family.
 
 ![**Figure 2.** First eight hierarchical conventional modes of the periodic cell ($b_s = 150$ mm, Cross-ply lay-up, ordered at $k_r = \pi/b_s$). Line: in-plane deformation (grey: undeformed); colour: normalised warping $u_k(s)$. The side nodes $s_L$ and $s_R$ (squares) move identically in every mode.](fig/fig02_modes.png){width=15.5cm}
 
@@ -260,22 +260,22 @@ F^{II}_{ij} = \int_b\left(A_{26}v_{i,s} - B_{26}w_{i,ss}\right)u_{j,s}\,ds .
 \end{gathered} \eqn{couplingT}
 $$
 
-For modes satisfying Vlasov's assumptions, Eqs. (@Cik)–(@couplingT) reduce to Eqs. (10)–(12) of {{silvestre2013shear}}; the terms with $\gamma_k$ and $v_{k,s}$ are the additions for closed contours and transverse extension. In the block-matrix notation of the GBT–Ritz approach {{kharghani2026jcs}}, the conventional tensors form
+For modes satisfying Vlasov's assumptions, Eqs. (@Cik)–(@couplingT) reduce to Eqs. (10)–(12) of {{silvestre2013shear}}; the terms with $\gamma_k$ and $v_{k,s}$ are the additions for closed contours and transverse extension. In the block-matrix notation of the GBT–Ritz approach {{kharghani2026jcs}}, the conventional tensors form the matrices $\hat{\mathbf B} = [B_{ik}]$, $\hat{\mathbf C} = [C_{ik}]$, etc. (the hat distinguishes them from the laminate stiffnesses $\mathbf A$, $\mathbf B$, $\mathbf D$ of Eq. (@claw)) and the block matrix
 
 $$
-\boldsymbol\Xi = \begin{bmatrix}\mathbf B & \mathbf F^{I} & (\mathbf D^{II})^{\mathsf T}\\ (\mathbf F^{I})^{\mathsf T} & \mathbf D^{I} & (\mathbf H^{I})^{\mathsf T}\\ \mathbf D^{II} & \mathbf H^{I} & \mathbf C\end{bmatrix},\qquad
+\boldsymbol\Xi = \begin{bmatrix}\hat{\mathbf B} & \hat{\mathbf F}^{I} & (\hat{\mathbf D}^{II})^{\mathsf T}\\ (\hat{\mathbf F}^{I})^{\mathsf T} & \hat{\mathbf D}^{I} & (\hat{\mathbf H}^{I})^{\mathsf T}\\ \hat{\mathbf D}^{II} & \hat{\mathbf H}^{I} & \hat{\mathbf C}\end{bmatrix},\qquad
 \delta U = \int_L \delta\boldsymbol\Phi^{\mathsf T}\boldsymbol\Xi\,\boldsymbol\Phi\,dx,\qquad
 \boldsymbol\Phi = \begin{bmatrix}\boldsymbol\phi\\ \boldsymbol\phi_{,x}\\ \boldsymbol\phi_{,xx}\end{bmatrix}, \eqn{Xi}
 $$
 
-where $\boldsymbol\phi$ collects the amplitudes $\phi_k$ (the blocks $\hat{\mathbf D}_2$ and $\hat{\mathbf H}_1$ of {{kharghani2026jcs}} are $(\mathbf D^{II})^{\mathsf T}$ and $(\mathbf H^{I})^{\mathsf T}$ here). For all modes, including $\delta U_M$, writing the strains of Eq. (@claw) as $[\boldsymbol\varepsilon^{M};\boldsymbol\kappa;\boldsymbol\gamma_z] = \sum_{d=0}^{2}\boldsymbol{\mathcal E}^{(d)}(s)\,\boldsymbol\Phi^{(d)}(x)$, where $\boldsymbol\Phi^{(d)}$ collects the $d$-th derivatives of all amplitude functions ($\boldsymbol\Phi = [\boldsymbol\Phi^{(0)};\boldsymbol\Phi^{(1)};\boldsymbol\Phi^{(2)}]$) and $\boldsymbol{\mathcal E}^{(d)}$ contains the corresponding strain profiles of Eq. (@strain), turns Eq. (@dU0) into
+where $\boldsymbol\phi$ collects the amplitudes $\phi_k$ (the blocks $\hat{\mathbf D}_2$ and $\hat{\mathbf H}_1$ of {{kharghani2026jcs}} are $(\hat{\mathbf D}^{II})^{\mathsf T}$ and $(\hat{\mathbf H}^{I})^{\mathsf T}$ here). For all modes, including $\delta U_M$, writing the strains of Eq. (@claw) as $[\boldsymbol\varepsilon^{M};\boldsymbol\kappa;\boldsymbol\gamma_z] = \sum_{d=0}^{2}\boldsymbol{\mathcal E}^{(d)}(s)\,\boldsymbol\Phi^{(d)}(x)$, where $\boldsymbol\Phi^{(d)}$ collects the $d$-th derivatives of all amplitude functions ($\boldsymbol\Phi = [\boldsymbol\Phi^{(0)};\boldsymbol\Phi^{(1)};\boldsymbol\Phi^{(2)}]$) and $\boldsymbol{\mathcal E}^{(d)}$ contains the corresponding strain profiles of Eq. (@strain), turns Eq. (@dU0) into
 
 $$
 \delta U = \int_L\sum_{d,e=0}^{2}\delta\boldsymbol\Phi^{(d)\mathsf T}\,\boldsymbol\Xi^{(de)}\,\boldsymbol\Phi^{(e)}\,dx,\qquad
-\boldsymbol\Xi^{(de)} = \int_b\boldsymbol{\mathcal E}^{(d)\mathsf T}\,\hat{\mathbf C}\,\boldsymbol{\mathcal E}^{(e)}\,ds, \eqn{Xide}
+\boldsymbol\Xi^{(de)} = \int_b\boldsymbol{\mathcal E}^{(d)\mathsf T}\,\mathbf C_{\mathrm{lam}}\,\boldsymbol{\mathcal E}^{(e)}\,ds, \eqn{Xide}
 $$
 
-with $\hat{\mathbf C}$ the stiffness matrix of Eq. (@claw). For a Mindlin mode $r$, Eq. (@strain) gives the non-zero entries $\zeta_{r,s}$ ($\kappa_{ss}$), $\xi_{r,s}$ ($\kappa_{xs}$), $\xi_r$ ($\gamma_{xz}$), $\zeta_r$ ($\gamma_{sz}$) of $\boldsymbol{\mathcal E}^{(0)}$ and $\xi_r$ ($\kappa_{xx}$), $\zeta_r$ ($\kappa_{xs}$) of $\boldsymbol{\mathcal E}^{(1)}$; for the conventional and shear modes, Eq. (@Xide) reproduces Eqs. (@Cik)–(@couplingT).
+with $\mathbf C_{\mathrm{lam}}$ the laminate stiffness matrix of Eq. (@claw). For a Mindlin mode $r$, Eq. (@strain) gives the non-zero entries $\zeta_{r,s}$ ($\kappa_{ss}$), $\xi_{r,s}$ ($\kappa_{xs}$), $\xi_r$ ($\gamma_{xz}$), $\zeta_r$ ($\gamma_{sz}$) of $\boldsymbol{\mathcal E}^{(0)}$ and $\xi_r$ ($\kappa_{xx}$), $\zeta_r$ ($\kappa_{xs}$) of $\boldsymbol{\mathcal E}^{(1)}$; for the conventional and shear modes, Eq. (@Xide) reproduces Eqs. (@Cik)–(@couplingT).
 
 ### Geometric tensors, loads and pre-buckling state
 
@@ -299,13 +299,13 @@ X^{R}_{ik} = \int_b S_{xs}\,u_{i,s}u_k\,ds,
 \end{gathered} \eqn{Xgeo}
 $$
 
-where the dots stand for the shear-mode terms. In the general form analogous to Eq. (@Xide), with the displacement gradients of all modes $\partial[u,v,w]^{\mathsf T}/\partial\alpha = \sum_d\mathbf J^{(d)}_\alpha\boldsymbol\Phi^{(d)}$, $\alpha\in\{x,s\}$,
+where the dots stand for the shear-mode terms. In the general form analogous to Eq. (@Xide), with the displacement gradients of all modes $\partial[u,v,w]^{\mathsf T}/\partial x = \sum_d\mathbf J^{(d)}_x\boldsymbol\Phi^{(d)}$ and $\partial[u,v,w]^{\mathsf T}/\partial s = \sum_d\mathbf J^{(d)}_s\boldsymbol\Phi^{(d)}$,
 
 $$
 \boldsymbol{\mathcal X}^{(de)} = \int_b\Big[S_{xx}\,\mathbf J_x^{(d)\mathsf T}\mathbf J_x^{(e)} + S_{ss}\,\mathbf J_s^{(d)\mathsf T}\mathbf J_s^{(e)} + S_{xs}\left(\mathbf J_x^{(d)\mathsf T}\mathbf J_s^{(e)} + \mathbf J_s^{(d)\mathsf T}\mathbf J_x^{(e)}\right)\Big]ds, \eqn{Xgen}
 $$
 
-which contains Eq. (@Xgeo) and, with $\partial u/\partial x = u_j\varphi_{j,x}$ and $\partial u/\partial s = u_{j,s}\varphi_j$, the shear-mode terms; the Mindlin modes do not move the mid-surface and do not contribute. For a uniform $S_{xx}$ and $S_{ss} = S_{xs} = 0$, only $X^{U}_{ik}$ and $X^{VW}_{ik}$ remain, the geometric matrices of the GBT–Ritz approach {{kharghani2025jcs,kharghani2026jcs}}; $X^{VW}_{ik}$ corresponds to $X_{pik}W^{o}_{p}$ of {{silvestre2002b,silvestre2013shear}}.
+which contains Eq. (@Xgeo) and, with $\partial u/\partial x = u_j\varphi_{j,x}$ and $\partial u/\partial s = u_{j,s}\varphi_j$, the shear-mode terms; the Mindlin modes do not move the mid-surface and do not contribute. For a uniform $S_{xx}$ and $S_{ss} = S_{xs} = 0$, only $X^{U}_{ik}$ and $X^{VW}_{ik}$ remain, the geometric matrices of the GBT–Ritz approach {{kharghani2025jcs,kharghani2026jcs}}; $X^{VW}_{ik}$ corresponds to $X_{pik}W^{o}_{p}$ of {{silvestre2002b,silvestre2013shear}} (there, $p$ is a mode index).
 
 The compressive end load $n_0(s)$, acting at the distance $e_0(s)$ from the wall reference surface, enters through generalised end forces, as $q^{I}_i$ in {{silvestre2013shear}}; with the axial displacement $u_0 = u - e_0 w_{,x}$ at the load,
 
@@ -374,10 +374,10 @@ and the generalised shear stress resultant $W^{\tau}_i = -W^{\sigma}_{i,x} + W^{
 As in {{kharghani2025jcs,kharghani2026jcs}}, every amplitude function is a sum of basis functions with unknown coefficients,
 
 $$
-\phi_k(x) = \sum_{l=1}^{n_b} N_l(x)\,a_{kl},\qquad \varphi_j(x) = \sum_{l=1}^{n_b} N_l(x)\,a_{jl},\qquad \chi_r(x) = \sum_{l=1}^{n_b} N_l(x)\,a_{rl}, \eqn{Psi}
+\phi_k(x) = \sum_{l=1}^{n_b} \Psi_l(x)\,a_{kl},\qquad \varphi_j(x) = \sum_{l=1}^{n_b} \Psi_l(x)\,a_{jl},\qquad \chi_r(x) = \sum_{l=1}^{n_b} \Psi_l(x)\,a_{rl}, \eqn{Psi}
 $$
 
-i.e. $\boldsymbol\Phi = \boldsymbol\Psi\mathbf a$, with $\boldsymbol\Psi$ the matrix of the basis functions and their derivatives and $\mathbf a$ all coefficients. Instead of trigonometric series {{kharghani2025jcs,kharghani2026jcs}}, the $n_b$ functions $N_l$ are cubic B-splines on an open uniform knot vector with spans $h_x = b_s/20$: they are local, so that they resolve the end zones, and their end values are the end coefficients ($\phi(0) = a_1$; $\phi_{,x}(0) = 0 \Leftrightarrow a_2 = a_1$), so that end conditions are imposed exactly. Cubic B-splines are established in spline finite strips {{lau1986}} and isogeometric analysis {{hughes2005iga}}; unlike the Hermite elements of GBT-based finite elements {{bebiano2018}}, they are twice continuously differentiable.
+i.e. $\boldsymbol\Phi = \boldsymbol\Psi\mathbf a$, with $\boldsymbol\Psi$ the matrix of the basis functions $\Psi_l$ and their derivatives and $\mathbf a$ all coefficients. Instead of trigonometric series {{kharghani2025jcs,kharghani2026jcs}}, the $n_b$ functions $\Psi_l$ are cubic B-splines on an open uniform knot vector with spans $h_x = b_s/20$: they are local, so that they resolve the end zones, and their end values are the end coefficients ($\phi(0) = a_1$; $\phi_{,x}(0) = 0 \Leftrightarrow a_2 = a_1$), so that end conditions are imposed exactly. Cubic B-splines are established in spline finite strips {{lau1986}} and isogeometric analysis {{hughes2005iga}}; unlike the Hermite elements of GBT-based finite elements {{bebiano2018}}, they are twice continuously differentiable.
 
 As in the shell models (Section 3), **simply supported (SS)** loaded edges have $U_Y = 0$ at every end node, i.e. $\sum_k U_{Y,qk}\phi_k = 0$ at $x = 0, L$, imposed by reducing $\mathbf a$ to the null space of these conditions; unlike the classical $\phi_k = \sin(m\pi x/L)$, this leaves $U_X$, warping and rotations free. **Clamped (CC)** edges have $\phi_k = \phi_{k,x} = 0$ and $\chi_r = 0$ at both ends and $\varphi_j(0) = 0$, so that $x = L$ can warp under the load. Inserting $\boldsymbol\Phi = \boldsymbol\Psi\mathbf a$ into Eqs. (@Xide) and (@Xgen) turns $\delta U + \lambda\,\delta V = 0$ into
 
