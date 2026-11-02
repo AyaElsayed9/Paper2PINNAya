@@ -7,19 +7,15 @@ For 30 omega-stringer cells with simply supported loaded edges, the GBT–Ritz c
 Future work will address periodic conditions with free lateral expansion, enriched bases for coupled laminates, the comparison with the closed-form solutions of El Yaakoubi-Mesbah and Mittelstedt {{elyaakoubi2025}}, and the use of the formulation as a data generator for machine-learning surrogate models {{elsayed2026}}.
 
 ::: {custom-style="MDPI_6.2_back_matter"}
-**Author Contributions:** Conceptualization, A.M.E. and N.K.; methodology, A.M.E. and N.K.; software, A.M.E.; validation, A.M.E.; formal analysis, A.M.E.; investigation, A.M.E.; writing—original draft preparation, A.M.E.; writing—review and editing, N.K. and C.M.; supervision, N.K. and C.M.; project administration, C.M.; funding acquisition, C.M. All authors have read and agreed to the published version of the manuscript. [To be confirmed.]
+**Author Contributions:** Conceptualization, A.M.E. and N.K.; methodology, A.M.E. and N.K.; software, A.M.E.; validation, A.M.E.; formal analysis, A.M.E.; investigation, A.M.E.; writing—original draft preparation, A.M.E.; writing—review and editing, N.K. and C.M.; supervision, N.K. and C.M.; project administration, C.M.; funding acquisition, C.M. All authors have read and agreed to the published version of the manuscript.
 :::
 
 ::: {custom-style="MDPI_6.2_back_matter"}
-**Funding:** This research received no external funding. [To be confirmed.]
+**Funding:** This research received no external funding.
 :::
 
 ::: {custom-style="MDPI_6.2_back_matter"}
-**Data Availability Statement:** The data presented in this study are available on request from the corresponding author. [To be confirmed.]
-:::
-
-::: {custom-style="MDPI_6.2_back_matter"}
-**Acknowledgments:** During the preparation of this work, the authors used Claude (Anthropic) [model version to be confirmed] for code development, data analysis, figure generation and drafting of the manuscript text. The authors have reviewed and edited all output and take full responsibility for the content of this publication.
+**Data Availability Statement:** The data presented in this study are available on request from the corresponding author.
 :::
 
 ::: {custom-style="MDPI_6.2_back_matter"}
