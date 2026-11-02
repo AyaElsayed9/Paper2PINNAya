@@ -73,7 +73,7 @@ D^{L}_{11} = 10^{-3}D_{0,11},\quad D^{L}_{22} = k_L D_{0,22},\quad D^{L}_{66} = 
 \end{gathered} \eqn{link}
 $$
 
-with all other entries zero. The factor $k_L = 10^3$ makes the link rigid in the cross-section plane; the factor $10^{-3}$ removes its axial, longitudinal bending and twisting stiffness, which a row of rigid links does not have. Both are numerical choices that do not affect the results (Section 3.7).
+with all other entries zero. The factor $k_L = 10^3$ makes the link rigid in the cross-section plane; the factor $10^{-3}$ removes its axial, longitudinal bending and twisting stiffness, which a row of rigid links does not have. Both are numerical choices: changing $k_L$ from $10^2$ to $10^4$ or the small factor from $10^{-2}$ to 0 changes the critical load by less than 0.01 % (Section 3.7).
 
 ### Nodal description and mode families
 
