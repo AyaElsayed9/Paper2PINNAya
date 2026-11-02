@@ -48,6 +48,13 @@ for lay in LAYS:
             first = False
 s = s.replace("@@TABNCR@@", "\n".join(rows))
 assert len(ess) == 30
+# cases where clamping lowers the critical load, counted in GBT and in Abaqus
+_k = [(l, b, t) for l in LAYS for b in (150.0, 285.5) for t in (0.75, 1.5, 3.0)]
+n_ccg = sum(gbt[(l, b, t, "CC")] < gbt[(l, b, t, "SS")] for l, b, t in _k)
+n_cca = sum(abq[(l, b, t, "CC")] < abq[(l, b, t, "SS")] for l, b, t in _k)
+n_ccb = sum(gbt[(l, b, t, "CC")] < gbt[(l, b, t, "SS")] and abq[(l, b, t, "CC")] < abq[(l, b, t, "SS")] for l, b, t in _k)
+assert n_ccg == n_cca == n_ccb, (n_ccg, n_cca, n_ccb)
+s = s.replace("@@NCCLOW@@", str(n_ccg))
 ssd = {}
 for lay in LAYS:
     for bs in (150.0, 285.5):
