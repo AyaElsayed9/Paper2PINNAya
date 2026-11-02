@@ -101,7 +101,7 @@ The default discretisation (segments of at most $b_s/25$, spans $b_s/20$) was ch
 A complete GBT analysis with 474–558 modes takes @@TGSEQ@@ s on average for the ten cells with $b_s = 150$ mm and $\beta = 1.5$, of which the cross-section analysis, reused for all lengths, takes less than 1 s. For the four long cells of Table 7, GBT has @@DOFR@@ of the degrees of freedom of the shell model and needs @@TR@@ of its time (different two-core machines); since the global and distortional modes couple with all others, the GBT matrices are less sparse, and the main benefit is the modal description.
 
 ::: {custom-style="MDPI_4.1_table_caption"}
-**Table 7.** Model size and computing time of the long cells (SS, $b_s = 150$ mm; Abaqus: 8 eigenvalues, wall-clock time, Intel i5-13420H; GBT: 2 eigenvalues and mode decomposition, Intel Xeon 2.1 GHz; 2 cores each).
+**Table 7.** Model size and computing time of the long cells (SS, $b_s = 150$ mm; Abaqus: 8 eigenvalues, time of the solver step, Intel i5-13420H; GBT: 2 eigenvalues and mode decomposition, Intel Xeon 2.1 GHz; 2 cores each).
 :::
 
 @@TABTIME@@
