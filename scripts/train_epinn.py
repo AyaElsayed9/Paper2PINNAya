@@ -36,7 +36,8 @@ def files_of(folder, bc, nmax):
 def report(tag, res):
     e = np.array([r["N_ritz"] / r["N_full"] - 1 for r in res]); h = np.array([r["N_head"] / r["N_full"] - 1 for r in res])
     return (f"{tag}: Ritz N (upper bound) vs full GBT: mean {100 * np.mean(np.abs(e)):.2f} %, max {100 * np.max(np.abs(e)):.2f} %"
-            f"  |  head N: mean {100 * np.mean(np.abs(h)):.2f} %, max {100 * np.max(np.abs(h)):.2f} %")
+            f"  |  head N: mean {100 * np.mean(np.abs(h)):.2f} %, max {100 * np.max(np.abs(h)):.2f} %, "
+            f"bias {100 * np.mean(h):+.2f} %, above {int(np.sum(h > 0))}/{len(h)}")
 
 
 def main():
@@ -66,6 +67,9 @@ def main():
     ap.add_argument("--oracle", default=None, help="folder of training designs with an oracle N_cr (full GBT)")
     ap.add_argument("--gamma", type=float, default=0.0, help="weight of the Paper 1 data term SmoothL1(N/N_oracle, 1)")
     ap.add_argument("--n-oracle-batch", type=int, default=4)
+    ap.add_argument("--mode", default="physics", choices=["physics", "data", "hybrid"],
+                    help="three-way test: physics-only, data-only (exact modes and loads), hybrid (ngfull only)")
+    ap.add_argument("--exact", default=None, help="folder of exact targets (scripts/exact_targets.py)")
     a = ap.parse_args()
     torch.set_num_threads(a.threads); torch.manual_seed(a.seed)
     t0 = time.perf_counter()
@@ -87,6 +91,15 @@ def main():
                 oracle[i] = tr.lam_full[i]
         ev_idx = sorted(oracle)[:a.n_eval_train] or ev_idx
         print(f"{len(oracle)} oracle designs (full GBT), gamma = {a.gamma}", flush=True)
+    exact = None
+    if a.exact:
+        exact = []
+        for i, f in enumerate(tr.files):
+            r = torch.load(Path(a.exact) / f"{Path(f).stem}.pt", weights_only=False)
+            exact.append((r["T"].double(), torch.log(torch.as_tensor(r["N_ritz"][:a.k])).float()))
+            if not np.isfinite(tr.lam_full[i]):
+                tr.lam_full[i] = float(r["N_ritz"][0])        # exact load in the Ritz space (reporting)
+        print(f"exact targets for {len(exact)} training designs, mode = {a.mode}", flush=True)
     print(f"network: {sum(p.numel() for p in net.parameters()) / 1e6:.1f} M parameters", flush=True)
     t1 = time.perf_counter()
 
@@ -97,7 +110,8 @@ def main():
     lg = lambda s: print(s + f"   ({time.perf_counter() - t1:.0f} s)", flush=True)
     if a.method.startswith("ngfull"):
         opt = epinn.train_ritz_ng_full(net, tr, outer=a.outer, epochs=a.epochs, batch=a.batch, lr=a.lr, k=a.k,
-                                       seed=a.seed, log=lg, eval_fn=ev, eval_every=2, oracle=oracle, gamma=a.gamma)
+                                       seed=a.seed, log=lg, eval_fn=ev, eval_every=2, oracle=oracle, gamma=a.gamma,
+                                       mode=a.mode, exact=exact, log_every=1 if a.mode != "data" else 5)
         if a.method.endswith("+adam"):
             epinn.train_adam(net, tr, steps=a.steps, batch=a.batch, lr=a.lr, k=a.k, seed=a.seed, log=lg,
                              eval_fn=ev, eval_every=200, opt=opt)

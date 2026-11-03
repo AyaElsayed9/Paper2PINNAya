@@ -358,15 +358,22 @@ def train_ritz_ng(net, designs, outer=40, inner=20, batch=8, lr=1e-3, k=3, seed=
 
 
 def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3, seed=0, log=print,
-                       w_tail=0.25, eval_fn=None, eval_every=2, opt=None, oracle=None, gamma=0.0):
+                       w_tail=0.25, eval_fn=None, eval_every=2, opt=None, oracle=None, gamma=0.0,
+                       mode="physics", exact=None, log_every=1):
     """Energy natural gradient with full projection: every outer iteration computes the
     physics step (Ritz line search, `ritz_ng_target`) for ALL designs from the current
     network, then fits the network to all these targets for `epochs` passes (the
     least-squares projection of the function-space step onto the network).
     oracle (index -> N_oracle), gamma: Paper 1 data term gamma * SmoothL1(N_head / N_oracle, 1)
-    on the instant answer of the designs where the oracle was called."""
+    on the instant answer of the designs where the oracle was called.
+    mode (three-way test, 3 Nov 2026), with exact[i] = (T*, logN*) the converged modes (unit whitened
+    vectors) and log loads of design i (`scripts/exact_targets.py`):
+      "physics": targets = one physics step from the current network, head = its Ritz loads (no labels);
+      "data":    targets = exact modes, head = exact loads (no physics step);
+      "hybrid":  physics-step targets + exact modes, head = exact loads."""
     pool = _as_pool(designs)
     oracle = oracle or {}
+    assert mode in ("physics", "data", "hybrid") and (mode == "physics" or exact is not None)
     gen = np.random.default_rng(seed)
     opt = opt or torch.optim.Adam(net.parameters(), lr=lr)
     R = net.R
@@ -377,10 +384,18 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
             Y0 = torch.cat([net(pool.X[i:i + 64])[0] for i in range(0, nd, 64)], 0)
         T, logNt = [None] * nd, [None] * nd
         for i in range(nd):
+            if mode == "data":
+                T[i], logNt[i] = exact[i]
+                if it % log_every == 0 or it == outer:
+                    mu_c, _ = ritz(pool.get(i), Y0[i])
+                    pool.hist[i].append(1.0 / float(mu_c[0]))
+                continue
             d = pool.get(i); d.P = pool.P[i]
             t, mu_t, mu_c = ritz_ng_target(d, Y0[i], R)
             T[i] = t / t.norm(dim=1, keepdim=True); logNt[i] = torch.log(1.0 / mu_t[:k].clamp(min=1e-12)).float()
             pool.hist[i].append(1.0 / float(mu_c[0]))
+            if mode == "hybrid":
+                logNt[i] = exact[i][1]
         fit0 = fit1 = 0.0
         for ep in range(epochs):
             perm = gen.permutation(nd); tot = 0.0
@@ -388,6 +403,8 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
                 bi = perm[b0:b0 + batch]
                 Y, logN = net(pool.X[bi])
                 lf = sum(subspace_fit_loss(Y[j], T[i], w) for j, i in enumerate(bi)) / len(bi)
+                if mode == "hybrid":
+                    lf = lf + sum(subspace_fit_loss(Y[j], exact[i][0], w) for j, i in enumerate(bi)) / len(bi)
                 loss = lf + sum(((logN[j] - logNt[i]) ** 2).sum() for j, i in enumerate(bi)) / len(bi)
                 if gamma > 0:
                     for j, i in enumerate(bi):
@@ -460,5 +477,5 @@ def evaluate(net, designs, k=3, idx=None):
         Y, logN = net(pool.X[i:i + 1])
         mu, _ = ritz(d, Y[0])
         out.append(dict(sid=d.sid, bc=d.bc, params=d.params, N_ritz=float(1.0 / mu[0]) if mu[0] > 0 else float("inf"),
-                        N_head=float(torch.exp(logN[0, 0])), N_full=d.lam_full))
+                        N_head=float(torch.exp(logN[0, 0])), N_full=pool.lam_full[i]))
     return out

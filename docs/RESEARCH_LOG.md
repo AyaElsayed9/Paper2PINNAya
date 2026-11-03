@@ -145,3 +145,17 @@ and *Paper2_PINN_details.pdf* (27 Oct 2026), run files in `runs/`. Errors are al
      branches, each branch smooth in the design) and a larger decoder;
   3. more designs where the error is large (active sampling with GBT), ensemble + certificate as the check;
   4. L-BFGS polish and curriculum last.
+
+## 3 Nov 2026 (evening) — three-way test set up: physics-only vs data-only vs hybrid
+* **Correction of the afternoon entry:** the exact GBT results are stored only for the test and oracle
+  designs. The 320 training operators were built without the full GBT (`lam_full = nan`, about 2.5 s each).
+  A label costs about 13 s per design (LOBPCG to convergence in the Ritz space, within 0.03–0.11 % of full
+  GBT on 3 test designs), i.e. about 5× the physics data. Label-free training therefore does save time
+  (≈ 80 % per design), although labels for a few hundred designs remain cheap (≈ 35 min on 2 cores).
+* `scripts/exact_targets.py`: exact modes (R = 8, unit whitened vectors) and loads of the 320 training
+  designs → `data/exact_targets/periodic_industrial_SS/`.
+* `epinn.train_ritz_ng_full(mode=...)`: "physics" (unchanged), "data" (fit to exact modes, head on exact
+  loads, no physics step), "hybrid" (physics-step targets + exact modes, head on exact loads);
+  `train_epinn.py --mode --exact`. Reports now include the head bias and the count above GBT.
+* Settings identical to the physics-only run `runs/p1_ss_dec` (decoder, R = 8, 30 outer × 10 epochs,
+  batch 16, lr 1e-3, seed 0, 320 designs), which is reused as the physics-only arm.
