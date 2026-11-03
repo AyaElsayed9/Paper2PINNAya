@@ -44,9 +44,14 @@ The best network's head is biased high (27 of 32 unseen designs above GBT, mean 
 removing the bias 2.79 % mean, 6.64 % max). Exact GBT targets are already stored in every operator file.
 Revised plan: see the last entry of `docs/RESEARCH_LOG.md` (hybrid loss with exact GBT targets first).
 
-## Running now (3 Nov 2026, evening)
-Three-way test physics-only / data-only / hybrid (see `docs/RESEARCH_LOG.md`, last entry); data-only arm
-restarted after an out-of-memory kill (`logs/run_threeway2.sh`).
+## Three-way test (3 Nov 2026, night) — unseen designs, one seed each
+| | head mean / max, bias | Ritz bound | certificate 3 / 12 steps |
+|---|---|---|---|
+| physics-only | 3.65 / 9.77 %, +3.13 % | 10.7 % | 1.78 / 0.22 % |
+| data-only | 2.78 / 6.25 %, −1.71 % | 18.9 % | 0.80 / 0.14 % |
+| hybrid | 3.94 / 11.02 %, −1.08 % | 14.1 % | 0.79 / 0.13 % |
+Labels remove the bias; physics gives the best shapes; head noisy between checkpoints (±1.5 %);
+average of the 3 heads 1.61 / 5.52 %. Proposed next: hybrid + ensemble of 5 seeds (waiting for Aya).
 
 ## Where we stopped — open questions
 1. Break the plateau: more candidates (Ritz mixture of experts), experts per mode family or geometry range,

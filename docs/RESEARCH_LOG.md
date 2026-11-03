@@ -163,3 +163,31 @@ and *Paper2_PINN_details.pdf* (27 Oct 2026), run files in `runs/`. Errors are al
   > 8 GB on this machine); nothing to do with the method. `logs/run_threeway2.sh` restarts it alone after
   the hybrid run and computes the certificates meanwhile. Hybrid at outer 16 of 30 (unseen designs):
   head 1.47 % mean / 5.14 % max, bias +0.26 % (15/32 above GBT); Ritz bound 13.4 % (still falling).
+
+## 3 Nov 2026 (night) — three-way test result (SS periodic, 320 training → 32 unseen designs, one seed each)
+| | physics-only (`p1_ss_dec`) | data-only (`w3_data`) | hybrid (`w3_hybrid`) |
+|---|---|---|---|
+| head (instant) mean / max | 3.65 / 9.77 % | 2.78 / 6.25 % | 3.94 / 11.02 % |
+| head bias, designs above GBT | +3.13 %, 27/32 | −1.71 %, 8/32 | −1.08 %, 10/32 |
+| Ritz bound of predicted modes | 10.68 / 34.17 % | 18.92 / 59.93 % | 14.09 / 37.27 % |
+| certificate 3 / 5 / 8 / 12 steps (mean) | 1.78 / 1.01 / 0.46 / 0.22 % | 0.80 / 0.37 / 0.21 / 0.14 % | 0.79 / 0.37 / 0.19 / 0.13 % |
+| certificate 12 steps, max | 1.24 % | 0.86 % | 0.70 % |
+| Ritz, training designs (16) | not logged | 11.80 % | 9.06 % |
+| cost | 95 min (2 threads) | 30 min (1 thread) + labels ≈ 35 min (2 cores) | 144 min (1 thread, first 45 min shared) + labels |
+* Labels remove the high bias of the head (the cause found in the afternoon), in both data and hybrid.
+* The head error jumps between checkpoints: hybrid 1.47 % at outer 16, 3.94 % at outer 30; data 2.0–3.05 %
+  over outer 8–30. With one seed the head difference data vs hybrid (2.78 vs 3.94 %) is within this noise,
+  so no winner on the head.
+* Mode shapes (Ritz bound on unseen designs): physics-only best (10.7 %), hybrid 14.1 %, data-only worst
+  (18.9 %, max 60 %, train/test gap 11.8 → 18.9 %). The physics loss makes the predicted shapes generalise;
+  data alone overfits the shapes.
+* Certificate: labels help it converge faster (3 steps 0.8 % instead of 1.8 %; 12 steps 0.13–0.14 %, max
+  0.70 % for hybrid). The predicted block spans the right directions better although its Ritz value is worse.
+* Ensemble (free, from the cert logs): mean of the three heads 1.61 % mean / 5.52 % max, bias +0.11 %;
+  data + hybrid only: 2.59 / 7.65 %. Head errors of data and hybrid are uncorrelated (r = −0.04), so the
+  error is mostly network variance, not a systematic physics error. Honest caveat: part of the 3-net gain
+  is the +3 % and −1 to −2 % biases cancelling. The spread of the three heads does NOT predict the error
+  (r = 0.02), so as in Paper 1 the ensemble spread is not a reliable flag; the certificate stays the check.
+* Decision proposed to Aya: hybrid as the main training (best certificate, bias gone, shapes still guided by
+  physics), then a deep ensemble of 5 seeds (Paper 1 idea) to remove the variance of the head; certificate as
+  the check. Not yet started.
