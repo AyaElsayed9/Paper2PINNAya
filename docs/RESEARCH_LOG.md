@@ -12,6 +12,10 @@ and *Paper2_PINN_details.pdf* (27 Oct 2026), run files in `runs/`. Errors are al
   reference. (Older notes that mention Abaqus blind validation are superseded.)
 * Motivation against Paper 1: remove the reduced-bending-stiffness (RBS) approximation of the plate
   energy and the expensive Abaqus data.
+* **No order dependence** (3 Nov 2026): Paper 1 worked best when panels were asked in sweep order (transfer
+  learning from the neighbour, −15 %/+3 % window vs the previous panel). In Paper 2 every prediction and
+  every check must depend only on the design itself. (The current network has no batch normalisation or
+  neighbour input, so this holds.)
 * Solver V32 stays frozen (only bug fixes that leave all validated values unchanged, `solver/CHANGES.md`).
 
 ## 22 Oct 2026 — foundations
