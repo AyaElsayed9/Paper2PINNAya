@@ -1,0 +1,44 @@
+# Status of Paper 2 (machine-learning part) — 3 November 2026
+
+Read this first when continuing the work. Details: `docs/ROADMAP.md`; code: `src/pinnbuck/`.
+
+## Goal
+A physics-informed neural network (PINN) for buckling of the omega-stringer panel (later the member
+sections), with the shear-deformable GBT energy as its physics. It fixes the two weak points of Paper 1
+(Elsayed et al., Compos. Struct. 399 (2026) 120959): the reduced bending stiffness (RBS) approximation
+of the plate energy, and the expensive Abaqus data. **Decision (2 Nov 2026): Paper 2 uses the GBT code,
+not Abaqus.** (README and ROADMAP still mention Abaqus for blind validation: to be updated.)
+
+## Done
+| step | result |
+|---|---|
+| Phase 0 | frozen solver V32, package `pinnbuck`, design space, tests |
+| Shared mode basis (POD) | 241 GBT modes for every omega panel, error vs full GBT 0.01–0.02 % |
+| Operators | K, G and pre-buckling state of a panel in the shared basis, checked to 1e-13 |
+| Functions along the length | dictionary (6 wavelengths, sin/cos + 8 end splines per end): 0.05–0.27 % |
+| First physics-only training | too slow (close eigenvalues, end-localised modes, condition number 1e9–1e19) |
+| Data-teacher detour | 160 GBT-labelled designs: about 9–16 % error, dropped |
+| Energy whitening (key step) | energy ≈ \|y\|² in the new coordinates; eigen-iteration 0.1 % in 7–13 steps (was 150) |
+| Network | 38 inputs (geometry, end/side flags, lamination parameters, closed-form loads, wave content) → 8 candidate modes + N_cr head; function decoder, 0.53 M parameters; Rayleigh–Ritz layer |
+| Optimiser | `ngfull`: energy natural gradient with a Rayleigh–Ritz line search |
+| Physics certificate | LOBPCG started from the predicted modes (replaces the −15 %/+3 % window of Paper 1) |
+
+## Results (errors vs full GBT on unseen designs, no labels in training)
+| case | head (instant) | Ritz of predicted modes | certificate, 12 steps |
+|---|---|---|---|
+| CC, symmetry: 259 training → 22 unseen | 5.0 % mean / 10.9 % max | 12.3 / 25.9 % | 0.54 / 1.72 % |
+| SS, periodic: 320 training → 32 unseen | 3.65 / 9.77 % | 10.7 / 34.2 % | 0.22 / 1.24 % |
+
+Last experiment (27 Oct): Paper 1 data term (SmoothL1, oracle on the 10 % most suspicious designs).
+It corrects the designs it is applied to but does not transfer to unseen designs. Plateau: about
+3.6 % (head) and 10 % (Ritz), also on training designs, so the limit is the network's representation
+of the modes (capacity), not data or optimiser steps.
+
+## Where we stopped — open questions
+1. Break the plateau: more candidates (Ritz mixture of experts), experts per mode family or geometry range,
+   larger decoder, longer training on the laptop.
+2. The projection step (network following the physics step) is slow: fit loss 0.98 → 0.30 in 20 steps.
+3. Cost: the certificate needs the operators of the design (5–10 s), about the cost of one GBT solve
+   (about 10 s). The instant head is the fast answer; the certificate is a check, not a speed-up.
+4. Validation without Abaqus: GBT itself is validated against Abaqus in the periodic-GBT paper.
+5. Later phases: surrogate and uncertainty (3), Koiter imperfection sensitivity in GBT (4), figures and manuscript (5).
