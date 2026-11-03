@@ -39,6 +39,11 @@ GBT at the 22 Abaqus points of Paper 1: 0.54 % mean / 0.97 % max (Paper 1 PINN: 
 tight pitch 124.25 mm: 0.89 % instead of 8.08 % mean; all 22 half-wave numbers right. The GBT engine
 removes the RBS error. Paper 1 facts and Aya's plan: `docs/PAPER1_SUMMARY.md`.
 
+## Error analysis (3 Nov 2026, afternoon)
+The best network's head is biased high (27 of 32 unseen designs above GBT, mean +3.13 %; scatter after
+removing the bias 2.79 % mean, 6.64 % max). Exact GBT targets are already stored in every operator file.
+Revised plan: see the last entry of `docs/RESEARCH_LOG.md` (hybrid loss with exact GBT targets first).
+
 ## Where we stopped — open questions
 1. Break the plateau: more candidates (Ritz mixture of experts), experts per mode family or geometry range,
    larger decoder, longer training on the laptop.

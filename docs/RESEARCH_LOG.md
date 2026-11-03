@@ -121,3 +121,23 @@ and *Paper2_PINN_details.pdf* (27 Oct 2026), run files in `runs/`. Errors are al
   Rayleigh–Ritz loss; GBT as oracle in the data term of 27 Oct); (3) physics certificate / supervisor;
   (4) lamination parameters as inputs (industrial lay-ups); (5) one network for all designs, < 1 ms.
   The open problem remains the accuracy of the fast network on unseen lay-ups (3.65 % mean, target 1–2 %).
+
+## 3 Nov 2026 (afternoon) — error analysis of the best network and revised plan
+* Analysis of `runs/p1_ss_dec.json` (periodic SS, 32 unseen designs) against the stored full-GBT values:
+  * the head is **biased high**: above GBT in 27 of 32 designs, signed mean **+3.13 %** (unconservative).
+    Cause: the head is trained on the network's own Ritz values, which are upper bounds of imperfect modes.
+  * after removing the mean bias the scatter is still 2.79 % mean, 6.64 % max.
+  * |error| is not correlated with b_s (0.0), the gap between the two lowest loads (−0.03) or N_cr (0.04);
+    weakly with β (0.2). Several of the largest errors share the skin [−45/45/90/0]s.
+* Honest correction: every operator file already stores the exact GBT N_cr and the 3 lowest modes
+  (`lam_full`, `teacher`, `teacher_eigs`), because building the operators costs about one GBT solve.
+  So "label-free" training saves no computing time here; the exact GBT targets are free.
+  The supervised trial of 25 Oct (10–16 %) used the old network (linear output, no whitening, 160 designs)
+  and was never repeated with whitening + decoder + ngfull.
+* Revised plan (replaces the order proposed in the morning):
+  1. hybrid loss as in Paper 1 but with exact GBT targets on all training designs (N_cr and mode subspace)
+     plus the Rayleigh–Ritz physics loss; removes the head bias and measures the capacity directly;
+  2. only if training designs still plateau: R = 16 candidates as branch experts (N_cr = min over mode
+     branches, each branch smooth in the design) and a larger decoder;
+  3. more designs where the error is large (active sampling with GBT), ensemble + certificate as the check;
+  4. L-BFGS polish and curriculum last.
