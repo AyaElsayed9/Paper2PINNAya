@@ -7,7 +7,7 @@ A physics-informed neural network (PINN) for buckling of the omega-stringer pane
 sections), with the shear-deformable GBT energy as its physics. It fixes the two weak points of Paper 1
 (Elsayed et al., Compos. Struct. 399 (2026) 120959): the reduced bending stiffness (RBS) approximation
 of the plate energy, and the expensive Abaqus data. **Decision (2 Nov 2026): Paper 2 uses the GBT code,
-not Abaqus.** (README and ROADMAP still mention Abaqus for blind validation: to be updated.)
+not Abaqus.** (The README still mentions Abaqus for blind validation; the ROADMAP carries the decision note.)
 
 ## Done
 | step | result |
