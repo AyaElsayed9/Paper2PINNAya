@@ -1,7 +1,7 @@
 # Notes for Claude (read first in every session)
 
 1. Read `docs/STATUS.md` (where we are), `docs/RESEARCH_LOG.md` (every try, result and decision) and
-   `docs/PAPER1_SUMMARY.md` (Paper 1 and Aya's plan for Paper 2)
+   `docs/PAPER1_SUMMARY.md` (Paper 1 and Aya's plan for Paper 2) and `docs/LITERATURE_AND_PAPER1_IDEAS.md`
    before proposing anything for Paper 2. Add every new try, result and decision to `docs/RESEARCH_LOG.md`
    and update `docs/STATUS.md` in the same commit.
 2. Working rules from Aya:
