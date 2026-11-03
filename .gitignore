@@ -12,3 +12,5 @@ data/operators/
 data/*.log
 runs/
 data/teacher/
+data/exact_targets/
+logs/*.log
