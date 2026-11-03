@@ -99,3 +99,25 @@ and *Paper2_PINN_details.pdf* (27 Oct 2026), run files in `runs/`. Errors are al
   5. periodic CC, members; then Koiter (phase 4).
 * Honest cost note: the certificate needs the design's operators (5–10 s) ≈ one GBT solve (~10 s); the
   instant head (<1 ms) is the fast answer, the certificate is a check.
+
+## 3 Nov 2026 — Aya's plan clarified, Paper 1 read, first test of the plan
+* Aya's plan (her words summarised in `docs/PAPER1_SUMMARY.md`): Paper 1's framework with (1) GBT as the
+  physics engine instead of the 1D RBS plate energy, (2) the GBT code instead of Abaqus as solver/oracle,
+  (3) a reasonable check instead of the −15 %/+3 % neighbour window, (4) the lay-up as an input,
+  (5) a fast tool.
+* Paper 1 read from the uploaded PDF; facts in `docs/PAPER1_SUMMARY.md` (one cross-ply lay-up, per-panel
+  PINN, RBS for the foot, max 10.8 % vs Abaqus at b_s = 124.25 mm, MLP surrogate on b_s and β).
+* **Test of point (1): full GBT at the 22 Abaqus points of Paper 1, Table 2** (cross-ply, symmetry side,
+  SS; `scripts/gbt_at_paper1_points.py`, `results_p1/gbt_p1.jsonl`; Abaqus values copied from the table):
+  | points | Paper 1 PINN vs Abaqus: mean / max | GBT vs Abaqus: mean / max |
+  |---|---|---|
+  | all 22 | 2.53 % / 10.80 % | **0.54 % / 0.97 %** |
+  | tight pitch b_s = 124.25 mm (4) | 8.08 % / 10.80 % | **0.89 % / 0.97 %** |
+  | other 18 | 1.29 % / 3.54 % | **0.46 % / 0.95 %** |
+  Half-wave number: GBT matches Abaqus in 22/22 (Paper 1: 20/22). GBT is 0.1–1.0 % below Abaqus everywhere.
+  **Conclusion: the GBT engine removes the RBS error of Paper 1.** Note: b_s = 124.25 and 136 mm lie
+  outside the 150–285.5 mm range of the earlier GBT validation; these Paper 1 points extend it.
+* Mapping of the plan onto the existing code: (1) and (2) are what `epinn.py` already does (GBT
+  Rayleigh–Ritz loss; GBT as oracle in the data term of 27 Oct); (3) physics certificate / supervisor;
+  (4) lamination parameters as inputs (industrial lay-ups); (5) one network for all designs, < 1 ms.
+  The open problem remains the accuracy of the fast network on unseen lay-ups (3.65 % mean, target 1–2 %).

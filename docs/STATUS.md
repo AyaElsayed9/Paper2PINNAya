@@ -34,6 +34,11 @@ It corrects the designs it is applied to but does not transfer to unseen designs
 3.6 % (head) and 10 % (Ritz), also on training designs, so the limit is the network's representation
 of the modes (capacity), not data or optimiser steps.
 
+## Latest result (3 Nov 2026)
+GBT at the 22 Abaqus points of Paper 1: 0.54 % mean / 0.97 % max (Paper 1 PINN: 2.53 % / 10.80 %),
+tight pitch 124.25 mm: 0.89 % instead of 8.08 % mean; all 22 half-wave numbers right. The GBT engine
+removes the RBS error. Paper 1 facts and Aya's plan: `docs/PAPER1_SUMMARY.md`.
+
 ## Where we stopped — open questions
 1. Break the plateau: more candidates (Ritz mixture of experts), experts per mode family or geometry range,
    larger decoder, longer training on the laptop.
