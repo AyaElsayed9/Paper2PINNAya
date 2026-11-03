@@ -44,6 +44,10 @@ The best network's head is biased high (27 of 32 unseen designs above GBT, mean 
 removing the bias 2.79 % mean, 6.64 % max). Exact GBT targets are already stored in every operator file.
 Revised plan: see the last entry of `docs/RESEARCH_LOG.md` (hybrid loss with exact GBT targets first).
 
+## Running now (3 Nov 2026, evening)
+Three-way test physics-only / data-only / hybrid (see `docs/RESEARCH_LOG.md`, last entry); data-only arm
+restarted after an out-of-memory kill (`logs/run_threeway2.sh`).
+
 ## Where we stopped — open questions
 1. Break the plateau: more candidates (Ritz mixture of experts), experts per mode family or geometry range,
    larger decoder, longer training on the laptop.

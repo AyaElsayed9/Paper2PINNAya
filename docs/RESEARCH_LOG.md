@@ -159,3 +159,7 @@ and *Paper2_PINN_details.pdf* (27 Oct 2026), run files in `runs/`. Errors are al
   `train_epinn.py --mode --exact`. Reports now include the head bias and the count above GBT.
 * Settings identical to the physics-only run `runs/p1_ss_dec` (decoder, R = 8, 30 outer × 10 epochs,
   batch 16, lr 1e-3, seed 0, 320 designs), which is reused as the physics-only arm.
+* 19:20: the data-only run was killed by the out-of-memory killer after 45 min (data + hybrid together
+  > 8 GB on this machine); nothing to do with the method. `logs/run_threeway2.sh` restarts it alone after
+  the hybrid run and computes the certificates meanwhile. Hybrid at outer 16 of 30 (unseen designs):
+  head 1.47 % mean / 5.14 % max, bias +0.26 % (15/32 above GBT); Ritz bound 13.4 % (still falling).
