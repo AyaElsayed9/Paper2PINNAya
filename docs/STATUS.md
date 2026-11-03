@@ -1,6 +1,6 @@
 # Status of Paper 2 (machine-learning part) — 3 November 2026
 
-Read this first when continuing the work. Details: `docs/ROADMAP.md`; code: `src/pinnbuck/`.
+Read this first when continuing the work. Every try and decision: `docs/RESEARCH_LOG.md`; plan: `docs/ROADMAP.md`; code: `src/pinnbuck/`.
 
 ## Goal
 A physics-informed neural network (PINN) for buckling of the omega-stringer panel (later the member

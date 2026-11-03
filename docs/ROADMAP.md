@@ -3,6 +3,8 @@
 Working title: *GBT-informed deep energy learning of buckling and imperfection sensitivity of
 thin-walled composite sections* (Composite Structures).
 
+> **Decision 2 Nov 2026:** Paper 2 uses the validated GBT code as physics and reference; no Abaqus (supersedes the Abaqus blind-validation plans below). Current state: `docs/STATUS.md`; full history: `docs/RESEARCH_LOG.md`.
+
 ## Contributions
 1. A deep-energy PINN whose physics is shear-deformable GBT: the network predicts a small set of GBT amplitude
    functions instead of displacement fields, side conditions (symmetry, periodic) hold exactly by construction,
