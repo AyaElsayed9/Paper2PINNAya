@@ -1,0 +1,13 @@
+symmetry: 0 done, 20 to go
+corner  bs  124.25 beta  0.75 SS full   56.5246 shared  +0.039 %  ritz  +0.052 % (80 it)  14+6 s
+corner  bs  124.25 beta  1.50 SS full   49.2997 shared  +0.045 %  ritz  +0.098 % (80 it)  26+9 s
+corner  bs  124.25 beta  3.50 SS full   49.2327 shared  +0.025 %  ritz  +0.286 % (80 it)  63+14 s
+corner  bs  124.25 beta  1.50 SS full   54.1690 shared  +0.116 %  ritz  +0.237 % (80 it)  27+8 s
+corner  bs  124.25 beta  3.50 SS full   20.8725 shared  +0.026 %  ritz  +0.075 % (80 it)  60+13 s
+corner  bs  124.25 beta  0.75 CC full   41.4296 shared  +0.077 %  ritz  +0.079 % (80 it)  13+5 s
+corner  bs  124.25 beta  3.50 CC full   42.7624 shared  +0.049 %  ritz  +0.874 % (80 it)  62+13 s
+corner  bs  285.50 beta  3.50 SS full    6.3333 shared  +0.002 %  ritz  +0.300 % (80 it)  67+14 s
+corner  bs  285.50 beta  3.50 CC full    3.4403 shared  +0.004 %  ritz  +5.331 % (80 it)  65+12 s
+control bs  150.00 beta  1.50 SS full   17.3123 shared  +0.024 %  ritz  +0.125 % (80 it)  24+8 s
+control bs  150.00 beta  1.50 CC full   27.0016 shared  +0.011 %  ritz  +0.092 % (80 it)  24+7 s
+control bs  285.50 beta  1.50 SS full    5.8931 shared  +0.025 %  ritz  +0.104 % (80 it)  27+8 s

@@ -1,0 +1,41 @@
+head: weights 'state'; mode shapes: weights 'state_ema'
+08a2d692f707 bs 227 beta 0.82: full GBT 11.133 | head +0.65 % | network Ritz +8.88 % | certificate 3 steps +0.28 %  5 steps +0.09 %  8 steps +0.05 %  12 steps +0.04 %
+0d67c9769fb0 bs 263 beta 2.90: full GBT 6.467 | head -1.59 % | network Ritz +68.12 % | certificate 3 steps +3.48 %  5 steps +1.31 %  8 steps +0.55 %  12 steps +0.30 %
+0e5206258e0e bs 160 beta 2.84: full GBT 25.091 | head -2.69 % | network Ritz +46.66 % | certificate 3 steps +4.10 %  5 steps +2.06 %  8 steps +1.34 %  12 steps +0.85 %
+147c28ced3c5 bs 219 beta 2.35: full GBT 11.047 | head -0.33 % | network Ritz +8.88 % | certificate 3 steps +0.19 %  5 steps +0.06 %  8 steps +0.04 %  12 steps +0.04 %
+1903e694d2b6 bs 233 beta 2.76: full GBT 9.597 | head -0.40 % | network Ritz +28.74 % | certificate 3 steps +0.94 %  5 steps +0.34 %  8 steps +0.16 %  12 steps +0.11 %
+1a4767c631f6 bs 169 beta 1.61: full GBT 20.062 | head +2.05 % | network Ritz +15.63 % | certificate 3 steps +0.49 %  5 steps +0.22 %  8 steps +0.14 %  12 steps +0.12 %
+1dbdd9b8cbcc bs 166 beta 0.75: full GBT 20.104 | head +4.79 % | network Ritz +37.54 % | certificate 3 steps +0.28 %  5 steps +0.06 %  8 steps +0.03 %  12 steps +0.02 %
+2e1476ffc8ec bs 226 beta 1.55: full GBT 11.230 | head -0.89 % | network Ritz +16.00 % | certificate 3 steps +0.43 %  5 steps +0.19 %  8 steps +0.12 %  12 steps +0.10 %
+3af4daf734b7 bs 196 beta 0.91: full GBT 15.001 | head -0.00 % | network Ritz +11.43 % | certificate 3 steps +0.24 %  5 steps +0.13 %  8 steps +0.11 %  12 steps +0.10 %
+3c2652f2831a bs 273 beta 2.08: full GBT 7.750 | head -1.13 % | network Ritz +20.78 % | certificate 3 steps +0.98 %  5 steps +0.38 %  8 steps +0.21 %  12 steps +0.10 %
+4888d3b694c2 bs 174 beta 2.01: full GBT 19.434 | head +1.49 % | network Ritz +17.01 % | certificate 3 steps +0.29 %  5 steps +0.13 %  8 steps +0.09 %  12 steps +0.08 %
+50b8ae25ed00 bs 214 beta 2.56: full GBT 14.025 | head -0.97 % | network Ritz +12.80 % | certificate 3 steps +0.42 %  5 steps +0.19 %  8 steps +0.13 %  12 steps +0.11 %
+51c219020b08 bs 183 beta 1.18: full GBT 18.410 | head +0.19 % | network Ritz +17.82 % | certificate 3 steps +0.34 %  5 steps +0.13 %  8 steps +0.09 %  12 steps +0.09 %
+58c3dc0e9c7c bs 212 beta 1.04: full GBT 14.871 | head +1.71 % | network Ritz +5.90 % | certificate 3 steps +0.18 %  5 steps +0.12 %  8 steps +0.09 %  12 steps +0.09 %
+5a71f836186f bs 175 beta 2.69: full GBT 23.515 | head -0.35 % | network Ritz +17.82 % | certificate 3 steps +0.82 %  5 steps +0.46 %  8 steps +0.24 %  12 steps +0.16 %
+5ee7b2d1abb6 bs 241 beta 1.68: full GBT 9.216 | head -0.94 % | network Ritz +9.78 % | certificate 3 steps +0.25 %  5 steps +0.16 %  8 steps +0.13 %  12 steps +0.12 %
+63ce3c3ebada bs 245 beta 1.25: full GBT 8.676 | head -0.22 % | network Ritz +9.03 % | certificate 3 steps +0.28 %  5 steps +0.14 %  8 steps +0.10 %  12 steps +0.09 %
+6df9ac9bc2b6 bs 186 beta 2.29: full GBT 18.924 | head -0.40 % | network Ritz +12.09 % | certificate 3 steps +0.57 %  5 steps +0.23 %  8 steps +0.12 %  12 steps +0.10 %
+6f9586537c39 bs 235 beta 1.94: full GBT 9.996 | head -1.18 % | network Ritz +14.56 % | certificate 3 steps +0.61 %  5 steps +0.26 %  8 steps +0.15 %  12 steps +0.13 %
+8088fcfa5049 bs 255 beta 1.41: full GBT 7.229 | head +2.72 % | network Ritz +16.28 % | certificate 3 steps +0.45 %  5 steps +0.20 %  8 steps +0.09 %  12 steps +0.07 %
+811053db3245 bs 189 beta 1.34: full GBT 16.599 | head -0.25 % | network Ritz +8.00 % | certificate 3 steps +0.18 %  5 steps +0.11 %  8 steps +0.09 %  12 steps +0.08 %
+9e8e7a44ba9f bs 251 beta 2.62: full GBT 7.805 | head +0.50 % | network Ritz +60.10 % | certificate 3 steps +3.94 %  5 steps +1.87 %  8 steps +1.16 %  12 steps +0.40 %
+a27217f2ffbf bs 280 beta 2.49: full GBT 6.924 | head +3.81 % | network Ritz +23.75 % | certificate 3 steps +2.68 %  5 steps +1.74 %  8 steps +0.63 %  12 steps +0.15 %
+a3d9e8e552f3 bs 283 beta 1.11: full GBT 6.844 | head +1.57 % | network Ritz +16.39 % | certificate 3 steps +0.52 %  5 steps +0.22 %  8 steps +0.13 %  12 steps +0.11 %
+ae24975b6784 bs 258 beta 2.23: full GBT 8.817 | head -0.89 % | network Ritz +10.70 % | certificate 3 steps +0.52 %  5 steps +0.20 %  8 steps +0.11 %  12 steps +0.10 %
+b15e379e85d2 bs 264 beta 0.97: full GBT 8.645 | head +0.01 % | network Ritz +10.35 % | certificate 3 steps +0.33 %  5 steps +0.15 %  8 steps +0.07 %  12 steps +0.06 %
+c1cf6f325435 bs 198 beta 2.97: full GBT 14.343 | head +0.10 % | network Ritz +22.32 % | certificate 3 steps +0.95 %  5 steps +0.34 %  8 steps +0.17 %  12 steps +0.10 %
+cd842e1d9ebe bs 205 beta 2.14: full GBT 12.528 | head -1.39 % | network Ritz +8.39 % | certificate 3 steps +0.23 %  5 steps +0.13 %  8 steps +0.10 %  12 steps +0.10 %
+ee8444b93f8d bs 206 beta 1.77: full GBT 13.072 | head -0.96 % | network Ritz +12.64 % | certificate 3 steps +0.25 %  5 steps +0.15 %  8 steps +0.11 %  12 steps +0.11 %
+facbd834adb8 bs 157 beta 2.42: full GBT 21.390 | head -1.47 % | network Ritz +27.26 % | certificate 3 steps +1.44 %  5 steps +0.50 %  8 steps +0.24 %  12 steps +0.16 %
+fbd66034df53 bs 272 beta 1.84: full GBT 7.758 | head +0.64 % | network Ritz +16.85 % | certificate 3 steps +0.62 %  5 steps +0.32 %  8 steps +0.17 %  12 steps +0.12 %
+fd1992c54d43 bs 150 beta 1.48: full GBT 29.889 | head -2.54 % | network Ritz +20.01 % | certificate 3 steps +0.73 %  5 steps +0.32 %  8 steps +0.14 %  12 steps +0.10 %
+
+32 test designs (SS), |error| vs full GBT, mean / max:
+  head    1.21 % /   4.79 %
+  ritz   19.77 % /  68.12 %
+  s3      0.88 % /   4.10 %
+  s5      0.40 % /   2.06 %
+  s8      0.22 % /   1.34 %
+  s12     0.14 % /   0.85 %
