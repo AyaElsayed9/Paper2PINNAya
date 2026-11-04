@@ -1,0 +1,9 @@
+periodic: 0 done, 20 to go
+corner  bs  124.25 beta  0.75 SS full   56.5242 shared  +0.033 %  ritz  +0.044 % (80 it)  20+7 s
+corner  bs  124.25 beta  1.50 SS full   49.2993 shared  +0.044 %  ritz  +0.093 % (80 it)  30+8 s
+corner  bs  124.25 beta  1.50 SS full   55.6034 shared  +0.144 %  ritz  +0.240 % (80 it)  28+9 s
+corner  bs  124.25 beta  3.50 SS full   49.2325 shared  +0.023 %  ritz  +0.250 % (80 it)  62+14 s
+corner  bs  124.25 beta  0.75 CC full   48.6220 shared  +0.039 %  ritz  +0.039 % (80 it)  13+5 s
+corner  bs  124.25 beta  3.50 SS full   20.8893 shared  +0.021 %  ritz  +0.063 % (80 it)  60+14 s
+corner  bs  285.50 beta  3.50 SS full    6.3333 shared  +0.001 %  ritz  +0.268 % (80 it)  65+15 s
+corner  bs  285.50 beta  3.50 CC full    3.4400 shared  +0.002 %  ritz  +5.292 % (80 it)  63+12 s

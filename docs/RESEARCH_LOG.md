@@ -305,3 +305,14 @@ weights for the modes": (1) a separate choice for the head and for the modes (tw
 network, the cheap fix); (2) more designs (step B1, about 1000), which should reduce the overfitting;
 (3) seeds (step D) before any claim that hybrid and data-only differ (1.42 vs 1.21 % is within the noise of
 one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1, check the shared bases).
+
+## 4 Nov 2026 (evening) — step B0 started
+* Code: `designspace.SPACES` (v1 = old ranges; v2 = b_s 124.25–285.5 mm, β 0.75–3.5), `Sample.space` (input
+  scaling; not part of the design id), `sample_design(..., layups="mixed", space="v2")` (each design industrial
+  with probability 1/2, else general ply-by-ply). Checked: the old sets are reproduced exactly (same ids).
+  `build_operators.py --space v2 --layups mixed`.
+* Code: `train_epinn.py` also keeps the weights with the best validation Ritz bound (`state_modes`);
+  `eval_epinn.py --modes state_modes|state_last|state_ema` takes the mode shapes (certificate start) from
+  other weights than the head.
+* `scripts/check_extended_space.py` (running): full GBT vs shared basis vs converged Ritz space at 20 designs per
+  side condition (corners of the new region, Sobol points with industrial lay-ups, controls in the old region).

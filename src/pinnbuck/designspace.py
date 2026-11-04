@@ -38,6 +38,17 @@ FAMILIES = {
 }
 
 
+# Version 2 (4 Nov 2026, Paper 2 as Paper 1): b_s from 124.25 mm (Paper 1's tight pitch) and beta up to 3.5.
+# Checked against full GBT in scripts/check_extended_space.py; GBT vs Abaqus there: Paper 1 points
+# (symmetry) and abaqus_tasks/2026-11-04_extension (periodic + symmetry, blind).
+SPACES = {"v1": {"bs": (150.0, 285.5), "beta": (0.75, 3.0)},
+          "v2": {"bs": (124.25, 285.5), "beta": (0.75, 3.5)}}
+
+
+def ranges(family: str, space: str = "v1") -> dict:
+    return SPACES[space] if family == "omega" else FAMILIES[family]["continuous"]
+
+
 # ------------------------------------------------------------------ lay-ups
 def sample_layup(n: int, rng: np.random.Generator, symmetric: bool) -> list[float]:
     """n ply angles from ANGLE_SET; symmetric=True mirrors the first half (B = 0)."""
@@ -88,6 +99,7 @@ class Sample:
     params: dict                       # continuous + categorical values
     layups: dict                       # name -> list of ply angles [deg]
     fixed: dict = field(default_factory=dict)
+    space: str = "v1"                  # parameter ranges used to scale the inputs (SPACES); not in sid
 
     @property
     def sid(self) -> str:
@@ -99,7 +111,7 @@ class Sample:
         """Network input vector: scaled continuous parameters, categorical flags,
         lamination parameters and thickness of every laminate."""
         fam = FAMILIES[self.family]; out = []
-        for k, (lo, hi) in fam["continuous"].items():
+        for k, (lo, hi) in ranges(self.family, self.space).items():
             out.append(2 * (self.params[k] - lo) / (hi - lo) - 1)
         for k, opts in fam["categorical"].items():
             out.append(float(opts.index(self.params[k])))
@@ -113,16 +125,17 @@ class Sample:
 
 
 def sample_design(family: str, n: int, seed: int = 0, symmetric_share: float = 0.5,
-                  categorical: dict | None = None, layups: str = "general") -> list[Sample]:
+                  categorical: dict | None = None, layups: str = "general", space: str = "v1") -> list[Sample]:
     """n samples: scrambled Sobol for the continuous parameters, independent
     seeded draws for categorical values and lay-ups.  `categorical` fixes some
     categorical parameters (e.g. {"bc": "SS"}).  layups = "general" (ply by ply from
-    ANGLE_SET) or "industrial" (uniform over `industrial_layups` of every laminate)."""
-    fam = FAMILIES[family]; keys = list(fam["continuous"])
+    ANGLE_SET), "industrial" (uniform over `industrial_layups` of every laminate) or "mixed"
+    (each design industrial with probability 1/2, else general).  space = "v1" | "v2" (SPACES)."""
+    fam = FAMILIES[family]; rg = ranges(family, space); keys = list(rg)
     sob = qmc.Sobol(d=len(keys), scramble=True, seed=seed)
     m = int(np.ceil(np.log2(max(n, 2))))
     u = sob.random_base2(m)[:n]
-    lo = np.array([fam["continuous"][k][0] for k in keys]); hi = np.array([fam["continuous"][k][1] for k in keys])
+    lo = np.array([rg[k][0] for k in keys]); hi = np.array([rg[k][1] for k in keys])
     x = qmc.scale(u, lo, hi)
     rng = np.random.default_rng(seed + 1)
     out = []
@@ -132,17 +145,18 @@ def sample_design(family: str, n: int, seed: int = 0, symmetric_share: float = 0
             p[k] = (categorical or {}).get(k) or str(rng.choice(opts))
         sym = bool(rng.random() < symmetric_share)
         fx = dict(fam["fixed"])
-        if layups == "industrial":
+        ind = layups == "industrial" or (layups == "mixed" and bool(rng.random() < 0.5))
+        if ind:
             pick = lambda k: [float(a) for a in (lambda L_: L_[rng.integers(len(L_))])(industrial_layups(k))]
             lay = ({"skin": pick(fx["n_skin"]), "stringer": pick(fx["n_stringer"])} if family == "omega"
                    else {"wall": pick(fx["n_plies"])})
-            out.append(Sample(family, p, lay, fx))
+            out.append(Sample(family, p, lay, fx, space))
             continue
         if family == "omega":
             lay = {"skin": sample_layup(fx["n_skin"], rng, sym), "stringer": sample_layup(fx["n_stringer"], rng, sym)}
         else:
             lay = {"wall": sample_layup(fx["n_plies"], rng, sym)}
-        out.append(Sample(family, p, lay, fx))
+        out.append(Sample(family, p, lay, fx, space))
     return out
 
 

@@ -29,6 +29,8 @@ def main():
     ap.add_argument("--test", default=str(ROOT / "data/operators/symmetry_industrial/test"))
     ap.add_argument("--steps", default="3,5,8")
     ap.add_argument("--threads", type=int, default=2)
+    ap.add_argument("--modes", default="state", help="weights for the mode shapes / certificate start: state (the "
+                    "head's, default), state_modes (chosen on the validation Ritz bound), state_last, state_ema")
     a = ap.parse_args()
     torch.set_num_threads(a.threads)
     ck = torch.load(a.model, weights_only=False); ar = ck["args"]
@@ -42,8 +44,14 @@ def main():
             net = epinn.build_net(ar.get("arch", "linear"), d.x[None].repeat(2, 0), d.rs, R=ar["R"], k=ar["k"],
                                   width=ar["width"], depth=ar["depth"])
             net.load_state_dict(ck["state"]); net.eval()
+            net_m = net
+            if a.modes != "state":                     # second copy of the network for the mode shapes
+                import copy
+                net_m = copy.deepcopy(net); net_m.load_state_dict(ck[a.modes], strict=False); net_m.eval()
+                print(f"head: weights 'state'; mode shapes: weights '{a.modes}'", flush=True)
         with torch.no_grad():
-            Y, logN = net(torch.as_tensor(d.x[None]))
+            _, logN = net(torch.as_tensor(d.x[None]))
+            Y, _ = net_m(torch.as_tensor(d.x[None]))
             mu, _ = epinn.ritz(d, Y[0])
         em = EnergyMetric(d.rs, groups="labels", ridge=1e-8)
         lam, _, h = lobpcg(d.rs, R=ar["R"], iters=max(steps), X0=d.rs.unflat(d.fm.color(Y[0].double())),

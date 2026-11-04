@@ -121,6 +121,7 @@ def main():
     t1 = time.perf_counter()
 
     best = dict(score=np.inf)
+    best_modes = dict(score=np.inf)      # weights chosen for the mode shapes (validation Ritz bound)
 
     def swap(sd):
         old = {k: v.detach().clone() for k, v in net.state_dict().items()}
@@ -141,6 +142,10 @@ def main():
                 if score(rv) < best["score"]:
                     best.update(score=score(rv), it=it, name=name,
                                 state={k: v.detach().clone() for k, v in net.state_dict().items()})
+                sm = float(np.mean([r["N_ritz"] / r["N_full"] - 1 for r in rv]))
+                if sm < best_modes["score"]:
+                    best_modes.update(score=sm, it=it, name=name,
+                                      state={k: v.detach().clone() for k, v in net.state_dict().items()})
                 if old is not None:
                     net.load_state_dict(old)
         if not a.no_test_log:
@@ -174,10 +179,13 @@ def main():
     if va is not None:
         ev("end")
         print(f"chosen on validation: {best['name']} weights of evaluation {best['it']} "
-              f"(validation head mean {100 * best['score']:.2f} %)", flush=True)
+              f"(validation head mean {100 * best['score']:.2f} %); for the modes: {best_modes['name']} weights of "
+              f"evaluation {best_modes['it']} (validation Ritz mean {100 * best_modes['score']:.2f} %)", flush=True)
         net.load_state_dict(best["state"])
     res = dict(train=epinn.evaluate(net, tr, idx=ev_idx), test=epinn.evaluate(net, te), args=vars(a),
-               chosen=dict(it=str(best.get("it")), name=best.get("name"), val_head=best.get("score")))
+               chosen=dict(it=str(best.get("it")), name=best.get("name"), val_head=best.get("score"),
+                           modes_it=str(best_modes.get("it")), modes_name=best_modes.get("name"),
+                           val_ritz=best_modes.get("score")))
     print(report("final train", res["train"])); print(report("final test ", res["test"]))
     for r in res["test"]:
         print(f"   test {r['sid']} bs {r['params']['bs']:.0f} beta {r['params']['beta']:.2f}: full {r['N_full']:.4f}  "
@@ -185,7 +193,7 @@ def main():
               f"({100 * (r['N_head'] / r['N_full'] - 1):+.2f} %)")
     if a.out:
         Path(a.out).parent.mkdir(parents=True, exist_ok=True)
-        torch.save(dict(state=net.state_dict(), state_last=state_last,
+        torch.save(dict(state=net.state_dict(), state_last=state_last, state_modes=best_modes.get("state"),
                         state_ema=getattr(net, "ema_state", None), args=vars(a), chosen=res["chosen"]), a.out)
         json.dump(res, open(str(a.out).replace(".pt", ".json"), "w"), indent=1, default=float)
 
