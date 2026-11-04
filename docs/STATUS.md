@@ -52,7 +52,9 @@ Revised plan: see the last entry of `docs/RESEARCH_LOG.md` (hybrid loss with exa
 | hybrid | 3.94 / 11.02 %, −1.08 % | 14.1 % | 0.79 / 0.13 % |
 Labels remove the bias; physics gives the best shapes; head noisy between checkpoints (±1.5 %);
 average of the 3 heads 1.61 / 5.52 %. Decision 4 Nov: hybrid is the method, quality first; plan A–E in `docs/RESEARCH_LOG.md`.
-Running: step A, clean training of all three arms (`logs/run_v2.sh`).
+Step A (clean training, validation choice), hybrid done 4 Nov: head **1.42 / 4.35 %**, bias +0.55 %; but the head
+overfits after outer ≈ 8 and the modes are chosen too early (Ritz 20.1 %, certificate 3 steps 1.81 %, 12 steps 0.20 %).
+Running: data and physics arms of step A (`logs/run_v2.sh`).
 Next: design space as Paper 1 (b_s from 124.25 mm, β to 3.5, symmetry + periodic), ~1000 designs, GBT-call
 count study. All runs indexed in `results/EXPERIMENTS.md` (`scripts/collect_results.py`).
 

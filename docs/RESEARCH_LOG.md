@@ -245,3 +245,23 @@ and *Paper2_PINN_details.pdf* (27 Oct 2026), run files in `runs/`. Errors are al
 * Files: `run_extension.ps1` (PowerShell, uses `Omegastiffener_PBC_v2.py` with PANEL_SIDES = PBC / SYM).
 * **Blind:** GBT V32 values of all 20 cells (`gbt_predictions.csv`) computed and committed before any Abaqus
   result exists. Control: periodic 17.315, symmetry 17.312.
+
+## 4 Nov 2026 (14:00) — step A, hybrid arm (`runs/v2_hybrid`)
+Settings: 288 training + 32 validation designs (the last 32 training files), 30 outer steps, cosine LR
+1e-3 → 1e-5, EMA 0.995, weights chosen on validation (head mean), test never looked at during training.
+| run | head mean / max, bias | Ritz bound | certificate 3 / 12 steps (mean, 12-step max) |
+|---|---|---|---|
+| w3_hybrid (old, 320 designs, constant LR, last weights) | 3.94 / 11.02 %, −1.08 % | 14.1 % | 0.79 / 0.13 % (0.70) |
+| v2_hybrid (chosen: EMA weights, outer 8) | **1.42 / 4.35 %, +0.55 %** | 20.1 % | 1.81 / 0.20 % (0.98) |
+Findings (honest):
+* The head is much better: 1.42 % mean, 4.35 % max, almost no bias (19 of 32 above GBT).
+* The **head overfits after outer ≈ 8–10**: training head 1.3 → 0.77 %, validation head 1.0 → 1.9 %.
+  The mode shapes do not overfit: validation Ritz keeps falling (20.8 % at outer 8 → 14.5 % at 30).
+* So choosing the weights by the head alone takes early weights with poorer modes, and the certificate is
+  slower (3 steps: 1.81 % vs 0.79 %). At 12 steps both are 0.1–0.2 %.
+* The EMA weights are steadier and better than the raw weights on validation (outer 8: 1.02 vs 1.54 %).
+* The validation set is small (32 designs) and the minimum over 15 evaluations is a little optimistic;
+  the test value (1.42 %) confirms it is not far off.
+Ideas from this (not done yet): choose the head weights and the mode weights separately (two weight sets of
+the same network, or freeze the head early); regularise the head; more designs (step B1: about 1000),
+which is the most direct fix for the overfitting.
