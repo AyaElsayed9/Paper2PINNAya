@@ -265,3 +265,6 @@ Findings (honest):
 Ideas from this (not done yet): choose the head weights and the mode weights separately (two weight sets of
 the same network, or freeze the head early); regularise the head; more designs (step B1: about 1000),
 which is the most direct fix for the overfitting.
+* 4 Nov 14:00: the machine restarted and stopped the data-only arm at outer 4 (log kept as
+  `runs/v2_data_killed_by_restart.log`). 16:03: data and physics arms restarted with the same settings
+  (`logs/run_v2b.sh`).
