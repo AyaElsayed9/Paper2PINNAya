@@ -325,3 +325,17 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   possible causes: (1) LOBPCG not converged (every run stopped at the 80-iteration cap); (2) the dictionary
   is too short (longest half-wave 350 mm). `scripts/b0_long_cc_probe.py` tests both on six panels: 400
   iterations, and the dictionary extended by the next two half-waves of the same series (593, 1006 mm).
+* Head/modes split on the step-A checkpoints (same 32 test designs; head from the chosen weights, mode
+  shapes from the weights at the end of training, so no choice on the test set; `runs/v2_*_cert_modes_*.log`):
+
+  | arm | mode weights | Ritz mean/max | cert 3 mean/max | cert 5 | cert 12 mean/max |
+  |---|---|---|---|---|---|
+  | hybrid | chosen (ema@8) | 20.10/49.50 % | 1.81/6.84 % | 0.92 % | 0.20/0.98 % |
+  | hybrid | final EMA | 14.67/36.74 % | 0.94/4.19 % | 0.44 % | 0.14/0.78 % |
+  | hybrid | final weights | 14.69/36.93 % | 0.94/4.18 % | 0.44 % | 0.14/0.78 % |
+  | data | chosen (ema@10) | 22.80/61.80 % | 1.10/4.84 % | 0.49 % | 0.14/0.82 % |
+  | data | final EMA | 19.77/68.12 % | 0.88/4.10 % | 0.40 % | 0.14/0.85 % |
+
+  The split halves the 3-step certificate error of hybrid (1.81 → 0.94 %) and makes hybrid's modes the best of
+  the labelled arms. Decision: use separate weights for head and modes from now on (`state_modes`, already in
+  `train_epinn.py`).

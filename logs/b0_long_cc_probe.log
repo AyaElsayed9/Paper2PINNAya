@@ -1,0 +1,19 @@
+Sym1      bs 285.50 beta 3.50 CC L    999  base80   N   3.6220 ( +5.292 %)   80 it  n 6087  7 s
+Sym1      bs 285.50 beta 3.50 CC L    999  base400  N   3.6220 ( +5.292 %)   93 it  n 6087  8 s
+Sym1      bs 285.50 beta 3.50 CC L    999  long400  N   3.4404 ( +0.012 %)  400 it  n 7051  36 s
+Sym1      bs 285.50 beta 3.00 CC L    856  base80   N   3.4750 ( +0.122 %)   80 it  n 6087  6 s
+Sym1      bs 285.50 beta 3.00 CC L    856  base400  N   3.4749 ( +0.119 %)  400 it  n 6087  31 s
+Sym1      bs 285.50 beta 3.00 CC L    856  long400  N   3.4712 ( +0.012 %)  400 it  n 7051  32 s
+Unsym     bs 285.50 beta 3.00 CC L    856  base80   N   5.4599 ( +0.026 %)   80 it  n 6087  6 s
+Unsym     bs 285.50 beta 3.00 CC L    856  base400  N   5.4597 ( +0.022 %)  400 it  n 6087  31 s
+Unsym     bs 285.50 beta 3.00 CC L    856  long400  N   5.4589 ( +0.008 %)  400 it  n 7051  31 s
+Sym1      bs 285.50 beta 2.00 CC L    571  base80   N   3.6155 ( +0.027 %)   80 it  n 6087  5 s
+Sym1      bs 285.50 beta 2.00 CC L    571  base400  N   3.6154 ( +0.023 %)  400 it  n 6087  23 s
+Sym1      bs 285.50 beta 2.00 CC L    571  long400  N   3.6152 ( +0.017 %)  400 it  n 7051  25 s
+Cross-ply bs 285.50 beta 3.50 SS L    999  base80   N   6.3502 ( +0.268 %)   80 it  n 6564  8 s
+Cross-ply bs 285.50 beta 3.50 SS L    999  base400  N   6.3501 ( +0.266 %)  280 it  n 6564  27 s
+Cross-ply bs 285.50 beta 3.50 SS L    999  long400  N   6.3376 ( +0.068 %)  400 it  n 7528  41 s
+Unsym     bs 124.25 beta 3.50 CC L    435  base80   N  45.7784 ( +0.050 %)   80 it  n 6087  7 s
+Unsym     bs 124.25 beta 3.50 CC L    435  base400  N  45.7690 ( +0.029 %)  400 it  n 6087  32 s
+Unsym     bs 124.25 beta 3.50 CC L    435  long400  N  45.7692 ( +0.030 %)  400 it  n 7051  34 s
+PROBE_DONE

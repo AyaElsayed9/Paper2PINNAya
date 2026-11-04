@@ -2,3 +2,4 @@ periodic: 17 done, 3 to go
 corner  bs  124.25 beta  3.50 CC full   45.7557 shared  +0.021 %  ritz  +0.050 % (80 it)  60+12 s
 random  bs  125.42 beta  3.37 SS full   51.7186 shared  +0.024 %  ritz  +0.423 % (80 it)  77+14 s
 random  bs  227.10 beta  3.43 SS full   10.2148 shared  +0.003 %  ritz  +0.070 % (80 it)  64+15 s
+B0_CHECK_DONE
