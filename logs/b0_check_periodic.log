@@ -7,3 +7,4 @@ corner  bs  124.25 beta  0.75 CC full   48.6220 shared  +0.039 %  ritz  +0.039 %
 corner  bs  124.25 beta  3.50 SS full   20.8893 shared  +0.021 %  ritz  +0.063 % (80 it)  60+14 s
 corner  bs  285.50 beta  3.50 SS full    6.3333 shared  +0.001 %  ritz  +0.268 % (80 it)  65+15 s
 corner  bs  285.50 beta  3.50 CC full    3.4400 shared  +0.002 %  ritz  +5.292 % (80 it)  63+12 s
+control bs  150.00 beta  1.50 SS full   17.3149 shared  +0.014 %  ritz  +0.117 % (80 it)  27+9 s
