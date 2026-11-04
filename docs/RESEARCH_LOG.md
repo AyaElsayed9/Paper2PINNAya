@@ -279,3 +279,29 @@ which is the most direct fix for the overfitting.
   but stays above the hybrid's (14.5 % at outer 30): the physics step gives better mode shapes.
 * Without the physics step one outer step is much faster (whole run about 30 min instead of about 110 min).
 * The head difference hybrid 1.42 % vs data 1.21 % is within the noise of one seed and 32 test designs.
+
+## 4 Nov 2026 (18:20) — step A, physics-only arm (`runs/v2_physics`) and summary of step A
+Same settings (288 training + 32 validation designs, cosine LR, EMA, choice on validation, one seed, SS
+periodic industrial set, 32 unseen test designs).
+| arm | chosen | head mean / max, bias (above) | Ritz bound | cert. 3 steps | cert. 12 steps mean / max | time |
+|---|---|---|---|---|---|---|
+| physics-only | net @ 30 | 4.48 / 11.89 %, +4.47 % (31/32) | **11.95 %** | 1.92 % | 0.22 / 1.07 % | 104 min |
+| data-only | EMA @ 10 | **1.21 / 4.79 %, +0.05 %** (13/32) | 22.8 % | 1.10 % | 0.14 / 0.82 % | 26 min |
+| hybrid | EMA @ 8 | 1.42 / 4.35 %, +0.55 % (19/32) | 20.1 % | 1.81 % | 0.20 / 0.98 % | 110 min |
+Old runs (constant LR, last weights): physics 3.65 % / +3.13 % / Ritz 10.7 %; data 2.78 %; hybrid 3.94 %.
+Findings (honest):
+* The physics-only head is biased high on almost every design (+4.5 %). Its target is the Ritz value after
+  the physics step, which is an upper bound, so the head learns an upper bound. It was still falling slowly
+  at outer 30 (validation 5.2 → 4.8 % from outer 20 to 30), and it does not overfit. It is worse than the
+  old physics run (3.65 %), which had 320 designs instead of 288 (and the same 30 outer steps).
+* Labels fix the head: 1.2–1.4 % mean, max under 5 %, no bias. But with labels the head overfits after
+  outer 8–10.
+* The physics gives the best mode shapes (Ritz 12 % against 20–23 %). The weights chosen for the head in
+  the labelled arms are early weights, so their modes are poorer.
+* After 12 certificate steps all three are at 0.14–0.22 % mean, below 1.1 % max: the certificate makes the
+  final answer good in every case; the head and the modes decide how many steps are needed.
+Decision: keep hybrid as the method, and fix the conflict between "early weights for the head" and "late
+weights for the modes": (1) a separate choice for the head and for the modes (two weight sets of the same
+network, the cheap fix); (2) more designs (step B1, about 1000), which should reduce the overfitting;
+(3) seeds (step D) before any claim that hybrid and data-only differ (1.42 vs 1.21 % is within the noise of
+one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1, check the shared bases).

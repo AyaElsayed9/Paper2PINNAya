@@ -52,9 +52,14 @@ Revised plan: see the last entry of `docs/RESEARCH_LOG.md` (hybrid loss with exa
 | hybrid | 3.94 / 11.02 %, −1.08 % | 14.1 % | 0.79 / 0.13 % |
 Labels remove the bias; physics gives the best shapes; head noisy between checkpoints (±1.5 %);
 average of the 3 heads 1.61 / 5.52 %. Decision 4 Nov: hybrid is the method, quality first; plan A–E in `docs/RESEARCH_LOG.md`.
-Step A (clean training, validation choice), hybrid done 4 Nov: head **1.42 / 4.35 %**, bias +0.55 %; but the head
-overfits after outer ≈ 8 and the modes are chosen too early (Ritz 20.1 %, certificate 3 steps 1.81 %, 12 steps 0.20 %).
-Running: data and physics arms of step A (`logs/run_v2.sh`).
+## Step A (4 Nov 2026): clean training (cosine LR, EMA, choice on 32 validation designs), 288 training designs
+| arm | head mean / max, bias | Ritz bound | certificate 3 / 12 steps |
+|---|---|---|---|
+| physics-only | 4.48 / 11.89 %, +4.47 % | 11.95 % | 1.92 / 0.22 % |
+| data-only | 1.21 / 4.79 %, +0.05 % | 22.8 % | 1.10 / 0.14 % |
+| hybrid | 1.42 / 4.35 %, +0.55 % | 20.1 % | 1.81 / 0.20 % |
+Labels fix the head but it overfits after outer 8–10; the physics gives the best modes. Fixes: separate weight
+choice for head and modes, more designs (B1), seeds (D).
 Next: design space as Paper 1 (b_s from 124.25 mm, β to 3.5, symmetry + periodic), ~1000 designs, GBT-call
 count study. All runs indexed in `results/EXPERIMENTS.md` (`scripts/collect_results.py`).
 

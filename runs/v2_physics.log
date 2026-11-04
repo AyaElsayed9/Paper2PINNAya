@@ -3,3 +3,131 @@ SS: 288 training designs, 32 test designs, n = 6564 per mode; inputs ready in 6 
 exact targets for 288 training designs, mode = physics
 network: 0.5 M parameters
 outer   1: training designs, N of the network before the step vs full GBT: mean 4919.66 %, max 7994.08 %; fit to the physics step: 3.4876 -> 2.5071   (162 s)
+outer   2: training designs, N of the network before the step vs full GBT: mean 92.03 %, max 197.59 %; fit to the physics step: 1.7780 -> 1.3075   (353 s)
+   [2] train: Ritz N (upper bound) vs full GBT: mean 62.30 %, max 84.98 %  |  head N: mean 25.49 %, max 48.30 %, bias +25.49 %, above 16/16
+   [2] val net: Ritz N (upper bound) vs full GBT: mean 60.53 %, max 111.89 %  |  head N: mean 25.25 %, max 58.65 %, bias +25.25 %, above 32/32
+   [2] val ema: Ritz N (upper bound) vs full GBT: mean 94.19 %, max 177.24 %  |  head N: mean 23.81 %, max 61.35 %, bias +9.88 %, above 17/32
+   (385 s)
+outer   3: training designs, N of the network before the step vs full GBT: mean 62.41 %, max 143.30 %; fit to the physics step: 1.1884 -> 0.9623   (582 s)
+outer   4: training designs, N of the network before the step vs full GBT: mean 51.22 %, max 121.14 %; fit to the physics step: 0.9628 -> 0.7872   (786 s)
+   [4] train: Ritz N (upper bound) vs full GBT: mean 38.66 %, max 50.22 %  |  head N: mean 15.09 %, max 31.02 %, bias +15.09 %, above 16/16
+   [4] val net: Ritz N (upper bound) vs full GBT: mean 40.92 %, max 82.53 %  |  head N: mean 15.04 %, max 44.75 %, bias +15.04 %, above 32/32
+   [4] val ema: Ritz N (upper bound) vs full GBT: mean 51.13 %, max 101.93 %  |  head N: mean 16.30 %, max 46.33 %, bias +16.29 %, above 31/32
+   (819 s)
+outer   5: training designs, N of the network before the step vs full GBT: mean 41.98 %, max 114.18 %; fit to the physics step: 0.8217 -> 0.6749   (1012 s)
+outer   6: training designs, N of the network before the step vs full GBT: mean 32.82 %, max 108.21 %; fit to the physics step: 0.7270 -> 0.6134   (1201 s)
+   [6] train: Ritz N (upper bound) vs full GBT: mean 24.70 %, max 33.94 %  |  head N: mean 9.45 %, max 18.86 %, bias +9.45 %, above 16/16
+   [6] val net: Ritz N (upper bound) vs full GBT: mean 26.99 %, max 59.74 %  |  head N: mean 10.67 %, max 25.17 %, bias +10.67 %, above 32/32
+   [6] val ema: Ritz N (upper bound) vs full GBT: mean 32.27 %, max 65.13 %  |  head N: mean 12.63 %, max 27.44 %, bias +12.63 %, above 32/32
+   (1232 s)
+outer   7: training designs, N of the network before the step vs full GBT: mean 26.67 %, max 89.98 %; fit to the physics step: 0.6864 -> 0.5635   (1409 s)
+outer   8: training designs, N of the network before the step vs full GBT: mean 22.90 %, max 66.93 %; fit to the physics step: 0.6097 -> 0.5253   (1588 s)
+   [8] train: Ritz N (upper bound) vs full GBT: mean 20.19 %, max 28.51 %  |  head N: mean 8.12 %, max 13.84 %, bias +8.12 %, above 16/16
+   [8] val net: Ritz N (upper bound) vs full GBT: mean 21.31 %, max 38.44 %  |  head N: mean 9.17 %, max 21.15 %, bias +9.17 %, above 32/32
+   [8] val ema: Ritz N (upper bound) vs full GBT: mean 22.76 %, max 44.55 %  |  head N: mean 9.24 %, max 19.08 %, bias +9.24 %, above 32/32
+   (1619 s)
+outer   9: training designs, N of the network before the step vs full GBT: mean 21.21 %, max 49.63 %; fit to the physics step: 0.5530 -> 0.4742   (1800 s)
+outer  10: training designs, N of the network before the step vs full GBT: mean 18.98 %, max 41.70 %; fit to the physics step: 0.4854 -> 0.4445   (1989 s)
+   [10] train: Ritz N (upper bound) vs full GBT: mean 17.57 %, max 24.12 %  |  head N: mean 6.22 %, max 14.01 %, bias +6.14 %, above 15/16
+   [10] val net: Ritz N (upper bound) vs full GBT: mean 18.37 %, max 29.69 %  |  head N: mean 6.53 %, max 15.67 %, bias +6.53 %, above 31/32
+   [10] val ema: Ritz N (upper bound) vs full GBT: mean 18.70 %, max 30.78 %  |  head N: mean 7.54 %, max 15.11 %, bias +7.54 %, above 32/32
+   (2024 s)
+outer  11: training designs, N of the network before the step vs full GBT: mean 18.26 %, max 38.33 %; fit to the physics step: 0.4514 -> 0.4221   (2211 s)
+outer  12: training designs, N of the network before the step vs full GBT: mean 17.16 %, max 37.04 %; fit to the physics step: 0.4363 -> 0.3957   (2409 s)
+   [12] train: Ritz N (upper bound) vs full GBT: mean 15.55 %, max 21.58 %  |  head N: mean 6.13 %, max 12.33 %, bias +6.13 %, above 16/16
+   [12] val net: Ritz N (upper bound) vs full GBT: mean 16.40 %, max 26.17 %  |  head N: mean 6.42 %, max 12.72 %, bias +6.42 %, above 32/32
+   [12] val ema: Ritz N (upper bound) vs full GBT: mean 16.69 %, max 26.54 %  |  head N: mean 6.70 %, max 13.85 %, bias +6.70 %, above 32/32
+   (2441 s)
+outer  13: training designs, N of the network before the step vs full GBT: mean 16.19 %, max 35.69 %; fit to the physics step: 0.3976 -> 0.3792   (2624 s)
+outer  14: training designs, N of the network before the step vs full GBT: mean 15.80 %, max 34.89 %; fit to the physics step: 0.3849 -> 0.3555   (2812 s)
+   [14] train: Ritz N (upper bound) vs full GBT: mean 14.50 %, max 21.63 %  |  head N: mean 5.83 %, max 12.14 %, bias +5.81 %, above 15/16
+   [14] val net: Ritz N (upper bound) vs full GBT: mean 15.32 %, max 24.68 %  |  head N: mean 5.94 %, max 14.12 %, bias +5.94 %, above 32/32
+   [14] val ema: Ritz N (upper bound) vs full GBT: mean 15.34 %, max 24.48 %  |  head N: mean 6.06 %, max 12.47 %, bias +6.06 %, above 32/32
+   (2844 s)
+outer  15: training designs, N of the network before the step vs full GBT: mean 15.10 %, max 33.93 %; fit to the physics step: 0.3627 -> 0.3435   (3029 s)
+outer  16: training designs, N of the network before the step vs full GBT: mean 14.46 %, max 33.04 %; fit to the physics step: 0.3485 -> 0.3316   (3217 s)
+   [16] train: Ritz N (upper bound) vs full GBT: mean 13.26 %, max 20.15 %  |  head N: mean 5.09 %, max 9.36 %, bias +5.09 %, above 16/16
+   [16] val net: Ritz N (upper bound) vs full GBT: mean 14.20 %, max 23.36 %  |  head N: mean 5.61 %, max 11.79 %, bias +5.61 %, above 32/32
+   [16] val ema: Ritz N (upper bound) vs full GBT: mean 14.34 %, max 23.05 %  |  head N: mean 5.67 %, max 12.15 %, bias +5.67 %, above 32/32
+   (3249 s)
+outer  17: training designs, N of the network before the step vs full GBT: mean 13.90 %, max 32.16 %; fit to the physics step: 0.3359 -> 0.3234   (3439 s)
+outer  18: training designs, N of the network before the step vs full GBT: mean 13.53 %, max 31.97 %; fit to the physics step: 0.3241 -> 0.3126   (3625 s)
+   [18] train: Ritz N (upper bound) vs full GBT: mean 12.65 %, max 19.78 %  |  head N: mean 4.86 %, max 11.41 %, bias +4.73 %, above 15/16
+   [18] val net: Ritz N (upper bound) vs full GBT: mean 13.51 %, max 23.46 %  |  head N: mean 5.26 %, max 13.03 %, bias +5.26 %, above 32/32
+   [18] val ema: Ritz N (upper bound) vs full GBT: mean 13.54 %, max 22.84 %  |  head N: mean 5.40 %, max 11.44 %, bias +5.40 %, above 32/32
+   (3657 s)
+outer  19: training designs, N of the network before the step vs full GBT: mean 13.25 %, max 30.98 %; fit to the physics step: 0.3135 -> 0.3033   (3833 s)
+outer  20: training designs, N of the network before the step vs full GBT: mean 12.95 %, max 31.36 %; fit to the physics step: 0.3053 -> 0.2938   (4014 s)
+   [20] train: Ritz N (upper bound) vs full GBT: mean 11.95 %, max 19.48 %  |  head N: mean 4.78 %, max 10.31 %, bias +4.78 %, above 16/16
+   [20] val net: Ritz N (upper bound) vs full GBT: mean 12.83 %, max 23.34 %  |  head N: mean 5.12 %, max 12.02 %, bias +5.12 %, above 31/32
+   [20] val ema: Ritz N (upper bound) vs full GBT: mean 12.96 %, max 23.00 %  |  head N: mean 5.17 %, max 11.18 %, bias +5.17 %, above 32/32
+   (4044 s)
+outer  21: training designs, N of the network before the step vs full GBT: mean 12.50 %, max 30.29 %; fit to the physics step: 0.2948 -> 0.2867   (4225 s)
+outer  22: training designs, N of the network before the step vs full GBT: mean 12.29 %, max 29.86 %; fit to the physics step: 0.2897 -> 0.2825   (4413 s)
+   [22] train: Ritz N (upper bound) vs full GBT: mean 11.71 %, max 19.60 %  |  head N: mean 4.56 %, max 10.65 %, bias +4.56 %, above 16/16
+   [22] val net: Ritz N (upper bound) vs full GBT: mean 12.51 %, max 23.05 %  |  head N: mean 5.08 %, max 11.58 %, bias +5.08 %, above 32/32
+   [22] val ema: Ritz N (upper bound) vs full GBT: mean 12.55 %, max 22.99 %  |  head N: mean 5.03 %, max 11.13 %, bias +5.03 %, above 32/32
+   (4448 s)
+outer  23: training designs, N of the network before the step vs full GBT: mean 12.12 %, max 29.28 %; fit to the physics step: 0.2852 -> 0.2795   (4635 s)
+outer  24: training designs, N of the network before the step vs full GBT: mean 11.95 %, max 28.98 %; fit to the physics step: 0.2826 -> 0.2768   (4829 s)
+   [24] train: Ritz N (upper bound) vs full GBT: mean 11.37 %, max 18.99 %  |  head N: mean 4.26 %, max 9.01 %, bias +4.26 %, above 16/16
+   [24] val net: Ritz N (upper bound) vs full GBT: mean 12.24 %, max 22.97 %  |  head N: mean 4.85 %, max 10.61 %, bias +4.75 %, above 31/32
+   [24] val ema: Ritz N (upper bound) vs full GBT: mean 12.29 %, max 23.02 %  |  head N: mean 4.91 %, max 11.08 %, bias +4.89 %, above 31/32
+   (4861 s)
+outer  25: training designs, N of the network before the step vs full GBT: mean 11.81 %, max 28.90 %; fit to the physics step: 0.2770 -> 0.2732   (5049 s)
+outer  26: training designs, N of the network before the step vs full GBT: mean 11.74 %, max 28.64 %; fit to the physics step: 0.2731 -> 0.2699   (5239 s)
+   [26] train: Ritz N (upper bound) vs full GBT: mean 11.22 %, max 18.92 %  |  head N: mean 4.29 %, max 9.27 %, bias +4.29 %, above 16/16
+   [26] val net: Ritz N (upper bound) vs full GBT: mean 12.08 %, max 23.15 %  |  head N: mean 4.84 %, max 10.90 %, bias +4.78 %, above 31/32
+   [26] val ema: Ritz N (upper bound) vs full GBT: mean 12.12 %, max 23.13 %  |  head N: mean 4.85 %, max 11.08 %, bias +4.80 %, above 31/32
+   (5270 s)
+outer  27: training designs, N of the network before the step vs full GBT: mean 11.66 %, max 28.59 %; fit to the physics step: 0.2694 -> 0.2671   (5453 s)
+outer  28: training designs, N of the network before the step vs full GBT: mean 11.60 %, max 28.62 %; fit to the physics step: 0.2678 -> 0.2663   (5636 s)
+   [28] train: Ritz N (upper bound) vs full GBT: mean 11.14 %, max 18.80 %  |  head N: mean 4.37 %, max 9.33 %, bias +4.37 %, above 16/16
+   [28] val net: Ritz N (upper bound) vs full GBT: mean 11.99 %, max 23.40 %  |  head N: mean 4.85 %, max 10.93 %, bias +4.79 %, above 31/32
+   [28] val ema: Ritz N (upper bound) vs full GBT: mean 12.02 %, max 23.36 %  |  head N: mean 4.79 %, max 10.93 %, bias +4.74 %, above 31/32
+   (5668 s)
+outer  29: training designs, N of the network before the step vs full GBT: mean 11.57 %, max 28.54 %; fit to the physics step: 0.2657 -> 0.2647   (5852 s)
+outer  30: training designs, N of the network before the step vs full GBT: mean 11.55 %, max 28.47 %; fit to the physics step: 0.2644 -> 0.2637   (6042 s)
+   [30] train: Ritz N (upper bound) vs full GBT: mean 11.11 %, max 18.74 %  |  head N: mean 4.27 %, max 9.31 %, bias +4.27 %, above 16/16
+   [30] val net: Ritz N (upper bound) vs full GBT: mean 11.98 %, max 23.47 %  |  head N: mean 4.75 %, max 10.89 %, bias +4.69 %, above 31/32
+   [30] val ema: Ritz N (upper bound) vs full GBT: mean 11.99 %, max 23.42 %  |  head N: mean 4.77 %, max 10.90 %, bias +4.71 %, above 31/32
+   (6074 s)
+   [end] train: Ritz N (upper bound) vs full GBT: mean 11.11 %, max 18.74 %  |  head N: mean 4.27 %, max 9.31 %, bias +4.27 %, above 16/16
+   [end] val net: Ritz N (upper bound) vs full GBT: mean 11.98 %, max 23.47 %  |  head N: mean 4.75 %, max 10.89 %, bias +4.69 %, above 31/32
+   [end] val ema: Ritz N (upper bound) vs full GBT: mean 11.99 %, max 23.42 %  |  head N: mean 4.77 %, max 10.90 %, bias +4.71 %, above 31/32
+   (6102 s)
+chosen on validation: net weights of evaluation 30 (validation head mean 4.75 %)
+final train: Ritz N (upper bound) vs full GBT: mean 11.11 %, max 18.74 %  |  head N: mean 4.27 %, max 9.31 %, bias +4.27 %, above 16/16
+final test : Ritz N (upper bound) vs full GBT: mean 11.95 %, max 26.09 %  |  head N: mean 4.48 %, max 11.89 %, bias +4.47 %, above 31/32
+   test 08a2d692f707 bs 227 beta 0.82: full 11.1333  Ritz 11.9480 (+7.32 %)  head 11.7884 (+5.88 %)
+   test 0d67c9769fb0 bs 263 beta 2.90: full 6.4667  Ritz 7.7350 (+19.61 %)  head 7.2271 (+11.76 %)
+   test 0e5206258e0e bs 160 beta 2.84: full 25.0913  Ritz 31.1940 (+24.32 %)  head 27.0978 (+8.00 %)
+   test 147c28ced3c5 bs 219 beta 2.35: full 11.0469  Ritz 11.8814 (+7.55 %)  head 11.4138 (+3.32 %)
+   test 1903e694d2b6 bs 233 beta 2.76: full 9.5975  Ritz 10.6654 (+11.13 %)  head 10.1836 (+6.11 %)
+   test 1a4767c631f6 bs 169 beta 1.61: full 20.0624  Ritz 22.8480 (+13.88 %)  head 21.0454 (+4.90 %)
+   test 1dbdd9b8cbcc bs 166 beta 0.75: full 20.1043  Ritz 25.3497 (+26.09 %)  head 22.4942 (+11.89 %)
+   test 2e1476ffc8ec bs 226 beta 1.55: full 11.2295  Ritz 12.4920 (+11.24 %)  head 11.5145 (+2.54 %)
+   test 3af4daf734b7 bs 196 beta 0.91: full 15.0014  Ritz 16.2506 (+8.33 %)  head 15.1927 (+1.28 %)
+   test 3c2652f2831a bs 273 beta 2.08: full 7.7503  Ritz 8.6875 (+12.09 %)  head 8.0580 (+3.97 %)
+   test 4888d3b694c2 bs 174 beta 2.01: full 19.4340  Ritz 21.8542 (+12.45 %)  head 20.2218 (+4.05 %)
+   test 50b8ae25ed00 bs 214 beta 2.56: full 14.0252  Ritz 15.4393 (+10.08 %)  head 14.4856 (+3.28 %)
+   test 51c219020b08 bs 183 beta 1.18: full 18.4100  Ritz 20.0184 (+8.74 %)  head 18.9684 (+3.03 %)
+   test 58c3dc0e9c7c bs 212 beta 1.04: full 14.8709  Ritz 15.5172 (+4.35 %)  head 15.5536 (+4.59 %)
+   test 5a71f836186f bs 175 beta 2.69: full 23.5147  Ritz 25.4576 (+8.26 %)  head 24.5162 (+4.26 %)
+   test 5ee7b2d1abb6 bs 241 beta 1.68: full 9.2164  Ritz 9.9355 (+7.80 %)  head 9.5534 (+3.66 %)
+   test 63ce3c3ebada bs 245 beta 1.25: full 8.6760  Ritz 9.5468 (+10.04 %)  head 8.9542 (+3.21 %)
+   test 6df9ac9bc2b6 bs 186 beta 2.29: full 18.9242  Ritz 20.8302 (+10.07 %)  head 19.0976 (+0.92 %)
+   test 6f9586537c39 bs 235 beta 1.94: full 9.9960  Ritz 11.1605 (+11.65 %)  head 10.2892 (+2.93 %)
+   test 8088fcfa5049 bs 255 beta 1.41: full 7.2293  Ritz 8.3955 (+16.13 %)  head 7.5648 (+4.64 %)
+   test 811053db3245 bs 189 beta 1.34: full 16.5992  Ritz 17.5454 (+5.70 %)  head 16.7647 (+1.00 %)
+   test 9e8e7a44ba9f bs 251 beta 2.62: full 7.8047  Ritz 9.0473 (+15.92 %)  head 8.3140 (+6.53 %)
+   test a27217f2ffbf bs 280 beta 2.49: full 6.9244  Ritz 7.9492 (+14.80 %)  head 7.3846 (+6.65 %)
+   test a3d9e8e552f3 bs 283 beta 1.11: full 6.8441  Ritz 7.6873 (+12.32 %)  head 6.8605 (+0.24 %)
+   test ae24975b6784 bs 258 beta 2.23: full 8.8175  Ritz 9.6923 (+9.92 %)  head 9.1658 (+3.95 %)
+   test b15e379e85d2 bs 264 beta 0.97: full 8.6450  Ritz 9.4405 (+9.20 %)  head 8.8551 (+2.43 %)
+   test c1cf6f325435 bs 198 beta 2.97: full 14.3426  Ritz 16.1040 (+12.28 %)  head 14.9240 (+4.05 %)
+   test cd842e1d9ebe bs 205 beta 2.14: full 12.5283  Ritz 13.3566 (+6.61 %)  head 12.5027 (-0.20 %)
+   test ee8444b93f8d bs 206 beta 1.77: full 13.0720  Ritz 14.1894 (+8.55 %)  head 13.3445 (+2.08 %)
+   test facbd834adb8 bs 157 beta 2.42: full 21.3898  Ritz 25.7069 (+20.18 %)  head 23.6024 (+10.34 %)
+   test fbd66034df53 bs 272 beta 1.84: full 7.7577  Ritz 8.5845 (+10.66 %)  head 8.2668 (+6.56 %)
+   test fd1992c54d43 bs 150 beta 1.48: full 29.8890  Ritz 34.4184 (+15.15 %)  head 31.4291 (+5.15 %)
