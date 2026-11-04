@@ -70,11 +70,28 @@ def main():
     ap.add_argument("--mode", default="physics", choices=["physics", "data", "hybrid"],
                     help="three-way test: physics-only, data-only (exact modes and loads), hybrid (ngfull only)")
     ap.add_argument("--exact", default=None, help="folder of exact targets (scripts/exact_targets.py)")
+    ap.add_argument("--val", type=int, default=0,
+                    help="hold out the last VAL training designs (with exact targets) as validation; "
+                         "the saved weights are chosen on them, never on the test designs")
+    ap.add_argument("--lr-final", type=float, default=None, help="cosine decay of the learning rate to this value")
+    ap.add_argument("--ema", type=float, default=None, help="moving average of the weights (decay per step)")
+    ap.add_argument("--no-test-log", action="store_true", help="do not look at the test designs during training")
     a = ap.parse_args()
     torch.set_num_threads(a.threads); torch.manual_seed(a.seed)
     t0 = time.perf_counter()
-    tr = epinn.DesignPool(files_of(a.train, a.bc, a.n_train), cache=a.cache)
+    all_files = files_of(a.train, a.bc, a.n_train)
+    if a.val:
+        assert a.exact, "validation needs exact targets"
+        all_files, val_files = all_files[:-a.val], all_files[-a.val:]
+    tr = epinn.DesignPool(all_files, cache=a.cache)
     te = epinn.DesignPool(files_of(a.test, a.bc, 10000), cache=0)
+    va = None
+    if a.val:
+        va = epinn.DesignPool(val_files, cache=0)
+        for i, f in enumerate(va.files):
+            r = torch.load(Path(a.exact) / f"{Path(f).stem}.pt", weights_only=False)
+            va.lam_full[i] = float(r["N_ritz"][0])
+        print(f"{len(va)} validation designs held out", flush=True)
     n = tr.get(0).rs.n
     print(f"{a.bc}: {len(tr)} training designs, {len(te)} test designs, n = {n} per mode; "
           f"inputs ready in {time.perf_counter() - t0:.0f} s", flush=True)
@@ -103,15 +120,39 @@ def main():
     print(f"network: {sum(p.numel() for p in net.parameters()) / 1e6:.1f} M parameters", flush=True)
     t1 = time.perf_counter()
 
+    best = dict(score=np.inf)
+
+    def swap(sd):
+        old = {k: v.detach().clone() for k, v in net.state_dict().items()}
+        net.load_state_dict(sd, strict=False)
+        return old
+
+    def score(res):
+        return float(np.mean([abs(r["N_head"] / r["N_full"] - 1) for r in res]))
+
     def ev(it):
         print("   " + report(f"[{it}] train", epinn.evaluate(net, tr, idx=ev_idx)), flush=True)
-        print("   " + report(f"[{it}] test ", epinn.evaluate(net, te)) + f"   ({time.perf_counter() - t1:.0f} s)", flush=True)
+        if va is not None:
+            cands = [("net", None)] + ([("ema", net.ema_state)] if getattr(net, "ema_state", None) else [])
+            for name, sd in cands:
+                old = swap(sd) if sd is not None else None
+                rv = epinn.evaluate(net, va)
+                print("   " + report(f"[{it}] val {name}", rv), flush=True)
+                if score(rv) < best["score"]:
+                    best.update(score=score(rv), it=it, name=name,
+                                state={k: v.detach().clone() for k, v in net.state_dict().items()})
+                if old is not None:
+                    net.load_state_dict(old)
+        if not a.no_test_log:
+            print("   " + report(f"[{it}] test ", epinn.evaluate(net, te)), flush=True)
+        print(f"   ({time.perf_counter() - t1:.0f} s)", flush=True)
 
     lg = lambda s: print(s + f"   ({time.perf_counter() - t1:.0f} s)", flush=True)
     if a.method.startswith("ngfull"):
         opt = epinn.train_ritz_ng_full(net, tr, outer=a.outer, epochs=a.epochs, batch=a.batch, lr=a.lr, k=a.k,
                                        seed=a.seed, log=lg, eval_fn=ev, eval_every=2, oracle=oracle, gamma=a.gamma,
-                                       mode=a.mode, exact=exact, log_every=1 if a.mode != "data" else 5)
+                                       mode=a.mode, exact=exact, log_every=1 if a.mode != "data" else 5,
+                                       lr_final=a.lr_final, ema=a.ema)
         if a.method.endswith("+adam"):
             epinn.train_adam(net, tr, steps=a.steps, batch=a.batch, lr=a.lr, k=a.k, seed=a.seed, log=lg,
                              eval_fn=ev, eval_every=200, opt=opt)
@@ -129,7 +170,14 @@ def main():
                          oracle=oracle, gamma=a.gamma, n_oracle_batch=a.n_oracle_batch,
                          log=lambda s: print(s + f"   ({time.perf_counter() - t1:.0f} s)", flush=True),
                          eval_fn=ev, eval_every=100)
-    res = dict(train=epinn.evaluate(net, tr, idx=ev_idx), test=epinn.evaluate(net, te), args=vars(a))
+    state_last = {k: v.detach().clone() for k, v in net.state_dict().items()}
+    if va is not None:
+        ev("end")
+        print(f"chosen on validation: {best['name']} weights of evaluation {best['it']} "
+              f"(validation head mean {100 * best['score']:.2f} %)", flush=True)
+        net.load_state_dict(best["state"])
+    res = dict(train=epinn.evaluate(net, tr, idx=ev_idx), test=epinn.evaluate(net, te), args=vars(a),
+               chosen=dict(it=str(best.get("it")), name=best.get("name"), val_head=best.get("score")))
     print(report("final train", res["train"])); print(report("final test ", res["test"]))
     for r in res["test"]:
         print(f"   test {r['sid']} bs {r['params']['bs']:.0f} beta {r['params']['beta']:.2f}: full {r['N_full']:.4f}  "
@@ -137,7 +185,8 @@ def main():
               f"({100 * (r['N_head'] / r['N_full'] - 1):+.2f} %)")
     if a.out:
         Path(a.out).parent.mkdir(parents=True, exist_ok=True)
-        torch.save(dict(state=net.state_dict(), args=vars(a)), a.out)
+        torch.save(dict(state=net.state_dict(), state_last=state_last,
+                        state_ema=getattr(net, "ema_state", None), args=vars(a), chosen=res["chosen"]), a.out)
         json.dump(res, open(str(a.out).replace(".pt", ".json"), "w"), indent=1, default=float)
 
 

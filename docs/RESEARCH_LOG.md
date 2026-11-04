@@ -191,3 +191,21 @@ and *Paper2_PINN_details.pdf* (27 Oct 2026), run files in `runs/`. Errors are al
 * Decision proposed to Aya: hybrid as the main training (best certificate, bias gone, shapes still guided by
   physics), then a deep ensemble of 5 seeds (Paper 1 idea) to remove the variance of the head; certificate as
   the check. Not yet started.
+
+## 4 Nov 2026 — decision: quality first (Aya: "I don't care about the time, I care about the quality")
+* Method for Paper 2: **hybrid** (GBT energy loss + exact GBT targets). Reasons: it stays a PINN (Aya's
+  rule), labels come from GBT (no Abaqus, no RBS error) and are cheap, best certificate. Data-only is not a
+  PINN and has the worst shapes: kept only as a baseline. Physics-only is the label-free baseline.
+* Plan (each step only kept if the validation numbers improve):
+  A. clean training: cosine learning-rate decay, weight average (EMA), 32 validation designs held out of
+     the 320, weights chosen on validation, test designs not looked at during training; rerun all three arms.
+  B. more training designs with exact GBT targets (320 → about 1000), sampled more where the validation
+     error is large; a new final test set (about 100 designs) opened only at the end.
+  C. more capacity for the shapes if training error stays high: R = 16 candidates, wider decoder, experts.
+  D. ensemble of 5 seeds; test also stacking the candidates of all members in the Rayleigh–Ritz layer.
+  E. paper evaluation: new test set, SS and CC, lay-ups, Paper 1's 22 Abaqus points (unchanged numbers),
+     timing on Aya's laptop, order independence.
+* Step A code: `train_ritz_ng_full(lr_final, ema)`, `train_epinn.py --val --lr-final --ema --no-test-log`
+  (saves chosen, last and EMA weights). Smoke test OK. `logs/run_v2.sh` started 12:02: hybrid → data →
+  physics, 2 threads, one at a time, with certificates. Note: the physics-only arm also uses the 32
+  labelled validation designs, but only to choose its weights.

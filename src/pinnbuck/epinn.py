@@ -359,7 +359,7 @@ def train_ritz_ng(net, designs, outer=40, inner=20, batch=8, lr=1e-3, k=3, seed=
 
 def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3, seed=0, log=print,
                        w_tail=0.25, eval_fn=None, eval_every=2, opt=None, oracle=None, gamma=0.0,
-                       mode="physics", exact=None, log_every=1):
+                       mode="physics", exact=None, log_every=1, lr_final=None, ema=None):
     """Energy natural gradient with full projection: every outer iteration computes the
     physics step (Ritz line search, `ritz_ng_target`) for ALL designs from the current
     network, then fits the network to all these targets for `epochs` passes (the
@@ -370,7 +370,11 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
     vectors) and log loads of design i (`scripts/exact_targets.py`):
       "physics": targets = one physics step from the current network, head = its Ritz loads (no labels);
       "data":    targets = exact modes, head = exact loads (no physics step);
-      "hybrid":  physics-step targets + exact modes, head = exact loads."""
+      "hybrid":  physics-step targets + exact modes, head = exact loads.
+    lr_final (4 Nov 2026): cosine decay of the learning rate from lr to lr_final over the outer
+    iterations (the constant rate left the head jumping by about 1.5 % between checkpoints).
+    ema: decay of an exponential moving average of the weights, kept in `net.ema_state`
+    (the physics step always uses the current weights)."""
     pool = _as_pool(designs)
     oracle = oracle or {}
     assert mode in ("physics", "data", "hybrid") and (mode == "physics" or exact is not None)
@@ -379,7 +383,12 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
     R = net.R
     w = torch.full((R,), w_tail, dtype=torch.float64); w[:k] = 1.0
     nd = len(pool)
+    if ema:
+        net.ema_state = {n: p.detach().clone() for n, p in net.named_parameters()}
     for it in range(1, outer + 1):
+        if lr_final is not None:
+            for g in opt.param_groups:
+                g["lr"] = lr_final + 0.5 * (lr - lr_final) * (1 + np.cos(np.pi * (it - 1) / max(outer - 1, 1)))
         with torch.no_grad():
             Y0 = torch.cat([net(pool.X[i:i + 64])[0] for i in range(0, nd, 64)], 0)
         T, logNt = [None] * nd, [None] * nd
@@ -412,7 +421,11 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
                             r = torch.exp(logN[j, 0]) / oracle[int(i)]
                             loss = loss + gamma * torch.nn.functional.smooth_l1_loss(r, torch.ones_like(r)) / len(bi)
                 opt.zero_grad(); loss.backward(); opt.step()
-                tot += float(lf) * len(bi)
+                if ema:
+                    with torch.no_grad():
+                        for n_, p_ in net.named_parameters():
+                            net.ema_state[n_].mul_(ema).add_(p_.detach(), alpha=1 - ema)
+                tot += float(lf.detach()) * len(bi)
             if ep == 0:
                 fit0 = tot / nd
             fit1 = tot / nd

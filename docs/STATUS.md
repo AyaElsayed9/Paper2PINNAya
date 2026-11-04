@@ -51,7 +51,8 @@ Revised plan: see the last entry of `docs/RESEARCH_LOG.md` (hybrid loss with exa
 | data-only | 2.78 / 6.25 %, −1.71 % | 18.9 % | 0.80 / 0.14 % |
 | hybrid | 3.94 / 11.02 %, −1.08 % | 14.1 % | 0.79 / 0.13 % |
 Labels remove the bias; physics gives the best shapes; head noisy between checkpoints (±1.5 %);
-average of the 3 heads 1.61 / 5.52 %. Proposed next: hybrid + ensemble of 5 seeds (waiting for Aya).
+average of the 3 heads 1.61 / 5.52 %. Decision 4 Nov: hybrid is the method, quality first; plan A–E in `docs/RESEARCH_LOG.md`.
+Running: step A, clean training of all three arms (`logs/run_v2.sh`).
 
 ## Where we stopped — open questions
 1. Break the plateau: more candidates (Ritz mixture of experts), experts per mode family or geometry range,
