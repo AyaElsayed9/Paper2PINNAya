@@ -316,3 +316,12 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   other weights than the head.
 * `scripts/check_extended_space.py` (running): full GBT vs shared basis vs converged Ritz space at 20 designs per
   side condition (corners of the new region, Sobol points with industrial lay-ups, controls in the old region).
+* Incident (19:00): the check with 2 parallel workers ran out of memory (each worker about 3 GB; the
+  memory limit killed one, the process pool then waited forever with 3 periodic designs left). 17 results
+  were already saved; the first log is kept as `logs/b0_check_periodic_run1_oom.log`. Restarted with one
+  worker (resumes from the saved results). Lesson: one design per process for the full GBT + Ritz check.
+* First finding: shared basis error at most 0.144 % (Unsym, b_s 124.25, β 1.5), Ritz error 0.003–0.27 %,
+  except **b_s 285.5, β 3.5, CC (L ≈ 1000 mm): Ritz +5.29 %** with the shared basis fine (+0.002 %). Two
+  possible causes: (1) LOBPCG not converged (every run stopped at the 80-iteration cap); (2) the dictionary
+  is too short (longest half-wave 350 mm). `scripts/b0_long_cc_probe.py` tests both on six panels: 400
+  iterations, and the dictionary extended by the next two half-waves of the same series (593, 1006 mm).
