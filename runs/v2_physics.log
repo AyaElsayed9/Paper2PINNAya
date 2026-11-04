@@ -1,0 +1,5 @@
+32 validation designs held out
+SS: 288 training designs, 32 test designs, n = 6564 per mode; inputs ready in 6 s
+exact targets for 288 training designs, mode = physics
+network: 0.5 M parameters
+outer   1: training designs, N of the network before the step vs full GBT: mean 4919.66 %, max 7994.08 %; fit to the physics step: 3.4876 -> 2.5071   (162 s)

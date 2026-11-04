@@ -268,3 +268,14 @@ which is the most direct fix for the overfitting.
 * 4 Nov 14:00: the machine restarted and stopped the data-only arm at outer 4 (log kept as
   `runs/v2_data_killed_by_restart.log`). 16:03: data and physics arms restarted with the same settings
   (`logs/run_v2b.sh`).
+
+## 4 Nov 2026 (16:35) — step A, data-only arm (`runs/v2_data`), same settings as v2_hybrid
+| run | head mean / max, bias | Ritz bound | certificate 3 / 12 steps (mean, 12-step max) |
+|---|---|---|---|
+| w3_data (old) | 2.78 / 6.25 %, −1.71 % | 18.9 % | 0.80 / 0.14 % (0.86) |
+| v2_data (chosen: EMA, outer 10) | **1.21 / 4.79 %, +0.05 %** | 22.8 % | 1.10 / 0.14 % (0.82) |
+* Same pattern as the hybrid arm: the head is best at outer ≈ 10 (validation 0.96 %) and then overfits
+  (training head 0.6 %, validation 1.7 % at outer 30). Validation Ritz still falls after that (22.5 → 18.6 %),
+  but stays above the hybrid's (14.5 % at outer 30): the physics step gives better mode shapes.
+* Without the physics step one outer step is much faster (whole run about 30 min instead of about 110 min).
+* The head difference hybrid 1.42 % vs data 1.21 % is within the noise of one seed and 32 test designs.
