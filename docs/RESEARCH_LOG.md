@@ -209,3 +209,28 @@ and *Paper2_PINN_details.pdf* (27 Oct 2026), run files in `runs/`. Errors are al
   (saves chosen, last and EMA weights). Smoke test OK. `logs/run_v2.sh` started 12:02: hybrid → data →
   physics, 2 threads, one at a time, with certificates. Note: the physics-only arm also uses the 32
   labelled validation designs, but only to choose its weights.
+
+## 4 Nov 2026 (noon) — Aya's requirements for the paper
+1. **Design space like Paper 1**: b_s 124.25–285.5 mm (the tight pitch of Paper 1 included), β up to 3.5,
+   and **both side conditions**: symmetry (as Paper 1) and periodic. Paper 1's lay-up (cross-ply) is not in
+   the "industrial" lay-up set (no ±45 plies), so the new sets mix general and industrial lay-ups.
+   Validation: GBT vs Abaqus at b_s = 124.25 mm exists for symmetry/SS (Paper 1 points, 0.89 % mean);
+   periodic below 150 mm has no Abaqus check yet (told Aya; optional few Abaqus runs by her).
+2. **Keep every result** (model comparisons, convergence and tuning studies) for the paper:
+   `runs/` (weights, logs, json, certificates) and `logs/*.log` are now in git; `scripts/collect_results.py`
+   writes `results/experiments.csv` and `results/EXPERIMENTS.md` (one row per run); the exact labels are
+   archived in `results/labels/*.jsonl`. The operator files (11 GB) stay out of git: too large, and they
+   can be rebuilt from the seeds with `scripts/build_operators.py`.
+3. **Count the GBT calls** as Paper 1 counted the Abaqus calls (Paper 1: 144 panels, 84 % fast PINN,
+   10.4 % re-solved, 5.6 % Abaqus). Here a "GBT call" = a full GBT buckling solve (label, ≈ 13 s);
+   the physics data of a design (GBT matrices, ≈ 2.5 s) is counted separately as GBT time.
+* Step B becomes:
+  B0 extend the design space; check both shared bases at b_s = 124.25 mm and β = 3.5, rebuild if the
+     error is above about 0.1 %;
+  B1 operators for SS, symmetry and periodic: about 1000 training + 64 validation + 100 test designs each
+     (disk: about 11 MB per design; the old sets are deleted after step A, K maybe stored in float32);
+  B2 label study: hybrid with the physics on all 1000 designs and GBT labels on 0 / 50 / 100 / 200 / 400 /
+     1000 random designs, and active selection (labels added in rounds where an error indicator is largest;
+     the head–3-step-certificate gap is the first candidate, because the ensemble spread did not work);
+     plot validation error vs number of GBT calls and GBT time;
+  B3 in use: how many new designs need the certificate / a GBT call (the Paper 1 84 / 10.4 / 5.6 % table).

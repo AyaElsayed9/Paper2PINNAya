@@ -1,0 +1,67 @@
+CC: 19 training designs, 7 test designs, n = 6087 per mode; spaces ready in 8 s
+network: 12.7 M parameters
+outer   1: training designs, N of the network before the step vs full GBT: mean 2127.48 %, max 5321.19 %   (8 s)
+outer   2: training designs, N of the network before the step vs full GBT: mean 52.73 %, max 126.14 %   (17 s)
+outer   3: training designs, N of the network before the step vs full GBT: mean 29.32 %, max 50.09 %   (26 s)
+outer   4: training designs, N of the network before the step vs full GBT: mean 20.28 %, max 37.97 %   (35 s)
+outer   5: training designs, N of the network before the step vs full GBT: mean 17.36 %, max 26.54 %   (44 s)
+   [5] train: Ritz N (upper bound) vs full GBT: mean 13.63 %, max 25.99 %  |  head N: mean 9.66 %, max 31.00 %
+   [5] test : Ritz N (upper bound) vs full GBT: mean 34.48 %, max 66.31 %  |  head N: mean 8.76 %, max 20.51 %   (47 s)
+outer   6: training designs, N of the network before the step vs full GBT: mean 14.53 %, max 25.21 %   (55 s)
+outer   7: training designs, N of the network before the step vs full GBT: mean 12.86 %, max 22.94 %   (65 s)
+outer   8: training designs, N of the network before the step vs full GBT: mean 10.05 %, max 20.54 %   (74 s)
+outer   9: training designs, N of the network before the step vs full GBT: mean 9.44 %, max 14.58 %   (84 s)
+outer  10: training designs, N of the network before the step vs full GBT: mean 8.38 %, max 17.19 %   (93 s)
+   [10] train: Ritz N (upper bound) vs full GBT: mean 6.80 %, max 14.39 %  |  head N: mean 4.42 %, max 11.00 %
+   [10] test : Ritz N (upper bound) vs full GBT: mean 32.46 %, max 64.81 %  |  head N: mean 11.22 %, max 28.64 %   (95 s)
+outer  11: training designs, N of the network before the step vs full GBT: mean 7.13 %, max 13.76 %   (104 s)
+outer  12: training designs, N of the network before the step vs full GBT: mean 6.67 %, max 11.89 %   (113 s)
+outer  13: training designs, N of the network before the step vs full GBT: mean 5.68 %, max 9.30 %   (122 s)
+outer  14: training designs, N of the network before the step vs full GBT: mean 4.82 %, max 8.99 %   (130 s)
+outer  15: training designs, N of the network before the step vs full GBT: mean 4.30 %, max 8.85 %   (139 s)
+   [15] train: Ritz N (upper bound) vs full GBT: mean 3.53 %, max 7.80 %  |  head N: mean 3.14 %, max 6.10 %
+   [15] test : Ritz N (upper bound) vs full GBT: mean 33.71 %, max 65.16 %  |  head N: mean 11.00 %, max 35.81 %   (142 s)
+outer  16: training designs, N of the network before the step vs full GBT: mean 3.78 %, max 7.80 %   (151 s)
+outer  17: training designs, N of the network before the step vs full GBT: mean 3.46 %, max 7.77 %   (159 s)
+outer  18: training designs, N of the network before the step vs full GBT: mean 3.14 %, max 7.83 %   (168 s)
+outer  19: training designs, N of the network before the step vs full GBT: mean 2.96 %, max 7.63 %   (176 s)
+outer  20: training designs, N of the network before the step vs full GBT: mean 2.89 %, max 7.29 %   (185 s)
+   [20] train: Ritz N (upper bound) vs full GBT: mean 2.56 %, max 6.23 %  |  head N: mean 2.03 %, max 6.55 %
+   [20] test : Ritz N (upper bound) vs full GBT: mean 37.72 %, max 65.53 %  |  head N: mean 9.38 %, max 31.00 %   (188 s)
+outer  21: training designs, N of the network before the step vs full GBT: mean 2.67 %, max 7.57 %   (197 s)
+outer  22: training designs, N of the network before the step vs full GBT: mean 2.46 %, max 6.92 %   (205 s)
+outer  23: training designs, N of the network before the step vs full GBT: mean 2.34 %, max 6.38 %   (213 s)
+outer  24: training designs, N of the network before the step vs full GBT: mean 2.18 %, max 6.06 %   (222 s)
+outer  25: training designs, N of the network before the step vs full GBT: mean 2.21 %, max 5.80 %   (231 s)
+   [25] train: Ritz N (upper bound) vs full GBT: mean 2.00 %, max 4.96 %  |  head N: mean 3.54 %, max 10.92 %
+   [25] test : Ritz N (upper bound) vs full GBT: mean 40.50 %, max 60.34 %  |  head N: mean 10.92 %, max 32.34 %   (233 s)
+outer  26: training designs, N of the network before the step vs full GBT: mean 2.03 %, max 5.52 %   (242 s)
+outer  27: training designs, N of the network before the step vs full GBT: mean 2.71 %, max 8.86 %   (250 s)
+outer  28: training designs, N of the network before the step vs full GBT: mean 2.90 %, max 7.60 %   (259 s)
+outer  29: training designs, N of the network before the step vs full GBT: mean 2.59 %, max 5.88 %   (268 s)
+outer  30: training designs, N of the network before the step vs full GBT: mean 2.46 %, max 4.93 %   (277 s)
+   [30] train: Ritz N (upper bound) vs full GBT: mean 1.98 %, max 4.35 %  |  head N: mean 3.75 %, max 9.96 %
+   [30] test : Ritz N (upper bound) vs full GBT: mean 39.39 %, max 62.51 %  |  head N: mean 11.28 %, max 28.45 %   (279 s)
+outer  31: training designs, N of the network before the step vs full GBT: mean 2.03 %, max 4.35 %   (289 s)
+outer  32: training designs, N of the network before the step vs full GBT: mean 1.83 %, max 3.65 %   (298 s)
+outer  33: training designs, N of the network before the step vs full GBT: mean 1.61 %, max 3.45 %   (307 s)
+outer  34: training designs, N of the network before the step vs full GBT: mean 1.49 %, max 3.73 %   (316 s)
+outer  35: training designs, N of the network before the step vs full GBT: mean 1.32 %, max 3.24 %   (324 s)
+   [35] train: Ritz N (upper bound) vs full GBT: mean 1.22 %, max 3.21 %  |  head N: mean 1.35 %, max 3.59 %
+   [35] test : Ritz N (upper bound) vs full GBT: mean 39.93 %, max 60.55 %  |  head N: mean 10.23 %, max 26.90 %   (327 s)
+outer  36: training designs, N of the network before the step vs full GBT: mean 1.26 %, max 3.20 %   (336 s)
+outer  37: training designs, N of the network before the step vs full GBT: mean 1.19 %, max 3.23 %   (344 s)
+outer  38: training designs, N of the network before the step vs full GBT: mean 1.16 %, max 3.17 %   (353 s)
+outer  39: training designs, N of the network before the step vs full GBT: mean 1.12 %, max 3.16 %   (362 s)
+outer  40: training designs, N of the network before the step vs full GBT: mean 1.05 %, max 3.13 %   (371 s)
+   [40] train: Ritz N (upper bound) vs full GBT: mean 1.00 %, max 3.13 %  |  head N: mean 1.28 %, max 3.48 %
+   [40] test : Ritz N (upper bound) vs full GBT: mean 41.78 %, max 63.42 %  |  head N: mean 9.96 %, max 24.45 %   (373 s)
+final train: Ritz N (upper bound) vs full GBT: mean 1.00 %, max 3.13 %  |  head N: mean 1.28 %, max 3.48 %
+final test : Ritz N (upper bound) vs full GBT: mean 41.78 %, max 63.42 %  |  head N: mean 9.96 %, max 24.45 %
+   test 135418b54ff2 bs 273 beta 2.08: full 7.6095  Ritz 9.1399 (+20.11 %)  head 8.3434 (+9.64 %)
+   test 30c15166dfcf bs 227 beta 0.82: full 13.3106  Ritz 16.6369 (+24.99 %)  head 12.5220 (-5.92 %)
+   test 4d7274aad3e6 bs 251 beta 2.62: full 7.2767  Ritz 11.2811 (+55.03 %)  head 9.0562 (+24.45 %)
+   test bc4bd8c3f5ce bs 183 beta 1.18: full 17.9361  Ritz 23.3953 (+30.44 %)  head 19.8540 (+10.69 %)
+   test c71d92b8be7c bs 206 beta 1.77: full 15.0579  Ritz 24.6081 (+63.42 %)  head 13.8554 (-7.99 %)
+   test cc66fdb659ee bs 186 beta 2.29: full 17.1654  Ritz 24.4424 (+42.39 %)  head 18.4890 (+7.71 %)
+   test e38eea4c8464 bs 160 beta 2.84: full 23.3664  Ritz 36.4676 (+56.07 %)  head 22.5962 (-3.30 %)

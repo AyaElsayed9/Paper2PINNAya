@@ -1,0 +1,15 @@
+run,date,n_train,val,bc,method,mode,arch,R,k,width,depth,outer,epochs,steps,batch,lr,lr_final,ema,seed,threads,gamma,init,train,test,n_used,n_test,chosen,val_head_mean,head_mean,head_max,head_bias,head_above,ritz_mean,ritz_max,cert3_max,cert3_mean,cert5_max,cert5_mean,cert8_max,cert8_mean,cert12_max,cert12_mean,train_time_s
+p1_ss_dec,2026-10-26 20:37,400,,SS,ngfull,physics,decoder,8,3,256,4,30,10,1000,16,0.00,,,0,2,,,data/operators/periodic_industrial_SS/train,data/operators/periodic_industrial_SS/test,320,32,,,3.65,9.77,3.13,27,10.68,34.17,8.28,1.78,5.04,1.01,2.42,0.46,1.24,0.22,5704
+p2_ss_gamma0,2026-10-27 12:48,400,,SS,adam,physics,decoder,8,3,256,4,30,10,300,16,0.00,,,0,2,0.00,runs/p1_ss_dec.pt,data/operators/periodic_industrial_SS/train,data/operators/periodic_industrial_SS/test,320,32,,,7.11,18.29,7.11,32,9.54,26.04,,,,,,,,,2051
+p2_ss_gamma1000,2026-10-27 12:14,400,,SS,adam,physics,decoder,8,3,256,4,30,10,300,16,0.00,,,0,2,1000.00,runs/p1_ss_dec.pt,data/operators/periodic_industrial_SS/train,data/operators/periodic_industrial_SS/test,320,32,,,8.29,14.84,8.29,32,11.00,26.38,,,,,,,,,1985
+p3_ss_ng_g0,2026-10-27 14:11,400,,SS,ngfull,physics,decoder,8,3,256,4,10,10,1000,16,0.00,,,0,2,0.00,runs/p1_ss_dec.pt,data/operators/periodic_industrial_SS/train,data/operators/periodic_industrial_SS/test,320,32,,,3.65,9.53,3.07,26,10.24,31.53,,,,,,,,,2449
+p3_ss_ng_g100,2026-10-27 13:30,400,,SS,ngfull,physics,decoder,8,3,256,4,10,10,1000,16,0.00,,,0,2,100.00,runs/p1_ss_dec.pt,data/operators/periodic_industrial_SS/train,data/operators/periodic_industrial_SS/test,320,32,,,3.66,9.51,2.13,26,10.27,28.00,,,,,,,,,2442
+t1_adam,2026-10-26 15:51,,,,,,,,,,,,,,,,,,,,,,,,7,,,,0.13,0.21,,,0.04,0.13,,,,,,,,,1296
+t1_ritzng,2026-10-26 15:29,,,,,,,,,,,,,,,,,,,,,,,,7,,,,0.23,1.18,,,0.23,1.10,,,,,,,,,254
+t2_cc19,2026-10-26 15:58,64,,CC,ritzng,physics,,8,3,256,4,40,,1000,8,0.00,,,0,2,,,data/operators/symmetry_industrial/train,data/operators/symmetry_industrial/test,19,7,,,9.96,24.45,5.04,4,41.78,63.42,,,,,,,,,373
+t3_cc259,2026-10-26 17:15,,,,,,,,,,,,,,,,,,,,,,,,259,,,,,,,,,,,,,,,,,,1964
+t4_cc259_dec,2026-10-26 17:35,,,,,,,,,,,,,,,,,,,,,,,,259,,,,,,,,,,,,,,,,,,1176
+t5_cc_ngfull,2026-10-26 18:23,400,,CC,ngfull,physics,decoder,8,3,256,4,20,10,1000,16,0.00,,,0,2,,,data/operators/symmetry_industrial/train,data/operators/symmetry_industrial/test,259,22,,,4.99,10.90,4.44,17,12.27,25.89,,,,,,,,,2414
+v2_hybrid,2026-11-04 12:11,,,,,,,,,,,,,,,,,,,,,,,,288,,,,,,,,,,,,,,,,,,394
+w3_data,2026-11-03 20:53,400,,SS,ngfull,data,decoder,8,3,256,4,30,10,1000,16,0.00,,,0,1,0.00,,data/operators/periodic_industrial_SS/train,data/operators/periodic_industrial_SS/test,320,32,,,2.78,6.25,-1.71,8,18.92,59.93,3.18,0.80,1.67,0.37,1.22,0.21,0.86,0.14,1809
+w3_hybrid,2026-11-03 20:22,400,,SS,ngfull,hybrid,decoder,8,3,256,4,30,10,1000,16,0.00,,,0,1,0.00,,data/operators/periodic_industrial_SS/train,data/operators/periodic_industrial_SS/test,320,32,,,3.94,11.02,-1.08,10,14.09,37.27,3.03,0.79,1.69,0.37,1.05,0.19,0.70,0.13,8660

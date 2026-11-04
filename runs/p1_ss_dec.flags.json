@@ -1,0 +1,2278 @@
+{
+ "rows": [
+  {
+   "file": "data/operators/periodic_industrial_SS/train/bce4d61550a3.pkl",
+   "sid": "bce4d61550a3",
+   "N_ritz": 9.061865660817745,
+   "N_head": 7.572039604187012,
+   "score": 0.19675360068203068
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/95bd1754d5d3.pkl",
+   "sid": "95bd1754d5d3",
+   "N_ritz": 6.879871915164306,
+   "N_head": 5.791822910308838,
+   "score": 0.18785950843194024
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/def26d54d526.pkl",
+   "sid": "def26d54d526",
+   "N_ritz": 6.949043031896831,
+   "N_head": 5.867332458496094,
+   "score": 0.18436156141695767
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/745453ab625a.pkl",
+   "sid": "745453ab625a",
+   "N_ritz": 6.452566142052527,
+   "N_head": 5.497623443603516,
+   "score": 0.1737010015773429
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/52c2a274eced.pkl",
+   "sid": "52c2a274eced",
+   "N_ritz": 8.066500571299452,
+   "N_head": 6.914234161376953,
+   "score": 0.1666513431609073
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/679b86d6d9c8.pkl",
+   "sid": "679b86d6d9c8",
+   "N_ritz": 10.192054347404326,
+   "N_head": 8.766227722167969,
+   "score": 0.16264996420646685
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ec562b744a4a.pkl",
+   "sid": "ec562b744a4a",
+   "N_ritz": 7.066277332746049,
+   "N_head": 6.085161209106445,
+   "score": 0.16123091729621936
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/957bf7239d6d.pkl",
+   "sid": "957bf7239d6d",
+   "N_ritz": 19.93499214501701,
+   "N_head": 17.38764762878418,
+   "score": 0.14650311362509197
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/fad5b29aeb6d.pkl",
+   "sid": "fad5b29aeb6d",
+   "N_ritz": 6.853918530100505,
+   "N_head": 5.9810614585876465,
+   "score": 0.14593681699418165
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2e297d2b2f74.pkl",
+   "sid": "2e297d2b2f74",
+   "N_ritz": 17.672705002877557,
+   "N_head": 15.597380638122559,
+   "score": 0.13305595425956102
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/6d005623ed80.pkl",
+   "sid": "6d005623ed80",
+   "N_ritz": 7.590745192051525,
+   "N_head": 6.700815200805664,
+   "score": 0.13280921269681656
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/dffdc319ac52.pkl",
+   "sid": "dffdc319ac52",
+   "N_ritz": 11.563533227787048,
+   "N_head": 10.234330177307129,
+   "score": 0.12987689740821518
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/69ffd3b8142f.pkl",
+   "sid": "69ffd3b8142f",
+   "N_ritz": 31.91949564608877,
+   "N_head": 28.383987426757812,
+   "score": 0.12455995580092476
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/327206d41624.pkl",
+   "sid": "327206d41624",
+   "N_ritz": 6.928885518818468,
+   "N_head": 6.17876672744751,
+   "score": 0.12140267216089541
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a74706e2c194.pkl",
+   "sid": "a74706e2c194",
+   "N_ritz": 9.198026563627268,
+   "N_head": 8.230552673339844,
+   "score": 0.1175466495003715
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/eb5716bca848.pkl",
+   "sid": "eb5716bca848",
+   "N_ritz": 35.50704704720396,
+   "N_head": 31.838573455810547,
+   "score": 0.11522104143531964
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/35019d2a0b21.pkl",
+   "sid": "35019d2a0b21",
+   "N_ritz": 26.302429093454315,
+   "N_head": 23.60042953491211,
+   "score": 0.11448942293805026
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e188ed679e8f.pkl",
+   "sid": "e188ed679e8f",
+   "N_ritz": 30.543865150623567,
+   "N_head": 27.418180465698242,
+   "score": 0.11400044174469347
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/69a717a8b899.pkl",
+   "sid": "69a717a8b899",
+   "N_ritz": 10.864065203763621,
+   "N_head": 9.761552810668945,
+   "score": 0.1129443659711269
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/cc5b43ce10c5.pkl",
+   "sid": "cc5b43ce10c5",
+   "N_ritz": 6.197925020952895,
+   "N_head": 5.587183952331543,
+   "score": 0.10931107223818694
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ca84e11f6756.pkl",
+   "sid": "ca84e11f6756",
+   "N_ritz": 11.199596418246298,
+   "N_head": 10.096035957336426,
+   "score": 0.10930631245503383
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1d56f89adaed.pkl",
+   "sid": "1d56f89adaed",
+   "N_ritz": 13.197461388944891,
+   "N_head": 11.900033950805664,
+   "score": 0.10902720475443582
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/8bdfc386e4ac.pkl",
+   "sid": "8bdfc386e4ac",
+   "N_ritz": 8.214369344850052,
+   "N_head": 7.4152936935424805,
+   "score": 0.10776048587305949
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b04a95a1a296.pkl",
+   "sid": "b04a95a1a296",
+   "N_ritz": 6.973476835426667,
+   "N_head": 6.2972412109375,
+   "score": 0.10738601267403139
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e6d44561b019.pkl",
+   "sid": "e6d44561b019",
+   "N_ritz": 6.44754038977062,
+   "N_head": 5.8316192626953125,
+   "score": 0.10561751364931111
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/aefae68ac9c9.pkl",
+   "sid": "aefae68ac9c9",
+   "N_ritz": 11.892915711347728,
+   "N_head": 10.760083198547363,
+   "score": 0.10528101799001885
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/4c9ac1cfdcb2.pkl",
+   "sid": "4c9ac1cfdcb2",
+   "N_ritz": 6.9958513251083305,
+   "N_head": 6.340940475463867,
+   "score": 0.10328292028266577
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b18e88de063c.pkl",
+   "sid": "b18e88de063c",
+   "N_ritz": 25.327498331660447,
+   "N_head": 23.041549682617188,
+   "score": 0.09920984831883099
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/be0a0658f87d.pkl",
+   "sid": "be0a0658f87d",
+   "N_ritz": 21.659401383304843,
+   "N_head": 19.722126007080078,
+   "score": 0.09822852645446536
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/65b663059cea.pkl",
+   "sid": "65b663059cea",
+   "N_ritz": 8.064205008609319,
+   "N_head": 7.344714164733887,
+   "score": 0.0979603600273668
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/73daee87d9ff.pkl",
+   "sid": "73daee87d9ff",
+   "N_ritz": 7.335184479788526,
+   "N_head": 6.685657501220703,
+   "score": 0.09715229630731591
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/3e9545f8e335.pkl",
+   "sid": "3e9545f8e335",
+   "N_ritz": 8.871584949426493,
+   "N_head": 8.08790111541748,
+   "score": 0.09689582288724122
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/595a681514da.pkl",
+   "sid": "595a681514da",
+   "N_ritz": 7.029529986897204,
+   "N_head": 6.41216516494751,
+   "score": 0.0962802432670569
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/9b3203f620dd.pkl",
+   "sid": "9b3203f620dd",
+   "N_ritz": 18.966869715515045,
+   "N_head": 17.303194046020508,
+   "score": 0.09614847207225072
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/6de012895924.pkl",
+   "sid": "6de012895924",
+   "N_ritz": 27.126719946734468,
+   "N_head": 24.75101089477539,
+   "score": 0.09598432411746698
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/391eada89577.pkl",
+   "sid": "391eada89577",
+   "N_ritz": 10.614657185098508,
+   "N_head": 9.68641185760498,
+   "score": 0.09582963651961024
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/8d279106c497.pkl",
+   "sid": "8d279106c497",
+   "N_ritz": 9.611186006203532,
+   "N_head": 8.775723457336426,
+   "score": 0.09520155835911932
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1a4542e8c6e4.pkl",
+   "sid": "1a4542e8c6e4",
+   "N_ritz": 7.9718244190178496,
+   "N_head": 7.291629314422607,
+   "score": 0.09328437791672133
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/d9fdf7f6c762.pkl",
+   "sid": "d9fdf7f6c762",
+   "N_ritz": 14.47416474748538,
+   "N_head": 13.245722770690918,
+   "score": 0.09274254021929713
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/0fa71de52a95.pkl",
+   "sid": "0fa71de52a95",
+   "N_ritz": 10.911115184893703,
+   "N_head": 9.989334106445312,
+   "score": 0.09227652900843902
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/71347ae6e658.pkl",
+   "sid": "71347ae6e658",
+   "N_ritz": 7.331937864065458,
+   "N_head": 6.729759693145752,
+   "score": 0.08947989205811073
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e5bf02fbfe61.pkl",
+   "sid": "e5bf02fbfe61",
+   "N_ritz": 19.878562148241425,
+   "N_head": 18.261850357055664,
+   "score": 0.08852946221635896
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/3049664b2fd4.pkl",
+   "sid": "3049664b2fd4",
+   "N_ritz": 8.2406822605969,
+   "N_head": 7.574069023132324,
+   "score": 0.08801256437307882
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b90114f981cb.pkl",
+   "sid": "b90114f981cb",
+   "N_ritz": 11.115371696425788,
+   "N_head": 10.24656867980957,
+   "score": 0.08478965434820702
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ab63191beae1.pkl",
+   "sid": "ab63191beae1",
+   "N_ritz": 12.017455658484621,
+   "N_head": 11.08920955657959,
+   "score": 0.08370714767079795
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a132c4089660.pkl",
+   "sid": "a132c4089660",
+   "N_ritz": 16.608886201268486,
+   "N_head": 15.331775665283203,
+   "score": 0.08329827959048036
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/7b7c83624f38.pkl",
+   "sid": "7b7c83624f38",
+   "N_ritz": 6.835231117605605,
+   "N_head": 6.310166835784912,
+   "score": 0.08320925507754512
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/6df538ba86a6.pkl",
+   "sid": "6df538ba86a6",
+   "N_ritz": 26.99752728897658,
+   "N_head": 24.941104888916016,
+   "score": 0.08245113475203147
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/c253d82e03e7.pkl",
+   "sid": "c253d82e03e7",
+   "N_ritz": 8.230100601135067,
+   "N_head": 7.613762855529785,
+   "score": 0.08095047840341434
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a51019c7dd48.pkl",
+   "sid": "a51019c7dd48",
+   "N_ritz": 5.931556254868403,
+   "N_head": 5.488250732421875,
+   "score": 0.08077355501046958
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b5cfe33090b8.pkl",
+   "sid": "b5cfe33090b8",
+   "N_ritz": 7.507182315429536,
+   "N_head": 6.949096202850342,
+   "score": 0.08031060389555142
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/4ea3eeee49c8.pkl",
+   "sid": "4ea3eeee49c8",
+   "N_ritz": 7.3177697980120024,
+   "N_head": 6.776827812194824,
+   "score": 0.07982230046390722
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/bd9cd84951eb.pkl",
+   "sid": "bd9cd84951eb",
+   "N_ritz": 19.14618343875523,
+   "N_head": 17.732271194458008,
+   "score": 0.07973666930715126
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/4ec29393c766.pkl",
+   "sid": "4ec29393c766",
+   "N_ritz": 9.061686921125963,
+   "N_head": 8.3956937789917,
+   "score": 0.07932556375516685
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/f82b56390899.pkl",
+   "sid": "f82b56390899",
+   "N_ritz": 21.329127508867654,
+   "N_head": 19.76704978942871,
+   "score": 0.0790243226014603
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/d1772d44a176.pkl",
+   "sid": "d1772d44a176",
+   "N_ritz": 8.324013739131434,
+   "N_head": 7.719814777374268,
+   "score": 0.07826599201939301
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/fcfaf38f9e01.pkl",
+   "sid": "fcfaf38f9e01",
+   "N_ritz": 7.607686676258419,
+   "N_head": 7.05899715423584,
+   "score": 0.07772910372875436
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/aa01b94fd90a.pkl",
+   "sid": "aa01b94fd90a",
+   "N_ritz": 8.114031946200758,
+   "N_head": 7.529379844665527,
+   "score": 0.07764943642064345
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/fec0b5eafafc.pkl",
+   "sid": "fec0b5eafafc",
+   "N_ritz": 10.662010839403223,
+   "N_head": 9.900264739990234,
+   "score": 0.0769419929081351
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/7646e112cc8b.pkl",
+   "sid": "7646e112cc8b",
+   "N_ritz": 9.675507516068048,
+   "N_head": 8.985318183898926,
+   "score": 0.07681300962784986
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/6a2f3c12afa9.pkl",
+   "sid": "6a2f3c12afa9",
+   "N_ritz": 28.875011888536207,
+   "N_head": 26.82111167907715,
+   "score": 0.07657774345950333
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/3ea147be408d.pkl",
+   "sid": "3ea147be408d",
+   "N_ritz": 20.600235741923946,
+   "N_head": 19.13530731201172,
+   "score": 0.07655630536921947
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ec76ced4097a.pkl",
+   "sid": "ec76ced4097a",
+   "N_ritz": 8.179897475784779,
+   "N_head": 7.602319240570068,
+   "score": 0.07597395175572769
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/135d3f32081c.pkl",
+   "sid": "135d3f32081c",
+   "N_ritz": 12.261218495161541,
+   "N_head": 11.396376609802246,
+   "score": 0.07588744343666459
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/49b945c4dfb4.pkl",
+   "sid": "49b945c4dfb4",
+   "N_ritz": 8.176949352197093,
+   "N_head": 7.600994110107422,
+   "score": 0.07577367298887851
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/8213c0915323.pkl",
+   "sid": "8213c0915323",
+   "N_ritz": 12.696271857474134,
+   "N_head": 11.802510261535645,
+   "score": 0.07572639854855762
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2a112adebab3.pkl",
+   "sid": "2a112adebab3",
+   "N_ritz": 23.280693662539637,
+   "N_head": 21.649133682250977,
+   "score": 0.07536375377580551
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/5f9d235d54c0.pkl",
+   "sid": "5f9d235d54c0",
+   "N_ritz": 9.757336061498023,
+   "N_head": 9.08607292175293,
+   "score": 0.07387824701891013
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1e1a7857dfc8.pkl",
+   "sid": "1e1a7857dfc8",
+   "N_ritz": 30.499873224337083,
+   "N_head": 28.412195205688477,
+   "score": 0.07347823719832206
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/05a6926fa7b8.pkl",
+   "sid": "05a6926fa7b8",
+   "N_ritz": 26.27560056668769,
+   "N_head": 24.48279571533203,
+   "score": 0.07322712945862378
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/bf3112e135c2.pkl",
+   "sid": "bf3112e135c2",
+   "N_ritz": 18.781581414753227,
+   "N_head": 17.504257202148438,
+   "score": 0.07297220315341417
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b84e7942e80c.pkl",
+   "sid": "b84e7942e80c",
+   "N_ritz": 14.033970922530086,
+   "N_head": 13.082646369934082,
+   "score": 0.07271652276578332
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/7d02428f6ae3.pkl",
+   "sid": "7d02428f6ae3",
+   "N_ritz": 16.297266207273275,
+   "N_head": 15.193299293518066,
+   "score": 0.0726614339932206
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/94c02c9ad88e.pkl",
+   "sid": "94c02c9ad88e",
+   "N_ritz": 21.0924626611972,
+   "N_head": 19.681344985961914,
+   "score": 0.07169823384742208
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/faba0e6f1c1a.pkl",
+   "sid": "faba0e6f1c1a",
+   "N_ritz": 18.79888383812796,
+   "N_head": 17.554590225219727,
+   "score": 0.07088138184624922
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2b73c2aceba0.pkl",
+   "sid": "2b73c2aceba0",
+   "N_ritz": 6.568464320769299,
+   "N_head": 6.135249614715576,
+   "score": 0.07061077107843247
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/073649241030.pkl",
+   "sid": "073649241030",
+   "N_ritz": 8.694958042353864,
+   "N_head": 8.123988151550293,
+   "score": 0.0702819699084142
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/52e5fd3cfc34.pkl",
+   "sid": "52e5fd3cfc34",
+   "N_ritz": 20.296757428178786,
+   "N_head": 18.9860782623291,
+   "score": 0.06903369657177943
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/3787399b9a4c.pkl",
+   "sid": "3787399b9a4c",
+   "N_ritz": 12.988039153303852,
+   "N_head": 12.149754524230957,
+   "score": 0.06899601365616527
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/7ba9876b1a1c.pkl",
+   "sid": "7ba9876b1a1c",
+   "N_ritz": 9.47579360367559,
+   "N_head": 8.865347862243652,
+   "score": 0.0688575057535809
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/beff6b2f3da0.pkl",
+   "sid": "beff6b2f3da0",
+   "N_ritz": 10.768965302104968,
+   "N_head": 10.076664924621582,
+   "score": 0.06870332423099648
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/cf3aefa75181.pkl",
+   "sid": "cf3aefa75181",
+   "N_ritz": 26.242576199394676,
+   "N_head": 24.56685447692871,
+   "score": 0.06821067483587179
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/47371d4d18ab.pkl",
+   "sid": "47371d4d18ab",
+   "N_ritz": 16.091530228481318,
+   "N_head": 15.066164016723633,
+   "score": 0.06805755005849635
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/942ae7b446cf.pkl",
+   "sid": "942ae7b446cf",
+   "N_ritz": 17.181774135892983,
+   "N_head": 16.087852478027344,
+   "score": 0.06799674843859417
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/46be4c03b79d.pkl",
+   "sid": "46be4c03b79d",
+   "N_ritz": 16.610234962534296,
+   "N_head": 15.559432983398438,
+   "score": 0.06753472187945668
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/8ed8d2c53ef9.pkl",
+   "sid": "8ed8d2c53ef9",
+   "N_ritz": 9.108279146978665,
+   "N_head": 8.542691230773926,
+   "score": 0.06620722918876935
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2a580b678084.pkl",
+   "sid": "2a580b678084",
+   "N_ritz": 8.983550138957533,
+   "N_head": 8.427912712097168,
+   "score": 0.06592823701921115
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2188091b0e17.pkl",
+   "sid": "2188091b0e17",
+   "N_ritz": 9.490407558819602,
+   "N_head": 8.903547286987305,
+   "score": 0.06591308530365236
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/7fccca4f28dd.pkl",
+   "sid": "7fccca4f28dd",
+   "N_ritz": 7.153744466921078,
+   "N_head": 6.712188720703125,
+   "score": 0.0657841673694328
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/478e31e287c2.pkl",
+   "sid": "478e31e287c2",
+   "N_ritz": 13.903686794954098,
+   "N_head": 13.047727584838867,
+   "score": 0.0656021674693633
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/32654dd84fee.pkl",
+   "sid": "32654dd84fee",
+   "N_ritz": 19.45265267831064,
+   "N_head": 18.2572021484375,
+   "score": 0.06547829838075427
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/60db07b99e19.pkl",
+   "sid": "60db07b99e19",
+   "N_ritz": 9.928038503900996,
+   "N_head": 9.32597541809082,
+   "score": 0.06455765309463235
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b88e954218fa.pkl",
+   "sid": "b88e954218fa",
+   "N_ritz": 10.19095654841082,
+   "N_head": 9.574931144714355,
+   "score": 0.06433731944239927
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b715a63a4a5c.pkl",
+   "sid": "b715a63a4a5c",
+   "N_ritz": 23.939555608774725,
+   "N_head": 22.49608612060547,
+   "score": 0.06416536105127635
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2f0f220ccecf.pkl",
+   "sid": "2f0f220ccecf",
+   "N_ritz": 19.426156343614146,
+   "N_head": 18.254995346069336,
+   "score": 0.06415564481625487
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/70e0662213b9.pkl",
+   "sid": "70e0662213b9",
+   "N_ritz": 12.501218578218053,
+   "N_head": 11.749384880065918,
+   "score": 0.06398919652616884
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ce3879a5e424.pkl",
+   "sid": "ce3879a5e424",
+   "N_ritz": 33.344927523984715,
+   "N_head": 31.340150833129883,
+   "score": 0.06396831660221526
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1746ace422cb.pkl",
+   "sid": "1746ace422cb",
+   "N_ritz": 9.622902516511317,
+   "N_head": 9.04613208770752,
+   "score": 0.06375878919428463
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/f883aa6ac8e9.pkl",
+   "sid": "f883aa6ac8e9",
+   "N_ritz": 19.87059701264764,
+   "N_head": 18.6798095703125,
+   "score": 0.06374730094827291
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/5dd9acd4c858.pkl",
+   "sid": "5dd9acd4c858",
+   "N_ritz": 9.988073319530873,
+   "N_head": 9.393507957458496,
+   "score": 0.06329534874139205
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/c60707ba9260.pkl",
+   "sid": "c60707ba9260",
+   "N_ritz": 6.6124838561850305,
+   "N_head": 6.2189412117004395,
+   "score": 0.0632812935655626
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/3a5e8f7e5188.pkl",
+   "sid": "3a5e8f7e5188",
+   "N_ritz": 15.74231908176851,
+   "N_head": 14.806262969970703,
+   "score": 0.06322028142389932
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/8a7f8c1b3d2d.pkl",
+   "sid": "8a7f8c1b3d2d",
+   "N_ritz": 6.877111225121796,
+   "N_head": 6.469563007354736,
+   "score": 0.06299470571717909
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1e0e632b7286.pkl",
+   "sid": "1e0e632b7286",
+   "N_ritz": 11.759993729709873,
+   "N_head": 11.06674861907959,
+   "score": 0.06264216659219095
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/99a07464798c.pkl",
+   "sid": "99a07464798c",
+   "N_ritz": 15.200474839510324,
+   "N_head": 14.310998916625977,
+   "score": 0.06215330796028418
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/87e6d8483705.pkl",
+   "sid": "87e6d8483705",
+   "N_ritz": 7.694148473474929,
+   "N_head": 7.246417045593262,
+   "score": 0.061786593990466564
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/54a29d11c3d2.pkl",
+   "sid": "54a29d11c3d2",
+   "N_ritz": 27.130334103627376,
+   "N_head": 25.554964065551758,
+   "score": 0.06164634135405522
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/5d98d0e88415.pkl",
+   "sid": "5d98d0e88415",
+   "N_ritz": 8.006471300028348,
+   "N_head": 7.542402267456055,
+   "score": 0.061528014035350236
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/10bb5abf373a.pkl",
+   "sid": "10bb5abf373a",
+   "N_ritz": 18.245067633988,
+   "N_head": 17.191633224487305,
+   "score": 0.06127599372002724
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/f369c1bb810e.pkl",
+   "sid": "f369c1bb810e",
+   "N_ritz": 12.232100242975035,
+   "N_head": 11.5264892578125,
+   "score": 0.06121647011333317
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/5434352064bf.pkl",
+   "sid": "5434352064bf",
+   "N_ritz": 7.36372372758,
+   "N_head": 6.939350605010986,
+   "score": 0.0611545873273169
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/526080e385c2.pkl",
+   "sid": "526080e385c2",
+   "N_ritz": 12.342028122261564,
+   "N_head": 11.631816864013672,
+   "score": 0.061057637560055805
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/9abae090ac06.pkl",
+   "sid": "9abae090ac06",
+   "N_ritz": 9.976004746363015,
+   "N_head": 9.403107643127441,
+   "score": 0.06092635806996148
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1a309fcf7f06.pkl",
+   "sid": "1a309fcf7f06",
+   "N_ritz": 14.382738908054575,
+   "N_head": 13.557372093200684,
+   "score": 0.06087955757058782
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e558beb91667.pkl",
+   "sid": "e558beb91667",
+   "N_ritz": 29.964928340630706,
+   "N_head": 28.250661849975586,
+   "score": 0.0606805780253464
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a1611915410c.pkl",
+   "sid": "a1611915410c",
+   "N_ritz": 6.555832801689468,
+   "N_head": 6.182378768920898,
+   "score": 0.06040620394304218
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/696ce841b4ac.pkl",
+   "sid": "696ce841b4ac",
+   "N_ritz": 22.548331633100954,
+   "N_head": 21.27168083190918,
+   "score": 0.060016451510343204
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ef2274229780.pkl",
+   "sid": "ef2274229780",
+   "N_ritz": 14.62835614392435,
+   "N_head": 13.802642822265625,
+   "score": 0.059822842066646245
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ee764a4f18e0.pkl",
+   "sid": "ee764a4f18e0",
+   "N_ritz": 9.516936691355953,
+   "N_head": 8.980002403259277,
+   "score": 0.05979222098000736
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/d983508ac66c.pkl",
+   "sid": "d983508ac66c",
+   "N_ritz": 35.760891209185075,
+   "N_head": 33.74385452270508,
+   "score": 0.05977493428093115
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/4ad8f6610c86.pkl",
+   "sid": "4ad8f6610c86",
+   "N_ritz": 15.060571695864208,
+   "N_head": 14.211639404296875,
+   "score": 0.05973500082690387
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/19b824eb0d23.pkl",
+   "sid": "19b824eb0d23",
+   "N_ritz": 10.261523151252147,
+   "N_head": 9.685568809509277,
+   "score": 0.05946520571692173
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/6eee70ff9bd6.pkl",
+   "sid": "6eee70ff9bd6",
+   "N_ritz": 8.162920639886318,
+   "N_head": 7.7053446769714355,
+   "score": 0.059384230309958215
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/3fb495d971a3.pkl",
+   "sid": "3fb495d971a3",
+   "N_ritz": 8.111750411799807,
+   "N_head": 7.658900260925293,
+   "score": 0.05912730750456389
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/0fc2eba35bdf.pkl",
+   "sid": "0fc2eba35bdf",
+   "N_ritz": 11.115533506704216,
+   "N_head": 10.49592399597168,
+   "score": 0.05903334579883973
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a4faa27bd3d8.pkl",
+   "sid": "a4faa27bd3d8",
+   "N_ritz": 30.578411765695677,
+   "N_head": 28.87462615966797,
+   "score": 0.05900632605964447
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/9555754beb76.pkl",
+   "sid": "9555754beb76",
+   "N_ritz": 9.428727236539174,
+   "N_head": 8.904584884643555,
+   "score": 0.05886207596263492
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ddcb3d3c84df.pkl",
+   "sid": "ddcb3d3c84df",
+   "N_ritz": 9.725832296514742,
+   "N_head": 9.186782836914062,
+   "score": 0.058676630238246937
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2c50e27c9536.pkl",
+   "sid": "2c50e27c9536",
+   "N_ritz": 11.320861846485071,
+   "N_head": 10.693517684936523,
+   "score": 0.05866583663411893
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/39c2c197cb21.pkl",
+   "sid": "39c2c197cb21",
+   "N_ritz": 9.356538479848576,
+   "N_head": 8.842629432678223,
+   "score": 0.0581172207976041
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/c04df44e043f.pkl",
+   "sid": "c04df44e043f",
+   "N_ritz": 8.798351727776453,
+   "N_head": 8.315949440002441,
+   "score": 0.058009285801269815
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/71001e0560de.pkl",
+   "sid": "71001e0560de",
+   "N_ritz": 10.577104074548062,
+   "N_head": 9.998581886291504,
+   "score": 0.05786042409171422
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/00b6f4177f2d.pkl",
+   "sid": "00b6f4177f2d",
+   "N_ritz": 9.635660520990493,
+   "N_head": 9.10949420928955,
+   "score": 0.057760211446687776
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/7c3bde40d9d7.pkl",
+   "sid": "7c3bde40d9d7",
+   "N_ritz": 10.067677348600501,
+   "N_head": 9.520193099975586,
+   "score": 0.057507683182005956
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/035b05715d8b.pkl",
+   "sid": "035b05715d8b",
+   "N_ritz": 13.558127362148518,
+   "N_head": 12.823899269104004,
+   "score": 0.05725466783831141
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/298b5d581efa.pkl",
+   "sid": "298b5d581efa",
+   "N_ritz": 28.104594399914316,
+   "N_head": 26.585702896118164,
+   "score": 0.057131891894343256
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1124f8f9f0e5.pkl",
+   "sid": "1124f8f9f0e5",
+   "N_ritz": 11.97390362128527,
+   "N_head": 11.327457427978516,
+   "score": 0.057068958097344066
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a72750aa8611.pkl",
+   "sid": "a72750aa8611",
+   "N_ritz": 17.674083120233483,
+   "N_head": 16.720632553100586,
+   "score": 0.057022398172136994
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/480cfd1e4211.pkl",
+   "sid": "480cfd1e4211",
+   "N_ritz": 19.32706399007488,
+   "N_head": 18.28667640686035,
+   "score": 0.05689320246429366
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/9361b329e7ff.pkl",
+   "sid": "9361b329e7ff",
+   "N_ritz": 11.249235280895158,
+   "N_head": 10.644723892211914,
+   "score": 0.05678976691218152
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/d9b7dc6eb68b.pkl",
+   "sid": "d9b7dc6eb68b",
+   "N_ritz": 11.434517143011272,
+   "N_head": 10.821698188781738,
+   "score": 0.056628723471960185
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a3ae47f75895.pkl",
+   "sid": "a3ae47f75895",
+   "N_ritz": 18.624094175979824,
+   "N_head": 17.632366180419922,
+   "score": 0.056244748175725764
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1317f569aabd.pkl",
+   "sid": "1317f569aabd",
+   "N_ritz": 25.620197884528505,
+   "N_head": 24.25868797302246,
+   "score": 0.05612463101962267
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/c7569362e30e.pkl",
+   "sid": "c7569362e30e",
+   "N_ritz": 21.345994811918622,
+   "N_head": 20.216007232666016,
+   "score": 0.055895685347140026
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/440e39d0c259.pkl",
+   "sid": "440e39d0c259",
+   "N_ritz": 14.729589637475184,
+   "N_head": 13.95297622680664,
+   "score": 0.05565933733739931
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/14097425a74c.pkl",
+   "sid": "14097425a74c",
+   "N_ritz": 6.968869580912079,
+   "N_head": 6.603208065032959,
+   "score": 0.05537634317710916
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b200b098ff33.pkl",
+   "sid": "b200b098ff33",
+   "N_ritz": 7.277548149280602,
+   "N_head": 6.8969407081604,
+   "score": 0.055184966382249706
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/4dfee900d343.pkl",
+   "sid": "4dfee900d343",
+   "N_ritz": 15.678097280638982,
+   "N_head": 14.860152244567871,
+   "score": 0.055042843613537694
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/cd6df42ba512.pkl",
+   "sid": "cd6df42ba512",
+   "N_ritz": 10.699021910603223,
+   "N_head": 10.141589164733887,
+   "score": 0.054965029327725026
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/183987ce6710.pkl",
+   "sid": "183987ce6710",
+   "N_ritz": 18.59014577879775,
+   "N_head": 17.62865447998047,
+   "score": 0.05454138884559656
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1a04d22d8fd6.pkl",
+   "sid": "1a04d22d8fd6",
+   "N_ritz": 7.264487750271425,
+   "N_head": 6.888999938964844,
+   "score": 0.05450541655295808
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ceffb1d479ee.pkl",
+   "sid": "ceffb1d479ee",
+   "N_ritz": 10.460612123558763,
+   "N_head": 9.921467781066895,
+   "score": 0.05434118765377795
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/86e6d4b48916.pkl",
+   "sid": "86e6d4b48916",
+   "N_ritz": 13.644632009349836,
+   "N_head": 12.941763877868652,
+   "score": 0.054310072267903055
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/886a7b9f8e77.pkl",
+   "sid": "886a7b9f8e77",
+   "N_ritz": 6.91111434679539,
+   "N_head": 6.555392742156982,
+   "score": 0.054263965353410895
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/dcd0c47e1b4d.pkl",
+   "sid": "dcd0c47e1b4d",
+   "N_ritz": 13.612285948481745,
+   "N_head": 12.912653923034668,
+   "score": 0.054181892399285544
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/0cc9553fff7b.pkl",
+   "sid": "0cc9553fff7b",
+   "N_ritz": 30.238570908647542,
+   "N_head": 28.695819854736328,
+   "score": 0.053762222571820985
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a98266a82c3a.pkl",
+   "sid": "a98266a82c3a",
+   "N_ritz": 26.350002818156558,
+   "N_head": 25.00637435913086,
+   "score": 0.05373143822167423
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/9b026dd80d1e.pkl",
+   "sid": "9b026dd80d1e",
+   "N_ritz": 12.571232382614703,
+   "N_head": 11.931477546691895,
+   "score": 0.05361907889607401
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/4a0d40d6a052.pkl",
+   "sid": "4a0d40d6a052",
+   "N_ritz": 10.259661432488965,
+   "N_head": 9.73781681060791,
+   "score": 0.053589488489101826
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e794236d98ab.pkl",
+   "sid": "e794236d98ab",
+   "N_ritz": 14.339763167491107,
+   "N_head": 13.620451927185059,
+   "score": 0.05281111406225626
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/7087860f6138.pkl",
+   "sid": "7087860f6138",
+   "N_ritz": 14.57106507723792,
+   "N_head": 13.840277671813965,
+   "score": 0.05280149883930581
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/eb84f23ec843.pkl",
+   "sid": "eb84f23ec843",
+   "N_ritz": 9.062687465535278,
+   "N_head": 8.610671043395996,
+   "score": 0.05249491240127664
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1f5b7edb76ea.pkl",
+   "sid": "1f5b7edb76ea",
+   "N_ritz": 8.642670277580304,
+   "N_head": 8.213715553283691,
+   "score": 0.052224200060729496
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/79ce8d6aee31.pkl",
+   "sid": "79ce8d6aee31",
+   "N_ritz": 12.228020259860095,
+   "N_head": 11.623491287231445,
+   "score": 0.05200924211925316
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/d2a159f04418.pkl",
+   "sid": "d2a159f04418",
+   "N_ritz": 8.740342419821587,
+   "N_head": 8.310126304626465,
+   "score": 0.051770105462249104
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/0ecdce17a26d.pkl",
+   "sid": "0ecdce17a26d",
+   "N_ritz": 14.097516200074232,
+   "N_head": 13.404152870178223,
+   "score": 0.0517275009179144
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/c3a0180375fa.pkl",
+   "sid": "c3a0180375fa",
+   "N_ritz": 31.70855923904697,
+   "N_head": 30.149316787719727,
+   "score": 0.051717339477568076
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ac270af49ae5.pkl",
+   "sid": "ac270af49ae5",
+   "N_ritz": 32.06553510755798,
+   "N_head": 30.501245498657227,
+   "score": 0.05128608957852611
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/278ac265690a.pkl",
+   "sid": "278ac265690a",
+   "N_ritz": 21.382364512920145,
+   "N_head": 20.341096878051758,
+   "score": 0.05119033851079706
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e2763aff67d8.pkl",
+   "sid": "e2763aff67d8",
+   "N_ritz": 19.643670701975836,
+   "N_head": 18.697147369384766,
+   "score": 0.050623943529531895
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/dda54a69f6c5.pkl",
+   "sid": "dda54a69f6c5",
+   "N_ritz": 17.038621771319548,
+   "N_head": 16.217870712280273,
+   "score": 0.050607818597160015
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/bd3e9ba980e3.pkl",
+   "sid": "bd3e9ba980e3",
+   "N_ritz": 8.603721794687324,
+   "N_head": 8.190316200256348,
+   "score": 0.05047492481646036
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2bbdfc3a6a1a.pkl",
+   "sid": "2bbdfc3a6a1a",
+   "N_ritz": 8.974492024019579,
+   "N_head": 8.543683052062988,
+   "score": 0.05042426894014589
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/d9734f56a593.pkl",
+   "sid": "d9734f56a593",
+   "N_ritz": 18.174423395839106,
+   "N_head": 17.30232048034668,
+   "score": 0.05040381239516566
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/109c8f96ae0a.pkl",
+   "sid": "109c8f96ae0a",
+   "N_ritz": 7.688091612678595,
+   "N_head": 7.319446086883545,
+   "score": 0.050365221824048026
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a3a1c8ea00e2.pkl",
+   "sid": "a3a1c8ea00e2",
+   "N_ritz": 20.769098379989046,
+   "N_head": 19.77628517150879,
+   "score": 0.05020220935681989
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/995436293481.pkl",
+   "sid": "995436293481",
+   "N_ritz": 18.747015136554378,
+   "N_head": 17.85492515563965,
+   "score": 0.049963243930650374
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/0b197bdbcb8b.pkl",
+   "sid": "0b197bdbcb8b",
+   "N_ritz": 7.039603456759413,
+   "N_head": 6.705864906311035,
+   "score": 0.04976815893417257
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/797b07e5be68.pkl",
+   "sid": "797b07e5be68",
+   "N_ritz": 12.37583176100014,
+   "N_head": 11.79119873046875,
+   "score": 0.04958215393492461
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1fbeae217f6f.pkl",
+   "sid": "1fbeae217f6f",
+   "N_ritz": 17.376850931886707,
+   "N_head": 16.558238983154297,
+   "score": 0.04943834604424023
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/f65bab9492e3.pkl",
+   "sid": "f65bab9492e3",
+   "N_ritz": 12.894709231773314,
+   "N_head": 12.28880500793457,
+   "score": 0.04930538188599516
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/74524a6ae27c.pkl",
+   "sid": "74524a6ae27c",
+   "N_ritz": 13.010340604520362,
+   "N_head": 12.401728630065918,
+   "score": 0.04907476954293017
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/c2058d46001e.pkl",
+   "sid": "c2058d46001e",
+   "N_ritz": 10.445198519149256,
+   "N_head": 9.960156440734863,
+   "score": 0.048698238958444176
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/fbfc6b591542.pkl",
+   "sid": "fbfc6b591542",
+   "N_ritz": 19.166207282387603,
+   "N_head": 18.28447151184082,
+   "score": 0.04822320240296694
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/d8397bbae551.pkl",
+   "sid": "d8397bbae551",
+   "N_ritz": 11.335139267052647,
+   "N_head": 10.81701374053955,
+   "score": 0.04789912807185283
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ab6d83b91f96.pkl",
+   "sid": "ab6d83b91f96",
+   "N_ritz": 10.027394305532919,
+   "N_head": 9.571174621582031,
+   "score": 0.04766600777736921
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/23b588966c3f.pkl",
+   "sid": "23b588966c3f",
+   "N_ritz": 26.615202195876243,
+   "N_head": 25.40559959411621,
+   "score": 0.04761165337897277
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/65384d1acc6c.pkl",
+   "sid": "65384d1acc6c",
+   "N_ritz": 14.742539308978323,
+   "N_head": 14.073995590209961,
+   "score": 0.04750205543857132
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2e7872fa15d3.pkl",
+   "sid": "2e7872fa15d3",
+   "N_ritz": 9.007693273854251,
+   "N_head": 8.600592613220215,
+   "score": 0.04733402440295453
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/853b4d1cb366.pkl",
+   "sid": "853b4d1cb366",
+   "N_ritz": 12.201244789567244,
+   "N_head": 11.653610229492188,
+   "score": 0.04699269576471157
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/9cb30a56ab3c.pkl",
+   "sid": "9cb30a56ab3c",
+   "N_ritz": 10.601666182620573,
+   "N_head": 10.125932693481445,
+   "score": 0.0469816957647151
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/743e23a7cc20.pkl",
+   "sid": "743e23a7cc20",
+   "N_ritz": 27.65809885577243,
+   "N_head": 26.41783332824707,
+   "score": 0.04694804120060878
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/7f4e3123d4dc.pkl",
+   "sid": "7f4e3123d4dc",
+   "N_ritz": 13.423258504749048,
+   "N_head": 12.823501586914062,
+   "score": 0.04677013636018239
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b0ceceb64932.pkl",
+   "sid": "b0ceceb64932",
+   "N_ritz": 32.60113740538515,
+   "N_head": 31.144739151000977,
+   "score": 0.04676225565168582
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a999cf80887a.pkl",
+   "sid": "a999cf80887a",
+   "N_ritz": 13.555929821802698,
+   "N_head": 12.953081130981445,
+   "score": 0.04654094919388304
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e4124346222e.pkl",
+   "sid": "e4124346222e",
+   "N_ritz": 9.623902944241127,
+   "N_head": 9.196037292480469,
+   "score": 0.04652717666885943
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b4eb9e30f21f.pkl",
+   "sid": "b4eb9e30f21f",
+   "N_ritz": 7.610514572265871,
+   "N_head": 7.273047924041748,
+   "score": 0.046399618392255516
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/8a4dfdc5dbe2.pkl",
+   "sid": "8a4dfdc5dbe2",
+   "N_ritz": 22.276941775400783,
+   "N_head": 21.292158126831055,
+   "score": 0.046251002021667535
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/bf7865873cc9.pkl",
+   "sid": "bf7865873cc9",
+   "N_ritz": 11.707191956610732,
+   "N_head": 11.189836502075195,
+   "score": 0.04623440694951987
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/8d4facf4be56.pkl",
+   "sid": "8d4facf4be56",
+   "N_ritz": 22.981889726043836,
+   "N_head": 21.97089385986328,
+   "score": 0.04601523600400505
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b39a524dca30.pkl",
+   "sid": "b39a524dca30",
+   "N_ritz": 15.31349373879027,
+   "N_head": 14.64050006866455,
+   "score": 0.0459679428277279
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/c8c522c15130.pkl",
+   "sid": "c8c522c15130",
+   "N_ritz": 9.473500218147295,
+   "N_head": 9.060246467590332,
+   "score": 0.045611755931279044
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e35c36c8ce77.pkl",
+   "sid": "e35c36c8ce77",
+   "N_ritz": 19.355593466353476,
+   "N_head": 18.511680603027344,
+   "score": 0.04558812791898111
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/397bd8ac7f2b.pkl",
+   "sid": "397bd8ac7f2b",
+   "N_ritz": 18.617926024063795,
+   "N_head": 17.807167053222656,
+   "score": 0.045529924463443026
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ecff1c2e46d2.pkl",
+   "sid": "ecff1c2e46d2",
+   "N_ritz": 14.360937534024904,
+   "N_head": 13.745887756347656,
+   "score": 0.04474427469358802
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ac436853c933.pkl",
+   "sid": "ac436853c933",
+   "N_ritz": 25.94552117421289,
+   "N_head": 24.83576011657715,
+   "score": 0.04468399809092242
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/201e4fca2609.pkl",
+   "sid": "201e4fca2609",
+   "N_ritz": 13.476028192639427,
+   "N_head": 12.900874137878418,
+   "score": 0.0445825646087262
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1f7172544e0f.pkl",
+   "sid": "1f7172544e0f",
+   "N_ritz": 16.326792082089344,
+   "N_head": 15.630012512207031,
+   "score": 0.04457959130474967
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/71847a88b41e.pkl",
+   "sid": "71847a88b41e",
+   "N_ritz": 17.682312289309046,
+   "N_head": 16.938274383544922,
+   "score": 0.043926428921646034
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/24966a7d1929.pkl",
+   "sid": "24966a7d1929",
+   "N_ritz": 8.12378098175187,
+   "N_head": 7.782690048217773,
+   "score": 0.04382686852757359
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/08ced42bf7d5.pkl",
+   "sid": "08ced42bf7d5",
+   "N_ritz": 14.555875872857046,
+   "N_head": 13.94742202758789,
+   "score": 0.04362482500820855
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/8245aed68357.pkl",
+   "sid": "8245aed68357",
+   "N_ritz": 10.13855886804556,
+   "N_head": 9.720023155212402,
+   "score": 0.043059127138881007
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/4d5a62342484.pkl",
+   "sid": "4d5a62342484",
+   "N_ritz": 6.771362799382411,
+   "N_head": 6.492862224578857,
+   "score": 0.04289334428648185
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/c01aa5d5006b.pkl",
+   "sid": "c01aa5d5006b",
+   "N_ritz": 8.914049260057533,
+   "N_head": 8.550285339355469,
+   "score": 0.04254406797720805
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/5a7944ab2df3.pkl",
+   "sid": "5a7944ab2df3",
+   "N_ritz": 36.11268231558823,
+   "N_head": 34.642364501953125,
+   "score": 0.042442767252570464
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2671ea54d1f4.pkl",
+   "sid": "2671ea54d1f4",
+   "N_ritz": 13.986552775785704,
+   "N_head": 13.417866706848145,
+   "score": 0.04238274841762409
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/70afd9d806cc.pkl",
+   "sid": "70afd9d806cc",
+   "N_ritz": 21.97683277049168,
+   "N_head": 21.08786392211914,
+   "score": 0.04215547158572547
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/17c48509eed0.pkl",
+   "sid": "17c48509eed0",
+   "N_ritz": 14.173375834559828,
+   "N_head": 13.600709915161133,
+   "score": 0.04210559029424826
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/32bd6667bd60.pkl",
+   "sid": "32bd6667bd60",
+   "N_ritz": 13.383612186535432,
+   "N_head": 12.845475196838379,
+   "score": 0.04189311656056936
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/f762ca3cecba.pkl",
+   "sid": "f762ca3cecba",
+   "N_ritz": 27.037232176748493,
+   "N_head": 25.954605102539062,
+   "score": 0.04171233081498589
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/84dc50170bb9.pkl",
+   "sid": "84dc50170bb9",
+   "N_ritz": 7.851152225826338,
+   "N_head": 7.541037559509277,
+   "score": 0.04112360717869716
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/5399b4b123a5.pkl",
+   "sid": "5399b4b123a5",
+   "N_ritz": 7.2560177130847805,
+   "N_head": 6.970987796783447,
+   "score": 0.04088802399465564
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/fa8e7c25f833.pkl",
+   "sid": "fa8e7c25f833",
+   "N_ritz": 21.60600748908565,
+   "N_head": 20.758085250854492,
+   "score": 0.040847805950515216
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e72973e3863a.pkl",
+   "sid": "e72973e3863a",
+   "N_ritz": 14.874170950850758,
+   "N_head": 14.291393280029297,
+   "score": 0.04077822640538698
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/59d2575bff02.pkl",
+   "sid": "59d2575bff02",
+   "N_ritz": 19.255390181602433,
+   "N_head": 18.519052505493164,
+   "score": 0.03976108798713404
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e02144f57212.pkl",
+   "sid": "e02144f57212",
+   "N_ritz": 7.622429242360858,
+   "N_head": 7.3337578773498535,
+   "score": 0.03936199828774815
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/41639f460508.pkl",
+   "sid": "41639f460508",
+   "N_ritz": 24.45146619503872,
+   "N_head": 23.532163619995117,
+   "score": 0.0390657905447537
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1d291da813c7.pkl",
+   "sid": "1d291da813c7",
+   "N_ritz": 13.403712671453041,
+   "N_head": 12.900218963623047,
+   "score": 0.039029857496975955
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ef507d514c72.pkl",
+   "sid": "ef507d514c72",
+   "N_ritz": 11.64711465043821,
+   "N_head": 11.213153839111328,
+   "score": 0.03870104856790893
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2197da9275a3.pkl",
+   "sid": "2197da9275a3",
+   "N_ritz": 11.288051181563546,
+   "N_head": 10.871224403381348,
+   "score": 0.03834221084172909
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/583ad46e248e.pkl",
+   "sid": "583ad46e248e",
+   "N_ritz": 8.686294812122066,
+   "N_head": 8.36555004119873,
+   "score": 0.03834114545292644
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e336bc397098.pkl",
+   "sid": "e336bc397098",
+   "N_ritz": 10.863233597083267,
+   "N_head": 10.466169357299805,
+   "score": 0.03793787643102905
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/657fd7e15629.pkl",
+   "sid": "657fd7e15629",
+   "N_ritz": 16.531382083507413,
+   "N_head": 15.929302215576172,
+   "score": 0.03779700201447046
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/34bac3fa87bf.pkl",
+   "sid": "34bac3fa87bf",
+   "N_ritz": 26.516311858502245,
+   "N_head": 25.561954498291016,
+   "score": 0.03733506998750955
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/6c285b38ce60.pkl",
+   "sid": "6c285b38ce60",
+   "N_ritz": 12.507273221854357,
+   "N_head": 12.060356140136719,
+   "score": 0.03705670682728045
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/55b4bb43137b.pkl",
+   "sid": "55b4bb43137b",
+   "N_ritz": 7.652330657950236,
+   "N_head": 7.378894805908203,
+   "score": 0.03705647786482813
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/32c740e771b2.pkl",
+   "sid": "32c740e771b2",
+   "N_ritz": 11.08663981214805,
+   "N_head": 10.69317626953125,
+   "score": 0.03679575952917945
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/9e2aed338a32.pkl",
+   "sid": "9e2aed338a32",
+   "N_ritz": 14.914905338956999,
+   "N_head": 14.390616416931152,
+   "score": 0.03643269383575527
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/0157b769f68e.pkl",
+   "sid": "0157b769f68e",
+   "N_ritz": 27.236862204682023,
+   "N_head": 26.28722381591797,
+   "score": 0.03612547279294704
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/511212d801ea.pkl",
+   "sid": "511212d801ea",
+   "N_ritz": 32.07529747923648,
+   "N_head": 30.961647033691406,
+   "score": 0.03596870813536631
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/31bcee0dd38a.pkl",
+   "sid": "31bcee0dd38a",
+   "N_ritz": 16.484460751416634,
+   "N_head": 15.91591739654541,
+   "score": 0.03572168293576516
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e0158fe5f43b.pkl",
+   "sid": "e0158fe5f43b",
+   "N_ritz": 6.578584412941821,
+   "N_head": 6.353521823883057,
+   "score": 0.0354232810238801
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a1e6b0758b9e.pkl",
+   "sid": "a1e6b0758b9e",
+   "N_ritz": 7.580756407797007,
+   "N_head": 7.321545124053955,
+   "score": 0.035403904415127876
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/f937a51e5043.pkl",
+   "sid": "f937a51e5043",
+   "N_ritz": 7.222117950625867,
+   "N_head": 6.977290630340576,
+   "score": 0.035089167594748755
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a438e6c61b0f.pkl",
+   "sid": "a438e6c61b0f",
+   "N_ritz": 20.53577291553995,
+   "N_head": 19.84813117980957,
+   "score": 0.03464516278640286
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/162ff2026758.pkl",
+   "sid": "162ff2026758",
+   "N_ritz": 12.36124937482033,
+   "N_head": 11.94762134552002,
+   "score": 0.03462011536341568
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ff779b33313b.pkl",
+   "sid": "ff779b33313b",
+   "N_ritz": 7.494397160012653,
+   "N_head": 7.244011402130127,
+   "score": 0.03456451736242427
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/58ccdcc11f1e.pkl",
+   "sid": "58ccdcc11f1e",
+   "N_ritz": 10.000756049698184,
+   "N_head": 9.668537139892578,
+   "score": 0.03436082470375629
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/31d4ce6d5839.pkl",
+   "sid": "31d4ce6d5839",
+   "N_ritz": 14.061819036754484,
+   "N_head": 13.59512996673584,
+   "score": 0.034327665212508074
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/44f4bb6aa1f5.pkl",
+   "sid": "44f4bb6aa1f5",
+   "N_ritz": 13.342820897371361,
+   "N_head": 12.904048919677734,
+   "score": 0.03400265919827158
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/16d47de736c5.pkl",
+   "sid": "16d47de736c5",
+   "N_ritz": 7.876279372620352,
+   "N_head": 7.6175217628479,
+   "score": 0.03396873915535907
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ff01e2b073cf.pkl",
+   "sid": "ff01e2b073cf",
+   "N_ritz": 12.022992567806622,
+   "N_head": 11.628899574279785,
+   "score": 0.03388910455452479
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/0a80eee844ab.pkl",
+   "sid": "0a80eee844ab",
+   "N_ritz": 7.17313108652785,
+   "N_head": 6.940399646759033,
+   "score": 0.03353285856924623
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/3aae077a8345.pkl",
+   "sid": "3aae077a8345",
+   "N_ritz": 8.66058531974115,
+   "N_head": 8.38219928741455,
+   "score": 0.033211574048899316
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/3a157c2ec9fb.pkl",
+   "sid": "3a157c2ec9fb",
+   "N_ritz": 17.826036206568922,
+   "N_head": 17.253110885620117,
+   "score": 0.033207073480662486
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/763c771b7127.pkl",
+   "sid": "763c771b7127",
+   "N_ritz": 39.86563883975883,
+   "N_head": 38.602020263671875,
+   "score": 0.0327345192675353
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/d2516192c362.pkl",
+   "sid": "d2516192c362",
+   "N_ritz": 17.777858232110987,
+   "N_head": 17.218008041381836,
+   "score": 0.03251538676155826
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/915175c5c326.pkl",
+   "sid": "915175c5c326",
+   "N_ritz": 9.225883266629495,
+   "N_head": 8.937408447265625,
+   "score": 0.03227723350297681
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1f4509102bac.pkl",
+   "sid": "1f4509102bac",
+   "N_ritz": 8.993720320313958,
+   "N_head": 8.713007926940918,
+   "score": 0.032217621713055936
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/f9770b7c5990.pkl",
+   "sid": "f9770b7c5990",
+   "N_ritz": 11.136986115708503,
+   "N_head": 10.791550636291504,
+   "score": 0.032009809438813604
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/298dd9c606a0.pkl",
+   "sid": "298dd9c606a0",
+   "N_ritz": 8.363909025066016,
+   "N_head": 8.107440948486328,
+   "score": 0.03163366569170896
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/4fa99ba2d208.pkl",
+   "sid": "4fa99ba2d208",
+   "N_ritz": 11.97583878835821,
+   "N_head": 11.609131813049316,
+   "score": 0.03158780356828188
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/64638bd17859.pkl",
+   "sid": "64638bd17859",
+   "N_ritz": 17.40415621009936,
+   "N_head": 16.879281997680664,
+   "score": 0.0310957665433172
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a623d23c603a.pkl",
+   "sid": "a623d23c603a",
+   "N_ritz": 17.828533610167813,
+   "N_head": 17.293954849243164,
+   "score": 0.030911307771110785
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/651ae9507a9c.pkl",
+   "sid": "651ae9507a9c",
+   "N_ritz": 8.284416629749554,
+   "N_head": 8.038884162902832,
+   "score": 0.030543102981852213
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/62297601b363.pkl",
+   "sid": "62297601b363",
+   "N_ritz": 8.441132805652883,
+   "N_head": 8.191288948059082,
+   "score": 0.03050116522296542
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/dee7b2c62298.pkl",
+   "sid": "dee7b2c62298",
+   "N_ritz": 8.450090494643277,
+   "N_head": 8.203237533569336,
+   "score": 0.030092138629872395
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/b747c1d72a55.pkl",
+   "sid": "b747c1d72a55",
+   "N_ritz": 8.952493244454432,
+   "N_head": 8.692885398864746,
+   "score": 0.02986440447306367
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/022b3a0d9e47.pkl",
+   "sid": "022b3a0d9e47",
+   "N_ritz": 15.681335888466508,
+   "N_head": 15.235576629638672,
+   "score": 0.029257787195311948
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/281fa6074f90.pkl",
+   "sid": "281fa6074f90",
+   "N_ritz": 9.661271454523385,
+   "N_head": 9.390771865844727,
+   "score": 0.02880483016124538
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/dc096400a4f3.pkl",
+   "sid": "dc096400a4f3",
+   "N_ritz": 8.794261286142655,
+   "N_head": 8.552605628967285,
+   "score": 0.0282552087233969
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/f507c50903a2.pkl",
+   "sid": "f507c50903a2",
+   "N_ritz": 9.836970416825675,
+   "N_head": 9.568646430969238,
+   "score": 0.028042000275817238
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/6b6045f9de14.pkl",
+   "sid": "6b6045f9de14",
+   "N_ritz": 12.716977596223353,
+   "N_head": 12.380271911621094,
+   "score": 0.0271969539123128
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/fbce18cd1d26.pkl",
+   "sid": "fbce18cd1d26",
+   "N_ritz": 7.828367970807272,
+   "N_head": 7.621271133422852,
+   "score": 0.027173529685383266
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e80ba0e91236.pkl",
+   "sid": "e80ba0e91236",
+   "N_ritz": 21.81784619146024,
+   "N_head": 21.249305725097656,
+   "score": 0.02675571963233974
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/570ae8c475d0.pkl",
+   "sid": "570ae8c475d0",
+   "N_ritz": 7.446334176554088,
+   "N_head": 7.256302356719971,
+   "score": 0.026188520060514187
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/686a89cf6dfb.pkl",
+   "sid": "686a89cf6dfb",
+   "N_ritz": 14.064549192381367,
+   "N_head": 13.708639144897461,
+   "score": 0.025962463795422087
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/cfd1301a24c3.pkl",
+   "sid": "cfd1301a24c3",
+   "N_ritz": 15.476856949477927,
+   "N_head": 15.087361335754395,
+   "score": 0.025816019452022828
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/8be16baa5964.pkl",
+   "sid": "8be16baa5964",
+   "N_ritz": 36.57672305756989,
+   "N_head": 35.65687561035156,
+   "score": 0.025797197075542126
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2ac84386e437.pkl",
+   "sid": "2ac84386e437",
+   "N_ritz": 37.59482056845074,
+   "N_head": 36.6512336730957,
+   "score": 0.02574502413128024
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/2676a6999e64.pkl",
+   "sid": "2676a6999e64",
+   "N_ritz": 10.605863385849721,
+   "N_head": 10.341445922851562,
+   "score": 0.025568713018541613
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/4c13ebe39589.pkl",
+   "sid": "4c13ebe39589",
+   "N_ritz": 14.175939669207288,
+   "N_head": 13.832565307617188,
+   "score": 0.024823621212257327
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a5bb06de1df1.pkl",
+   "sid": "a5bb06de1df1",
+   "N_ritz": 25.599737490320763,
+   "N_head": 24.98098373413086,
+   "score": 0.024768990796167747
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/4d411f43d167.pkl",
+   "sid": "4d411f43d167",
+   "N_ritz": 10.645960776307527,
+   "N_head": 10.391680717468262,
+   "score": 0.02446957963323724
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/9ea63f3e1bf9.pkl",
+   "sid": "9ea63f3e1bf9",
+   "N_ritz": 26.089838677674102,
+   "N_head": 25.469467163085938,
+   "score": 0.024357459487307113
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/d2c2f18577e4.pkl",
+   "sid": "d2c2f18577e4",
+   "N_ritz": 29.295298930340213,
+   "N_head": 28.60299301147461,
+   "score": 0.024203967696243264
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/c90f8e473f52.pkl",
+   "sid": "c90f8e473f52",
+   "N_ritz": 10.851243338550853,
+   "N_head": 10.600446701049805,
+   "score": 0.023659063110633937
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/fccab5abfcca.pkl",
+   "sid": "fccab5abfcca",
+   "N_ritz": 13.294754099878325,
+   "N_head": 12.99007511138916,
+   "score": 0.02345475186837336
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/9dc25307a9c5.pkl",
+   "sid": "9dc25307a9c5",
+   "N_ritz": 7.941108380987559,
+   "N_head": 7.765506267547607,
+   "score": 0.02261309274500237
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/10e415e6c8dc.pkl",
+   "sid": "10e415e6c8dc",
+   "N_ritz": 11.656689647875037,
+   "N_head": 11.40528678894043,
+   "score": 0.022042660003814187
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e1094d748a3a.pkl",
+   "sid": "e1094d748a3a",
+   "N_ritz": 7.677287053199544,
+   "N_head": 7.513104438781738,
+   "score": 0.021852832707916978
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/139433a0f50c.pkl",
+   "sid": "139433a0f50c",
+   "N_ritz": 34.98338929176622,
+   "N_head": 34.25102996826172,
+   "score": 0.02138211096668145
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/609b2dbda8f5.pkl",
+   "sid": "609b2dbda8f5",
+   "N_ritz": 14.184374713011795,
+   "N_head": 13.892280578613281,
+   "score": 0.021025643179722678
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/8a11973ff52b.pkl",
+   "sid": "8a11973ff52b",
+   "N_ritz": 6.848617825253681,
+   "N_head": 6.70828914642334,
+   "score": 0.020918698608148188
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e36a609555b5.pkl",
+   "sid": "e36a609555b5",
+   "N_ritz": 11.178570980752404,
+   "N_head": 10.952116966247559,
+   "score": 0.020676734479985557
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/de8f6b86a9ba.pkl",
+   "sid": "de8f6b86a9ba",
+   "N_ritz": 24.08049201969511,
+   "N_head": 23.60654067993164,
+   "score": 0.020077119565696685
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/438935f07261.pkl",
+   "sid": "438935f07261",
+   "N_ritz": 18.397671510008,
+   "N_head": 18.04255485534668,
+   "score": 0.01968217126168722
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/589a32c428b1.pkl",
+   "sid": "589a32c428b1",
+   "N_ritz": 29.608663161434766,
+   "N_head": 29.047286987304688,
+   "score": 0.019326285941108086
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/7a863e6f1921.pkl",
+   "sid": "7a863e6f1921",
+   "N_ritz": 7.458510835455274,
+   "N_head": 7.319520473480225,
+   "score": 0.018988998320126793
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a75d98061370.pkl",
+   "sid": "a75d98061370",
+   "N_ritz": 6.544972371948048,
+   "N_head": 6.429387092590332,
+   "score": 0.017977651320904963
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e4cf0e856603.pkl",
+   "sid": "e4cf0e856603",
+   "N_ritz": 8.180979415543067,
+   "N_head": 8.056707382202148,
+   "score": 0.015424667602480487
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/fda9dd7b302b.pkl",
+   "sid": "fda9dd7b302b",
+   "N_ritz": 31.461719255815662,
+   "N_head": 31.005661010742188,
+   "score": 0.014708870258094787
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/c439a8fa241e.pkl",
+   "sid": "c439a8fa241e",
+   "N_ritz": 29.60087742672273,
+   "N_head": 29.183481216430664,
+   "score": 0.01430248184569103
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/23da4d5b40e1.pkl",
+   "sid": "23da4d5b40e1",
+   "N_ritz": 22.649944793159584,
+   "N_head": 22.37407684326172,
+   "score": 0.012329802558130876
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/1c38d0656c44.pkl",
+   "sid": "1c38d0656c44",
+   "N_ritz": 10.56973174714,
+   "N_head": 10.470742225646973,
+   "score": 0.009453916385274343
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/66f275c07838.pkl",
+   "sid": "66f275c07838",
+   "N_ritz": 12.986610293192333,
+   "N_head": 12.872061729431152,
+   "score": 0.008899006714617668
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/a69c7b5949a2.pkl",
+   "sid": "a69c7b5949a2",
+   "N_ritz": 14.421101333197312,
+   "N_head": 14.296525955200195,
+   "score": 0.008713681798465418
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/73f31b462306.pkl",
+   "sid": "73f31b462306",
+   "N_ritz": 11.679070247290657,
+   "N_head": 11.585189819335938,
+   "score": 0.008103486383799312
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/3a0b6c182a94.pkl",
+   "sid": "3a0b6c182a94",
+   "N_ritz": 19.290330344626618,
+   "N_head": 19.157278060913086,
+   "score": 0.006945260349120304
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/abdca5f3d071.pkl",
+   "sid": "abdca5f3d071",
+   "N_ritz": 25.513507209652087,
+   "N_head": 25.34616470336914,
+   "score": 0.006602281183026554
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/80d2f52fd687.pkl",
+   "sid": "80d2f52fd687",
+   "N_ritz": 19.0936024330679,
+   "N_head": 18.979846954345703,
+   "score": 0.005993487671203342
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/5f869be9bb36.pkl",
+   "sid": "5f869be9bb36",
+   "N_ritz": 10.662769653150944,
+   "N_head": 10.611757278442383,
+   "score": 0.0048071561919524825
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/dbdc1f466c64.pkl",
+   "sid": "dbdc1f466c64",
+   "N_ritz": 24.746546652747387,
+   "N_head": 24.68214225769043,
+   "score": 0.002609351910565642
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/143803625cec.pkl",
+   "sid": "143803625cec",
+   "N_ritz": 7.02817152419348,
+   "N_head": 7.0150957107543945,
+   "score": 0.0018639536762185438
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/72347c85874c.pkl",
+   "sid": "72347c85874c",
+   "N_ritz": 22.16570069594217,
+   "N_head": 22.144323348999023,
+   "score": 0.0009653646492708755
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/8eaa7a1ebd76.pkl",
+   "sid": "8eaa7a1ebd76",
+   "N_ritz": 14.303717328329904,
+   "N_head": 14.295775413513184,
+   "score": 0.0005555427800868811
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/e7bb42874cb9.pkl",
+   "sid": "e7bb42874cb9",
+   "N_ritz": 24.82199537105725,
+   "N_head": 24.8570556640625,
+   "score": -0.0014104765053063266
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/29b8de634a27.pkl",
+   "sid": "29b8de634a27",
+   "N_ritz": 9.739119290872198,
+   "N_head": 9.763032913208008,
+   "score": -0.0024494050720097527
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/ce1ffea8a1e8.pkl",
+   "sid": "ce1ffea8a1e8",
+   "N_ritz": 11.940148024803376,
+   "N_head": 12.01496410369873,
+   "score": -0.0062269082329029024
+  },
+  {
+   "file": "data/operators/periodic_industrial_SS/train/5cf4d3a5bba7.pkl",
+   "sid": "5cf4d3a5bba7",
+   "N_ritz": 7.783496790943558,
+   "N_head": 7.858484268188477,
+   "score": -0.009542231642362805
+  }
+ ],
+ "selected": [
+  "data/operators/periodic_industrial_SS/train/bce4d61550a3.pkl",
+  "data/operators/periodic_industrial_SS/train/95bd1754d5d3.pkl",
+  "data/operators/periodic_industrial_SS/train/def26d54d526.pkl",
+  "data/operators/periodic_industrial_SS/train/745453ab625a.pkl",
+  "data/operators/periodic_industrial_SS/train/52c2a274eced.pkl",
+  "data/operators/periodic_industrial_SS/train/679b86d6d9c8.pkl",
+  "data/operators/periodic_industrial_SS/train/ec562b744a4a.pkl",
+  "data/operators/periodic_industrial_SS/train/957bf7239d6d.pkl",
+  "data/operators/periodic_industrial_SS/train/fad5b29aeb6d.pkl",
+  "data/operators/periodic_industrial_SS/train/2e297d2b2f74.pkl",
+  "data/operators/periodic_industrial_SS/train/6d005623ed80.pkl",
+  "data/operators/periodic_industrial_SS/train/dffdc319ac52.pkl",
+  "data/operators/periodic_industrial_SS/train/69ffd3b8142f.pkl",
+  "data/operators/periodic_industrial_SS/train/327206d41624.pkl",
+  "data/operators/periodic_industrial_SS/train/a74706e2c194.pkl",
+  "data/operators/periodic_industrial_SS/train/eb5716bca848.pkl",
+  "data/operators/periodic_industrial_SS/train/35019d2a0b21.pkl",
+  "data/operators/periodic_industrial_SS/train/e188ed679e8f.pkl",
+  "data/operators/periodic_industrial_SS/train/69a717a8b899.pkl",
+  "data/operators/periodic_industrial_SS/train/cc5b43ce10c5.pkl",
+  "data/operators/periodic_industrial_SS/train/ca84e11f6756.pkl",
+  "data/operators/periodic_industrial_SS/train/1d56f89adaed.pkl",
+  "data/operators/periodic_industrial_SS/train/8bdfc386e4ac.pkl",
+  "data/operators/periodic_industrial_SS/train/b04a95a1a296.pkl",
+  "data/operators/periodic_industrial_SS/train/e6d44561b019.pkl",
+  "data/operators/periodic_industrial_SS/train/aefae68ac9c9.pkl",
+  "data/operators/periodic_industrial_SS/train/4c9ac1cfdcb2.pkl",
+  "data/operators/periodic_industrial_SS/train/b18e88de063c.pkl",
+  "data/operators/periodic_industrial_SS/train/be0a0658f87d.pkl",
+  "data/operators/periodic_industrial_SS/train/65b663059cea.pkl",
+  "data/operators/periodic_industrial_SS/train/73daee87d9ff.pkl",
+  "data/operators/periodic_industrial_SS/train/3e9545f8e335.pkl"
+ ]
+}

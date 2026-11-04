@@ -1,0 +1,41 @@
+CC: 7 training designs, 7 test designs, n = 6087 per mode; spaces ready in 6 s
+network: 12.7 M parameters
+step    50: training designs (last visit) vs full GBT: mean 12.55 %, max 22.75 %   (76 s)
+step   100: training designs (last visit) vs full GBT: mean 4.53 %, max 10.27 %   (142 s)
+step   150: training designs (last visit) vs full GBT: mean 2.02 %, max 4.61 %   (206 s)
+step   200: training designs (last visit) vs full GBT: mean 0.94 %, max 2.55 %   (273 s)
+   [200] train: Ritz N (upper bound) vs full GBT: mean 0.93 %, max 2.53 %  |  head N: mean 1.38 %, max 2.48 %
+   [200] test : Ritz N (upper bound) vs full GBT: mean 0.93 %, max 2.53 %  |  head N: mean 1.38 %, max 2.48 %   (275 s)
+step   250: training designs (last visit) vs full GBT: mean 0.46 %, max 1.64 %   (356 s)
+step   300: training designs (last visit) vs full GBT: mean 0.27 %, max 1.28 %   (427 s)
+step   350: training designs (last visit) vs full GBT: mean 0.19 %, max 0.94 %   (489 s)
+step   400: training designs (last visit) vs full GBT: mean 0.14 %, max 0.69 %   (552 s)
+   [400] train: Ritz N (upper bound) vs full GBT: mean 0.14 %, max 0.68 %  |  head N: mean 0.17 %, max 0.72 %
+   [400] test : Ritz N (upper bound) vs full GBT: mean 0.14 %, max 0.68 %  |  head N: mean 0.17 %, max 0.72 %   (554 s)
+step   450: training designs (last visit) vs full GBT: mean 0.11 %, max 0.51 %   (617 s)
+step   500: training designs (last visit) vs full GBT: mean 0.09 %, max 0.46 %   (677 s)
+step   550: training designs (last visit) vs full GBT: mean 0.06 %, max 0.28 %   (747 s)
+step   600: training designs (last visit) vs full GBT: mean 0.07 %, max 0.24 %   (808 s)
+   [600] train: Ritz N (upper bound) vs full GBT: mean 0.07 %, max 0.25 %  |  head N: mean 0.13 %, max 0.35 %
+   [600] test : Ritz N (upper bound) vs full GBT: mean 0.07 %, max 0.25 %  |  head N: mean 0.13 %, max 0.35 %   (810 s)
+step   650: training designs (last visit) vs full GBT: mean 0.04 %, max 0.17 %   (869 s)
+step   700: training designs (last visit) vs full GBT: mean 0.06 %, max 0.27 %   (929 s)
+step   750: training designs (last visit) vs full GBT: mean 0.06 %, max 0.22 %   (989 s)
+step   800: training designs (last visit) vs full GBT: mean 0.04 %, max 0.13 %   (1050 s)
+   [800] train: Ritz N (upper bound) vs full GBT: mean 0.04 %, max 0.13 %  |  head N: mean 0.05 %, max 0.15 %
+   [800] test : Ritz N (upper bound) vs full GBT: mean 0.04 %, max 0.13 %  |  head N: mean 0.05 %, max 0.15 %   (1052 s)
+step   850: training designs (last visit) vs full GBT: mean 0.03 %, max 0.12 %   (1113 s)
+step   900: training designs (last visit) vs full GBT: mean 0.04 %, max 0.14 %   (1174 s)
+step   950: training designs (last visit) vs full GBT: mean 0.04 %, max 0.13 %   (1234 s)
+step  1000: training designs (last visit) vs full GBT: mean 0.04 %, max 0.14 %   (1294 s)
+   [1000] train: Ritz N (upper bound) vs full GBT: mean 0.04 %, max 0.13 %  |  head N: mean 0.13 %, max 0.21 %
+   [1000] test : Ritz N (upper bound) vs full GBT: mean 0.04 %, max 0.13 %  |  head N: mean 0.13 %, max 0.21 %   (1296 s)
+final train: Ritz N (upper bound) vs full GBT: mean 0.04 %, max 0.13 %  |  head N: mean 0.13 %, max 0.21 %
+final test : Ritz N (upper bound) vs full GBT: mean 0.04 %, max 0.13 %  |  head N: mean 0.13 %, max 0.21 %
+   test 135418b54ff2 bs 273 beta 2.08: full 7.6095  Ritz 7.6106 (+0.02 %)  head 7.6030 (-0.09 %)
+   test 30c15166dfcf bs 227 beta 0.82: full 13.3106  Ritz 13.3104 (-0.00 %)  head 13.3258 (+0.11 %)
+   test 4d7274aad3e6 bs 251 beta 2.62: full 7.2767  Ritz 7.2800 (+0.04 %)  head 7.2616 (-0.21 %)
+   test bc4bd8c3f5ce bs 183 beta 1.18: full 17.9361  Ritz 17.9404 (+0.02 %)  head 17.9596 (+0.13 %)
+   test c71d92b8be7c bs 206 beta 1.77: full 15.0579  Ritz 15.0606 (+0.02 %)  head 15.0650 (+0.05 %)
+   test cc66fdb659ee bs 186 beta 2.29: full 17.1654  Ritz 17.1697 (+0.02 %)  head 17.1805 (+0.09 %)
+   test e38eea4c8464 bs 160 beta 2.84: full 23.3664  Ritz 23.3968 (+0.13 %)  head 23.4142 (+0.20 %)

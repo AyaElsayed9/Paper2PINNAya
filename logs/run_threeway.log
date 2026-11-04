@@ -1,0 +1,1 @@
+logs/run_threeway.sh: line 8:  1757 Killed                  python3 scripts/train_epinn.py $COMMON --mode data --out runs/w3_data.pt > runs/w3_data.log 2>&1

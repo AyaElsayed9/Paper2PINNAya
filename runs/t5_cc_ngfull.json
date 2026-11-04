@@ -1,0 +1,523 @@
+{
+ "train": [
+  {
+   "sid": "00de99bdbd69",
+   "bc": "CC",
+   "params": {
+    "bs": 219.2275,
+    "beta": 1.6432,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 12.053684032912317,
+   "N_head": 11.74972152709961,
+   "N_full": NaN
+  },
+  {
+   "sid": "040797bf77f4",
+   "bc": "CC",
+   "params": {
+    "bs": 223.8889,
+    "beta": 0.9377,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 13.116989099056468,
+   "N_head": 12.447880744934082,
+   "N_full": NaN
+  },
+  {
+   "sid": "0416ef57d28b",
+   "bc": "CC",
+   "params": {
+    "bs": 182.7776,
+    "beta": 2.6766,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 18.75521594444457,
+   "N_head": 16.945415496826172,
+   "N_full": NaN
+  },
+  {
+   "sid": "044798545b45",
+   "bc": "CC",
+   "params": {
+    "bs": 177.4843,
+    "beta": 2.1211,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 23.50301736884216,
+   "N_head": 21.61416244506836,
+   "N_full": NaN
+  },
+  {
+   "sid": "0715035858dd",
+   "bc": "CC",
+   "params": {
+    "bs": 220.7129,
+    "beta": 1.502,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 12.340529407753241,
+   "N_head": 12.12294864654541,
+   "N_full": NaN
+  },
+  {
+   "sid": "078b5a65184f",
+   "bc": "CC",
+   "params": {
+    "bs": 199.6813,
+    "beta": 2.2155,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 15.903139979340676,
+   "N_head": 14.255558967590332,
+   "N_full": NaN
+  },
+  {
+   "sid": "079cc780c252",
+   "bc": "CC",
+   "params": {
+    "bs": 154.0696,
+    "beta": 2.4442,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 34.17343723916064,
+   "N_head": 29.22530174255371,
+   "N_full": NaN
+  },
+  {
+   "sid": "0864d2de5d6e",
+   "bc": "CC",
+   "params": {
+    "bs": 152.7315,
+    "beta": 2.1856,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 28.580950954326127,
+   "N_head": 25.173477172851562,
+   "N_full": NaN
+  },
+  {
+   "sid": "09996cff0390",
+   "bc": "CC",
+   "params": {
+    "bs": 175.6674,
+    "beta": 1.5264,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 21.584369050844085,
+   "N_head": 20.31756591796875,
+   "N_full": NaN
+  },
+  {
+   "sid": "0a209a496731",
+   "bc": "CC",
+   "params": {
+    "bs": 218.4649,
+    "beta": 2.2093,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 14.400046096114094,
+   "N_head": 13.821771621704102,
+   "N_full": NaN
+  },
+  {
+   "sid": "0adb686fa644",
+   "bc": "CC",
+   "params": {
+    "bs": 166.0905,
+    "beta": 1.9372,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 20.942743759810188,
+   "N_head": 19.777172088623047,
+   "N_full": NaN
+  },
+  {
+   "sid": "0c7513934dc9",
+   "bc": "CC",
+   "params": {
+    "bs": 242.4821,
+    "beta": 1.1909,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 11.086542288557604,
+   "N_head": 10.615694999694824,
+   "N_full": NaN
+  },
+  {
+   "sid": "0c84b616a198",
+   "bc": "CC",
+   "params": {
+    "bs": 178.6643,
+    "beta": 2.5109,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 21.041939284326443,
+   "N_head": 18.831207275390625,
+   "N_full": 18.42135275023114
+  },
+  {
+   "sid": "0c9ac122df68",
+   "bc": "CC",
+   "params": {
+    "bs": 274.5728,
+    "beta": 1.9061,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 6.083073331960596,
+   "N_head": 5.540692329406738,
+   "N_full": NaN
+  },
+  {
+   "sid": "0d32bdb29ee0",
+   "bc": "CC",
+   "params": {
+    "bs": 235.8134,
+    "beta": 0.9034,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 12.123980068080987,
+   "N_head": 11.557331085205078,
+   "N_full": 11.551689418693531
+  },
+  {
+   "sid": "1108317a572b",
+   "bc": "CC",
+   "params": {
+    "bs": 182.3514,
+    "beta": 1.1755,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 20.460078070215967,
+   "N_head": 20.347000122070312,
+   "N_full": NaN
+  }
+ ],
+ "test": [
+  {
+   "sid": "096109b67f43",
+   "bc": "CC",
+   "params": {
+    "bs": 264.4438,
+    "beta": 0.9749,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 8.17268183863063,
+   "N_head": 7.657092571258545,
+   "N_full": 7.684013107699274
+  },
+  {
+   "sid": "135418b54ff2",
+   "bc": "CC",
+   "params": {
+    "bs": 272.8465,
+    "beta": 2.0756,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 8.116992782240878,
+   "N_head": 7.407680988311768,
+   "N_full": 7.609455869893171
+  },
+  {
+   "sid": "30c15166dfcf",
+   "bc": "CC",
+   "params": {
+    "bs": 226.8977,
+    "beta": 0.8223,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 14.035103913098041,
+   "N_head": 14.354369163513184,
+   "N_full": 13.310584029646323
+  },
+  {
+   "sid": "4d7274aad3e6",
+   "bc": "CC",
+   "params": {
+    "bs": 251.334,
+    "beta": 2.615,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 8.380061858879142,
+   "N_head": 7.564114570617676,
+   "N_full": 7.2767041618294845
+  },
+  {
+   "sid": "51787da9580c",
+   "bc": "CC",
+   "params": {
+    "bs": 169.0043,
+    "beta": 1.6128,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 23.923938617873297,
+   "N_head": 22.456506729125977,
+   "N_full": 21.74766031709525
+  },
+  {
+   "sid": "5190d46f06c9",
+   "bc": "CC",
+   "params": {
+    "bs": 225.8615,
+    "beta": 1.5538,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 11.639276928274137,
+   "N_head": 11.073840141296387,
+   "N_full": 10.137754035205143
+  },
+  {
+   "sid": "62193cf14f24",
+   "bc": "CC",
+   "params": {
+    "bs": 246.4354,
+    "beta": 2.2353,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 9.705433938497775,
+   "N_head": 8.957951545715332,
+   "N_full": 8.97980717127336
+  },
+  {
+   "sid": "62c4f5a99757",
+   "bc": "CC",
+   "params": {
+    "bs": 174.4015,
+    "beta": 2.0078,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 20.16602092238799,
+   "N_head": 19.530424118041992,
+   "N_full": 17.69647456833133
+  },
+  {
+   "sid": "87ee31f7bd35",
+   "bc": "CC",
+   "params": {
+    "bs": 230.4751,
+    "beta": 1.778,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 10.959957368269542,
+   "N_head": 10.315122604370117,
+   "N_full": 9.561162271962935
+  },
+  {
+   "sid": "94397b746d4e",
+   "bc": "CC",
+   "params": {
+    "bs": 202.8531,
+    "beta": 0.8843,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 17.49819614748265,
+   "N_head": 17.141250610351562,
+   "N_full": 16.023330472148807
+  },
+  {
+   "sid": "99fd71383330",
+   "bc": "CC",
+   "params": {
+    "bs": 198.0176,
+    "beta": 2.9715,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 16.06824134808741,
+   "N_head": 14.491935729980469,
+   "N_full": 13.53545563445391
+  },
+  {
+   "sid": "9f03ec63cc43",
+   "bc": "CC",
+   "params": {
+    "bs": 244.5096,
+    "beta": 1.2511,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 9.025493165263372,
+   "N_head": 8.442559242248535,
+   "N_full": 8.524123959790552
+  },
+  {
+   "sid": "a3ff7752f1db",
+   "bc": "CC",
+   "params": {
+    "bs": 196.1926,
+    "beta": 0.9078,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 18.272776250305405,
+   "N_head": 17.54985237121582,
+   "N_full": 15.824524428008747
+  },
+  {
+   "sid": "aa06749a7d4b",
+   "bc": "CC",
+   "params": {
+    "bs": 269.268,
+    "beta": 2.8077,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 7.944127685173599,
+   "N_head": 7.167895793914795,
+   "N_full": 7.302767957396486
+  },
+  {
+   "sid": "b40718b7a959",
+   "bc": "CC",
+   "params": {
+    "bs": 235.4327,
+    "beta": 1.9408,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 9.220578851397587,
+   "N_head": 8.720666885375977,
+   "N_full": 8.62365528737388
+  },
+  {
+   "sid": "bc4bd8c3f5ce",
+   "bc": "CC",
+   "params": {
+    "bs": 182.8101,
+    "beta": 1.1841,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 20.297837545445088,
+   "N_head": 19.59646987915039,
+   "N_full": 17.936148019790956
+  },
+  {
+   "sid": "c4054087a146",
+   "bc": "CC",
+   "params": {
+    "bs": 164.0376,
+    "beta": 2.0299,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 28.455320603650158,
+   "N_head": 25.198566436767578,
+   "N_full": 24.447898100166576
+  },
+  {
+   "sid": "c71d92b8be7c",
+   "bc": "CC",
+   "params": {
+    "bs": 206.4201,
+    "beta": 1.7653,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 16.34949400833909,
+   "N_head": 15.512916564941406,
+   "N_full": 15.057853823935634
+  },
+  {
+   "sid": "cc66fdb659ee",
+   "bc": "CC",
+   "params": {
+    "bs": 186.3301,
+    "beta": 2.2929,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 20.137517621076448,
+   "N_head": 17.93700408935547,
+   "N_full": 17.165397505815232
+  },
+  {
+   "sid": "d2964523dd84",
+   "bc": "CC",
+   "params": {
+    "bs": 191.2225,
+    "beta": 2.6067,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 18.3409654012092,
+   "N_head": 15.230746269226074,
+   "N_full": 14.56884549834113
+  },
+  {
+   "sid": "e38eea4c8464",
+   "bc": "CC",
+   "params": {
+    "bs": 160.4695,
+    "beta": 2.8367,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 27.927233809270835,
+   "N_head": 23.96933937072754,
+   "N_full": 23.36638241942126
+  },
+  {
+   "sid": "f3128da46da9",
+   "bc": "CC",
+   "params": {
+    "bs": 177.9167,
+    "beta": 1.4326,
+    "bc": "CC",
+    "side": "symmetry"
+   },
+   "N_ritz": 19.03309962720037,
+   "N_head": 18.860448837280273,
+   "N_full": 17.446851642949166
+  }
+ ],
+ "args": {
+  "train": "data/operators/symmetry_industrial/train",
+  "test": "data/operators/symmetry_industrial/test",
+  "bc": "CC",
+  "n_train": 400,
+  "method": "ngfull",
+  "epochs": 10,
+  "arch": "decoder",
+  "cache": 16,
+  "n_eval_train": 16,
+  "outer": 20,
+  "inner": 20,
+  "steps": 1000,
+  "batch": 16,
+  "lr": 0.001,
+  "R": 8,
+  "k": 3,
+  "width": 256,
+  "depth": 4,
+  "threads": 2,
+  "seed": 0,
+  "out": "runs/t5_cc_ngfull.pt"
+ }
+}

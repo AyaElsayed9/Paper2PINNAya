@@ -10,7 +10,5 @@ data/shared_basis/snap_*.pkl
 data/shared_basis/old/
 data/operators/
 data/*.log
-runs/
 data/teacher/
 data/exact_targets/
-logs/*.log

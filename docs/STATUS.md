@@ -53,6 +53,8 @@ Revised plan: see the last entry of `docs/RESEARCH_LOG.md` (hybrid loss with exa
 Labels remove the bias; physics gives the best shapes; head noisy between checkpoints (±1.5 %);
 average of the 3 heads 1.61 / 5.52 %. Decision 4 Nov: hybrid is the method, quality first; plan A–E in `docs/RESEARCH_LOG.md`.
 Running: step A, clean training of all three arms (`logs/run_v2.sh`).
+Next: design space as Paper 1 (b_s from 124.25 mm, β to 3.5, symmetry + periodic), ~1000 designs, GBT-call
+count study. All runs indexed in `results/EXPERIMENTS.md` (`scripts/collect_results.py`).
 
 ## Where we stopped — open questions
 1. Break the plateau: more candidates (Ritz mixture of experts), experts per mode family or geometry range,
