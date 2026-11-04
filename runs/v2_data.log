@@ -1,0 +1,10 @@
+32 validation designs held out
+SS: 288 training designs, 32 test designs, n = 6564 per mode; inputs ready in 177 s
+exact targets for 288 training designs, mode = data
+network: 0.5 M parameters
+outer   1: training designs, N of the network before the step vs full GBT: mean nan %, max nan %; fit to the physics step: 4.0696 -> 3.5679   (27 s)
+outer   2: training designs, N of the network before the step vs full GBT: mean nan %, max nan %; fit to the physics step: 3.5452 -> 3.2134   (41 s)
+   [2] train: Ritz N (upper bound) vs full GBT: mean 61.75 %, max 98.87 %  |  head N: mean 2.67 %, max 7.13 %, bias +1.96 %, above 12/16
+   [2] val net: Ritz N (upper bound) vs full GBT: mean 61.15 %, max 124.68 %  |  head N: mean 2.84 %, max 14.96 %, bias +1.98 %, above 21/32
+   [2] val ema: Ritz N (upper bound) vs full GBT: mean 78.92 %, max 164.21 %  |  head N: mean 19.60 %, max 40.62 %, bias -3.48 %, above 14/32
+   (74 s)
