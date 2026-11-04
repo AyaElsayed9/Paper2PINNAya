@@ -234,3 +234,14 @@ and *Paper2_PINN_details.pdf* (27 Oct 2026), run files in `runs/`. Errors are al
      the head–3-step-certificate gap is the first candidate, because the ensemble spread did not work);
      plot validation error vs number of GBT calls and GBT time;
   B3 in use: how many new designs need the certificate / a GBT call (the Paper 1 84 / 10.4 / 5.6 % table).
+
+## 4 Nov 2026 (12:30) — Abaqus cells for the extended design space (to be run by Aya)
+* `abaqus_tasks/2026-11-04_extension/`: 20 cells. Positions from a fixed-seed Sobol sequence, named lay-ups
+  of the Abaqus script:
+  * A: periodic/SS, 1 control + 8 (b_s 124.25–150, β to 3.5; two with β 3.0–3.5 at larger b_s);
+  * B: symmetry/SS, 1 control + 6 (tight pitch, Sym1/Sym2/Unsym);
+  * C: periodic/CC, 4 (optional).
+  The control cell is b_s 150, β 1.5, Sym1, already in the validated sets.
+* Files: `run_extension.ps1` (PowerShell, uses `Omegastiffener_PBC_v2.py` with PANEL_SIDES = PBC / SYM).
+* **Blind:** GBT V32 values of all 20 cells (`gbt_predictions.csv`) computed and committed before any Abaqus
+  result exists. Control: periodic 17.315, symmetry 17.312.
