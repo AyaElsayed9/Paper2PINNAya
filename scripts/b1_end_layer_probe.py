@@ -24,6 +24,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from b0_long_cc_probe import ritz                              # noqa: E402
 from pinnbuck.dictionary import DICTIONARIES                   # noqa: E402
+from pinnbuck import opio                                      # noqa: E402
 from pinnbuck.designspace import industrial_layups             # noqa: E402
 
 VARIANTS = (("e8", {}), ("e12", dict(n_end=12, end_length=1.5)), ("e16", dict(n_end=16, end_length=2.5)))
@@ -50,7 +51,7 @@ def main():
     for f in files:
         if f.stem in done:
             continue
-        op = pickle.load(open(f, "rb"))
+        op = opio.load(f)
         smp = op.info["sample"]
         r = dict(sid=f.stem, bs=op.params["bs"], beta=op.params["beta"], bc=op.params["bc"], L=op.L,
                  full=op.lam_full, industrial=is_industrial(smp["layups"]), layups=smp["layups"])

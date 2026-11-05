@@ -18,7 +18,8 @@ import torch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from pinnbuck import epinn                       # noqa: E402
+from pinnbuck import epinn
+from pinnbuck import opio                        # noqa: E402                       # noqa: E402
 from pinnbuck.ritzspace import EnergyMetric      # noqa: E402
 from pinnbuck.spectral import lobpcg             # noqa: E402
 
@@ -35,11 +36,11 @@ def main():
     torch.set_num_threads(a.threads)
     ck = torch.load(a.model, weights_only=False); ar = ck["args"]
     steps = [int(s) for s in a.steps.split(",")]
-    files = [f for f in sorted(Path(a.test).glob("*.pkl")) if pickle.load(open(f, "rb")).params["bc"] == ar["bc"]]
+    files = [f for f in sorted(Path(a.test).glob("*.pkl")) if opio.load(f).params["bc"] == ar["bc"]]
     rows = []
     net = None
     for f in files:
-        d = epinn.prepare(pickle.load(open(f, "rb")))
+        d = epinn.prepare(opio.load(f))
         if net is None:
             net = epinn.build_net(ar.get("arch", "linear"), d.x[None].repeat(2, 0), d.rs, R=ar["R"], k=ar["k"],
                                   width=ar["width"], depth=ar["depth"])

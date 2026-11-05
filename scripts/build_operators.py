@@ -32,10 +32,8 @@ def _one(args):
     op.G = op.G.astype(np.float32); op.P = op.P.astype(np.float32)
     op.info["time"] = time.perf_counter() - t
     op.info["dictionary"] = dictionary
-    tmp = out.with_suffix(".tmp")                     # atomic write: a killed job never leaves a partial .pkl
-    with open(tmp, "wb") as f:
-        pickle.dump(op, f)
-    os.replace(tmp, out)
+    from pinnbuck import opio
+    opio.save(op, out)                                # compressed, atomic: a killed job never leaves a partial .pkl
     return sample.sid, op.info["time"], op.lam_full, op.lam_shared
 
 

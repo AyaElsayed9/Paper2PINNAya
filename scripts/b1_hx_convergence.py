@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from pinnbuck.designspace import Sample            # noqa: E402
+from pinnbuck import opio                            # noqa: E402
 from pinnbuck.families import family_context        # noqa: E402
 
 
@@ -35,7 +36,7 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     done = {(j["sid"], j["factor"]) for j in map(json.loads, open(out))} if out.exists() else set()
     for sid in a.sids:
-        op = pickle.load(open(Path(a.src) / f"{sid}.pkl", "rb"))
+        op = opio.load(Path(a.src) / f"{sid}.pkl")
         d = dict(op.info["sample"]); d.pop("sid")
         smp = Sample(**d)
         assert smp.sid == sid, (smp.sid, sid)

@@ -27,6 +27,7 @@ import pinnbuck.families as fam                                # noqa: E402
 from b0_long_cc_probe import ritz                              # noqa: E402
 from b1_end_layer_probe import VARIANTS                        # noqa: E402
 from pinnbuck.designspace import Sample                        # noqa: E402
+from pinnbuck import opio                                      # noqa: E402
 from pinnbuck.dictionary import DICTIONARIES                   # noqa: E402
 from pinnbuck.operators import build_operator                  # noqa: E402
 
@@ -45,7 +46,7 @@ def main():
     for sid in a.sids:
         if (sid, a.factor) in done:
             continue
-        op0 = pickle.load(open(Path(a.src) / f"{sid}.pkl", "rb"))
+        op0 = opio.load(Path(a.src) / f"{sid}.pkl")
         d = dict(op0.info["sample"]); d.pop("sid"); smp = Sample(**d)
         assert smp.sid == sid
         side = smp.params["side"]

@@ -31,6 +31,7 @@ import torch
 from torch import nn
 
 from .ritzspace import EnergyMetric, FlatMetric, RitzSpace, ritz_forms, ritz_values
+from . import opio
 
 
 # ----------------------------------------------------------------------------- designs
@@ -284,7 +285,7 @@ class DesignPool:
             self.cache = max(cache, len(designs))
             src = designs
         else:
-            src = [pickle.load(open(f, "rb")) for f in self.files]
+            src = [opio.load(f) for f in self.files]
         for o in src:
             if isinstance(o, Design):
                 self.x.append(o.x); self.lam_full.append(o.lam_full); self.sid.append(o.sid); self.params.append(o.params)
@@ -301,7 +302,7 @@ class DesignPool:
         import pickle
         if i in self._c:
             self._c.move_to_end(i); return self._c[i]
-        d = prepare(pickle.load(open(self.files[i], "rb")))
+        d = prepare(opio.load(self.files[i]))
         self._c[i] = d
         while len(self._c) > self.cache:
             self._c.popitem(last=False)

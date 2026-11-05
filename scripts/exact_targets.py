@@ -18,7 +18,8 @@ import torch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from pinnbuck import epinn                       # noqa: E402
+from pinnbuck import epinn
+from pinnbuck import opio                        # noqa: E402                       # noqa: E402
 from pinnbuck.ritzspace import EnergyMetric      # noqa: E402
 from pinnbuck.spectral import lobpcg             # noqa: E402
 
@@ -47,7 +48,7 @@ def main():
         if (out / f"{f.stem}.pt").exists():
             continue
         t0 = time.perf_counter()
-        r = exact_modes(pickle.load(open(f, "rb")), R=a.R, iters=a.iters)
+        r = exact_modes(opio.load(f), R=a.R, iters=a.iters)
         torch.save(r, out / f"{f.stem}.pt")
         print(f"{r['sid']}: Ritz N1 {r['N_ritz'][0]:.4f}, full GBT {r['N_full']:.4f} "
               f"({100 * (r['N_ritz'][0] / r['N_full'] - 1):+.3f} %), {r['iters']} iterations, {time.perf_counter() - t0:.1f} s",

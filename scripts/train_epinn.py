@@ -19,13 +19,14 @@ import torch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from pinnbuck import epinn   # noqa: E402
+from pinnbuck import epinn
+from pinnbuck import opio                        # noqa: E402   # noqa: E402
 
 
 def files_of(folder, bc, nmax):
     out = []
     for f in sorted(Path(folder).glob("*.pkl")):
-        op = pickle.load(open(f, "rb"))
+        op = opio.load(f)
         if op.params["bc"] == bc:
             out.append(f)
         if len(out) >= nmax:

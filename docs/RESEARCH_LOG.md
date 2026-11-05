@@ -495,3 +495,16 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   write works). Resumed as a tracked job; `run_b1_build.sh` now appends to the test log instead of
   overwriting it. Disk: 16 GB free, the train set needs about 9 GB more (≈ 12.8 MB per design), so before
   the symmetry v2 sets the operator storage has to be made smaller (or sets removed after use).
+
+## 5 Nov 2026 (late afternoon) — B1 build done; operator files compressed
+* B1 build finished: `periodic_mixed_SS_v2/test` 100 and `/train` 1064 designs, full GBT for every design,
+  no failed design (0 errors / NaN in both logs). Wall time of the train set about 3.6 h on 2 workers over
+  three runs (two machine restarts), 13.3 MB per file → disk 6.6 GB free.
+* Operator files are now stored compressed (`src/pinnbuck/opio.py`: zlib on the pickle, lossless, 13.3 → 5.8 MB,
+  0.05 s to unpack; `load` also reads the old plain files). `build_operators.py` writes compressed files;
+  `epinn`, `exact_targets`, `train_epinn`, `eval_epinn` and the B1 probes read through `opio.load`.
+  `scripts/compress_operators.py` converts a set in place and checks every file bit for bit after writing
+  (tested on 55 copies first; `epinn.prepare` works on the compressed files). Train set running now; test set
+  after the fine-grid check (which reads it).
+* Fine-grid end-layer check started (`scripts/b1_fine_grid_check.py --factor 0.5`, 6 test designs: general
+  3265ef5ed33c, 1d51e6f13ec3, 23665413e421; industrial 040508c6cbc1, 29027bd61ab1, 11ef6acdbbb8).
