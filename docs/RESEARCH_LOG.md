@@ -369,3 +369,14 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Probe 2 running (`b0_dictionary_probe.py`): all check designs with Ritz error > 0.3 % and the controls, both
   sides, with base / long / long + short (14.75 mm) dictionaries, to see whether the short panels at b_s ≈ 125
   (0.4–0.9 %) need a shorter wave or only more iterations.
+* Probe 2 was stopped by the machine after its first design per side (no error in the log; jobs started
+  detached from a session are not kept alive). Restarted as a tracked job; it resumes from the saved results.
+* First probe-2 result, symmetry 124.25/3.5 CC: 80 it +0.874 %, 400 it +0.702 %, long +0.653 %, long + short
+  +0.618 %. So for this short clamped panel neither more iterations nor the extra waves remove the error;
+  something else limits it. Probe 3 (`b0_dictionary_probe.py --set fine`, queued) tests a denser wave series
+  (15 half-waves 14.75–1006 mm, ratio 1.35 instead of 1.70) and longer, finer end layers (12 splines over
+  1.5 b_s) on the designs with Ritz error > 0.4 %.
+* Code: versioned dictionary. `dictionary.DICTIONARIES` = d1 (old, 25–350 mm) and d2 (+593, 1006 mm, may still
+  change after probe 3); the operator remembers its dictionary (`op.info["dictionary"]`, set by
+  `build_operators.py --dictionary`, default d2 for space v2); `epinn.prepare` uses it, so all old operator sets
+  and results stay exactly as they were (d1).

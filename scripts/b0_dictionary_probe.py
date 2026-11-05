@@ -17,6 +17,7 @@ import pickle
 import sys
 from pathlib import Path
 
+import numpy as np
 import torch
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,20 +30,29 @@ from pinnbuck.dictionary import HALF_WAVES                     # noqa: E402
 from pinnbuck.operators import build_operator                  # noqa: E402
 
 HW_LONGSHORT = (14.75,) + tuple(HW_LONG)
-VARIANTS = (("base80", HALF_WAVES, 80), ("base400", HALF_WAVES, 400), ("long400", HW_LONG, 400),
-            ("longshort400", HW_LONGSHORT, 400))
+VARIANTS = (("base80", HALF_WAVES, 80, {}), ("base400", HALF_WAVES, 400, {}), ("long400", HW_LONG, 400, {}),
+            ("longshort400", HW_LONGSHORT, 400, {}))
+# probe 3 (--set fine): what limits the short panels (b_s ~ 125 mm, 0.6-0.9 %): wave spacing or end layers?
+HW_DENSE = tuple(float(x) for x in np.geomspace(14.75, 1006.0, 15))          # ratio 1.35 instead of 1.70
+VARIANTS_FINE = (("long400", HW_LONG, 400, {}), ("dense400", HW_DENSE, 400, {}),
+                 ("long_end12_400", HW_LONG, 400, dict(n_end=12, end_length=1.5)),
+                 ("dense_end12_400", HW_DENSE, 400, dict(n_end=12, end_length=1.5)))
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--side", default="symmetry")
     ap.add_argument("--min-err", type=float, default=0.3)
+    ap.add_argument("--set", default="dict", choices=["dict", "fine"])
+    ap.add_argument("--no-controls", action="store_true")
     a = ap.parse_args()
     torch.set_num_threads(2)
     sb = pickle.load(open(ROOT / "data" / "shared_basis" / f"basis_{a.side}.pkl", "rb"))
     chk = [json.loads(l) for l in open(ROOT / "results" / "b0_check" / f"{a.side}.jsonl")]
-    pick = [r for r in chk if r["err_ritz"] > a.min_err or r["kind"] == "control"]
-    out = ROOT / "results" / "b0_check" / f"dictionary_probe_{a.side}.jsonl"
+    pick = [r for r in chk if r["err_ritz"] > a.min_err or (r["kind"] == "control" and not a.no_controls)]
+    variants = VARIANTS if a.set == "dict" else VARIANTS_FINE
+    out = ROOT / "results" / "b0_check" / (f"dictionary_probe_{a.side}.jsonl" if a.set == "dict"
+                                           else f"fine_probe_{a.side}.jsonl")
     done = {json.loads(l)["sid"] for l in open(out)} if out.exists() else set()
     for c in pick:
         if c["sid"] in done:
@@ -53,8 +63,8 @@ def main():
         op = build_operator(smp, sb, lam_full=None, with_shared_reference=False)
         r = dict(sid=c["sid"], kind=c["kind"], bs=c["bs"], beta=c["beta"], bc=c["bc"], side=a.side, L=op.L,
                  full=op.lam_full, check_err_ritz=c["err_ritz"])
-        for tag, hw, it in VARIANTS:
-            N, n_it, n, dt = ritz(op, hw, it)
+        for tag, hw, it, kw in variants:
+            N, n_it, n, dt = ritz(op, hw, it, **kw)
             r[tag] = dict(N=N, err=100 * (N / op.lam_full - 1), iters=n_it, n=n, t=dt)
             print(f"{c['kind']:7s} bs {c['bs']:7.2f} beta {c['beta']:5.2f} {c['bc']} L {op.L:5.0f}  {tag:12s} "
                   f"N {N:9.4f} ({r[tag]['err']:+7.3f} %)  {n_it:3d} it  n {n}  {dt:.0f} s", flush=True)

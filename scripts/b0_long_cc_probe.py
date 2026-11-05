@@ -33,8 +33,8 @@ from pinnbuck.ritzspace import EnergyMetric                     # noqa: E402
 HW_LONG = tuple(HALF_WAVES) + (593.0, 1006.0)
 
 
-def ritz(op, half_waves, iters):
-    rs = RitzSpace(op, raw=True, half_waves=half_waves)
+def ritz(op, half_waves, iters, **kw):
+    rs = RitzSpace(op, raw=True, half_waves=half_waves, **kw)
     em = EnergyMetric(rs, groups="labels", ridge=1e-8)
     t = time.perf_counter()
     N, X, hist = lobpcg(rs, R=4, iters=iters, precond=em.solve, tol=1e-10, seed=1)

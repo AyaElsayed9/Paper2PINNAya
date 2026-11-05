@@ -23,7 +23,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 
 def _one(args):
-    sample, side, full, out, shared_ref = args
+    sample, side, full, out, shared_ref, dictionary = args
     import numpy as np
     from pinnbuck.operators import build_operator
     sb = pickle.load(open(ROOT / "data" / "shared_basis" / f"basis_{side}.pkl", "rb"))
@@ -31,6 +31,7 @@ def _one(args):
     op = build_operator(sample, sb, lam_full=None if full else float("nan"), with_shared_reference=shared_ref)
     op.G = op.G.astype(np.float32); op.P = op.P.astype(np.float32)
     op.info["time"] = time.perf_counter() - t
+    op.info["dictionary"] = dictionary
     pickle.dump(op, open(out, "wb"))
     return sample.sid, op.info["time"], op.lam_full, op.lam_shared
 
@@ -46,15 +47,18 @@ def main():
     ap.add_argument("--shared-ref", action="store_true", help="also solve GBT in the shared basis (check of the basis)")
     ap.add_argument("--layups", default="general", choices=["general", "industrial", "mixed"])
     ap.add_argument("--space", default="v1", choices=["v1", "v2"], help="design-space ranges (designspace.SPACES)")
+    ap.add_argument("--dictionary", default=None, choices=["d1", "d2"],
+                    help="longitudinal dictionary (dictionary.DICTIONARIES); default d1 for space v1, d2 for v2")
     ap.add_argument("--bc", default=None, choices=["SS", "CC"], help="fix the end condition")
     a = ap.parse_args()
+    a.dictionary = a.dictionary or ("d2" if a.space == "v2" else "d1")
     for k in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
         os.environ.setdefault(k, "1")
     from pinnbuck.designspace import sample_design
     tag = ((a.side if a.layups == "general" else f"{a.side}_{a.layups}") + (f"_{a.bc}" if a.bc else "")
            + (f"_{a.space}" if a.space != "v1" else ""))
     d = ROOT / "data" / "operators" / tag / a.set; d.mkdir(parents=True, exist_ok=True)
-    todo = [(s, a.side, a.full, d / f"{s.sid}.pkl", a.shared_ref)
+    todo = [(s, a.side, a.full, d / f"{s.sid}.pkl", a.shared_ref, a.dictionary)
             for s in sample_design("omega", a.n, seed=a.seed, categorical={"side": a.side, **({"bc": a.bc} if a.bc else {})},
                                          layups=a.layups, space=a.space)
             if not (d / f"{s.sid}.pkl").exists()]

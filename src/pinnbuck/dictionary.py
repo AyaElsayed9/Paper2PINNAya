@@ -26,7 +26,15 @@ from scipy.interpolate import BSpline
 
 from .operators import PanelOperator, bubble, orthonormalise
 
-HALF_WAVES = tuple(np.geomspace(25.0, 350.0, 6))   # [mm]
+HALF_WAVES = tuple(np.geomspace(25.0, 350.0, 6))   # [mm]  dictionary "d1" (design space v1, steps A and before)
+# "d2" (design space v2, step B0): + the next two half-waves of the same series; the longest clamped panels of
+# v2 (L ~ 1000 mm) need them (Ritz error 5.3 % -> 0.01 %, results/b0_check/, RESEARCH_LOG 5 Nov).
+DICTIONARIES = {"d1": HALF_WAVES, "d2": HALF_WAVES + (593.0, 1006.0)}
+
+
+def half_waves_of(op) -> tuple:
+    """Half-waves of the dictionary an operator was built for (op.info["dictionary"], default "d1")."""
+    return DICTIONARIES[getattr(op, "info", {}).get("dictionary", "d1")]
 N_END = 8                                          # end-layer splines per end
 END_LENGTH = 1.0                                   # l_e / b_s
 _DROP = {"free": 0, "zero": 1, "clamp": 2}
