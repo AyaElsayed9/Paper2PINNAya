@@ -592,3 +592,6 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   6, half-waves 63, 50, 84 mm). The normal design 040508c6cbc1 has a bulk mode (m = 3, 1). So the hard case is
   end-localised local buckling with short waves on tight-pitch general lay-ups.
 * Round 5: finer / longer end layers, spacing still ≥ 1.5 hx: e24s15, e32s15 (2.5 b_s), e32s15_l4 (4 b_s).
+* Round 5, first design: e24s15 brings 5cc7 from +1.532 to +0.619 % (e32s15 and e32s15_l4 are identical,
+  because the spacing limit 1.5 hx is reached). Train targets paused at 77 of 1064 (21:30) until the end-layer
+  setting is decided, so no labels are made with a setting that may change.
