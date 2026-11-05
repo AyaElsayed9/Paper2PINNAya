@@ -380,3 +380,21 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   change after probe 3); the operator remembers its dictionary (`op.info["dictionary"]`, set by
   `build_operators.py --dictionary`, default d2 for space v2); `epinn.prepare` uses it, so all old operator sets
   and results stay exactly as they were (d1).
+* Probe 2 done (`results/b0_check/dictionary_probe_{symmetry,periodic}.jsonl`; Ritz error vs full GBT):
+
+  | side | panel | 80 it | 400 it | long (d2) | long + 14.75 mm |
+  |---|---|---|---|---|---|
+  | sym | 124.25/3.5 CC | 0.874 | 0.702 | 0.653 | 0.618 |
+  | sym | 285.5/3.5 SS | 0.300 | 0.267 | 0.076 | 0.076 |
+  | sym | 285.5/3.5 CC | 5.331 | 5.330 | **0.014** | 0.014 |
+  | sym | 125.4/3.37 SS | 0.651 | 0.280 | 0.282 | 0.277 |
+  | sym | controls 150/1.5 SS, CC; 285.5/1.5 SS | 0.125, 0.092, 0.104 | 0.123, 0.040, 0.088 | 0.123, 0.042, 0.087 | 0.112, 0.025, 0.085 |
+  | per | 285.5/3.5 CC | 5.292 | 5.292 | **0.012** | 0.012 |
+  | per | 125.4/3.37 SS | 0.423 | 0.305 | 0.305 | 0.301 |
+  | per | controls (same) | 0.117, 0.012, 0.090 | 0.116, 0.009, 0.075 | 0.116, 0.009, 0.074 | 0.104, 0.008, 0.073 |
+
+  Findings: (1) the long waves fix the long panels and change nothing elsewhere (good: no harm); (2) the extra
+  short wave (14.75 mm) gains at most 0.04 % for +7 % size: not worth it; (3) for the short panels (b_s ≈ 125)
+  the 80-iteration cap was costing up to 0.37 % (0.65 → 0.28 %): the labels (exact targets) of the v2 sets
+  will use 400 iterations; (4) one panel is still at 0.65 % (symmetry 124.25/3.5 CC): probe 3 (running) looks
+  at wave spacing and end layers for it.

@@ -1,0 +1,21 @@
+corner  bs  285.50 beta  3.50 CC L   999  base80       N    3.6220 ( +5.292 %)   80 it  n 6087  7 s
+corner  bs  285.50 beta  3.50 CC L   999  base400      N    3.6220 ( +5.292 %)   93 it  n 6087  8 s
+corner  bs  285.50 beta  3.50 CC L   999  long400      N    3.4404 ( +0.012 %)  400 it  n 7051  37 s
+corner  bs  285.50 beta  3.50 CC L   999  longshort400 N    3.4404 ( +0.012 %)  400 it  n 7533  35 s
+control bs  150.00 beta  1.50 SS L   225  base80       N   17.3352 ( +0.117 %)   80 it  n 6564  5 s
+control bs  150.00 beta  1.50 SS L   225  base400      N   17.3350 ( +0.116 %)  400 it  n 6564  26 s
+control bs  150.00 beta  1.50 SS L   225  long400      N   17.3350 ( +0.116 %)  400 it  n 7528  30 s
+control bs  150.00 beta  1.50 SS L   225  longshort400 N   17.3329 ( +0.104 %)  400 it  n 8010  29 s
+control bs  150.00 beta  1.50 CC L   225  base80       N   30.0332 ( +0.012 %)   80 it  n 6087  5 s
+control bs  150.00 beta  1.50 CC L   225  base400      N   30.0323 ( +0.009 %)  400 it  n 6087  23 s
+control bs  150.00 beta  1.50 CC L   225  long400      N   30.0323 ( +0.009 %)  400 it  n 7051  25 s
+control bs  150.00 beta  1.50 CC L   225  longshort400 N   30.0319 ( +0.008 %)  400 it  n 7533  24 s
+control bs  285.50 beta  1.50 SS L   428  base80       N    5.9064 ( +0.090 %)   80 it  n 6564  6 s
+control bs  285.50 beta  1.50 SS L   428  base400      N    5.9055 ( +0.075 %)  400 it  n 6564  28 s
+control bs  285.50 beta  1.50 SS L   428  long400      N    5.9055 ( +0.074 %)  400 it  n 7528  30 s
+control bs  285.50 beta  1.50 SS L   428  longshort400 N    5.9054 ( +0.073 %)  400 it  n 8010  29 s
+random  bs  125.42 beta  3.37 SS L   422  base80       N   51.9376 ( +0.423 %)   80 it  n 6564  9 s
+random  bs  125.42 beta  3.37 SS L   422  base400      N   51.8761 ( +0.305 %)  400 it  n 6564  40 s
+random  bs  125.42 beta  3.37 SS L   422  long400      N   51.8764 ( +0.305 %)  400 it  n 7528  41 s
+random  bs  125.42 beta  3.37 SS L   422  longshort400 N   51.8744 ( +0.301 %)  400 it  n 8010  43 s
+DPROBE_DONE
