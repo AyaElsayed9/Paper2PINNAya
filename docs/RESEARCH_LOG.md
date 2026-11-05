@@ -595,3 +595,23 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Round 5, first design: e24s15 brings 5cc7 from +1.532 to +0.619 % (e32s15 and e32s15_l4 are identical,
   because the spacing limit 1.5 hx is reached). Train targets paused at 77 of 1064 (21:30) until the end-layer
   setting is decided, so no labels are made with a setting that may change.
+* Round 5 result (Ritz error vs label, %):
+
+  | design | e16s15 (d2 before) | e24s15 | e32s15 | e32s15, zone 4 b_s |
+  |---|---|---|---|---|
+  | 5cc7be690865 (outlier) | +1.532 | **+0.619** | +0.619 | +0.619 |
+  | 6cc2e9904ad4 (outlier) | +0.467 | **+0.176** | +0.176 | +0.176 |
+  | 4a8f2d5f7b80 (outlier, basis-limited) | +0.266 | +0.266 | +0.266 | +0.266 |
+  | 040508c6cbc1 | +0.023 | +0.023 | +0.023 | +0.023 |
+  | 3265ef5ed33c | +0.113 | +0.113 | +0.113 | +0.113 |
+  | 11ef6acdbbb8 | +0.116 | +0.116 | +0.116 | +0.116 |
+
+  Finer end splines help the end-localised short-wave modes; on the normal (short) designs the 1.5 hx limit is
+  already reached, so nothing changes there (same Ritz size). e32 = e24 everywhere (limit reached).
+  Remaining gap of 5cc7 (0.62 % vs 0.12 % shared-basis floor) is an honest limit for now; it may close
+  further with half-waves below 25 mm or harmonics, both tried only with e16 (round 3).
+* **Decision: d2 end layers = e24s15** (24 splines over 2.5 b_s, spacing ≥ 1.5 hx). Cost only on panels with
+  L/2 > about 2.5 b_s / 24 · 16 … i.e. the longer ones (5cc7: n 12830 → 15722, LOBPCG 100 → 190 s at 1 thread).
+  The first targets (test 100 and train 77 with e16s15) are kept in
+  `data/exact_targets/periodic_mixed_SS_v2_e16s15/` (logs `logs/b1_targets_*_e16s15.log`, summary
+  `results/b1_targets/e16s15/`) for the comparison over all 100 test designs; test and train rerun with e24s15.

@@ -38,8 +38,13 @@ DICTIONARIES = {"d1": HALF_WAVES, "d2": tuple(float(x) for x in np.geomspace(25.
 # 0.13 %); the spacing limit keeps the splines integrable at the solver's Gauss points (no Ritz value below the
 # label).  24 test designs: mean/max 0.076/0.160 -> 0.053/0.116 % (industrial), 0.123/0.256 -> 0.078/0.141 %
 # (general); results/b1_end_layer_probe/*, RESEARCH_LOG 5 Nov (B1).
+# Revised the same day (B1, outlier probe): 24 splines instead of 16 (e24s15).  The worst test designs (tight
+# pitch, general lay-ups, short-wave modes localised at both ends) need finer end splines: 5cc7be690865
+# +1.53 -> +0.62 %, 6cc2e9904ad4 +0.47 -> +0.18 %; normal designs unchanged (there the 1.5 hx limit is already
+# reached).  e32 = e24 everywhere (limit reached).  results/b1_targets/outlier_probe.jsonl.  The first test
+# targets (e16s15) are kept in data/exact_targets/periodic_mixed_SS_v2_e16s15 for comparison.
 END_LAYERS = {"d1": dict(n_end=8, end_length=1.0, min_spacing=0.0),
-              "d2": dict(n_end=16, end_length=2.5, min_spacing=1.5)}
+              "d2": dict(n_end=24, end_length=2.5, min_spacing=1.5)}
 
 
 def version_of(op) -> str:
