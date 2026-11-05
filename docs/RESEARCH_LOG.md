@@ -414,3 +414,40 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Final B0 check started (`--set final`): all 20 check designs per side at 400 iterations with three candidate
   dictionaries: long (6+2 waves, ratio 1.70), mid (11 waves 25–1006 mm, ratio 1.45), dense (15 waves
   14.75–1006 mm, ratio 1.35). The choice is made on these 40 check designs only (no test designs involved).
+* Final B0 check done (`results/b0_check/final_probe_*.jsonl`, all 20 check designs per side, 400 iterations;
+  Ritz error vs full GBT, mean / max, and Ritz size n):
+
+  | side | long (6+2 waves) | mid (11 waves, ratio 1.45) | dense (15 waves, ratio 1.35) |
+  |---|---|---|---|
+  | symmetry | 0.104 / 0.653 % (n 7337) | 0.077 / 0.429 % (n 8783) | 0.064 / 0.359 % (n 10711) |
+  | periodic | 0.068 / 0.305 % | 0.053 / 0.220 % | 0.045 / 0.214 % |
+
+  Smallest values −0.003 to −0.011 %: the Ritz value can be a little below the full GBT because the two use
+  different longitudinal discretisations (not an error of the bound in the shared basis).
+  **Decision: d2 = mid, 11 half-waves 25–1006 mm.** It takes most of the gain (worst 0.65 → 0.43 %, short
+  SS panels 0.3 → 0.1 %); dense adds only 0.01–0.07 % for another +22 % size; the rest of the error at the
+  worst points (0.2 % at 124.25/1.5 SS, 0.12 % at the 150/1.5 control) does not move with the waves at all.
+  `scripts/exact_targets.py --iters` added (400 for the v2 sets).
+* B0 closed: shared bases kept; dictionary d2; label iterations 400.
+
+## 5 Nov 2026 (midday) — step B1 started, and an open question on general lay-ups
+* Disk: deleted the old train operator sets (`periodic_industrial_SS/train`, `symmetry_industrial/train`, 9.3 GB;
+  rebuildable from seeds 11, n 320 / 512) and the pip cache; kept both old test sets (step-A comparisons).
+* Smoke test (2 v2 designs, `data/operators/periodic_mixed_SS_v2/smoke`): build and exact targets work, the
+  operators carry `dictionary = d2`. One design with a GENERAL lay-up (skin [30/60/45/60]s, stringer
+  [−60/−30/60/60/60/−30/−60], b_s 167.6, β 2.85, L 477) has Ritz error +0.376 % (400 it) / +0.363 % (1000 it)
+  with the shared basis at only +0.041 %. The dense waves do not help (+0.42 % at 400 it); longer end layers
+  do: 12 splines over 1.5 b_s +0.323 %, 16 splines over 2.5 b_s (capped at L/2) +0.193 %. So for general
+  lay-ups part of the mode sits in a long transition zone near the ends that the 8 end splines over b_s
+  cannot follow. Open: how often this happens. The operator files do not depend on the dictionary (it is only
+  applied when a design is prepared), so the B1 build goes on, and the distribution of the Ritz error over
+  all ~1000 B1 designs (exact targets) will decide whether the end layers need to change before training.
+* Build of v2 sets started (`logs/run_b1_build.sh`): periodic SS, mixed lay-ups, full GBT for every design;
+  test 100 (seed 99), train 1064 = 1000 + 64 validation (seed 11); no overlap of ids; 170 train designs
+  have b_s < 150 and 192 have β > 3 (the new region).
+* Incidents: (1) jobs started detached from the session are stopped a few minutes after a reply (the first
+  build stopped after 24 designs, as probe 2 did); long jobs now run as tracked jobs that resume where they
+  stopped. (2) My mistake: a check for partly written files deleted the 24 good files, because the check
+  could not import the package (it reported every file as unreadable). 24 designs (about 4 min) rebuilt. Fix:
+  `build_operators.py` now writes each file atomically (`.tmp` then rename), so a stopped job can never leave
+  a partial file.

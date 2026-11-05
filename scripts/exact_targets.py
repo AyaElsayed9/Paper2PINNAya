@@ -38,6 +38,7 @@ def main():
     ap.add_argument("src"); ap.add_argument("dst")
     ap.add_argument("--part", type=int, default=0); ap.add_argument("--parts", type=int, default=1)
     ap.add_argument("--R", type=int, default=8); ap.add_argument("--threads", type=int, default=1)
+    ap.add_argument("--iters", type=int, default=80, help="LOBPCG iteration cap (80 for the d1 sets, 400 from step B1)")
     a = ap.parse_args()
     torch.set_num_threads(a.threads)
     out = Path(a.dst); out.mkdir(parents=True, exist_ok=True)
@@ -46,7 +47,7 @@ def main():
         if (out / f"{f.stem}.pt").exists():
             continue
         t0 = time.perf_counter()
-        r = exact_modes(pickle.load(open(f, "rb")), R=a.R)
+        r = exact_modes(pickle.load(open(f, "rb")), R=a.R, iters=a.iters)
         torch.save(r, out / f"{f.stem}.pt")
         print(f"{r['sid']}: Ritz N1 {r['N_ritz'][0]:.4f}, full GBT {r['N_full']:.4f} "
               f"({100 * (r['N_ritz'][0] / r['N_full'] - 1):+.3f} %), {r['iters']} iterations, {time.perf_counter() - t0:.1f} s",

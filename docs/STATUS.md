@@ -60,7 +60,7 @@ average of the 3 heads 1.61 / 5.52 %. Decision 4 Nov: hybrid is the method, qual
 | hybrid | 1.42 / 4.35 %, +0.55 % | 20.1 % | 1.81 / 0.20 % |
 Labels fix the head but it overfits after outer 8–10; the physics gives the best modes. Fixes: separate weight
 choice for head and modes, more designs (B1), seeds (D).
-Running: step B0 probe 2 (dictionary variants on the worst check designs). Found so far: shared bases fine in the new region (max 0.14 %), no rebuild; the Ritz dictionary needs longer half-waves (593, 1006 mm) for the long clamped panels (5.3 % → 0.01 %).
+Running: step B1, building the v2 operator sets (periodic SS, mixed lay-ups, full GBT; test 100, train 1000 + 64 val), `logs/run_b1_build.sh`. B0 done: shared bases kept (max 0.14 %), dictionary d2 = 11 half-waves 25–1006 mm, labels with 400 iterations. Open: general lay-ups may need longer end layers (one smoke design 0.36 %); decided from the exact targets of the B1 sets.
 Next: design space as Paper 1 (b_s from 124.25 mm, β to 3.5, symmetry + periodic), ~1000 designs, GBT-call
 count study. All runs indexed in `results/EXPERIMENTS.md` (`scripts/collect_results.py`).
 

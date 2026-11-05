@@ -35,3 +35,27 @@ random  bs  140.57 beta  1.04 CC L   147  long400      N   40.9957 ( -0.005 %)  
 random  bs  140.57 beta  1.04 CC L   147  mid400       N   40.9954 ( -0.006 %)  400 it  n 8497  21 s
 random  bs  140.57 beta  1.04 CC L   147  dense400     N   40.9934 ( -0.011 %)  400 it  n 10425  23 s
 random  bs  144.09 beta  2.60 SS L   374  long400      N   41.2526 ( +0.106 %)  400 it  n 7528  36 s
+random  bs  144.09 beta  2.60 SS L   374  mid400       N   41.2521 ( +0.105 %)  400 it  n 8974  39 s
+random  bs  144.09 beta  2.60 SS L   374  dense400     N   41.2496 ( +0.098 %)  170 it  n 10902  17 s
+random  bs  135.21 beta  1.48 CC L   200  long400      N   39.5120 ( +0.021 %)  400 it  n 7051  23 s
+random  bs  135.21 beta  1.48 CC L   200  mid400       N   39.5116 ( +0.020 %)  400 it  n 8497  24 s
+random  bs  135.21 beta  1.48 CC L   200  dense400     N   39.5105 ( +0.017 %)  400 it  n 10425  26 s
+random  bs  133.81 beta  2.18 SS L   292  long400      N   38.5891 ( +0.091 %)  400 it  n 7528  33 s
+random  bs  133.81 beta  2.18 SS L   292  mid400       N   38.5889 ( +0.091 %)  400 it  n 8974  35 s
+random  bs  133.81 beta  2.18 SS L   292  dense400     N   38.5869 ( +0.085 %)  400 it  n 10902  37 s
+random  bs  149.08 beta  1.92 CC L   287  long400      N   26.2570 ( +0.005 %)  400 it  n 7051  27 s
+random  bs  149.08 beta  1.92 CC L   287  mid400       N   26.2568 ( +0.004 %)  400 it  n 8497  28 s
+random  bs  149.08 beta  1.92 CC L   287  dense400     N   26.2545 ( -0.004 %)  400 it  n 10425  34 s
+random  bs  179.91 beta  3.10 CC L   558  long400      N   16.8744 ( +0.004 %)  400 it  n 7051  36 s
+random  bs  179.91 beta  3.10 CC L   558  mid400       N   16.8743 ( +0.004 %)  400 it  n 8497  36 s
+random  bs  179.91 beta  3.10 CC L   558  dense400     N   16.8743 ( +0.003 %)  400 it  n 10425  39 s
+corner  bs  124.25 beta  3.50 CC L   435  long400      N   45.7692 ( +0.030 %)  400 it  n 7051  39 s
+corner  bs  124.25 beta  3.50 CC L   435  mid400       N   45.7667 ( +0.024 %)  400 it  n 8497  39 s
+corner  bs  124.25 beta  3.50 CC L   435  dense400     N   45.7668 ( +0.024 %)  400 it  n 10425  41 s
+random  bs  125.42 beta  3.37 SS L   422  long400      N   51.8764 ( +0.305 %)  400 it  n 7528  44 s
+random  bs  125.42 beta  3.37 SS L   422  mid400       N   51.7750 ( +0.109 %)  400 it  n 8974  48 s
+random  bs  125.42 beta  3.37 SS L   422  dense400     N   51.7602 ( +0.080 %)  400 it  n 10902  50 s
+random  bs  227.10 beta  3.43 SS L   778  long400      N   10.2204 ( +0.055 %)  400 it  n 7528  48 s
+random  bs  227.10 beta  3.43 SS L   778  mid400       N   10.2190 ( +0.041 %)  400 it  n 8974  49 s
+random  bs  227.10 beta  3.43 SS L   778  dense400     N   10.2185 ( +0.036 %)  400 it  n 10902  50 s
+FINAL_PER_DONE

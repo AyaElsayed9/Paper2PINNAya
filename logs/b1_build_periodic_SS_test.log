@@ -1,0 +1,8 @@
+periodic/test: 100 panels to build with 2 workers
+[1/100] 81134798e9b7 12.8 s  N_full 8.1048  N_shared nan  (elapsed 14 s)
+[2/100] d3ebb0186fe4 23.9 s  N_full 16.2705  N_shared nan  (elapsed 25 s)
+[3/100] 1d66116d44e6 9.6 s  N_full 25.1095  N_shared nan  (elapsed 34 s)
+[4/100] 715e55b55d73 26.4 s  N_full 7.2803  N_shared nan  (elapsed 40 s)
+[5/100] bfb11008cbdd 6.3 s  N_full 11.2508  N_shared nan  (elapsed 46 s)
+[6/100] 5cc7be690865 29.1 s  N_full 40.4285  N_shared nan  (elapsed 63 s)
+[7/100] ac65f1c63c0c 18.4 s  N_full 7.6031  N_shared nan  (elapsed 65 s)
