@@ -9,3 +9,10 @@
 5cc7be690865  label 40.4285  shared basis 40.4787  (+0.124 %)
 6cc2e9904ad4  label 38.4972  shared basis 38.5126  (+0.040 %)
 4a8f2d5f7b80  label 30.2422  shared basis 30.2970  (+0.181 %)
+5cc7be690865 d2_it1500    N   41.0362  full   40.4285  +1.503 %  n 12830  392 s
+5cc7be690865 hw31_it1500  N   40.7889  full   40.4285  +0.891 %  n 22470  533 s
+6cc2e9904ad4 d2_it1500    N   38.6694  full   38.4972  +0.447 %  n 12830  460 s
+6cc2e9904ad4 hw31_it1500  N   38.6178  full   38.4972  +0.313 %  n 22470  451 s
+PROBE_DONE
+5cc7be690865 harm         N   40.7901  full   40.4285  +0.894 %  n 16204  132 s
+5cc7be690865 harm+d2      N   40.7668  full   40.4285  +0.837 %  n 21506  142 s

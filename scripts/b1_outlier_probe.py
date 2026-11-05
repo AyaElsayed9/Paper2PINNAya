@@ -33,13 +33,17 @@ VARIANTS = {"d2": DICTIONARIES["d2"],
             "d2_it1500": DICTIONARIES["d2"],
             "hw31_it1500": tuple(np.geomspace(25, 1006, 31))}
 ITERS = {"d2_it1500": 1500, "hw31_it1500": 1500}
+# third round: half-waves L/m (m = 1 .. L/25 mm), i.e. the SS harmonics of the panel itself (design dependent;
+# diagnostic only: does a wave list matched to L remove the gap?)
+LDEP = {"harm": lambda L: tuple(L / m for m in range(1, int(L // 25) + 1)),
+        "harm+d2": lambda L: tuple(sorted(set(DICTIONARIES["d2"]) | {L / m for m in range(1, int(L // 25) + 1)}))}
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("src")
     ap.add_argument("--sids", nargs="+", required=True)
-    ap.add_argument("--variants", nargs="+", default=list(VARIANTS))
+    ap.add_argument("--variants", nargs="+", default=list(VARIANTS) + list(LDEP))
     a = ap.parse_args()
     torch.set_num_threads(1)
     out = ROOT / "results" / "b1_targets" / "outlier_probe.jsonl"
@@ -50,8 +54,9 @@ def main():
         for v in a.variants:
             if (sid, v) in done:
                 continue
-            N, it, n, dt = ritz(op, VARIANTS[v], ITERS.get(v, 400), **END_LAYERS["d2"])
-            r = dict(sid=sid, variant=v, half_waves=list(map(float, VARIANTS[v])), N=N, full=op.lam_full,
+            hw = LDEP[v](op.L) if v in LDEP else VARIANTS[v]
+            N, it, n, dt = ritz(op, hw, ITERS.get(v, 400), **END_LAYERS["d2"])
+            r = dict(sid=sid, variant=v, half_waves=list(map(float, hw)), N=N, full=op.lam_full,
                      err=100 * (N / op.lam_full - 1), iters=it, n=n, t=dt, bs=op.params["bs"], L=op.L)
             print(f"{sid} {v:12s} N {N:9.4f}  full {op.lam_full:9.4f}  {r['err']:+.3f} %  n {n}  {dt:.0f} s",
                   flush=True)

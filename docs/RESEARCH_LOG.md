@@ -562,3 +562,16 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   target mean 111 s (39–183 s, 1 thread each).
 * Outlier probe started (`scripts/b1_outlier_probe.py`): denser half-wave lists (21, 31, 23 from 12 mm) on
   the two worst designs, to tell a dictionary gap from a cross-section-basis gap.
+* Outlier probe, rounds 1–2 (`results/b1_targets/outlier_probe.jsonl`, `shared_basis_check.jsonl`), Ritz error vs label:
+
+  | design | d2 (400 it) | d2 1500 it | 21 half-waves | 31 half-waves | 31, 1500 it | shared basis, full splines in z |
+  |---|---|---|---|---|---|---|
+  | 5cc7be690865 | +1.532 | +1.503 | +1.388 | +1.049 | +0.891 | +0.124 |
+  | 6cc2e9904ad4 | +0.467 | +0.447 | +0.431 | +0.371 | +0.313 | +0.040 |
+  | 4a8f2d5f7b80 | +0.266 | | | | | +0.181 |
+
+  So (c) iterations: not the cause (400 → 1500 changes 0.02–0.03 %); (b) shared cross-section basis: small for
+  5cc7 / 6cc2 (0.12 / 0.04 %) but most of 4a8f's gap (0.18 of 0.27 %); (a) the longitudinal functions are
+  the main cause for 5cc7 / 6cc2, and denser fixed half-waves close it only slowly. Note the waves are
+  multiplied by the global SS end factor ζ(1−ζ), so a fixed half-wave that does not fit L is spoilt at the
+  far end. Round 3: half-waves L/m (the panel's own SS harmonics; design dependent, diagnostic only).
