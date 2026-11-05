@@ -351,3 +351,7 @@ periodic/train: 726 panels to build with 2 workers
 [9/726] 20b0b4c740ce 23.4 s  N_full 7.1835  N_shared nan  (elapsed 94 s)
 [10/726] 0cc0744dc03b 9.8 s  N_full 41.4754  N_shared nan  (elapsed 104 s)
 [11/726] cc723adb8404 27.7 s  N_full 22.0262  N_shared nan  (elapsed 122 s)
+[12/726] 27c73dc2b67e 33.4 s  N_full 6.3667  N_shared nan  (elapsed 137 s)
+[13/726] ed332e485c59 18.5 s  N_full 9.9352  N_shared nan  (elapsed 140 s)
+[14/726] 6cd89bc30860 8.0 s  N_full 14.9169  N_shared nan  (elapsed 148 s)
+[15/726] 52940cff08a9 22.1 s  N_full 15.3659  N_shared nan  (elapsed 159 s)
