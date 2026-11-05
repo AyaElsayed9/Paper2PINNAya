@@ -339,3 +339,14 @@ periodic/train: 1064 panels to build with 2 workers
 [338/1064] 150556822721 23.8 s  N_full 11.4256  N_shared nan  (elapsed 6259 s)
 /usr/local/lib/python3.13/multiprocessing/resource_tracker.py:479: UserWarning: resource_tracker: There appear to be 6 leaked semaphore objects to clean up at shutdown: {'/mp-uddyc004', '/mp-iwdcrje7', '/mp-hrn8l10u', '/mp-nmk5zfm5', '/mp-f8kmm02y', '/mp-q3liglpa'}
   warnings.warn(
+periodic/train: 726 panels to build with 2 workers
+[1/726] 80288f48603b 27.3 s  N_full 37.7291  N_shared nan  (elapsed 28 s)
+[2/726] 9723b2d90279 34.5 s  N_full 28.1823  N_shared nan  (elapsed 35 s)
+[3/726] f9bda5518560 21.5 s  N_full 31.2752  N_shared nan  (elapsed 50 s)
+[4/726] 6f1178664b66 20.5 s  N_full 5.5470  N_shared nan  (elapsed 56 s)
+[5/726] 688dd777340e 7.5 s  N_full 6.3722  N_shared nan  (elapsed 57 s)
+[6/726] f188cf4f0200 13.3 s  N_full 17.1055  N_shared nan  (elapsed 71 s)
+[7/726] 2a80cc45c7b6 27.3 s  N_full 13.7296  N_shared nan  (elapsed 83 s)
+[8/726] 1f8630d4c5ca 10.9 s  N_full 5.6324  N_shared nan  (elapsed 94 s)
+[9/726] 20b0b4c740ce 23.4 s  N_full 7.1835  N_shared nan  (elapsed 94 s)
+[10/726] 0cc0744dc03b 9.8 s  N_full 41.4754  N_shared nan  (elapsed 104 s)

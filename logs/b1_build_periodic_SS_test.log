@@ -99,3 +99,4 @@ periodic/test: 100 panels to build with 2 workers
 [98/100] 285a1975516f 15.5 s  N_full 7.9037  N_shared nan  (elapsed 897 s)
 [99/100] 5bebdbb95a2a 7.0 s  N_full 26.7897  N_shared nan  (elapsed 904 s)
 [100/100] 779c0f363cb1 33.0 s  N_full 8.9250  N_shared nan  (elapsed 927 s)
+periodic/test: 0 panels to build with 2 workers

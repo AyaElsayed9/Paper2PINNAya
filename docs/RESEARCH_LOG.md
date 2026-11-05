@@ -491,3 +491,7 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   average) a version d2e (longer end zone with spacing never below 2 hx) is considered before the exact
   targets. The fine-grid run for the general design 3265ef5ed33c (L 327, 42 spans) was killed for memory
   while the build ran; it waits for the build to finish.
+* 14:30 the machine restarted (third time today); build stopped at train 338/1064, no partial files (atomic
+  write works). Resumed as a tracked job; `run_b1_build.sh` now appends to the test log instead of
+  overwriting it. Disk: 16 GB free, the train set needs about 9 GB more (≈ 12.8 MB per design), so before
+  the symmetry v2 sets the operator storage has to be made smaller (or sets removed after use).
