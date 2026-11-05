@@ -615,3 +615,9 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   The first targets (test 100 and train 77 with e16s15) are kept in
   `data/exact_targets/periodic_mixed_SS_v2_e16s15/` (logs `logs/b1_targets_*_e16s15.log`, summary
   `results/b1_targets/e16s15/`) for the comparison over all 100 test designs; test and train rerun with e24s15.
+* 6 Nov: test targets with e24s15 done (100; one machine restart and one 2 h stop, resumed). Ritz error vs label:
+  all mean 0.064 % (e16s15: 0.080), median 0.041, p95 0.148, max 0.619 % (was 1.535); industrial mean 0.047 /
+  max 0.167 %; general mean 0.078 / max 0.619 %; none negative; 2 above 0.2 % (5cc7 0.62, 4a8f 0.27
+  basis-limited). Per design e24 − e16: 31 better by > 0.005 points, 65 identical Ritz space, largest
+  increase +0.005 points (LOBPCG noise at 400 iterations), largest gain −0.92. LOBPCG time ×1.03 on average
+  (max ×1.60), 3.27 h in total for 100 designs at 1 thread each. Train targets running (e24s15).
