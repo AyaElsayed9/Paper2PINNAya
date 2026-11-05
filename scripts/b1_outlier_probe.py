@@ -23,7 +23,9 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 from b0_long_cc_probe import ritz                              # noqa: E402
 from pinnbuck import opio                                      # noqa: E402
+import pinnbuck.dictionary as dic                              # noqa: E402
 from pinnbuck.dictionary import DICTIONARIES, END_LAYERS       # noqa: E402
+global_bubble = dic.bubble
 
 VARIANTS = {"d2": DICTIONARIES["d2"],
             "hw21": tuple(np.geomspace(25, 1006, 21)),
@@ -38,12 +40,35 @@ ITERS = {"d2_it1500": 1500, "hw31_it1500": 1500}
 LDEP = {"harm": lambda L: tuple(L / m for m in range(1, int(L // 25) + 1)),
         "harm+d2": lambda L: tuple(sorted(set(DICTIONARIES["d2"]) | {L / m for m in range(1, int(L // 25) + 1)}))}
 
+# fourth round: the waves are multiplied by the GLOBAL end factor zeta^a (1 - zeta)^b (`operators.bubble`), a
+# parabola over the whole panel for SS, so no wave combination gives a uniform amplitude.  Local end factor:
+# 1 in the bulk, a C1 ramp over l_env from each end (zero: 1 - (1 - s/l)^2; clamp: 3 (s/l)^2 - 2 (s/l)^3).
+ENV = {"env1": 1.0, "env25": 2.5}                 # l_env / b_s (capped at L/2), with the d2 half-waves
+
+
+def _ramp(s, l, kind):
+    t = np.clip(s / l, 0.0, 1.0); inside = (s < l).astype(float)
+    if kind == "free":
+        return np.ones_like(s), np.zeros_like(s), np.zeros_like(s)
+    if kind == "zero":
+        return 1 - (1 - t) ** 2, inside * 2 * (1 - t) / l, inside * (-2.0) / l ** 2
+    return 3 * t ** 2 - 2 * t ** 3, inside * (6 * t - 6 * t ** 2) / l, inside * (6 - 12 * t) / l ** 2
+
+
+def local_bubble(l_env):
+    def bubble(zeta, left, right, L):
+        z = np.asarray(zeta) * L; l = min(l_env, 0.5 * L)
+        a0, a1, a2 = _ramp(z, l, left)
+        c0, c1, c2 = _ramp(L - z, l, right); c1 = -c1          # d/dz of a function of (L - z)
+        return np.stack([a0 * c0, a1 * c0 + a0 * c1, a2 * c0 + 2 * a1 * c1 + a0 * c2])
+    return bubble
+
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("src")
     ap.add_argument("--sids", nargs="+", required=True)
-    ap.add_argument("--variants", nargs="+", default=list(VARIANTS) + list(LDEP))
+    ap.add_argument("--variants", nargs="+", default=list(VARIANTS) + list(LDEP) + list(ENV))
     a = ap.parse_args()
     torch.set_num_threads(1)
     out = ROOT / "results" / "b1_targets" / "outlier_probe.jsonl"
@@ -54,8 +79,10 @@ def main():
         for v in a.variants:
             if (sid, v) in done:
                 continue
-            hw = LDEP[v](op.L) if v in LDEP else VARIANTS[v]
+            hw = LDEP[v](op.L) if v in LDEP else VARIANTS.get(v, DICTIONARIES["d2"])
+            dic.bubble = local_bubble(ENV[v] * op.params["bs"]) if v in ENV else global_bubble
             N, it, n, dt = ritz(op, hw, ITERS.get(v, 400), **END_LAYERS["d2"])
+            dic.bubble = global_bubble
             r = dict(sid=sid, variant=v, half_waves=list(map(float, hw)), N=N, full=op.lam_full,
                      err=100 * (N / op.lam_full - 1), iters=it, n=n, t=dt, bs=op.params["bs"], L=op.L)
             print(f"{sid} {v:12s} N {N:9.4f}  full {op.lam_full:9.4f}  {r['err']:+.3f} %  n {n}  {dt:.0f} s",

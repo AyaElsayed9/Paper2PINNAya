@@ -16,3 +16,9 @@
 PROBE_DONE
 5cc7be690865 harm         N   40.7901  full   40.4285  +0.894 %  n 16204  132 s
 5cc7be690865 harm+d2      N   40.7668  full   40.4285  +0.837 %  n 21506  142 s
+6cc2e9904ad4 harm         N   38.6027  full   38.4972  +0.274 %  n 17168  133 s
+6cc2e9904ad4 harm+d2      N   38.6054  full   38.4972  +0.281 %  n 22470  144 s
+4a8f2d5f7b80 d2           N   30.3227  full   30.2422  +0.266 %  n 8010  30 s
+4a8f2d5f7b80 harm         N   30.3223  full   30.2422  +0.265 %  n 5118  26 s
+4a8f2d5f7b80 harm+d2      N   30.3217  full   30.2422  +0.263 %  n 10420  34 s
+PROBE3_DONE

@@ -575,3 +575,11 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   the main cause for 5cc7 / 6cc2, and denser fixed half-waves close it only slowly. Note the waves are
   multiplied by the global SS end factor ζ(1−ζ), so a fixed half-wave that does not fit L is spoilt at the
   far end. Round 3: half-waves L/m (the panel's own SS harmonics; design dependent, diagnostic only).
+* Round 3 (half-waves L/m, the panel's own SS harmonics): 5cc7 +1.532 → +0.894 % (with d2 added +0.837 %),
+  6cc2 +0.467 → +0.274 %, 4a8f no change (+0.265 %, its gap is the cross-section basis). Better, but still far
+  above the shared-basis floor (0.12 / 0.04 %). Suspect: the global SS end factor ζ(1−ζ) multiplies every wave,
+  so even the exact harmonic sin(mπz/L) enters as ζ(1−ζ) sin(mπz/L) and the uniform amplitude of an
+  orthotropic-like mode cannot be built.
+* Round 4: local end factor (1 in the bulk, C1 ramp over l_env from each end: zero class 1−(1−s/l)², clamp
+  3(s/l)²−2(s/l)³), l_env = b_s (env1) or 2.5 b_s (env25), with the d2 half-waves and e16s15 end layers; the 3
+  outliers plus 3 normal designs (040508c6cbc1, 3265ef5ed33c, 11ef6acdbbb8) to check nothing gets worse.
