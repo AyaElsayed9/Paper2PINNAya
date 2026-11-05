@@ -1,0 +1,9 @@
+corner  bs  285.50 beta  3.50 CC L   999  long400      N    3.4404 ( +0.012 %)  400 it  n 7051  37 s
+corner  bs  285.50 beta  3.50 CC L   999  dense400     N    3.4403 ( +0.011 %)  400 it  n 10425  41 s
+corner  bs  285.50 beta  3.50 CC L   999  long_end12_400 N    3.4403 ( +0.011 %)  400 it  n 8979  40 s
+corner  bs  285.50 beta  3.50 CC L   999  dense_end12_400 N    3.4402 ( +0.009 %)  400 it  n 12353  47 s
+random  bs  125.42 beta  3.37 SS L   422  long400      N   51.8764 ( +0.305 %)  400 it  n 7528  43 s
+random  bs  125.42 beta  3.37 SS L   422  dense400     N   51.7602 ( +0.080 %)  400 it  n 10902  47 s
+random  bs  125.42 beta  3.37 SS L   422  long_end12_400 N   51.7661 ( +0.092 %)  400 it  n 9456  51 s
+random  bs  125.42 beta  3.37 SS L   422  dense_end12_400 N   51.7569 ( +0.074 %)  400 it  n 12830  59 s
+FPROBE_DONE

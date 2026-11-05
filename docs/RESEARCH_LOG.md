@@ -398,3 +398,19 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   the 80-iteration cap was costing up to 0.37 % (0.65 → 0.28 %): the labels (exact targets) of the v2 sets
   will use 400 iterations; (4) one panel is still at 0.65 % (symmetry 124.25/3.5 CC): probe 3 (running) looks
   at wave spacing and end layers for it.
+* Probe 3 done (`results/b0_check/fine_probe_*.jsonl`, 400 iterations; size n of the Ritz space in brackets):
+
+  | side | panel | long d2 (7051) | dense 15 waves (10425) | long + end 12 (8979) | dense + end 12 (12353) |
+  |---|---|---|---|---|---|
+  | sym | 124.25/3.5 CC | 0.653 | 0.359 | 0.488 | 0.348 |
+  | sym | 285.5/3.5 CC | 0.014 | 0.013 | 0.013 | 0.011 |
+  | sym | 125.4/3.37 SS | 0.282 | 0.075 | 0.086 | 0.069 |
+  | per | 285.5/3.5 CC | 0.012 | 0.011 | 0.011 | 0.009 |
+  | per | 125.4/3.37 SS | 0.305 | 0.080 | 0.092 | 0.074 |
+
+  (n for SS designs is about 480 larger.) The wave spacing is what limits the short panels: the denser
+  series (ratio 1.35 instead of 1.70) brings them from 0.3 % to 0.08 % and the worst corner from 0.65 % to
+  0.36 %; finer end layers add little on top. Price: Ritz space +48 %.
+* Final B0 check started (`--set final`): all 20 check designs per side at 400 iterations with three candidate
+  dictionaries: long (6+2 waves, ratio 1.70), mid (11 waves 25–1006 mm, ratio 1.45), dense (15 waves
+  14.75–1006 mm, ratio 1.35). The choice is made on these 40 check designs only (no test designs involved).

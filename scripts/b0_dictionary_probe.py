@@ -37,22 +37,26 @@ HW_DENSE = tuple(float(x) for x in np.geomspace(14.75, 1006.0, 15))          # r
 VARIANTS_FINE = (("long400", HW_LONG, 400, {}), ("dense400", HW_DENSE, 400, {}),
                  ("long_end12_400", HW_LONG, 400, dict(n_end=12, end_length=1.5)),
                  ("dense_end12_400", HW_DENSE, 400, dict(n_end=12, end_length=1.5)))
+# final check (--set final, all 20 check designs per side): the candidate dictionaries at 400 iterations
+HW_MID = tuple(float(x) for x in np.geomspace(25.0, 1006.0, 11))              # ratio 1.45
+VARIANTS_FINAL = (("long400", HW_LONG, 400, {}), ("mid400", HW_MID, 400, {}), ("dense400", HW_DENSE, 400, {}))
+SETS = {"dict": (VARIANTS, "dictionary_probe"), "fine": (VARIANTS_FINE, "fine_probe"),
+        "final": (VARIANTS_FINAL, "final_probe")}
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--side", default="symmetry")
     ap.add_argument("--min-err", type=float, default=0.3)
-    ap.add_argument("--set", default="dict", choices=["dict", "fine"])
+    ap.add_argument("--set", default="dict", choices=list(SETS))
     ap.add_argument("--no-controls", action="store_true")
     a = ap.parse_args()
     torch.set_num_threads(2)
     sb = pickle.load(open(ROOT / "data" / "shared_basis" / f"basis_{a.side}.pkl", "rb"))
     chk = [json.loads(l) for l in open(ROOT / "results" / "b0_check" / f"{a.side}.jsonl")]
     pick = [r for r in chk if r["err_ritz"] > a.min_err or (r["kind"] == "control" and not a.no_controls)]
-    variants = VARIANTS if a.set == "dict" else VARIANTS_FINE
-    out = ROOT / "results" / "b0_check" / (f"dictionary_probe_{a.side}.jsonl" if a.set == "dict"
-                                           else f"fine_probe_{a.side}.jsonl")
+    variants, stem = SETS[a.set]
+    out = ROOT / "results" / "b0_check" / f"{stem}_{a.side}.jsonl"
     done = {json.loads(l)["sid"] for l in open(out)} if out.exists() else set()
     for c in pick:
         if c["sid"] in done:
