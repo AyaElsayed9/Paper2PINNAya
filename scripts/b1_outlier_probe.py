@@ -3,6 +3,7 @@
 Two possible causes:
   (a) the longitudinal dictionary (11 half-waves, ratio 1.45 between neighbours) misses the mode's wavelength;
   (b) the shared cross-section basis (POD, 241 modes) misses the mode's cross-section shape.
+(c) LOBPCG not converged after 400 iterations (variants *_it1500).
 Here the Ritz value is recomputed with denser half-wave lists (same end layers e16s15).  If it falls towards the
 full GBT value, (a) is the cause; if it stays, (b) is.
 
@@ -27,7 +28,11 @@ from pinnbuck.dictionary import DICTIONARIES, END_LAYERS       # noqa: E402
 VARIANTS = {"d2": DICTIONARIES["d2"],
             "hw21": tuple(np.geomspace(25, 1006, 21)),
             "hw31": tuple(np.geomspace(25, 1006, 31)),
-            "hw21_from12": tuple(np.geomspace(12, 1006, 23))}
+            "hw21_from12": tuple(np.geomspace(12, 1006, 23)),
+            # second round: is LOBPCG converged after 400 iterations (all four above used all 400)?
+            "d2_it1500": DICTIONARIES["d2"],
+            "hw31_it1500": tuple(np.geomspace(25, 1006, 31))}
+ITERS = {"d2_it1500": 1500, "hw31_it1500": 1500}
 
 
 def main():
@@ -45,7 +50,7 @@ def main():
         for v in a.variants:
             if (sid, v) in done:
                 continue
-            N, it, n, dt = ritz(op, VARIANTS[v], 400, **END_LAYERS["d2"])
+            N, it, n, dt = ritz(op, VARIANTS[v], ITERS.get(v, 400), **END_LAYERS["d2"])
             r = dict(sid=sid, variant=v, half_waves=list(map(float, VARIANTS[v])), N=N, full=op.lam_full,
                      err=100 * (N / op.lam_full - 1), iters=it, n=n, t=dt, bs=op.params["bs"], L=op.L)
             print(f"{sid} {v:12s} N {N:9.4f}  full {op.lam_full:9.4f}  {r['err']:+.3f} %  n {n}  {dt:.0f} s",
