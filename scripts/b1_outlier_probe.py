@@ -45,6 +45,12 @@ LDEP = {"harm": lambda L: tuple(L / m for m in range(1, int(L // 25) + 1)),
 # 1 in the bulk, a C1 ramp over l_env from each end (zero: 1 - (1 - s/l)^2; clamp: 3 (s/l)^2 - 2 (s/l)^3).
 ENV = {"env1": 1.0, "env25": 2.5}                 # l_env / b_s (capped at L/2), with the d2 half-waves
 
+# fifth round: the full-GBT modes of 5cc7 / 6cc2 are localised at both ends (amplitude ~0 in the middle third)
+# with short waves (half-waves 41-63 mm); finer / longer end layers (spacing still >= 1.5 hx)
+ENDV = {"e24s15": dict(n_end=24, end_length=2.5, min_spacing=1.5),
+        "e32s15": dict(n_end=32, end_length=2.5, min_spacing=1.5),
+        "e32s15_l4": dict(n_end=32, end_length=4.0, min_spacing=1.5)}
+
 
 def _ramp(s, l, kind):
     t = np.clip(s / l, 0.0, 1.0); inside = (s < l).astype(float)
@@ -68,7 +74,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("src")
     ap.add_argument("--sids", nargs="+", required=True)
-    ap.add_argument("--variants", nargs="+", default=list(VARIANTS) + list(LDEP) + list(ENV))
+    ap.add_argument("--variants", nargs="+", default=list(VARIANTS) + list(LDEP) + list(ENV) + list(ENDV))
     a = ap.parse_args()
     torch.set_num_threads(1)
     out = ROOT / "results" / "b1_targets" / "outlier_probe.jsonl"
@@ -81,7 +87,7 @@ def main():
                 continue
             hw = LDEP[v](op.L) if v in LDEP else VARIANTS.get(v, DICTIONARIES["d2"])
             dic.bubble = local_bubble(ENV[v] * op.params["bs"]) if v in ENV else global_bubble
-            N, it, n, dt = ritz(op, hw, ITERS.get(v, 400), **END_LAYERS["d2"])
+            N, it, n, dt = ritz(op, hw, ITERS.get(v, 400), **ENDV.get(v, END_LAYERS["d2"]))
             dic.bubble = global_bubble
             r = dict(sid=sid, variant=v, half_waves=list(map(float, hw)), N=N, full=op.lam_full,
                      err=100 * (N / op.lam_full - 1), iters=it, n=n, t=dt, bs=op.params["bs"], L=op.L)

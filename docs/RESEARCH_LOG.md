@@ -583,3 +583,12 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Round 4: local end factor (1 in the bulk, C1 ramp over l_env from each end: zero class 1−(1−s/l)², clamp
   3(s/l)²−2(s/l)³), l_env = b_s (env1) or 2.5 b_s (env25), with the d2 half-waves and e16s15 end layers; the 3
   outliers plus 3 normal designs (040508c6cbc1, 3265ef5ed33c, 11ef6acdbbb8) to check nothing gets worse.
+* Round 4 result: the local end factor does NOT help (5cc7 +1.487 % with l = b_s, env25 identical to d2 because
+  l is capped at L/2 and then spans the same space; normal designs unchanged within 0.01 %). Hypothesis of the
+  global parabola rejected; the end splines already supply that freedom.
+* Mode analysis (teacher mode 1 of the operator, projection on sin(mπz/L)): 5cc7 and 6cc2 have modes
+  localised at BOTH ends (amplitude about 0.02–0.1 of the maximum in the middle third, non-zero at the ends
+  for the free classes) made of short waves (5cc7: m = 11, 9, 13, half-waves 41, 50, 35 mm; 6cc2: m = 8, 10,
+  6, half-waves 63, 50, 84 mm). The normal design 040508c6cbc1 has a bulk mode (m = 3, 1). So the hard case is
+  end-localised local buckling with short waves on tight-pitch general lay-ups.
+* Round 5: finer / longer end layers, spacing still ≥ 1.5 hx: e24s15, e32s15 (2.5 b_s), e32s15_l4 (4 b_s).
