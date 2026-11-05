@@ -508,3 +508,28 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   after the fine-grid check (which reads it).
 * Fine-grid end-layer check started (`scripts/b1_fine_grid_check.py --factor 0.5`, 6 test designs: general
   3265ef5ed33c, 1d51e6f13ec3, 23665413e421; industrial 040508c6cbc1, 29027bd61ab1, 11ef6acdbbb8).
+* Train operators compressed: 1064 files, 14.25 → 6.17 GB, all checked bit for bit; disk 15 GB free.
+* Fine-grid check done (`results/b1_end_layer_probe/fine_grid.jsonl`; operator rebuilt with hx/2, Ritz vs the
+  full GBT on the same fine grid, so this is a true Rayleigh–Ritz gap; all values positive):
+
+  | design | lay-up | e8 coarse vs label | e8 fine | e12 fine | e16 fine | shared basis fine | label vs fine full |
+  |---|---|---|---|---|---|---|---|
+  | 040508c6cbc1 (b_s 283, L 336) | ind | +0.023 | +0.072 | +0.048 | +0.026 | +0.005 | +0.036 |
+  | 29027bd61ab1 (b_s 170, L 250) | ind | +0.085 | +0.139 | +0.085 | +0.052 | +0.012 | +0.049 |
+  | 11ef6acdbbb8 (b_s 124, L 204) | ind | +0.160 | +0.194 | +0.144 | +0.115 | +0.083 | +0.033 |
+  | 3265ef5ed33c (b_s 161, L 327) | gen | +0.256 | +0.348 | +0.239 | +0.164 | +0.018 | +0.091 |
+  | 1d51e6f13ec3 (b_s 203, L 354) | gen | +0.228 | +0.313 | +0.209 | +0.148 | +0.046 | +0.069 |
+  | 23665413e421 (b_s 127, L 362) | gen | +0.192 | +0.238 | +0.229 | +0.184 | +0.073 | +0.043 |
+
+  (all in %). Findings: (1) on a correctly integrated grid the order is always e16 < e12 < e8, so the longer
+  end zone is a real gain, mean e8 → e16 0.10 % (general lay-ups 0.13 %); (2) on the solver grid ALL the
+  variants read too low by 0.03–0.1 % (e8 too), and the fine splines of e12/e16 on short panels by up to
+  0.19 %; (3) the label itself is 0.03–0.09 % above the fine-grid full GBT. Rule set before the check
+  (> 0.05 % gain for general lay-ups on the fine grid) is met.
+* So a spacing limit was added to the dictionary (`dictionary.end_spacing`, option `min_spacing` in units of
+  the solver span hx; default 0 = old behaviour, reproduced to 4e-10 on a test design): the zone is
+  min(end_length b_s, L/2), the spacing max(zone / n_end, min_spacing hx), and splines that do not fit in
+  L/2 are left out (fixed labels, missing functions are dropped as for inadmissible ones). Probe 2
+  (`--set spacing`, same 24 designs): e8s15 (8 over b_s, ≥ 1.5 hx), e16s15 (16 over 2.5 b_s, ≥ 1.5 hx),
+  e16s2 (≥ 2 hx). Decision rule: the variant with the lowest mean error that has no value below the label.
+  Test operators compressed before the probe.

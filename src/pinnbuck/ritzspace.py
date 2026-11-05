@@ -30,18 +30,19 @@ import math
 import numpy as np
 import torch
 
-from .dictionary import END_LENGTH, HALF_WAVES, N_END, dictionary
+from .dictionary import END_LENGTH, HALF_WAVES, MIN_SPACING, N_END, dictionary, end_spacing
 from .operators import PanelOperator, orthonormalise
 
 _DIR_D = {0: (1, 2), 1: (0, 1)}       # amplitude-derivative orders entering the z- and s-gradients
 
 
-def raw_functions(op: PanelOperator, half_waves=HALF_WAVES, n_end=N_END, end_length=END_LENGTH):
+def raw_functions(op: PanelOperator, half_waves=HALF_WAVES, n_end=N_END, end_length=END_LENGTH,
+                  min_spacing=MIN_SPACING):
     """Per class: the admissible dictionary functions themselves (fixed labels for every
     design of an end condition), their labels and wavenumbers [1/mm]."""
-    D, labels = dictionary(op, half_waves=half_waves, n_end=n_end, end_length=end_length)
-    le = min(end_length * op.params["bs"], 0.5 * op.L)
-    kw = lambda lab: math.pi / float(lab[4:-1]) if lab.startswith("wave") else math.pi / (2 * le / n_end)
+    D, labels = dictionary(op, half_waves=half_waves, n_end=n_end, end_length=end_length, min_spacing=min_spacing)
+    h, _ = end_spacing(op, n_end, end_length, min_spacing)
+    kw = lambda lab: math.pi / float(lab[4:-1]) if lab.startswith("wave") else math.pi / (2 * h)
     out, labs, kap = [], [], []
     for B in D:
         keep = np.abs(B).sum(axis=(0, 1)) > 0
@@ -50,10 +51,11 @@ def raw_functions(op: PanelOperator, half_waves=HALF_WAVES, n_end=N_END, end_len
     return out, labs, kap
 
 
-def class_functions(op: PanelOperator, half_waves=HALF_WAVES, n_end=N_END, end_length=END_LENGTH, tol=1e-10):
+def class_functions(op: PanelOperator, half_waves=HALF_WAVES, n_end=N_END, end_length=END_LENGTH, tol=1e-10,
+                    min_spacing=MIN_SPACING):
     """Per class: longitudinal functions (3, nz, nb_c), orthonormal in Z_00 and rotated to
     the eigenfunctions of Z_22 t = w Z_00 t, and their wavenumbers kappa_c (nb_c,)."""
-    D, _ = dictionary(op, half_waves=half_waves, n_end=n_end, end_length=end_length)
+    D, _ = dictionary(op, half_waves=half_waves, n_end=n_end, end_length=end_length, min_spacing=min_spacing)
     out, kap = [], []
     for B in D:
         B = B[:, :, np.abs(B).sum(axis=(0, 1)) > 0]

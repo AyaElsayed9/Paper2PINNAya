@@ -38,14 +38,28 @@ def half_waves_of(op) -> tuple:
     return DICTIONARIES[getattr(op, "info", {}).get("dictionary", "d1")]
 N_END = 8                                          # end-layer splines per end
 END_LENGTH = 1.0                                   # l_e / b_s
+MIN_SPACING = 0.0                                  # smallest spline spacing / solver span hx (0: no limit)
 _DROP = {"free": 0, "zero": 1, "clamp": 2}
 
 
-def end_splines(z, L, le, ne, side):
+def end_spacing(op, n_end, end_length, min_spacing=MIN_SPACING):
+    """Spline spacing h of the end layers and the number of splines that fit in half the panel.
+    Zone l_e = min(end_length b_s, L/2), h = l_e / n_end, but never below min_spacing * hx (hx: the
+    solver's longitudinal span, where the pre-buckling field is known).  Splines finer than about the
+    solver grid are integrated wrongly at its Gauss points (Ritz values below the label; RESEARCH_LOG
+    5 Nov, B1); with the limit, splines that would reach past L/2 are left out (zero, dropped later)."""
+    le = min(end_length * op.params["bs"], 0.5 * op.L)
+    h = max(le / n_end, min_spacing * float(op.info.get("hx", 0.0)) if min_spacing else 0.0)
+    n_fit = min(n_end, int(math.floor(0.5 * op.L / h * (1 + 1e-9))))
+    return h, n_fit
+
+
+def end_splines(z, L, le, ne, side, h=None):
     """(3, nz, ne): cubic B-splines in the distance s from the end (s = z or L - z);
-    function 0 has value 1 at the end, function 1 the slope; z-derivatives."""
+    function 0 has value 1 at the end, function 1 the slope; z-derivatives.
+    Spacing h (default le / ne)."""
     s = z if side == "L" else L - z
-    h = le / ne
+    h = le / ne if h is None else h
     t = np.r_[0.0, 0.0, 0.0, np.arange(0, ne + 4) * h]
     out = []
     for i in range(ne):
@@ -68,15 +82,17 @@ def waves(z, half_waves):
     return np.stack(out, axis=2)
 
 
-def dictionary(op: PanelOperator, half_waves=HALF_WAVES, n_end=N_END, end_length=END_LENGTH):
+def dictionary(op: PanelOperator, half_waves=HALF_WAVES, n_end=N_END, end_length=END_LENGTH,
+               min_spacing=MIN_SPACING):
     """Per class c: functions (3, nz, nD) of the common dictionary (zero where a function
-    is not admissible for the class), and labels of the nD functions."""
-    z, L, bs = op.z, op.L, op.params["bs"]
-    le = min(end_length * bs, 0.5 * L)
+    is not admissible for the class or does not fit in half the panel), and labels of the nD functions."""
+    z, L = op.z, op.L
+    h, n_fit = end_spacing(op, n_end, end_length, min_spacing)
     W = waves(z, half_waves)
     labels = [f"wave{hw:.0f}{sc}" for hw in half_waves for sc in ("s", "c")]
     labels += [f"endL{i}" for i in range(n_end)] + [f"endR{i}" for i in range(n_end)]
-    EL, ER = end_splines(z, L, le, n_end, "L"), end_splines(z, L, le, n_end, "R")
+    EL, ER = end_splines(z, L, None, n_end, "L", h=h), end_splines(z, L, None, n_end, "R", h=h)
+    EL[:, :, n_fit:] = 0.0; ER[:, :, n_fit:] = 0.0
     out = []
     for c in op.classes:
         bb = bubble(z / L, c.left, c.right, L)
@@ -88,7 +104,7 @@ def dictionary(op: PanelOperator, half_waves=HALF_WAVES, n_end=N_END, end_length
     return out, labels
 
 
-def dictionary_classes(op: PanelOperator, **kw):
+def dictionary_classes(op: PanelOperator, **kw):  # noqa: D401
     """Per-class bases for `operators.ritz_lambda` (admissible functions only, orthonormalised)."""
     D, _ = dictionary(op, **kw)
     res = []
