@@ -32,3 +32,6 @@ control bs  285.50 beta  1.50 SS L   428  long400      N    5.9055 ( +0.074 %)  
 control bs  285.50 beta  1.50 SS L   428  mid400       N    5.9050 ( +0.066 %)  400 it  n 8974  30 s
 control bs  285.50 beta  1.50 SS L   428  dense400     N    5.9030 ( +0.031 %)  400 it  n 10902  34 s
 random  bs  140.57 beta  1.04 CC L   147  long400      N   40.9957 ( -0.005 %)  400 it  n 7051  20 s
+random  bs  140.57 beta  1.04 CC L   147  mid400       N   40.9954 ( -0.006 %)  400 it  n 8497  21 s
+random  bs  140.57 beta  1.04 CC L   147  dense400     N   40.9934 ( -0.011 %)  400 it  n 10425  23 s
+random  bs  144.09 beta  2.60 SS L   374  long400      N   41.2526 ( +0.106 %)  400 it  n 7528  36 s
