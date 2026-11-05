@@ -551,3 +551,14 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   written atomically. Smoke on 040508c6cbc1: N1 6.31013 (probe with R 4: 6.31017), +0.022 % vs label, 42 s.
 * Exact targets started for test 100 and train 1064 (`logs/run_b1_targets.sh`, 2 parts in parallel, R 8,
   400 iterations).
+* 5 Nov: the target job stopped at the 2 h limit (test 100 done, train 30); restarted (resumable). Speed about
+  55 s per design with 2 parts, so train needs about 16 h more.
+* Test set (100) summary (`scripts/b1_targets_summary.py`, `results/b1_targets/periodic_mixed_SS_v2_test.csv`),
+  Ritz error of the network's shape space vs the full-GBT label: all mean 0.080 %, median 0.048 %, p95 0.151 %;
+  industrial (45) mean 0.050 / max 0.167 %; general (55) mean 0.104 / max **1.535 %**. No negative values.
+  3 designs above 0.2 %, all general lay-ups with b_s < 150 mm and a high N (30–40 N/mm, local modes):
+  5cc7be690865 +1.535 % (b_s 136.7, β 3.30, skin [60,45,90,45,60,30,60,60], unbalanced), 6cc2e9904ad4
+  +0.465 %, 4a8f2d5f7b80 +0.266 %. Full-GBT time per design (build, 1 thread) mean 18 s (6–37 s); LOBPCG
+  target mean 111 s (39–183 s, 1 thread each).
+* Outlier probe started (`scripts/b1_outlier_probe.py`): denser half-wave lists (21, 31, 23 from 12 mm) on
+  the two worst designs, to tell a dictionary gap from a cross-section-basis gap.
