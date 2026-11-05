@@ -77,8 +77,8 @@ class Design:
 
 
 def prepare(op, ridge=1e-8) -> Design:
-    from .dictionary import half_waves_of
-    rs = RitzSpace(op, raw=True, half_waves=half_waves_of(op))
+    from .dictionary import dictionary_kw
+    rs = RitzSpace(op, raw=True, **dictionary_kw(op))
     fm = FlatMetric(rs, EnergyMetric(rs, groups="labels", ridge=ridge))
     return Design(op.sid, op.params, op.params["bc"], design_inputs(op), rs, fm, float(op.lam_full))
 

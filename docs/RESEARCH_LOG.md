@@ -533,3 +533,21 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   (`--set spacing`, same 24 designs): e8s15 (8 over b_s, ≥ 1.5 hx), e16s15 (16 over 2.5 b_s, ≥ 1.5 hx),
   e16s2 (≥ 2 hx). Decision rule: the variant with the lowest mean error that has no value below the label.
   Test operators compressed before the probe.
+* Probe 2 done (`results/b1_end_layer_probe/periodic_mixed_SS_v2_test_spacing.jsonl`, same 24 designs, solver
+  grid, Ritz error vs label, mean / max / min, mean Ritz size n, mean LOBPCG time at 2 threads):
+
+  | lay-ups | e8 (old) | e8s15 | e16s15 | e16s2 |
+  |---|---|---|---|---|
+  | industrial (13) | +0.076 / 0.160 | +0.077 / 0.160 / +0.023, n 8900, 33 s | **+0.053 / 0.116 / +0.012**, n 10198, 40 s | +0.088 / 0.158 / +0.027, n 9048, 35 s |
+  | general (11) | +0.123 / 0.256 | +0.123 / 0.256 / +0.041, n 8974, 40 s | **+0.078 / 0.141 / +0.026**, n 11954, 55 s | +0.106 / 0.214 / +0.031, n 10902, 49 s |
+
+  No variant has a value below the label any more. e16s2 is too coarse for the short panels (fewer splines
+  fit in L/2). e8s15 = e8 except one design (its old splines were finer than 1.5 hx).
+* **Decision: d2 end layers = e16s15** (16 splines over 2.5 b_s, spacing ≥ 1.5 hx), by the rule set before
+  probe 2 (lowest mean, nothing below the label). Cost: Ritz size +14 % (industrial) to +33 % (general), LOBPCG
+  time +20–40 %. Stored as the version: `dictionary.END_LAYERS["d2"]`, `dictionary_kw(op)`; `epinn.prepare`
+  uses all settings of the operator's version (d1 sets unchanged).
+* `exact_targets.py`: targets now record the dictionary version, its settings, n, labels and the time;
+  written atomically. Smoke on 040508c6cbc1: N1 6.31013 (probe with R 4: 6.31017), +0.022 % vs label, 42 s.
+* Exact targets started for test 100 and train 1064 (`logs/run_b1_targets.sh`, 2 parts in parallel, R 8,
+  400 iterations).

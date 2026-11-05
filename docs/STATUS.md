@@ -60,7 +60,7 @@ average of the 3 heads 1.61 / 5.52 %. Decision 4 Nov: hybrid is the method, qual
 | hybrid | 1.42 / 4.35 %, +0.55 % | 20.1 % | 1.81 / 0.20 % |
 Labels fix the head but it overfits after outer 8–10; the physics gives the best modes. Fixes: separate weight
 choice for head and modes, more designs (B1), seeds (D).
-Running: step B1. v2 operator sets built (periodic SS, mixed lay-ups, full GBT; test 100, train 1000 + 64 val; no failures); operator files now stored compressed (`opio`, lossless). B0 done: shared bases kept, dictionary d2 = 11 half-waves 25–1006 mm, labels with 400 iterations. End layers: fine-grid check shows longer end zones are a real gain (e8 → e16 mean 0.10 %, general lay-ups 0.13 %) but on the solver grid splines finer than ~hx read too low; probe 2 with a minimum spline spacing (e8s15 / e16s15 / e16s2) running, then the d2 end layers are fixed and the exact targets (`--iters 400`) run for test and train.
+Running: step B1. v2 operator sets built (periodic SS, mixed lay-ups, full GBT; test 100, train 1000 + 64 val; no failures); operator files now stored compressed (`opio`, lossless). B0 done: shared bases kept, dictionary d2 = 11 half-waves 25–1006 mm, labels with 400 iterations. End layers decided: d2 = 11 half-waves + e16s15 (16 splines over 2.5 b_s, spacing ≥ 1.5 hx); 24 test designs mean/max Ritz error 0.053/0.116 % (industrial), 0.078/0.141 % (general), none below the label. Exact targets (`--iters 400`) running for test and train (`logs/run_b1_targets.sh`).
 Next: design space as Paper 1 (b_s from 124.25 mm, β to 3.5, symmetry + periodic), ~1000 designs, GBT-call
 count study. All runs indexed in `results/EXPERIMENTS.md` (`scripts/collect_results.py`).
 

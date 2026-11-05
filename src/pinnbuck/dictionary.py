@@ -33,9 +33,30 @@ HALF_WAVES = tuple(np.geomspace(25.0, 350.0, 6))   # [mm]  dictionary "d1" (desi
 DICTIONARIES = {"d1": HALF_WAVES, "d2": tuple(float(x) for x in np.geomspace(25.0, 1006.0, 11))}
 
 
+# End layers of each dictionary version.  d2 (step B1): 16 splines over 2.5 b_s, spacing never below 1.5 hx.
+# On a correctly integrated grid the longer zone is a real gain (e8 -> e16 0.10 % mean, general lay-ups
+# 0.13 %); the spacing limit keeps the splines integrable at the solver's Gauss points (no Ritz value below the
+# label).  24 test designs: mean/max 0.076/0.160 -> 0.053/0.116 % (industrial), 0.123/0.256 -> 0.078/0.141 %
+# (general); results/b1_end_layer_probe/*, RESEARCH_LOG 5 Nov (B1).
+END_LAYERS = {"d1": dict(n_end=8, end_length=1.0, min_spacing=0.0),
+              "d2": dict(n_end=16, end_length=2.5, min_spacing=1.5)}
+
+
+def version_of(op) -> str:
+    return getattr(op, "info", {}).get("dictionary", "d1")
+
+
 def half_waves_of(op) -> tuple:
     """Half-waves of the dictionary an operator was built for (op.info["dictionary"], default "d1")."""
-    return DICTIONARIES[getattr(op, "info", {}).get("dictionary", "d1")]
+    return DICTIONARIES[version_of(op)]
+
+
+def dictionary_kw(op) -> dict:
+    """All dictionary settings of an operator's version (half-waves and end layers), for RitzSpace."""
+    v = version_of(op)
+    return dict(half_waves=DICTIONARIES[v], **END_LAYERS[v])
+
+
 N_END = 8                                          # end-layer splines per end
 END_LENGTH = 1.0                                   # l_e / b_s
 MIN_SPACING = 0.0                                  # smallest spline spacing / solver span hx (0: no limit)

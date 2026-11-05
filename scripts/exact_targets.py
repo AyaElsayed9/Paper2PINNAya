@@ -8,6 +8,7 @@ the converged Ritz loads and the full-GBT loads stored in the operator file.
         --part 0 --parts 2
 """
 import argparse
+import os
 import pickle
 import sys
 import time
@@ -30,8 +31,10 @@ def exact_modes(op, R=8, iters=80, tol=1e-10):
     N, X, hist = lobpcg(d.rs, R=R, iters=iters, precond=em.solve, tol=tol, seed=1)
     Y = d.fm.whiten(d.rs.flat(X))
     Y = Y / Y.norm(dim=1, keepdim=True)
+    from pinnbuck.dictionary import dictionary_kw, version_of
     return dict(sid=d.sid, T=Y.double(), N_ritz=np.asarray(N, float), N_full=float(op.lam_full),
-                eigs_full=np.asarray(op.teacher_eigs, float), iters=len(hist))
+                eigs_full=np.asarray(op.teacher_eigs, float), iters=len(hist), dictionary=version_of(op),
+                dictionary_kw=dictionary_kw(op), n=d.rs.n, labels=d.rs.labels)
 
 
 def main():
@@ -49,7 +52,10 @@ def main():
             continue
         t0 = time.perf_counter()
         r = exact_modes(opio.load(f), R=a.R, iters=a.iters)
-        torch.save(r, out / f"{f.stem}.pt")
+        r["time"] = time.perf_counter() - t0
+        tmp = out / f"{f.stem}.tmp"
+        torch.save(r, tmp)
+        os.replace(tmp, out / f"{f.stem}.pt")              # atomic: a stopped job leaves no partial target
         print(f"{r['sid']}: Ritz N1 {r['N_ritz'][0]:.4f}, full GBT {r['N_full']:.4f} "
               f"({100 * (r['N_ritz'][0] / r['N_full'] - 1):+.3f} %), {r['iters']} iterations, {time.perf_counter() - t0:.1f} s",
               flush=True)
