@@ -1,0 +1,6 @@
+corner  bs  124.25 beta  0.75 SS L    93  long400      N   56.5471 ( +0.040 %)  400 it  n 7527  22 s
+corner  bs  124.25 beta  0.75 SS L    93  mid400       N   56.5471 ( +0.040 %)  400 it  n 8973  24 s
+corner  bs  124.25 beta  0.75 SS L    93  dense400     N   56.5471 ( +0.040 %)  400 it  n 10901  27 s
+corner  bs  124.25 beta  1.50 SS L   186  long400      N   49.3372 ( +0.076 %)  400 it  n 7527  27 s
+corner  bs  124.25 beta  1.50 SS L   186  mid400       N   49.3383 ( +0.078 %)  400 it  n 8973  29 s
+corner  bs  124.25 beta  1.50 SS L   186  dense400     N   49.3367 ( +0.075 %)  400 it  n 10901  31 s
