@@ -1,0 +1,6 @@
+corner  bs  124.25 beta  3.50 CC L   435  base80       N   43.1361 ( +0.874 %)   80 it  n 6087  8 s
+corner  bs  124.25 beta  3.50 CC L   435  base400      N   43.0626 ( +0.702 %)  400 it  n 6087  34 s
+corner  bs  124.25 beta  3.50 CC L   435  long400      N   43.0417 ( +0.653 %)  400 it  n 7051  34 s
+corner  bs  124.25 beta  3.50 CC L   435  longshort400 N   43.0265 ( +0.618 %)  400 it  n 7533  35 s
+corner  bs  285.50 beta  3.50 SS L   999  base80       N    6.3523 ( +0.300 %)   80 it  n 6563  8 s
+corner  bs  285.50 beta  3.50 SS L   999  base400      N    6.3502 ( +0.267 %)  342 it  n 6563  32 s

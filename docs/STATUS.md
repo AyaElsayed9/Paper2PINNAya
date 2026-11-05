@@ -60,7 +60,7 @@ average of the 3 heads 1.61 / 5.52 %. Decision 4 Nov: hybrid is the method, qual
 | hybrid | 1.42 / 4.35 %, +0.55 % | 20.1 % | 1.81 / 0.20 % |
 Labels fix the head but it overfits after outer 8–10; the physics gives the best modes. Fixes: separate weight
 choice for head and modes, more designs (B1), seeds (D).
-Running: step B0 (check of the bases in the extended space, `results/b0_check/`; one long clamped panel has a 5.3 % Ritz error, being probed with `scripts/b0_long_cc_probe.py`).
+Running: step B0 probe 2 (dictionary variants on the worst check designs). Found so far: shared bases fine in the new region (max 0.14 %), no rebuild; the Ritz dictionary needs longer half-waves (593, 1006 mm) for the long clamped panels (5.3 % → 0.01 %).
 Next: design space as Paper 1 (b_s from 124.25 mm, β to 3.5, symmetry + periodic), ~1000 designs, GBT-call
 count study. All runs indexed in `results/EXPERIMENTS.md` (`scripts/collect_results.py`).
 

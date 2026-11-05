@@ -339,3 +339,33 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   The split halves the 3-step certificate error of hybrid (1.81 → 0.94 %) and makes hybrid's modes the best of
   the labelled arms. Decision: use separate weights for head and modes from now on (`state_modes`, already in
   `train_epinn.py`).
+
+## 5 Nov 2026 (morning) — step B0 results
+(The machine restarted during the night; both the check and the first probe had finished before.)
+* B0 check, 20 designs per side (`results/b0_check/{periodic,symmetry}.jsonl`):
+
+  | side | shared basis mean / max | Ritz space (80 it) mean / max | worst Ritz designs |
+  |---|---|---|---|
+  | periodic | 0.023 / 0.144 % | 0.37 / 5.29 % | 285.5/3.5 CC 5.29 %; 125.4/3.37 SS 0.42 %; 285.5/3.5 SS 0.27 % |
+  | symmetry | 0.028 / 0.116 % | 0.45 / 5.33 % | 285.5/3.5 CC 5.33 %; 124.25/3.5 CC 0.87 %; 125.4/3.37 SS 0.65 % |
+
+  The shared bases (built from b_s 150–285.5) stay accurate in the new region (max 0.14 %, at b_s 124.25):
+  **no rebuild needed.** The problem is the Ritz space.
+* Probe 1 (`b0_long_cc_probe.py`, periodic, `results/b0_check/long_cc_probe_periodic.jsonl`):
+
+  | panel | L | 80 it | 400 it | + half-waves 593, 1006 mm |
+  |---|---|---|---|---|
+  | Sym1 285.5/3.5 CC | 999 | +5.292 % | +5.292 % (stopped at 93 it, converged) | **+0.012 %** |
+  | Sym1 285.5/3.0 CC (old corner) | 856 | +0.122 % | +0.119 % | +0.012 % |
+  | Unsym 285.5/3.0 CC | 856 | +0.026 % | +0.022 % | +0.008 % |
+  | Sym1 285.5/2.0 CC | 571 | +0.027 % | +0.023 % | +0.017 % |
+  | Cross-ply 285.5/3.5 SS | 999 | +0.268 % | +0.266 % | +0.068 % |
+  | Unsym 124.25/3.5 CC | 435 | +0.050 % | +0.029 % | +0.030 % |
+
+  Cause found: **the dictionary was too short** (longest half-wave 350 mm), not LOBPCG. With the next two
+  half-waves of the same series the long clamped panel drops from 5.29 % to 0.012 %, and the old-space corner
+  (285.5/3.0 CC, 0.12 %) also improves. Cost: Ritz size 6087 → 7051 (+16 %). The 80-iteration cap costs at
+  most 0.02 % here.
+* Probe 2 running (`b0_dictionary_probe.py`): all check designs with Ritz error > 0.3 % and the controls, both
+  sides, with base / long / long + short (14.75 mm) dictionaries, to see whether the short panels at b_s ≈ 125
+  (0.4–0.9 %) need a shorter wave or only more iterations.
