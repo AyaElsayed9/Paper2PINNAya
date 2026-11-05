@@ -451,3 +451,43 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   could not import the package (it reported every file as unreadable). 24 designs (about 4 min) rebuilt. Fix:
   `build_operators.py` now writes each file atomically (`.tmp` then rename), so a stopped job can never leave
   a partial file.
+
+## 5 Nov 2026 (afternoon) — B1 end-layer probe: the gains of longer end layers are partly an artefact
+* End-layer probe (`scripts/b1_end_layer_probe.py`, first 24 test designs of `periodic_mixed_SS_v2/test`,
+  d2 waves, 400 iterations; `results/b1_end_layer_probe/periodic_mixed_SS_v2_test.jsonl`). Ritz error vs the
+  full GBT label, mean / max / min:
+
+  | lay-ups | e8 (8 over b_s, current) | e12 (12 over 1.5 b_s) | e16 (16 over 2.5 b_s) |
+  |---|---|---|---|
+  | industrial (13) | +0.076 / +0.160 / +0.023 % | +0.011 / +0.087 / −0.074 % (5 below 0) | −0.035 / +0.054 / −0.150 % (9 below 0) |
+  | general (11) | +0.123 / +0.256 / +0.041 % | +0.087 / +0.186 / +0.037 % | +0.059 / +0.141 / +0.016 % |
+
+  Ritz size n 8974 / 10902 / 12830; mean LOBPCG time 53 / 66 / 112 s.
+  So the general lay-ups are a little worse with e8 (max 0.26 % here; the smoke design was 0.36 %), not a
+  problem of the size seen in B0 for the long panels.
+* The values BELOW the full GBT label (down to −0.15 %) were checked, because a Ritz value should not be lower
+  than a converged reference. They appear only for short panels where the end splines (spacing L/(2 n_end)
+  after the L/2 cap) are finer than the solver span hx (≈ b_s/20, max 15 mm). Two checks on design
+  040508c6cbc1 (b_s 282.9, β 1.19, L 336, hx 14.15 mm, e16 −0.150 %):
+  1. Full GBT with only the solver's hx argument changed (`scripts/b1_hx_convergence.py`,
+     `results/b1_end_layer_probe/hx_convergence.jsonl`): hx 6.30873 (= stored label, reproduced to 1e-8 %),
+     hx/2 6.30646 (−0.036 %), hx/4 6.30520 (−0.056 %). The label is converged along z to about 0.06–0.08 %
+     for this short panel (slow convergence, most likely the pre-buckling end zones). hx/8 did not fit in
+     memory next to the running build (killed, nothing else affected).
+  2. The operator rebuilt on a 2× finer grid (hx/2: finer pre-buckling field and twice the Gauss points;
+     frozen solver untouched) and the three Ritz spaces again: e8 / e12 / e16 = +0.072 / +0.048 / +0.026 %
+     ABOVE the full GBT on that grid (shared basis alone +0.005 %); vs the original label −0.0095 % for e16
+     instead of −0.150 %. So on the solver grid the e16 value was 0.14 % too low: an integration artefact
+     of splines finer than the grid, not a better mode. (Script for this check: `scripts/b1_fine_grid_check.py`;
+     this first run was done with a scratch copy of it, numbers above.)
+* Meaning: (a) the negative e12/e16 values on industrial lay-ups are artefacts and cannot be counted as gains;
+  (b) for general lay-ups part of the e16 gain may be real, but the same artefact can be in it; (c) the
+  remaining e8 gap (about 0.08–0.12 % mean) is of the same size as the label's own longitudinal
+  discretisation error (≈ 0.06–0.08 % on the checked design). Honest limit for the paper: the full GBT label
+  at the solver's default hx carries about 0.05–0.1 % discretisation error on short panels.
+* Decision (provisional): keep d2 with the e8 end layers (no change). Final check after the build, when memory
+  is free: `b1_fine_grid_check.py --factor 0.5` on about 6 designs (3 general with the largest e8 errors,
+  3 industrial). If on the fine grid e16 (or e12) is still clearly better for general lay-ups (> 0.05 % on
+  average) a version d2e (longer end zone with spacing never below 2 hx) is considered before the exact
+  targets. The fine-grid run for the general design 3265ef5ed33c (L 327, 42 spans) was killed for memory
+  while the build ran; it waits for the build to finish.
