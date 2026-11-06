@@ -649,3 +649,12 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Note on timings (6 Nov, Aya asked): all computations and times in this log are from the 2-CPU, 8 GB
   cloud machine of the working sessions, not from a laptop. For the paper, the timing step (E) has to be
   rerun on Aya's own laptop, or the text must name the 2-core 8 GB machine.
+* **Pilot result (finished 6 Nov, 30 outer iterations, about 4.5 h with 3 restarts after the 2 h limit, all
+  resumed from the checkpoint):** chosen head = net of outer 24 (val head 5.58 %), modes = EMA of outer 18
+  (val Ritz 31.1 %). Test (100 v2 designs, unseen): head mean 7.75 %, max 29.8 %, bias +0.03 %, 44/100
+  above the GBT label; Ritz bound mean 34.3 %, max 124 %. Training designs at outer 24: head 1.22 %, Ritz
+  22.9 %. **Honest reading: far worse than step A (hybrid head 1.42 %, Ritz 20.1 %), and a large gap
+  between training (1.2 %) and unseen designs (5.6–7.8 %) = overfitting.** Causes to separate: (i) v2 is a
+  much wider design space than step A (b_s 124–280 mm, β to 3.5, general lay-ups, n up to 15722 per mode)
+  with fewer designs (223 vs 288); (ii) same network size (0.5 M parameters) and settings as step A. Next:
+  certificate on the test set (running), then the label-count study (B2) will show how much more labels fix.
