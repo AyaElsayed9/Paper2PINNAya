@@ -24,6 +24,7 @@ every target is one physics step away from the network's current prediction.
 from __future__ import annotations
 
 import math
+import os
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -74,13 +75,55 @@ class Design:
     lam_full: float
     P: torch.Tensor = None              # previous change of the candidates (LOBPCG momentum)
     hist: list = field(default_factory=list)
+    sel: torch.Tensor = None            # coordinates of the design inside the network's fixed layout
+
+
+# ----------------------------------------------------------------------------- fixed layout
+# From dictionary d2 (6 Nov 2026) the end splines that do not fit in half the panel at the minimum spacing
+# are left out, so the number of functions (and n) changes from design to design.  The network therefore
+# works in one fixed layout: per class every function any design can have (all n_end end splines); a design
+# uses the part of it that it has (`sel`).  For d1 (all splines always fit) `sel` is the identity.
+class Layout:
+    def __init__(self, k, labels):
+        self.k = list(k); self.labels = [list(l) for l in labels]
+        self.nb = [len(l) for l in self.labels]; self.n = sum(a * b for a, b in zip(self.k, self.nb))
+
+
+def layout_labels(op, full=False):
+    """Labels per class of the raw dictionary functions of a design (as `ritzspace.raw_functions` keeps them),
+    computed from the settings alone; full=True: as if all end splines fitted (the network's layout)."""
+    from .dictionary import _DROP, DICTIONARIES, dictionary_kw, end_spacing
+    kw = dictionary_kw(op)
+    n_end = kw["n_end"]
+    n_fit = n_end if full else end_spacing(op, n_end, kw["end_length"], kw.get("min_spacing", 0.0))[1]
+    waves = [f"wave{hw:.0f}{sc}" for hw in kw["half_waves"] for sc in ("s", "c")]
+    return [waves + [f"endL{i}" for i in range(_DROP[c.left], n_fit)] + [f"endR{i}" for i in range(_DROP[c.right], n_fit)]
+            for c in op.classes]
+
+
+def master_layout(op) -> Layout:
+    return Layout([c.Pi.shape[1] for c in op.classes], layout_labels(op, full=True))
+
+
+def design_sel(op, labels=None) -> torch.Tensor:
+    """Index of every coordinate of the design (flat order of `RitzSpace.flat`) in the fixed layout."""
+    lay = master_layout(op); labels = labels or layout_labels(op)
+    offs = np.r_[0, np.cumsum([k * nb for k, nb in zip(lay.k, lay.nb)])]
+    out = []
+    for c, labs in enumerate(labels):
+        pos = {l: f for f, l in enumerate(lay.labels[c])}
+        for kk in range(lay.k[c]):
+            out += [offs[c] + kk * lay.nb[c] + pos[l] for l in labs]
+    return torch.as_tensor(np.asarray(out, np.int64))
 
 
 def prepare(op, ridge=1e-8) -> Design:
     from .dictionary import dictionary_kw
     rs = RitzSpace(op, raw=True, **dictionary_kw(op))
+    assert rs.labels == layout_labels(op), "dictionary labels differ from layout_labels"
     fm = FlatMetric(rs, EnergyMetric(rs, groups="labels", ridge=ridge))
-    return Design(op.sid, op.params, op.params["bc"], design_inputs(op), rs, fm, float(op.lam_full))
+    return Design(op.sid, op.params, op.params["bc"], design_inputs(op), rs, fm, float(op.lam_full),
+                  sel=design_sel(op, rs.labels))
 
 
 def _color_T(fm: FlatMetric, V):
@@ -149,6 +192,7 @@ class FunctionDecoderPINN(nn.Module):
 
     def __init__(self, X_train, rs: RitzSpace, R=8, k=3, width=256, depth=4, dec_width=256, dec_depth=2):
         super().__init__()
+        rs = master_layout(rs.op) if isinstance(rs, RitzSpace) else rs        # the fixed layout
         self.R, self.k, self.n = R, k, rs.n
         self.scale = Scaler(X_train)
         layers, d = [], X_train.shape[1]
@@ -190,7 +234,7 @@ class HybridPINN(FunctionDecoderPINN):
     def __init__(self, X_train, rs, R=8, k=3, width=256, depth=4, lin_rank=64):
         super().__init__(X_train, rs, R=R, k=k, width=width, depth=depth)
         self.lin_in = nn.Linear(width, lin_rank)
-        self.lin_out = nn.Linear(lin_rank, R * rs.n)
+        self.lin_out = nn.Linear(lin_rank, R * self.n)
         with torch.no_grad():
             self.lin_out.weight.mul_(0.1); self.lin_out.bias.zero_()
 
@@ -207,7 +251,7 @@ def build_net(arch, X_train, rs, R=8, k=3, width=256, depth=4):
         return HybridPINN(X_train, rs, R=R, k=k, width=width, depth=depth)
     if arch == "decoder":
         return FunctionDecoderPINN(X_train, rs, R=R, k=k, width=width, depth=depth)
-    return EnergyRitzPINN(X_train, rs.n, R=R, k=k, width=width, depth=depth)
+    return EnergyRitzPINN(X_train, master_layout(rs.op).n, R=R, k=k, width=width, depth=depth)
 
 
 # ----------------------------------------------------------------------------- physics
@@ -278,20 +322,21 @@ class DesignPool:
         from collections import OrderedDict
         import pickle
         self.files = list(files); self.cache = cache; self._c = OrderedDict()
-        self.x, self.lam_full, self.sid, self.params = [], [], [], []
+        self.x, self.lam_full, self.sid, self.params, self.sel = [], [], [], [], []
         if designs is not None:                                  # in-memory designs
             for i, d in enumerate(designs):
                 self._c[i] = d
             self.cache = max(cache, len(designs))
             src = designs
         else:
-            src = [opio.load(f) for f in self.files]
+            src = (opio.load(f) for f in self.files)              # one at a time (memory)
         for o in src:
             if isinstance(o, Design):
                 self.x.append(o.x); self.lam_full.append(o.lam_full); self.sid.append(o.sid); self.params.append(o.params)
+                self.sel.append(o.sel)
             else:
                 self.x.append(design_inputs(o)); self.lam_full.append(float(o.lam_full))
-                self.sid.append(o.sid); self.params.append(o.params)
+                self.sid.append(o.sid); self.params.append(o.params); self.sel.append(design_sel(o))
         self.X = torch.as_tensor(np.stack(self.x))
         self.P = [None] * len(self.x); self.hist = [[] for _ in self.x]
 
@@ -339,17 +384,17 @@ def train_ritz_ng(net, designs, outer=40, inner=20, batch=8, lr=1e-3, k=3, seed=
             T, logNt, cur = [], [], []
             for j, i in enumerate(bi):
                 d = pool.get(i); d.P = pool.P[i]
-                t, mu_t, mu_c = ritz_ng_target(d, Y0[j], R)
+                t, mu_t, mu_c = ritz_ng_target(d, Y0[j][:, pool.sel[i]], R)
                 T.append(t); logNt.append(torch.log(1.0 / mu_t[:k].clamp(min=1e-12)).float()); cur.append(mu_c)
             for _ in range(inner):
                 Y, logN = net(pool.X[bi])
-                loss = sum(subspace_fit_loss(Y[j], T[j], w) for j in range(len(bi))) / len(bi)
+                loss = sum(subspace_fit_loss(Y[j][:, pool.sel[i]], T[j], w) for j, i in enumerate(bi)) / len(bi)
                 loss = loss + sum(((logN[j] - logNt[j]) ** 2).sum() for j in range(len(bi))) / len(bi)
                 opt.zero_grad(); loss.backward(); opt.step()
             with torch.no_grad():
                 Y1, _ = net(pool.X[bi])
             for j, i in enumerate(bi):
-                pool.P[i] = (Y1[j].double() - Y0[j].double())
+                pool.P[i] = (Y1[j].double() - Y0[j].double())[:, pool.sel[i]]
                 pool.hist[i].append(1.0 / float(cur[j][0]))
         e = _train_errors(pool)
         log(f"outer {it:3d}: training designs, N of the network before the step vs full GBT: "
@@ -361,7 +406,8 @@ def train_ritz_ng(net, designs, outer=40, inner=20, batch=8, lr=1e-3, k=3, seed=
 
 def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3, seed=0, log=print,
                        w_tail=0.25, eval_fn=None, eval_every=2, opt=None, oracle=None, gamma=0.0,
-                       mode="physics", exact=None, log_every=1, lr_final=None, ema=None):
+                       mode="physics", exact=None, log_every=1, lr_final=None, ema=None,
+                       ckpt=None, ckpt_extra=None, ckpt_restore=None):
     """Energy natural gradient with full projection: every outer iteration computes the
     physics step (Ritz line search, `ritz_ng_target`) for ALL designs from the current
     network, then fits the network to all these targets for `epochs` passes (the
@@ -376,7 +422,12 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
     lr_final (4 Nov 2026): cosine decay of the learning rate from lr to lr_final over the outer
     iterations (the constant rate left the head jumping by about 1.5 % between checkpoints).
     ema: decay of an exponential moving average of the weights, kept in `net.ema_state`
-    (the physics step always uses the current weights)."""
+    (the physics step always uses the current weights).
+    ckpt (6 Nov 2026): file written (atomically) after every outer iteration with everything the loop needs to
+    go on (weights, optimiser, EMA, random generator, the physics-step directions pool.P, histories, plus
+    ckpt_extra() of the caller); if it exists at the start, the loop continues after its iteration and
+    ckpt_restore(extra) gives the caller its state back.  A run stopped by the 2 h limit or a restart then
+    continues exactly where it stopped."""
     pool = _as_pool(designs)
     oracle = oracle or {}
     assert mode in ("physics", "data", "hybrid") and (mode == "physics" or exact is not None)
@@ -387,7 +438,19 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
     nd = len(pool)
     if ema:
         net.ema_state = {n: p.detach().clone() for n, p in net.named_parameters()}
-    for it in range(1, outer + 1):
+    start = 1
+    if ckpt is not None and os.path.exists(ckpt):
+        c = torch.load(ckpt, weights_only=False)
+        net.load_state_dict(c["net"]); opt.load_state_dict(c["opt"])
+        if c["ema"] is not None:
+            net.ema_state = c["ema"]
+        gen.bit_generator.state = c["gen"]
+        pool.P, pool.hist = c["P"], c["hist"]
+        if ckpt_restore is not None:
+            ckpt_restore(c["extra"])
+        start = c["it"] + 1
+        log(f"continuing after outer iteration {c['it']} from {ckpt}")
+    for it in range(start, outer + 1):
         if lr_final is not None:
             for g in opt.param_groups:
                 g["lr"] = lr_final + 0.5 * (lr - lr_final) * (1 + np.cos(np.pi * (it - 1) / max(outer - 1, 1)))
@@ -398,11 +461,11 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
             if mode == "data":
                 T[i], logNt[i] = exact[i]
                 if it % log_every == 0 or it == outer:
-                    mu_c, _ = ritz(pool.get(i), Y0[i])
+                    mu_c, _ = ritz(pool.get(i), Y0[i][:, pool.sel[i]])
                     pool.hist[i].append(1.0 / float(mu_c[0]))
                 continue
             d = pool.get(i); d.P = pool.P[i]
-            t, mu_t, mu_c = ritz_ng_target(d, Y0[i], R)
+            t, mu_t, mu_c = ritz_ng_target(d, Y0[i][:, pool.sel[i]], R)
             T[i] = t / t.norm(dim=1, keepdim=True); logNt[i] = torch.log(1.0 / mu_t[:k].clamp(min=1e-12)).float()
             pool.hist[i].append(1.0 / float(mu_c[0]))
             if mode == "hybrid":
@@ -413,9 +476,10 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
             for b0 in range(0, nd, batch):
                 bi = perm[b0:b0 + batch]
                 Y, logN = net(pool.X[bi])
-                lf = sum(subspace_fit_loss(Y[j], T[i], w) for j, i in enumerate(bi)) / len(bi)
+                lf = sum(subspace_fit_loss(Y[j][:, pool.sel[i]], T[i], w) for j, i in enumerate(bi)) / len(bi)
                 if mode == "hybrid":
-                    lf = lf + sum(subspace_fit_loss(Y[j], exact[i][0], w) for j, i in enumerate(bi)) / len(bi)
+                    lf = lf + sum(subspace_fit_loss(Y[j][:, pool.sel[i]], exact[i][0], w)
+                                  for j, i in enumerate(bi)) / len(bi)
                 loss = lf + sum(((logN[j] - logNt[i]) ** 2).sum() for j, i in enumerate(bi)) / len(bi)
                 if gamma > 0:
                     for j, i in enumerate(bi):
@@ -435,12 +499,18 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
             for i in range(0, nd, 64):
                 Y1 = net(pool.X[i:i + 64])[0]
                 for j in range(Y1.shape[0]):
-                    pool.P[i + j] = Y1[j].double() - Y0[i + j].double()
+                    pool.P[i + j] = (Y1[j].double() - Y0[i + j].double())[:, pool.sel[i + j]]
         e = _train_errors(pool)
         log(f"outer {it:3d}: training designs, N of the network before the step vs full GBT: mean {100 * np.mean(e):.2f} %, "
             f"max {100 * np.max(e):.2f} %; fit to the physics step: {fit0:.4f} -> {fit1:.4f}")
         if eval_fn and (it % eval_every == 0 or it == outer):
             eval_fn(it)
+        if ckpt is not None:
+            tmp = str(ckpt) + ".tmp"
+            torch.save(dict(it=it, net=net.state_dict(), opt=opt.state_dict(), ema=getattr(net, "ema_state", None),
+                            gen=gen.bit_generator.state, P=pool.P, hist=pool.hist,
+                            extra=ckpt_extra() if ckpt_extra is not None else None), tmp)
+            os.replace(tmp, ckpt)
     return opt
 
 
@@ -465,7 +535,7 @@ def train_adam(net, designs, steps=1000, batch=8, lr=1e-3, k=3, seed=0, log=prin
         Y, logN = net(pool.X[bi])
         opt.zero_grad()
         for j, i in enumerate(bi):
-            loss, mu = physics_loss(pool.get(i), Y[j], logN[j], k=k, n_oracle=oracle.get(int(i)), gamma=gamma)
+            loss, mu = physics_loss(pool.get(i), Y[j][:, pool.sel[i]], logN[j], k=k, n_oracle=oracle.get(int(i)), gamma=gamma)
             (loss / len(bi)).backward(retain_graph=j < len(bi) - 1)
             pool.hist[i].append(1.0 / float(mu[0]))
         opt.step()
@@ -490,7 +560,7 @@ def evaluate(net, designs, k=3, idx=None):
     for i in idx:
         d = pool.get(i)
         Y, logN = net(pool.X[i:i + 1])
-        mu, _ = ritz(d, Y[0])
+        mu, _ = ritz(d, Y[0][:, d.sel])
         out.append(dict(sid=d.sid, bc=d.bc, params=d.params, N_ritz=float(1.0 / mu[0]) if mu[0] > 0 else float("inf"),
                         N_head=float(torch.exp(logN[0, 0])), N_full=pool.lam_full[i]))
     return out

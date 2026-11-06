@@ -77,10 +77,15 @@ def main():
     ap.add_argument("--lr-final", type=float, default=None, help="cosine decay of the learning rate to this value")
     ap.add_argument("--ema", type=float, default=None, help="moving average of the weights (decay per step)")
     ap.add_argument("--no-test-log", action="store_true", help="do not look at the test designs during training")
+    ap.add_argument("--ckpt", default=None, help="checkpoint file: written after every outer iteration, the run "
+                                                  "continues from it when started again (ngfull only)")
+    ap.add_argument("--files", default=None, help="text file with the operator files to use (one per line, in "
+                                                   "order; the last --val are validation), instead of the folder")
     a = ap.parse_args()
     torch.set_num_threads(a.threads); torch.manual_seed(a.seed)
     t0 = time.perf_counter()
-    all_files = files_of(a.train, a.bc, a.n_train)
+    all_files = ([Path(l.strip()) for l in open(a.files) if l.strip()][:a.n_train] if a.files
+                 else files_of(a.train, a.bc, a.n_train))
     if a.val:
         assert a.exact, "validation needs exact targets"
         all_files, val_files = all_files[:-a.val], all_files[-a.val:]
@@ -158,7 +163,9 @@ def main():
         opt = epinn.train_ritz_ng_full(net, tr, outer=a.outer, epochs=a.epochs, batch=a.batch, lr=a.lr, k=a.k,
                                        seed=a.seed, log=lg, eval_fn=ev, eval_every=2, oracle=oracle, gamma=a.gamma,
                                        mode=a.mode, exact=exact, log_every=1 if a.mode != "data" else 5,
-                                       lr_final=a.lr_final, ema=a.ema)
+                                       lr_final=a.lr_final, ema=a.ema, ckpt=a.ckpt,
+                                       ckpt_extra=lambda: dict(best=best, best_modes=best_modes),
+                                       ckpt_restore=lambda x: (best.update(x["best"]), best_modes.update(x["best_modes"])))
         if a.method.endswith("+adam"):
             epinn.train_adam(net, tr, steps=a.steps, batch=a.batch, lr=a.lr, k=a.k, seed=a.seed, log=lg,
                              eval_fn=ev, eval_every=200, opt=opt)

@@ -12,3 +12,4 @@ data/operators/
 data/*.log
 data/teacher/
 data/exact_targets/
+runs/**/*_ckpt.pt*

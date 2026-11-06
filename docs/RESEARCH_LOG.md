@@ -621,3 +621,25 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   basis-limited). Per design e24 − e16: 31 better by > 0.005 points, 65 identical Ritz space, largest
   increase +0.005 points (LOBPCG noise at 400 iterations), largest gain −0.92. LOBPCG time ×1.03 on average
   (max ×1.60), 3.27 h in total for 100 designs at 1 thread each. Train targets running (e24s15).
+
+## 6 Nov 2026 — B2 pilot started early (Aya: "catch anything wrong early")
+* Label job switched to 1 worker (`logs/run_b1_targets.sh`, PARTS=1); the other CPU trains a pilot network on
+  the designs that already have labels, so problems show up now and not after all 1064 labels.
+* **Problem found by the first smoke test** (and fixed before the pilot): with the spacing limit of the d2
+  end layers, splines that do not fit in half the panel are left out, so the number of functions n differs
+  between designs (v2 test: 8010–15722), but the network had ONE output layout (that of the first design).
+  Fix (`epinn.Layout`, `layout_labels`, `master_layout`, `design_sel`): the network now works in a fixed
+  layout with every function any design can have (all 24 end splines per end; n = 16686 per mode for v2) and
+  every design uses its own part (`Design.sel`, `DesignPool.sel`); all training loops, `evaluate` and
+  `eval_epinn.py` select it. `prepare` checks that the predicted labels equal the dictionary's. For d1 sets
+  `sel` is the identity: the step-A hybrid model reproduces its stored test values to 1e-15.
+* Training can now continue after the 2 h limit or a restart (`train_ritz_ng_full(ckpt=...)`,
+  `train_epinn.py --ckpt`): weights, optimiser, EMA, random generator, physics-step directions, histories and
+  the validation choice are saved after every outer iteration. Smoke test (12 v2 designs, 4 outer
+  iterations, stopped after 2 and continued): final weights bit-identical to an uninterrupted run.
+* `train_epinn.py --files`: fixed list of operator files. `DesignPool` reads the files one at a time (it held
+  all of them in memory at once, about 4 GB for 255 v2 designs).
+* Pilot (`logs/run_b2_pilot.sh`, `runs/b2/pilot_hybrid.*`): hybrid, the 255 train designs labelled at 09:40
+  (`runs/b2/pilot_files.txt`; last 32 = validation, 223 training), step-A settings (30 outer, 10 epochs,
+  batch 16, lr 1e-3 → 1e-5 cosine, EMA 0.995, R 8, k 3), 1 thread; test = the 100 v2 test designs, looked at
+  only at the end.

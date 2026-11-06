@@ -53,6 +53,7 @@ def main():
         with torch.no_grad():
             _, logN = net(torch.as_tensor(d.x[None]))
             Y, _ = net_m(torch.as_tensor(d.x[None]))
+            Y = Y[:, :, d.sel]                                     # the design's part of the fixed layout
             mu, _ = epinn.ritz(d, Y[0])
         em = EnergyMetric(d.rs, groups="labels", ridge=1e-8)
         lam, _, h = lobpcg(d.rs, R=ar["R"], iters=max(steps), X0=d.rs.unflat(d.fm.color(Y[0].double())),
