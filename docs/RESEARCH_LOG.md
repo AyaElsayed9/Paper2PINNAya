@@ -664,3 +664,4 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   all 100 values are above the label (upper bounds, min +0.03 %), 10 of 100 above 0.5 %. Reading: even with
   the weak pilot network the physics steps reach the step-A level (0.20 % at 12 steps); the fast head is the
   part that needs more labels / capacity.
+* Pilot done; label job back to 2 workers (PARTS=2), 420 of 1064 train labels at the switch.

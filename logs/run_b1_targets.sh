@@ -1,5 +1,5 @@
 # Step B1: exact targets (LOBPCG, R 8, 400 iterations, dictionary d2 with e24s15 end layers since 5 Nov 22:00), resumable.
-# From 6 Nov 09:30 one worker only (PARTS=1), the other CPU trains the pilot network.
+# From 6 Nov 09:30 one worker only (PARTS=1) while the pilot trained; pilot done, run with PARTS=2 again.
 PARTS=${PARTS:-1}
 for SET in test train; do
   for P in $(seq 0 $((PARTS - 1))); do
