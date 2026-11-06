@@ -643,3 +643,6 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   (`runs/b2/pilot_files.txt`; last 32 = validation, 223 training), step-A settings (30 outer, 10 epochs,
   batch 16, lr 1e-3 → 1e-5 cosine, EMA 0.995, R 8, k 3), 1 thread; test = the 100 v2 test designs, looked at
   only at the end.
+* Pilot first start (09:25) killed by the memory limit after reading the inputs: 4.8 GB, mostly the cache of
+  16 energy spaces (v2 designs are larger). The outer loop visits all designs in order, so an LRU cache
+  smaller than the set gives no reuse anyway: restarted with `--cache 2` (no speed lost).
