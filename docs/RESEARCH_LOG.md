@@ -665,3 +665,22 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   the weak pilot network the physics steps reach the step-A level (0.20 % at 12 steps); the fast head is the
   part that needs more labels / capacity.
 * Pilot done; label job back to 2 workers (PARTS=2), 420 of 1064 train labels at the switch.
+
+## 7 Nov 2026 — B1 train labels done (1064 / 1064)
+* Exact targets for all 1064 v2 train designs (1000 train + 64 val; e24s15, LOBPCG R 8, 400 iterations), no
+  failures; 2 machine restarts and several 2 h limits, all resumed (atomic files, nothing partial).
+  Summary `results/b1_targets/periodic_mixed_SS_v2_train.csv` (`scripts/b1_targets_summary.py --set train
+  --n 1064 --seed 11`).
+* Ritz error of the network's shape space vs the full-GBT label: all mean 0.061 %, median 0.040, p95 0.18,
+  max 0.49 % (71f4b0f32eba, general, b_s 142); industrial (553) 0.044 / max 0.22 %; general (511) 0.079 /
+  max 0.49 %; b_s < 200 mm 0.081 %, b_s 200–300 mm 0.043 %; 41 above 0.2 %, none above 0.5 %. Same picture as
+  the test set (mean 0.064 %): the worst cases are again general lay-ups with small b_s.
+* **Honest note: 7 of 1064 values are slightly BELOW the label** (−0.0001 to −0.020 %; 5 industrial, 2
+  general, b_s 185–281 mm). The test set had none. The shared-basis × dictionary space is not a subspace of
+  the full GBT discretisation (different longitudinal functions on the same Gauss grid), so it is not a
+  strict upper bound of the label; the largest gap (−0.02 %) is well inside the label's own discretisation
+  error found in the fine-grid check (≈ 0.05–0.1 % on short panels). Not changed, kept as they are; to be
+  stated in the paper as a limit ("the Ritz value bounds the continuum problem from above only up to the
+  label's discretisation error").
+* Times (2-CPU 8 GB cloud machine, 1 thread): full GBT build mean 24.7 s (5–85 s), LOBPCG target mean 111 s
+  (30–269 s).
