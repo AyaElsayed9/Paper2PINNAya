@@ -251,3 +251,7 @@ STOPPED at 2 h limit, 6 Nov
 57139439e856: Ritz N1 5.8698, full GBT 5.8685 (+0.023 %), 400 iterations, 115.7 s
 573283747688: Ritz N1 5.8308, full GBT 5.8279 (+0.050 %), 400 iterations, 176.9 s
 574d9df93177: Ritz N1 21.4652, full GBT 21.4339 (+0.146 %), 400 iterations, 46.6 s
+57848dd82cfe: Ritz N1 13.1433, full GBT 13.1399 (+0.026 %), 400 iterations, 153.4 s
+578599385adf: Ritz N1 5.3159, full GBT 5.3142 (+0.031 %), 400 iterations, 110.1 s
+57a5df436e40: Ritz N1 7.8119, full GBT 7.8097 (+0.028 %), 400 iterations, 152.2 s
+57afb36005f7: Ritz N1 39.2338, full GBT 39.2228 (+0.028 %), 400 iterations, 149.2 s
