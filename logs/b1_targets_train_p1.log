@@ -369,3 +369,6 @@ d7f7b252a087: Ritz N1 10.2836, full GBT 10.2776 (+0.058 %), 400 iterations, 126.
 d96630a3629a: Ritz N1 6.5868, full GBT 6.5845 (+0.036 %), 400 iterations, 64.9 s
 d98dd762c296: Ritz N1 41.7391, full GBT 41.6737 (+0.157 %), 400 iterations, 43.7 s
 da7bfb2d6037: Ritz N1 13.7051, full GBT 13.6940 (+0.081 %), 400 iterations, 53.5 s
+dba1019bb6cb: Ritz N1 30.7640, full GBT 30.7424 (+0.070 %), 400 iterations, 238.3 s
+dc25f2b616da: Ritz N1 13.8399, full GBT 13.8306 (+0.067 %), 400 iterations, 68.6 s
+dc59e0c0e6bf: Ritz N1 9.4571, full GBT 9.4510 (+0.065 %), 400 iterations, 55.7 s
