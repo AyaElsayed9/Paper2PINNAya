@@ -658,3 +658,9 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   much wider design space than step A (b_s 124–280 mm, β to 3.5, general lay-ups, n up to 15722 per mode)
   with fewer designs (223 vs 288); (ii) same network size (0.5 M parameters) and settings as step A. Next:
   certificate on the test set (running), then the label-count study (B2) will show how much more labels fix.
+* **Pilot certificate** (`scripts/eval_epinn.py ... --steps 3,5,8,12`, `results/b2/pilot_hybrid_cert.log`),
+  100 v2 test designs, |error| vs full GBT mean / max: head 7.75 / 29.8 %, network Ritz 34.3 / 124 %,
+  3 steps 2.44 / 20.2 %, 5 steps 1.16 / 9.73 %, 8 steps 0.46 / 3.24 %, 12 steps 0.21 / 1.30 %. After 12 steps
+  all 100 values are above the label (upper bounds, min +0.03 %), 10 of 100 above 0.5 %. Reading: even with
+  the weak pilot network the physics steps reach the step-A level (0.20 % at 12 steps); the fast head is the
+  part that needs more labels / capacity.
