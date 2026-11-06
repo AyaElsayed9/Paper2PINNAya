@@ -646,3 +646,6 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Pilot first start (09:25) killed by the memory limit after reading the inputs: 4.8 GB, mostly the cache of
   16 energy spaces (v2 designs are larger). The outer loop visits all designs in order, so an LRU cache
   smaller than the set gives no reuse anyway: restarted with `--cache 2` (no speed lost).
+* Note on timings (6 Nov, Aya asked): all computations and times in this log are from the 2-CPU, 8 GB
+  cloud machine of the working sessions, not from a laptop. For the paper, the timing step (E) has to be
+  rerun on Aya's own laptop, or the text must name the 2-core 8 GB machine.
