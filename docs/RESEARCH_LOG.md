@@ -703,3 +703,9 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   the 1000; the log says "936 of 1000 training designs"). Stopped before its first outer iteration, log kept
   in `runs/b2/aborted/hybrid_L936.log`, restarted as NL = 1000. Memory of that start before the first outer
   iteration: 3.4 GB (inputs ready in 504 s).
+* NL = 1000 run: outer 1 took 2193 s at 1 thread (training N vs full 5272 % before the first step, as in the
+  pilot); memory after outer 1: 4.5 GB, only about 3 GB left. A second training run (about 4 GB) or an
+  operator build (about 3 GB per worker) does NOT fit next to it, so the B2 runs go ONE after the other, each
+  with both CPUs: stopped after outer 1 (checkpoint) and continued with `THREADS=2` (launcher option). The
+  thread count only changes the order of floating-point sums, so outer 2 on is not bit-identical to a
+  1-thread run; noted, no effect expected on the results.
