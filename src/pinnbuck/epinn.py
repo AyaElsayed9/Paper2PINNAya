@@ -419,6 +419,8 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
       "physics": targets = one physics step from the current network, head = its Ritz loads (no labels);
       "data":    targets = exact modes, head = exact loads (no physics step);
       "hybrid":  physics-step targets + exact modes, head = exact loads.
+    In "hybrid", exact[i] may be None (B2 label study, 7 Nov 2026): that design has no GBT label and is
+    trained on the physics alone (physics-step target, head = its Ritz loads).
     lr_final (4 Nov 2026): cosine decay of the learning rate from lr to lr_final over the outer
     iterations (the constant rate left the head jumping by about 1.5 % between checkpoints).
     ema: decay of an exponential moving average of the weights, kept in `net.ema_state`
@@ -468,7 +470,7 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
             t, mu_t, mu_c = ritz_ng_target(d, Y0[i][:, pool.sel[i]], R)
             T[i] = t / t.norm(dim=1, keepdim=True); logNt[i] = torch.log(1.0 / mu_t[:k].clamp(min=1e-12)).float()
             pool.hist[i].append(1.0 / float(mu_c[0]))
-            if mode == "hybrid":
+            if mode == "hybrid" and exact[i] is not None:
                 logNt[i] = exact[i][1]
         fit0 = fit1 = 0.0
         for ep in range(epochs):
@@ -479,7 +481,7 @@ def train_ritz_ng_full(net, designs, outer=20, epochs=10, batch=16, lr=1e-3, k=3
                 lf = sum(subspace_fit_loss(Y[j][:, pool.sel[i]], T[i], w) for j, i in enumerate(bi)) / len(bi)
                 if mode == "hybrid":
                     lf = lf + sum(subspace_fit_loss(Y[j][:, pool.sel[i]], exact[i][0], w)
-                                  for j, i in enumerate(bi)) / len(bi)
+                                  for j, i in enumerate(bi) if exact[i] is not None) / len(bi)
                 loss = lf + sum(((logN[j] - logNt[i]) ** 2).sum() for j, i in enumerate(bi)) / len(bi)
                 if gamma > 0:
                     for j, i in enumerate(bi):

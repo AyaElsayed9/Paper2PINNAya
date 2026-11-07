@@ -684,3 +684,19 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   label's discretisation error").
 * Times (2-CPU 8 GB cloud machine, 1 thread): full GBT build mean 24.7 s (5–85 s), LOBPCG target mean 111 s
   (30–269 s).
+
+## 7 Nov 2026 — B2 label study started
+* Code: hybrid training can now leave designs without a GBT label (`train_epinn.py --n-labels N`: only the
+  first N training designs in file order get their exact target; `epinn.train_ritz_ng_full`: exact[i] = None
+  -> physics-step target and head = its Ritz loads, as in physics mode). With all designs labelled the loop is
+  unchanged. Smoke test (8 train, 3 labelled, 4 val): runs, "exact targets for 3 of 8".
+* File list `runs/b2/files_train1000_val64.txt`: all 1064 v2 train designs in SAMPLE order (seed 11, so the
+  order is random); last 64 = validation (always labelled, used only to choose the weights); "N labels" =
+  the first N of the 1000 (936 + 64 = 1000 is the "1000 labels" point). Test = the 100 v2 test designs, not
+  looked at during training.
+* Launcher `logs/run_b2_labels.sh` (NL = number of labelled train designs; NL = 0 -> physics mode), step-A
+  settings, 1 thread, resumable. Expected about 18–20 h per run on this machine (time per outer iteration
+  grows with the number of designs: pilot 223 designs 530 s).
+* Order: first the two ends (NL = 936 all labels; NL = 0 physics only), then 50 / 100 / 200 / 400, then the
+  active selection. Started NL = 936 (task buv4sh8lu); the second run is started once the memory of the first
+  is known (8 GB for both).

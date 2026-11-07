@@ -77,6 +77,9 @@ def main():
     ap.add_argument("--lr-final", type=float, default=None, help="cosine decay of the learning rate to this value")
     ap.add_argument("--ema", type=float, default=None, help="moving average of the weights (decay per step)")
     ap.add_argument("--no-test-log", action="store_true", help="do not look at the test designs during training")
+    ap.add_argument("--n-labels", type=int, default=None,
+                    help="hybrid: only the first N training designs (in file order) get their GBT label, the "
+                         "others are trained on the physics alone (B2 label study); default all")
     ap.add_argument("--ckpt", default=None, help="checkpoint file: written after every outer iteration, the run "
                                                   "continues from it when started again (ngfull only)")
     ap.add_argument("--files", default=None, help="text file with the operator files to use (one per line, in "
@@ -117,12 +120,18 @@ def main():
     exact = None
     if a.exact:
         exact = []
+        nl = len(tr.files) if a.n_labels is None else a.n_labels
+        assert a.n_labels is None or a.mode == "hybrid", "--n-labels is for the hybrid mode"
         for i, f in enumerate(tr.files):
+            if i >= nl:
+                exact.append(None)                             # no GBT label: physics only
+                continue
             r = torch.load(Path(a.exact) / f"{Path(f).stem}.pt", weights_only=False)
             exact.append((r["T"].double(), torch.log(torch.as_tensor(r["N_ritz"][:a.k])).float()))
             if not np.isfinite(tr.lam_full[i]):
                 tr.lam_full[i] = float(r["N_ritz"][0])        # exact load in the Ritz space (reporting)
-        print(f"exact targets for {len(exact)} training designs, mode = {a.mode}", flush=True)
+        print(f"exact targets for {sum(e is not None for e in exact)} of {len(exact)} training designs, "
+              f"mode = {a.mode}", flush=True)
     print(f"network: {sum(p.numel() for p in net.parameters()) / 1e6:.1f} M parameters", flush=True)
     t1 = time.perf_counter()
 
