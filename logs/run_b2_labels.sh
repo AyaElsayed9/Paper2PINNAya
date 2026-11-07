@@ -3,7 +3,7 @@
 # GBT labels on the first NL of them (sample order = random), the 64 validation designs (last 64 of
 # runs/b2/files_train1000_val64.txt) always labelled; NL = 0 -> physics only.  Step-A settings, 1 thread,
 # resumable (--ckpt), so it survives the 2 h limit and machine restarts.
-#     NL=936 bash logs/run_b2_labels.sh      (all train designs labelled)
+#     NL=1000 bash logs/run_b2_labels.sh     (all 1000 train designs labelled)
 cd /home/claude/paper2pinnaya
 export OMP_NUM_THREADS=1
 NL=${NL:?set NL}

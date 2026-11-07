@@ -692,11 +692,14 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   unchanged. Smoke test (8 train, 3 labelled, 4 val): runs, "exact targets for 3 of 8".
 * File list `runs/b2/files_train1000_val64.txt`: all 1064 v2 train designs in SAMPLE order (seed 11, so the
   order is random); last 64 = validation (always labelled, used only to choose the weights); "N labels" =
-  the first N of the 1000 (936 + 64 = 1000 is the "1000 labels" point). Test = the 100 v2 test designs, not
+  the first N of the 1000 train designs (the 64 validation designs come on top). Test = the 100 v2 test designs, not
   looked at during training.
 * Launcher `logs/run_b2_labels.sh` (NL = number of labelled train designs; NL = 0 -> physics mode), step-A
   settings, 1 thread, resumable. Expected about 18–20 h per run on this machine (time per outer iteration
   grows with the number of designs: pilot 223 designs 530 s).
-* Order: first the two ends (NL = 936 all labels; NL = 0 physics only), then 50 / 100 / 200 / 400, then the
-  active selection. Started NL = 936 (task buv4sh8lu); the second run is started once the memory of the first
-  is known (8 GB for both).
+* Order: first the two ends (NL = 1000 all labels; NL = 0 physics only), then 50 / 100 / 200 / 400, then the
+  active selection; the second run is started once the memory of the first is known (8 GB for both).
+* Mistake, caught after 30 min: the first start used NL = 936 (I had counted the 64 validation designs inside
+  the 1000; the log says "936 of 1000 training designs"). Stopped before its first outer iteration, log kept
+  in `runs/b2/aborted/hybrid_L936.log`, restarted as NL = 1000. Memory of that start before the first outer
+  iteration: 3.4 GB (inputs ready in 504 s).
