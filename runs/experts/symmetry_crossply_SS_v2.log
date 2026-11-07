@@ -12,3 +12,6 @@ symmetry/test: 40 panels to build with 2 workers
 [10/40] e4b072c4dd2d 21.6 s  N_full 14.4661  N_shared nan  (elapsed 87 s)
 [11/40] a4b5e9a4e283 19.0 s  N_full 13.7304  N_shared nan  (elapsed 99 s)
 [12/40] 38fd357d32eb 12.7 s  N_full 48.7641  N_shared nan  (elapsed 100 s)
+[13/40] 32082d0a5594 14.7 s  N_full 10.0888  N_shared nan  (elapsed 115 s)
+[14/40] cdc1f6556dcc 17.4 s  N_full 28.9172  N_shared nan  (elapsed 116 s)
+[15/40] a936bdbc460a 7.0 s  N_full 20.7242  N_shared nan  (elapsed 123 s)
