@@ -709,3 +709,40 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   with both CPUs: stopped after outer 1 (checkpoint) and continued with `THREADS=2` (launcher option). The
   thread count only changes the order of floating-point sums, so outer 2 on is not bit-identical to a
   1-thread run; noted, no effect expected on the results.
+* NL = 1000 progress (2 h limit every 4–5 outer iterations, always resumed from the checkpoint; about 1500 s
+  per outer iteration at 2 threads). Validation (64 designs, EMA weights), head mean / max and Ritz bound mean:
+  outer 4: 4.34 % / – , 24.7 %; outer 8: 4.39 / 20.9 %, 17.8 %; outer 12: 4.58 / 24.5 %, 17.0 %; outer 16:
+  4.62 / 24.5 %, 18.0 %; outer 20: 4.68 / 23.6 %, 19.9 %. Training designs (16 tracked) at outer 20: head 1.28 %
+  mean / 2.93 % max. **More labels help (pilot 7.75 → 4.7 %), but the head stalls from outer 8 on and the
+  train/val gap stays (1.3 vs 4.7 %).**
+
+## 7 Nov 2026 — option A: plain data surrogate for N_cr (Aya: "go ahead try option a")
+* Question: is the head's stall a limit of our network, or of the design space? Test: small models that learn
+  ONLY log N_cr from the GBT labels, same 38 inputs as the PINN, no physics. `scripts/a_surrogate.py`:
+  train = first N of the 1000 v2 train designs (sample order, as in B2), validation = the same 64, test = the
+  100 v2 test designs, errors vs full GBT. Models: MLP (3 × 128, SiLU, AdamW, cosine, early stop on val),
+  5-member average (mlp5); Gaussian process (ARD RBF + white noise, sklearn); gradient boosting (gbr).
+  Results `results/a_surrogate/` (run.log, results.json, test predictions at N = 1000).
+* Test mean / max (%), industrial / general mean:
+
+  | N labels | mlp5 | GP | gbr |
+  |---|---|---|---|
+  | 50 | 18.5 / 112 (9.3 / 26.0) | 13.6 / 76 (7.8 / 18.3) | 26.4 / 173 |
+  | 100 | 10.4 / 51 (5.1 / 14.7) | 10.6 / 50 (2.4 / 17.3) | 14.9 / 62 |
+  | 200 | 7.9 / 41 (2.4 / 12.4) | 6.6 / 57 (1.5 / 10.8) | 10.4 / 35 |
+  | 400 | 7.8 / 37 (1.7 / 12.8) | 8.0 / 36 (0.9 / 13.7) | 8.8 / 38 |
+  | 1000 | 5.0 / 29.7 (1.0 / 8.3) | 5.2 / 27.9 (0.8 / 8.7) | 6.7 / 27.0 |
+
+  At N = 1000 by lay-up type (test 45 industrial, 55 general): GP industrial mean 0.77 %, p95 2.67 %, max 4.21 %,
+  none above 5 %; general mean 8.74 %, p95 22.9 %, max 27.9 %, 35 of 55 above 5 %. Training on the 518
+  industrial designs only (`results/a_surrogate/industrial_only.log`): GP industrial test 0.77 / 4.25 %, mlp5
+  1.06 / 7.86 % (same as with mixed training).
+* **Reading (honest):** a plain data model with all 1000 labels is no better than the PINN head (5.0–5.2 % vs
+  4.7 % on validation, max about 28 % for both). So the stall is NOT a weakness of our network: the general
+  ply-by-ply lay-ups are the hard part. They are random stacks from the angle set, often with few or no 0°
+  plies, unbalanced and unsymmetric (worst test designs e.g. skin [60/30/60/60/60/60/30/60]). Industrial
+  lay-ups (design rules) are learnt well: 0.8 % mean, 4.2 % max, like Paper 1's MLP (all within 5 %).
+* Options for Aya (decision needed): (1) design space for the fast answer = industrial lay-ups (realistic),
+  general lay-ups kept as a stress test of the physics certificate (0.2 % after 12 steps for any lay-up);
+  (2) fast answer from a separate data head (GP / MLP ensemble, Paper 1 structure), PINN for the mode shapes
+  and the certificate; (3) keep general lay-ups and use the certificate (few physics steps) for them.

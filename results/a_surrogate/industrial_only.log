@@ -1,0 +1,3 @@
+industrial only: train 518 val 35 test 45
+gp: val mean 0.75 max 4.03 | test industrial mean 0.77 p95 2.76 max 4.25, >2%: 5, >5%: 0
+mlp5: val mean 1.06 max 5.56 | test industrial mean 1.06 p95 3.82 max 7.86, >2%: 5, >5%: 2
