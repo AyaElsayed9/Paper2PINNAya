@@ -47,3 +47,20 @@ SS: 1000 training designs, 100 test designs, n = 11866 per mode; inputs ready in
 exact targets for 1000 of 1000 training designs, mode = hybrid
 network: 0.5 M parameters
 continuing after outer iteration 9 from runs/b2/hybrid_L1000_ckpt.pt   (2 s)
+outer  10: training designs, N of the network before the step vs full GBT: mean 19.45 %, max 80.67 %; fit to the physics step: 2.6922 -> 2.6316   (1466 s)
+   [10] train: Ritz N (upper bound) vs full GBT: mean 17.12 %, max 41.91 %  |  head N: mean 2.13 %, max 7.16 %, bias +0.28 %, above 7/16
+   [10] val net: Ritz N (upper bound) vs full GBT: mean 17.82 %, max 89.85 %  |  head N: mean 5.57 %, max 24.44 %, bias +1.08 %, above 37/64
+   [10] val ema: Ritz N (upper bound) vs full GBT: mean 16.91 %, max 77.94 %  |  head N: mean 4.53 %, max 22.66 %, bias +1.35 %, above 35/64
+   (1637 s)
+outer  11: training designs, N of the network before the step vs full GBT: mean 18.83 %, max 80.82 %; fit to the physics step: 2.5907 -> 2.5364   (3158 s)
+outer  12: training designs, N of the network before the step vs full GBT: mean 18.58 %, max 79.92 %; fit to the physics step: 2.4993 -> 2.4703   (4636 s)
+   [12] train: Ritz N (upper bound) vs full GBT: mean 16.91 %, max 41.09 %  |  head N: mean 2.20 %, max 3.83 %, bias +1.22 %, above 11/16
+   [12] val net: Ritz N (upper bound) vs full GBT: mean 17.97 %, max 81.70 %  |  head N: mean 5.63 %, max 24.87 %, bias +2.33 %, above 44/64
+   [12] val ema: Ritz N (upper bound) vs full GBT: mean 17.03 %, max 78.36 %  |  head N: mean 4.58 %, max 24.53 %, bias +1.72 %, above 41/64
+   (4800 s)
+outer  13: training designs, N of the network before the step vs full GBT: mean 18.37 %, max 72.74 %; fit to the physics step: 2.4324 -> 2.4012   (6288 s)
+64 validation designs held out
+SS: 1000 training designs, 100 test designs, n = 11866 per mode; inputs ready in 71 s
+exact targets for 1000 of 1000 training designs, mode = hybrid
+network: 0.5 M parameters
+continuing after outer iteration 13 from runs/b2/hybrid_L1000_ckpt.pt   (2 s)
