@@ -195,3 +195,4 @@ periodic/train: 152 panels to build with 2 workers
 [152/152] 63d19016f5d2 19.1 s  N_full 14.0989  N_shared nan  (elapsed 1205 s)
 === GBT labels (LOBPCG R 8, 400 iterations)  07 Nov 18:17
 === GBT labels (LOBPCG R 8, 400 iterations)  07 Nov 19:51
+=== train hybrid, 120 of 120 training designs labelled  07 Nov 20:49
