@@ -20,3 +20,8 @@ outer   4: training designs, N of the network before the step vs full GBT: mean 
    [4] val ema: Ritz N (upper bound) vs full GBT: mean 24.67 %, max 84.03 %  |  head N: mean 4.34 %, max 20.88 %, bias +0.38 %, above 39/64
    (4716 s)
 outer   5: training designs, N of the network before the step vs full GBT: mean 28.76 %, max 152.74 %; fit to the physics step: 3.7600 -> 3.5802   (6131 s)
+64 validation designs held out
+SS: 1000 training designs, 100 test designs, n = 11866 per mode; inputs ready in 67 s
+exact targets for 1000 of 1000 training designs, mode = hybrid
+network: 0.5 M parameters
+continuing after outer iteration 5 from runs/b2/hybrid_L1000_ckpt.pt   (2 s)
