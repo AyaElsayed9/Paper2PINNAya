@@ -80,3 +80,16 @@ outer  24: training designs, N of the network before the step vs full GBT: mean 
    [24] val ema: Ritz N (upper bound) vs full GBT: mean 24.48 %, max 66.71 %  |  head N: mean 1.81 %, max 15.23 %, bias +0.59 %, above 15/32
    (5226 s)
 outer  25: training designs, N of the network before the step vs full GBT: mean 20.16 %, max 71.75 %; fit to the physics step: 3.3097 -> 3.2990   (5402 s)
+outer  26: training designs, N of the network before the step vs full GBT: mean 20.01 %, max 70.50 %; fit to the physics step: 3.2987 -> 3.2898   (5579 s)
+   [26] train: Ritz N (upper bound) vs full GBT: mean 18.90 %, max 33.01 %  |  head N: mean 1.27 %, max 3.70 %, bias +0.69 %, above 10/16
+   [26] val net: Ritz N (upper bound) vs full GBT: mean 23.90 %, max 65.75 %  |  head N: mean 1.92 %, max 16.05 %, bias +0.69 %, above 19/32
+   [26] val ema: Ritz N (upper bound) vs full GBT: mean 24.12 %, max 66.18 %  |  head N: mean 1.85 %, max 15.76 %, bias +0.61 %, above 17/32
+   (5665 s)
+outer  27: training designs, N of the network before the step vs full GBT: mean 19.88 %, max 69.48 %; fit to the physics step: 3.2868 -> 3.2819   (5839 s)
+outer  28: training designs, N of the network before the step vs full GBT: mean 19.86 %, max 69.64 %; fit to the physics step: 3.2809 -> 3.2777   (6009 s)
+   [28] train: Ritz N (upper bound) vs full GBT: mean 18.87 %, max 33.30 %  |  head N: mean 1.25 %, max 3.71 %, bias +0.63 %, above 9/16
+   [28] val net: Ritz N (upper bound) vs full GBT: mean 23.85 %, max 66.73 %  |  head N: mean 1.89 %, max 16.34 %, bias +0.62 %, above 18/32
+   [28] val ema: Ritz N (upper bound) vs full GBT: mean 23.96 %, max 66.39 %  |  head N: mean 1.87 %, max 16.09 %, bias +0.61 %, above 18/32
+   (6097 s)
+outer  29: training designs, N of the network before the step vs full GBT: mean 19.82 %, max 69.40 %; fit to the physics step: 3.2783 -> 3.2761   (6269 s)
+outer  30: training designs, N of the network before the step vs full GBT: mean 19.83 %, max 69.56 %; fit to the physics step: 3.2771 -> 3.2754   (6446 s)
