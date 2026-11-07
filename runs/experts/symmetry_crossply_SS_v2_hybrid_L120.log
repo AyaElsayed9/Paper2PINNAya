@@ -8,3 +8,4 @@ SS: 120 training designs, 40 test designs, n = 11865 per mode; inputs ready in 1
 exact targets for 120 of 120 training designs, mode = hybrid
 network: 0.5 M parameters
 outer   1: training designs, N of the network before the step vs full GBT: mean 6346.01 %, max 10942.93 %; fit to the physics step: 7.9041 -> 6.9293   (167 s)
+outer   2: training designs, N of the network before the step vs full GBT: mean 246.88 %, max 485.47 %; fit to the physics step: 6.0859 -> 5.7540   (344 s)
