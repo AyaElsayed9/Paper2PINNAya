@@ -777,3 +777,15 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Training first attempt (15:55) was killed by the memory limit (6 GB, `--cache 24` energy spaces kept in
   memory). `run_expert.sh` now uses `--cache ${CACHE:-8}`; restarted with cache 8 (only speed changes, not
   the result: the cache only keeps energy spaces in memory instead of reading them again).
+* **Expert 1 result (crossply, symmetry, SS; 120 train designs all labelled, 32 validation, 40 unseen test;
+  inputs b_s, β; 30 outer rounds, 6446 s on the 2-CPU machine).** Test, |error| vs full GBT, mean / max:
+  head N 1.14 % / 4.92 % (all 40 within 5 %, bias +0.01 %); network Ritz (upper bound from the predicted
+  modes) 24.9 % / 49.3 %; physics certificate 3 steps 3.79 % / 9.40 %, 5 steps 1.78 % / 5.50 %, 8 steps
+  0.67 % / 2.90 %, 12 steps 0.26 % / 1.09 % (all certificate values above full GBT, as an upper bound must be).
+  Reading: the fast answer is now at Paper 1's level (one lay-up, 2 inputs) — compare the one-network general
+  space (4.6 % mean / 24 % max on validation). Honest limit: the predicted mode shapes are rougher than in the
+  general-space run (Ritz 25 % vs 17–20 %), so the certificate needs about 8–12 steps for < 1–3 %; the worst
+  designs are at the tight pitch (b_s 124–141 mm, Ritz up to +49 %). Validation had one design at 16 % head
+  error during training (round 28) while all 40 test designs stay within 5 % — to look at in the integration
+  stage. Hardest certificate cases: b_s 137 β 3.30 (+1.09 % after 12 steps), b_s 141 β 2.31 (+0.83 %).
+* Started expert 2 (crossply, periodic, SS) 17:5x.
