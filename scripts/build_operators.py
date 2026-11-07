@@ -46,7 +46,9 @@ def main():
     ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) // 2))
     ap.add_argument("--full", action="store_true")
     ap.add_argument("--shared-ref", action="store_true", help="also solve GBT in the shared basis (check of the basis)")
-    ap.add_argument("--layups", default="general", choices=["general", "industrial", "mixed"])
+    ap.add_argument("--layups", default="general",
+                    choices=["general", "industrial", "mixed", "crossply", "quasiiso", "zerorich", "pm45"],
+                    help="lay-up sampling, or one lay-up of designspace.LAYUP_CATALOG (lay-up experts)")
     ap.add_argument("--space", default="v1", choices=["v1", "v2"], help="design-space ranges (designspace.SPACES)")
     ap.add_argument("--dictionary", default=None, choices=["d1", "d2"],
                     help="longitudinal dictionary (dictionary.DICTIONARIES); default d1 for space v1, d2 for v2")

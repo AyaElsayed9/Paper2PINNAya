@@ -84,7 +84,10 @@ def main():
                                                   "continues from it when started again (ngfull only)")
     ap.add_argument("--files", default=None, help="text file with the operator files to use (one per line, in "
                                                    "order; the last --val are validation), instead of the folder")
+    ap.add_argument("--inputs", default="all", choices=["all", "geom"],
+                    help="all = 38 inputs; geom = scaled b_s and beta only (lay-up experts, 7 Nov 2026)")
     a = ap.parse_args()
+    epinn.INPUT_COLS = None if a.inputs == "all" else [0, 1]
     torch.set_num_threads(a.threads); torch.manual_seed(a.seed)
     t0 = time.perf_counter()
     all_files = ([Path(l.strip()) for l in open(a.files) if l.strip()][:a.n_train] if a.files

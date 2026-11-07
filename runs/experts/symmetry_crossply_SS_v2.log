@@ -1,0 +1,14 @@
+=== build operators (full GBT for every design)  07 Nov 13:09
+symmetry/test: 40 panels to build with 2 workers
+[1/40] e8f85550ad95 17.9 s  N_full 9.0700  N_shared nan  (elapsed 19 s)
+[2/40] e634a43c29ed 23.5 s  N_full 23.2229  N_shared nan  (elapsed 24 s)
+[3/40] 2530aa8856c1 8.0 s  N_full 24.9610  N_shared nan  (elapsed 33 s)
+[4/40] b5eec9bbfd38 22.1 s  N_full 8.9595  N_shared nan  (elapsed 41 s)
+[5/40] 0847a9b10dfd 6.5 s  N_full 14.2115  N_shared nan  (elapsed 48 s)
+[6/40] dd060568550b 23.5 s  N_full 38.9201  N_shared nan  (elapsed 56 s)
+[7/40] 8d5585ffccba 17.1 s  N_full 7.1383  N_shared nan  (elapsed 65 s)
+[8/40] 6f5924caa864 14.7 s  N_full 16.6301  N_shared nan  (elapsed 71 s)
+[9/40] 939384b57cb0 7.9 s  N_full 6.4411  N_shared nan  (elapsed 79 s)
+[10/40] e4b072c4dd2d 21.6 s  N_full 14.4661  N_shared nan  (elapsed 87 s)
+[11/40] a4b5e9a4e283 19.0 s  N_full 13.7304  N_shared nan  (elapsed 99 s)
+[12/40] 38fd357d32eb 12.7 s  N_full 48.7641  N_shared nan  (elapsed 100 s)

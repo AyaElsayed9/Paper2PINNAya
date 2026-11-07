@@ -17,5 +17,4 @@ python3 -u scripts/train_epinn.py --train data/operators/periodic_mixed_SS_v2/tr
   --test data/operators/periodic_mixed_SS_v2/test --bc SS --method ngfull --n-train 1064 --val 64 --epochs 10 \
   --arch decoder --cache 2 --n-eval-train 16 --outer 30 --batch 16 --lr 1e-3 --lr-final 1e-5 --ema 0.995 \
   --R 8 --k 3 --seed 0 --threads $THREADS --no-test-log --exact data/exact_targets/periodic_mixed_SS_v2/train \
-  $MODE --ckpt runs/b2/${TAG}_ckpt.pt --out runs/b2/$TAG.pt >> runs/b2/$TAG.log 2>&1
-echo B2_TRAIN_DONE >> runs/b2/$TAG.log
+  $MODE --ckpt runs/b2/${TAG}_ckpt.pt --out runs/b2/$TAG.pt >> runs/b2/$TAG.log 2>&1 && echo B2_TRAIN_DONE >> runs/b2/$TAG.log

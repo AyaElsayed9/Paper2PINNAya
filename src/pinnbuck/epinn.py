@@ -54,6 +54,9 @@ def wave_features(sample):
     return np.log(np.r_[lam, [L / l for l in lam]]).astype(np.float32)
 
 
+INPUT_COLS = None      # None = all inputs; [0, 1] = scaled b_s and beta only (lay-up experts, `--inputs geom`)
+
+
 def design_inputs(op):
     """Design vector (scaled geometry, flags, lamination parameters) + log closed-form
     plate / column loads (`net.physics_features`) + plate wave content (`wave_features`)."""
@@ -61,7 +64,8 @@ def design_inputs(op):
     from .net import physics_features
     s = op.info["sample"]
     smp = Sample(s["family"], s["params"], s["layups"], s.get("fixed") or dict(FAMILIES["omega"]["fixed"]))
-    return np.r_[op.features, physics_features(smp), wave_features(smp)].astype(np.float32)
+    x = np.r_[op.features, physics_features(smp), wave_features(smp)].astype(np.float32)
+    return x if INPUT_COLS is None else x[list(INPUT_COLS)]
 
 
 @dataclass

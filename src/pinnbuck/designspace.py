@@ -145,6 +145,10 @@ def sample_design(family: str, n: int, seed: int = 0, symmetric_share: float = 0
             p[k] = (categorical or {}).get(k) or str(rng.choice(opts))
         sym = bool(rng.random() < symmetric_share)
         fx = dict(fam["fixed"])
+        if layups in LAYUP_CATALOG:                       # one fixed lay-up (lay-up experts, 7 Nov 2026)
+            sk, st = LAYUP_CATALOG[layups]
+            out.append(Sample(family, p, {"skin": [float(a) for a in sk], "stringer": [float(a) for a in st]}, fx, space))
+            continue
         ind = layups == "industrial" or (layups == "mixed" and bool(rng.random() < 0.5))
         if ind:
             pick = lambda k: [float(a) for a in (lambda L_: L_[rng.integers(len(L_))])(industrial_layups(k))]
@@ -167,6 +171,16 @@ VALIDATED_LAYUPS = {
               "Sym2": ([60, -30, -30, 60, 60, -30, -30, 60], [60, -30, 60, -30, 60, -30, 60]),
               "Unsym": ([0, 30, 60, 90, 0, 30, 60, 90], [0, 30, 60, 90, 0, 30, 60])},
     "member": {"Sym1": [45, -45, -45, 45], "Sym2": [60, -30, -30, 60], "Unsym": [0, 30, 60, 90]},
+}
+
+
+# Lay-up catalogue of the lay-up experts (Aya, 7 Nov 2026: one small PINN per realistic lay-up, joined by a
+# selector + physics mix).  (skin 8 plies, stringer 7 plies), ply 1 at the bottom.
+LAYUP_CATALOG = {
+    "crossply": VALIDATED_LAYUPS["omega"]["Cross-ply"],                                  # Paper 1, Abaqus-validated
+    "quasiiso": ([45, -45, 0, 90, 90, 0, -45, 45], [45, -45, 0, 90, 0, -45, 45]),        # quasi-isotropic
+    "zerorich": ([45, 0, -45, 0, 0, -45, 0, 45], [45, 0, -45, 0, -45, 0, 45]),           # 0-rich (axially stiff)
+    "pm45": VALIDATED_LAYUPS["omega"]["Sym1"],                                           # +-45-rich, Abaqus-validated
 }
 
 

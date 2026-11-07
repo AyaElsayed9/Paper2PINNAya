@@ -746,3 +746,28 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   general lay-ups kept as a stress test of the physics certificate (0.2 % after 12 steps for any lay-up);
   (2) fast answer from a separate data head (GP / MLP ensemble, Paper 1 structure), PINN for the mode shapes
   and the certificate; (3) keep general lay-ups and use the certificate (few physics steps) for them.
+
+## 7 Nov 2026 (afternoon) — decision: lay-up experts (Aya)
+* Aya: "build different networks for every lay-up and then do integration between them … one network cannot
+  get all of them at once and the inputs are too much … make it more realistic but keep the same ideas (PINN)".
+  Her choices (questions answered 12:5x): **4 standard lay-ups** and **selector + physics mix**.
+* Lay-up catalogue (`designspace.LAYUP_CATALOG`, skin 8 / stringer 7 plies):
+  crossply = Paper 1 [0/90/0/90]s / [0/90/0/90/0/90/0] (Abaqus-validated); quasiiso [45/-45/0/90]s /
+  [45/-45/0/90/0/-45/45]; zerorich [45/0/-45/0]s / [45/0/-45/0/-45/0/45]; pm45 = the Abaqus-validated "Sym1"
+  [45/-45/-45/45]s / [45/-45/45/-45/45/-45/45] (used instead of a new ±45 lay-up because it has Abaqus checks
+  in the periodic-GBT paper; note its stringer has 4 × 45 and 3 × −45 plies, so it is not exactly balanced).
+* One expert per lay-up AND side condition (symmetry and periodic have different shared GBT bases, so they
+  cannot share one output layer) → 8 small PINNs. Inputs: scaled b_s and β only (`train_epinn.py --inputs geom`;
+  `epinn.INPUT_COLS`, also read by `eval_epinn.py`). Same GBT physics (ngfull), hybrid with GBT labels, same
+  certificate. Sets per expert: train file 152 (seed 11, last 32 = validation), test 40 (seed 99); the same
+  (b_s, β) points for every lay-up. Pipeline `logs/run_expert.sh` (build → labels → train → certificate,
+  every stage resumable).
+* Integration (to build after the first experts): selector = the expert of the lay-up and side condition;
+  physics mix = Rayleigh–Ritz over the candidate modes of ALL experts with the GBT energy of the actual design,
+  then the certificate; tested on a lay-up that no expert has seen.
+* The one-network B2 run (NL = 1000) paused during outer 23 (checkpoint = outer 21; the kill came during the
+  outer-22 validation step, before its checkpoint, so outer 22 (about 37 min) is lost). It stays as the
+  "one network for every lay-up" baseline and can be resumed. The rest of the B2 label study on the general
+  lay-up space is dropped; the label (GBT-call) study is done per expert instead (cheap: 2 inputs).
+  Small fix: `run_b2_labels.sh` wrote B2_TRAIN_DONE also after a kill; removed from the log, now only on success.
+* Started 13:12: expert 1 = crossply, symmetry, SS (Paper 1's case, so its 22 Abaqus points are the final check).

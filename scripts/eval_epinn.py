@@ -35,6 +35,7 @@ def main():
     a = ap.parse_args()
     torch.set_num_threads(a.threads)
     ck = torch.load(a.model, weights_only=False); ar = ck["args"]
+    epinn.INPUT_COLS = None if ar.get("inputs", "all") == "all" else [0, 1]
     steps = [int(s) for s in a.steps.split(",")]
     files = [f for f in sorted(Path(a.test).glob("*.pkl")) if opio.load(f).params["bc"] == ar["bc"]]
     rows = []
