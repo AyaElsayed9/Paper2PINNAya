@@ -25,3 +25,20 @@ SS: 1000 training designs, 100 test designs, n = 11866 per mode; inputs ready in
 exact targets for 1000 of 1000 training designs, mode = hybrid
 network: 0.5 M parameters
 continuing after outer iteration 5 from runs/b2/hybrid_L1000_ckpt.pt   (2 s)
+64 validation designs held out
+SS: 1000 training designs, 100 test designs, n = 11866 per mode; inputs ready in 605 s
+exact targets for 1000 of 1000 training designs, mode = hybrid
+network: 0.5 M parameters
+continuing after outer iteration 5 from runs/b2/hybrid_L1000_ckpt.pt   (14 s)
+outer   6: training designs, N of the network before the step vs full GBT: mean 25.28 %, max 132.83 %; fit to the physics step: 3.4935 -> 3.3025   (1464 s)
+   [6] train: Ritz N (upper bound) vs full GBT: mean 21.53 %, max 65.74 %  |  head N: mean 2.92 %, max 9.65 %, bias -0.29 %, above 9/16
+   [6] val net: Ritz N (upper bound) vs full GBT: mean 20.71 %, max 77.31 %  |  head N: mean 5.36 %, max 21.70 %, bias +0.32 %, above 30/64
+   [6] val ema: Ritz N (upper bound) vs full GBT: mean 20.01 %, max 75.79 %  |  head N: mean 4.17 %, max 21.37 %, bias +0.74 %, above 33/64
+   (1623 s)
+outer   7: training designs, N of the network before the step vs full GBT: mean 22.74 %, max 113.47 %; fit to the physics step: 3.2080 -> 3.0613   (3066 s)
+outer   8: training designs, N of the network before the step vs full GBT: mean 21.12 %, max 92.03 %; fit to the physics step: 2.9869 -> 2.8802   (4538 s)
+   [8] train: Ritz N (upper bound) vs full GBT: mean 19.32 %, max 52.57 %  |  head N: mean 2.94 %, max 9.67 %, bias +1.68 %, above 11/16
+   [8] val net: Ritz N (upper bound) vs full GBT: mean 18.80 %, max 83.31 %  |  head N: mean 4.73 %, max 22.46 %, bias +1.37 %, above 35/64
+   [8] val ema: Ritz N (upper bound) vs full GBT: mean 17.78 %, max 75.95 %  |  head N: mean 4.39 %, max 20.91 %, bias +1.13 %, above 38/64
+   (4702 s)
+outer   9: training designs, N of the network before the step vs full GBT: mean 20.20 %, max 85.43 %; fit to the physics step: 2.8182 -> 2.7456   (6175 s)
