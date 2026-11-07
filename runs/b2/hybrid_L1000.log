@@ -1,0 +1,4 @@
+64 validation designs held out
+SS: 1000 training designs, 100 test designs, n = 11866 per mode; inputs ready in 69 s
+exact targets for 1000 of 1000 training designs, mode = hybrid
+network: 0.5 M parameters
