@@ -771,3 +771,9 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   lay-up space is dropped; the label (GBT-call) study is done per expert instead (cheap: 2 inputs).
   Small fix: `run_b2_labels.sh` wrote B2_TRAIN_DONE also after a kill; removed from the log, now only on success.
 * Started 13:12: expert 1 = crossply, symmetry, SS (Paper 1's case, so its 22 Abaqus points are the final check).
+* Expert 1 progress: operators built 13:12–13:35 (40 test + 152 train, full GBT 8–24 s per design). GBT labels
+  (LOBPCG R 8, 400 iterations, 2 workers) 13:35–15:55, one restart after the 2 h limit; all 152 labels agree with
+  full GBT within 0.04 % (most within 0.01 %).
+* Training first attempt (15:55) was killed by the memory limit (6 GB, `--cache 24` energy spaces kept in
+  memory). `run_expert.sh` now uses `--cache ${CACHE:-8}`; restarted with cache 8 (only speed changes, not
+  the result: the cache only keeps energy spaces in memory instead of reading them again).

@@ -39,7 +39,7 @@ MTAG=${TAG}_hybrid_L$NL
 if [ ! -f $RUN/$MTAG.pt ]; then
   stage "train hybrid, $NL of 120 training designs labelled"
   python3 -u scripts/train_epinn.py --train $OPS/train --files $RUN/${TAG}_files.txt --test $OPS/test --bc $BC \
-    --method ngfull --n-train 152 --val 32 --epochs 10 --arch decoder --cache 24 --n-eval-train 16 --outer 30 \
+    --method ngfull --n-train 152 --val 32 --epochs 10 --arch decoder --cache ${CACHE:-8} --n-eval-train 16 --outer 30 \
     --batch 16 --lr 1e-3 --lr-final 1e-5 --ema 0.995 --R 8 --k 3 --seed 0 --threads 2 --no-test-log \
     --inputs geom --exact $EX/train --mode hybrid --n-labels $NL --ckpt $RUN/${MTAG}_ckpt.pt --out $RUN/$MTAG.pt >> $RUN/$MTAG.log 2>&1 || exit 1
 fi
