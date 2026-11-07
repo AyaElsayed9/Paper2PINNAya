@@ -789,3 +789,10 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   error during training (round 28) while all 40 test designs stay within 5 % — to look at in the integration
   stage. Hardest certificate cases: b_s 137 β 3.30 (+1.09 % after 12 steps), b_s 141 β 2.31 (+0.83 %).
 * Started expert 2 (crossply, periodic, SS) 17:5x.
+* Expert 2 (crossply, periodic): operators built 17:5x–18:17; labels 95/152 when the 2 h limit stopped the
+  job (resumed). Physics check: for the cross-ply lay-up, full GBT gives the SAME N_cr for the periodic and the
+  symmetry side condition on all 192 (b_s, β) points (largest difference 0.005 %), i.e. the critical mode is
+  symmetric about the panel edges for this orthotropic (D16 = D26 = 0) lay-up. Kept the periodic expert anyway:
+  its mode basis is the periodic one (needed for the periodic certificate and the selector), and two independent
+  networks that must give the same load are a useful consistency check. The side conditions are expected to
+  differ for lay-ups with bending–twisting coupling (quasiiso, zerorich, pm45).
