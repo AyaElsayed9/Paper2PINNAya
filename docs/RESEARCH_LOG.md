@@ -796,3 +796,12 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   its mode basis is the periodic one (needed for the periodic certificate and the selector), and two independent
   networks that must give the same load are a useful consistency check. The side conditions are expected to
   differ for lay-ups with bending–twisting coupling (quasiiso, zerorich, pm45).
+* **Expert 2 result (crossply, periodic, SS)** — training resumed once after the 2 h limit (outer 15), done 22:57.
+  Test (40), |error| vs full GBT, mean / max: head 1.18 % / 4.75 % (all within 5 %); network Ritz 23.4 % / 53.3 %;
+  certificate 3 steps 2.67 % / 8.66 %, 5 steps 1.11 % / 4.69 %, 8 steps 0.29 % / 2.21 %, 12 steps 0.11 % / 0.79 %.
+  Consistency check with expert 1 (same 40 geometries, same full-GBT load): the two independent networks'
+  fast answers differ by 0.77 % mean / 2.44 % max; their errors are strongly correlated (r = 0.84), so averaging
+  the two hardly helps (1.08 % / 4.84 %) — the remaining head error comes from the shared data/labels and the
+  2-input map, not from random training noise.
+* Disk per expert ≈ 1.0 GB operators + 0.1 GB labels + 0.1 GB checkpoint; 11 GB free → enough for the 6 left.
+* Started expert 3 (quasiiso, symmetry, SS) 22:5x.
