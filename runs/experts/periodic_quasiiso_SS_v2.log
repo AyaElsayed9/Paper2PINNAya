@@ -1,1 +1,3 @@
 === build operators (full GBT for every design)  08 Nov 03:46
+periodic/test: 40 panels to build with 2 workers
+[1/40] 85c8e26cf9f9 11.3 s  N_full 9.2480  N_shared nan  (elapsed 12 s)
