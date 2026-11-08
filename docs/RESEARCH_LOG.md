@@ -832,3 +832,21 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Same 40 test geometries as expert 3: full GBT periodic vs symmetry differ 0.20 % mean, 0.79 % max (as on the
   training points); head errors of experts 3 and 4 correlate r = 0.59.
 * Started expert 5: zerorich / symmetry (08 Nov ~09:00).
+
+## 8 Nov 2026 — decision: level 2 = one PINN for all industrial lay-ups (Aya: "yes u should")
+* Why: Option A (7 Nov) showed that many inputs are not the problem; the random ply-by-ply lay-ups are. On the
+  industrial lay-ups (symmetric, balanced, 0/±45/90, >= 10 % per direction; 24 skin × 12 stringer sequences)
+  a plain GP with 38 inputs already reached 0.77 % mean / 4.2 % max on the 45 industrial test designs.
+* Level 1 (the 8 experts, 2 inputs each) stays the core; level 2 shows that the same GBT-PINN + certificate
+  scales to about 38 inputs on realistic lay-ups. Runs after the experts (one training run fits in memory).
+* Set-up (`logs/run_level2.sh`): no new GBT runs; B2 operators and labels (periodic SS v2). Train = the 518
+  industrial designs of the 1000 B2 training designs, validation = the 35 industrial of the 64 B2 validation
+  designs (file list `runs/level2/files_industrial.txt`), test = the 45 industrial of the 100 v2 test designs
+  (symlinks in `data/operators/periodic_industrial_SS_v2/test`). Same settings as the experts but `--inputs all`.
+  First run NL = 518 (all labelled); then a label study (e.g. NL = 0 / 120) for the GBT-call table.
+* Limit (honest): level 2 is periodic side only (operators/labels exist only for periodic); a symmetry version
+  would need about 550 new GBT builds + labels (≈ 1 day here).
+* Comparison for the paper: level-2 PINN head vs the Option A GP/MLP on the same 45 industrial test designs
+  (GP 0.77 / 4.21 %), plus the certificate.
+* Idea noted for later (not tested): choose the GBT labels with the physics check (label the designs where
+  the head and the certificate disagree most) to cut GBT calls.
