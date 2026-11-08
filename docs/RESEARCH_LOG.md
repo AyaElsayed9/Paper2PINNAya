@@ -814,3 +814,12 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Expert 4 (quasiiso, periodic): operators built, 100/152 labels at the 2 h limit (resumed 06:0x). Side
   conditions for quasiiso (full GBT, same 192 points): periodic vs symmetry N_cr differ by 0.20 % mean, 1.02 % max
   (−0.23 … +1.02 %; 124 of 192 points differ by more than 0.1 %) — small but no longer zero, unlike cross-ply.
+
+## 8 Nov 2026 — decision: no unseen lay-up
+* Aya (8 Nov, 08:48): the paper covers only the lay-ups the networks were trained on (the 4 catalogue lay-ups ×
+  2 sides); no test on an unseen lay-up. Integration = selector (pick the expert of the given lay-up and side)
+  + physics check (certificate). Keep all data (labels, operators, checkpoints, logs, certificates) for the
+  paper tables at the end.
+* Honest cost note repeated for the paper: the head answer needs no GBT (<1 ms); the certificate builds the
+  design's GBT matrices (no full buckling solve), which costs about as much as one GBT solve, so it is a
+  check for selected designs, not the fast answer. Certificate timing still to be measured properly.
