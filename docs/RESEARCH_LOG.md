@@ -850,3 +850,12 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   (GP 0.77 / 4.21 %), plus the certificate.
 * Idea noted for later (not tested): choose the GBT labels with the physics check (label the designs where
   the head and the certificate disagree most) to cut GBT calls.
+
+## 8 Nov 2026 — expert 5 (zerorich / symmetry) done
+* Build 09:0x–09:30, labels 09:30–11:45 (one 2 h-limit restart), training 11:45–13:37 (one restart at outer 21),
+  certificate 13:40. Test (40 designs), |error| vs full GBT, mean / max: head 0.75 / 3.10 %, network Ritz
+  19.8 / 47.2 %, certificate 3 steps 3.28 / 8.26 %, 5 steps 1.88 / 4.72 %, 8 steps 0.83 / 2.97 %,
+  12 steps 0.33 / 1.09 %. Final train head 0.88 / 3.46 %; validation (EMA, end) 1.01 / 6.35 %.
+* The certificate converges slower than for quasiiso (3 steps 3.3 % vs 1.4–2.0 %), as for crossply; after
+  12 steps all five experts are at 0.1–0.3 % mean, about 1 % max.
+* Disk: 7.0 GB free. Started expert 6: zerorich / periodic (08 Nov ~13:45).
