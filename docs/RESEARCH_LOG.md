@@ -859,3 +859,12 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * The certificate converges slower than for quasiiso (3 steps 3.3 % vs 1.4–2.0 %), as for crossply; after
   12 steps all five experts are at 0.1–0.3 % mean, about 1 % max.
 * Disk: 7.0 GB free. Started expert 6: zerorich / periodic (08 Nov ~13:45).
+
+## 8 Nov 2026 — expert 6 (zerorich / periodic) done
+* Labels done 16:30 (one 2 h-limit restart), training 16:30–18:26 (one restart at outer 19), certificate 18:29.
+  Test (40 designs), |error| vs full GBT, mean / max: head 0.67 / 2.14 %, network Ritz 18.0 / 47.1 %,
+  certificate 3 steps 1.45 / 4.79 %, 5 steps 0.60 / 2.46 %, 8 steps 0.21 / 0.97 %, 12 steps 0.11 / 0.38 %.
+  Final train head 0.88 / 3.54 %; validation (EMA, end) 0.78 / 4.71 %.
+* Same 40 test geometries as expert 5: full GBT periodic vs symmetry differ 0.28 % mean, 1.82 % max (25 of 40
+  above 0.1 %), so the side condition matters for zerorich as for quasiiso (crossply: identical).
+* Disk: 5.8 GB free (enough for experts 7 and 8, about 1.2 GB each). Started expert 7: pm45 / symmetry (18:3x).
