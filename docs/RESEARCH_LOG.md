@@ -805,3 +805,9 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   2-input map, not from random training noise.
 * Disk per expert ≈ 1.0 GB operators + 0.1 GB labels + 0.1 GB checkpoint; 11 GB free → enough for the 6 left.
 * Started expert 3 (quasiiso, symmetry, SS) 22:5x.
+* **Expert 3 result (quasiiso, symmetry, SS)** — labels within about 0.06 % of full GBT; two restarts after the
+  2 h limit (labels, training outer 20); done 08 Nov 03:45. Test (40), |error| vs full GBT, mean / max:
+  head 0.55 % / 1.74 %; network Ritz 14.0 % / 45.3 %; certificate 3 steps 2.00 % / 5.42 %, 5 steps 1.18 % / 2.69 %,
+  8 steps 0.60 % / 1.55 %, 12 steps 0.28 % / 1.02 %. Best expert so far for the fast answer and the mode shapes
+  (Ritz 14 % vs 23–25 % for cross-ply); the 12-step certificate is similar to expert 1.
+* Started expert 4 (quasiiso, periodic, SS) 03:4x.

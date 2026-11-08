@@ -197,3 +197,5 @@ symmetry/train: 152 panels to build with 2 workers
 === GBT labels (LOBPCG R 8, 400 iterations)  08 Nov 00:58
 === train hybrid, 120 of 120 training designs labelled  08 Nov 01:47
 === train hybrid, 120 of 120 training designs labelled  08 Nov 02:58
+=== physics certificate on the 40 test designs  08 Nov 03:43
+=== EXPERT_DONE symmetry_quasiiso_SS_v2_hybrid_L120  08 Nov 03:45
