@@ -1,2 +1,4 @@
 === build operators (full GBT for every design)  08 Nov 08:59
 symmetry/test: 40 panels to build with 2 workers
+[1/40] d16684be258f 15.9 s  N_full 8.0534  N_shared nan  (elapsed 17 s)
+[2/40] 80993498c347 24.1 s  N_full 21.9796  N_shared nan  (elapsed 25 s)
