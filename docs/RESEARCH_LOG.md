@@ -811,3 +811,6 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   8 steps 0.60 % / 1.55 %, 12 steps 0.28 % / 1.02 %. Best expert so far for the fast answer and the mode shapes
   (Ritz 14 % vs 23–25 % for cross-ply); the 12-step certificate is similar to expert 1.
 * Started expert 4 (quasiiso, periodic, SS) 03:4x.
+* Expert 4 (quasiiso, periodic): operators built, 100/152 labels at the 2 h limit (resumed 06:0x). Side
+  conditions for quasiiso (full GBT, same 192 points): periodic vs symmetry N_cr differ by 0.20 % mean, 1.02 % max
+  (−0.23 … +1.02 %; 124 of 192 points differ by more than 0.1 %) — small but no longer zero, unlike cross-ply.
