@@ -823,3 +823,12 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Honest cost note repeated for the paper: the head answer needs no GBT (<1 ms); the certificate builds the
   design's GBT matrices (no full buckling solve), which costs about as much as one GBT solve, so it is a
   check for selected designs, not the fast answer. Certificate timing still to be measured properly.
+
+## 8 Nov 2026 — expert 4 (quasiiso / periodic) done
+* Training: 30 outer rounds (two 2 h-limit restarts, resumed from checkpoint), finished 08:55; certificate 08:58.
+  Test (40 designs), |error| vs full GBT, mean / max: head 0.56 / 1.49 %, network Ritz 16.0 / 47.2 %,
+  certificate 3 steps 1.37 / 5.82 %, 5 steps 0.63 / 2.14 %, 8 steps 0.26 / 1.16 %, 12 steps 0.13 / 0.56 %.
+  Final train head 0.80 / 4.24 %; validation (EMA, round 28) 0.84 / 7.19 %.
+* Same 40 test geometries as expert 3: full GBT periodic vs symmetry differ 0.20 % mean, 0.79 % max (as on the
+  training points); head errors of experts 3 and 4 correlate r = 0.59.
+* Started expert 5: zerorich / symmetry (08 Nov ~09:00).
