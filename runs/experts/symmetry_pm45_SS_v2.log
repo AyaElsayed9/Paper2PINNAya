@@ -195,3 +195,5 @@ symmetry/train: 152 panels to build with 2 workers
 [152/152] b5d839be9a7b 19.0 s  N_full 8.1830  N_shared nan  (elapsed 1238 s)
 === GBT labels (LOBPCG R 8, 400 iterations)  08 Nov 18:56
 === GBT labels (LOBPCG R 8, 400 iterations)  08 Nov 20:30
+=== train hybrid, 120 of 120 training designs labelled  08 Nov 21:24
+=== train hybrid, 120 of 120 training designs labelled  08 Nov 22:30
