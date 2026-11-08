@@ -868,3 +868,11 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Same 40 test geometries as expert 5: full GBT periodic vs symmetry differ 0.28 % mean, 1.82 % max (25 of 40
   above 0.1 %), so the side condition matters for zerorich as for quasiiso (crossply: identical).
 * Disk: 5.8 GB free (enough for experts 7 and 8, about 1.2 GB each). Started expert 7: pm45 / symmetry (18:3x).
+
+## 8 Nov 2026 — expert 7 (pm45 / symmetry) done
+* Build 18:3x–18:56, labels 18:56–21:24 (one 2 h-limit restart), training 21:24–23:16 (one restart at outer 18),
+  certificate 23:19. Test (40 designs), |error| vs full GBT, mean / max: head 0.24 / 0.87 %, network Ritz
+  15.9 / 49.3 %, certificate 3 steps 1.21 / 5.23 %, 5 steps 0.48 / 2.10 %, 8 steps 0.21 / 0.70 %,
+  12 steps 0.14 / 0.44 %. Final train head 0.22 / 0.42 %; validation (EMA, end) 0.26 / 1.78 %.
+* Best expert so far: N_cr of the ±45-rich panel varies smoothly over (b_s, β) (low N_cr, skin-dominated modes).
+* Disk: 4.6 GB free (expert 8 needs about 1.2 GB). Started expert 8: pm45 / periodic (23:2x).
