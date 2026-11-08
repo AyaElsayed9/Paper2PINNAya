@@ -876,3 +876,14 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   12 steps 0.14 / 0.44 %. Final train head 0.22 / 0.42 %; validation (EMA, end) 0.26 / 1.78 %.
 * Best expert so far (reason not checked; possibly a smoother N_cr over (b_s, β) for this lay-up).
 * Disk: 4.6 GB free (expert 8 needs about 1.2 GB). Started expert 8: pm45 / periodic (23:2x).
+
+## 8 Nov 2026 (23:37) — GBT-call study planned (Aya asked: "like the one in the last paper")
+* Paper 1 reference: 144 panels: 84 % fast PINN, 10.4 % re-solved PINN, 5.6 % Abaqus; 3.31 h vs all-Abaqus 1.64 h.
+* Paper 2 plan, after all levels: (1) training cost = GBT labels per network (label study NL = 0 / 10 / 20 /
+  40 / 120 per expert; 0 / 120 / 518 for level 2); (2) use cost = a dense sweep per network (e.g. 1000 points of
+  (b_s, β), as in Paper 1) through a tiered check: network answer → cheap trigger (seed-ensemble spread, as
+  Paper 1's CoV) → physics check (3–12 steps) for flagged designs → full GBT only if the check does not settle.
+  Report % per tier, total time vs all-GBT, and accuracy vs full GBT on every point.
+* Honest point to keep: the physics check costs about one GBT solve, so it must not run on every design,
+  otherwise the time is no better than all-GBT (Paper 1's hybrid was also slower than all-Abaqus). The trigger
+  decides the saving; its miss rate vs full GBT is measured on all sweep points.
