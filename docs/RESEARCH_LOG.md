@@ -1040,3 +1040,11 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   - the cell of width 2 b_s holds only Bloch waves 0 and pi (bay-repeating and alternating modes).
 * Our ML already avoids the first two (shared POD basis), and the labels are full-GBT values, so the trained
   numbers are not affected by mode scaling. Decision: ask Navid for his exact point; nothing is stopped.
+* 12:47 Aya: Navid means the periodic-BC formulation of GBT itself. Most likely point: the condition ties all six
+  DOFs of the side edges (u(-W) = u(0)), so the cell width is fixed and the Poisson expansion of the skin is
+  restrained. The paper says this (Section 3.2: S_ss ≈ (A12/A11) S_xx, 0.03-0.04 n0 cross-ply, 0.32 n0
+  isotropic, 0.86-0.89 n0 angle-ply; Sections 3.5 and 4: "free lateral expansion" is future work). The solver
+  has free expansion (constant jumps of U1, U3) only in the strip solver (`OMEGA_PERIODIC_MACRO`, raises an error
+  in GBT). The "symmetry" side condition (U1 = 0 on both sides) also fixes the width. Abaqus used the same
+  constraint, which is why the results agree. All Paper 2 labels use the fixed width. Proposed check: strip
+  solver, fixed vs free width, a few designs per lay-up at beta <= 3.5. Waiting for Navid's exact point.
