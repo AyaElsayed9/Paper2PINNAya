@@ -955,3 +955,18 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   and operator files are deleted.
 * Literature plan written: `docs/LITERATURE_PLAN.md` (6 topics, one comparison table).
 * Disk: 2.9 GB free (data 18 GB). No new operators are needed for the label study.
+
+## 9 Nov 2026 09:52 — level 2 result (industrial lay-ups, 38 inputs, NL 518, round-8 weights)
+* Chosen on validation: EMA weights of evaluation 8 (val head 1.60 %); modes: EMA of evaluation 14.
+* Test (45 industrial designs, unseen), |error| vs full GBT, mean / max: **head 1.35 / 8.40 %** (bias −0.23 %,
+  25/45 above), network Ritz 16.86 / 34.68 %, certificate 3 steps 1.50 / 3.98 %, 5 steps 0.70 / 2.79 %,
+  8 steps 0.31 / 2.13 %, **12 steps 0.14 / 0.74 %** (`results/level2/industrial_hybrid_L518_cert.log`).
+* Honest comparison on the SAME 45 designs: GP of option A (1000 mixed labels, 518 industrial among them)
+  0.77 / 4.21 %; GP on the 518 industrial only 0.77 / 4.25 %. The PINN head is worse (1.35 / 8.40 %); after
+  the physics check (12 steps) it is better than the GP (0.14 / 0.74 %), but the check costs about one GBT
+  matrix build per design.
+* Old data sets (before the v2 space) exported to small CSV files in `results/old_sets/` (labels: sid, full-GBT
+  N, Ritz loads, label time; operators: b_s, β, lay-ups, full-GBT N, GBT time), so their numbers stay in git if
+  the big files are deleted. `periodic_industrial_SS/oracle` holds only broken links (train set deleted 2 Nov).
+* Label study chain running: crossply / symmetry physics-only (NL 0) started 09:52; round 2 head 55 % (the
+  physics-only start is slow, as in the pilot).
