@@ -1003,3 +1003,23 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   which corrects the network with physics steps) follow when the run ends. Possible reason for the bias: the
   physics loss only pushes the Ritz quotient down step by step (an upper bound), and 30 rounds are not enough
   to converge; to check after the run (not a change to the run).
+
+### 9 Nov 2026, 11:55: label study, NL 0 finished (crossply / symmetry, physics only)
+
+40 test designs, |error| vs full GBT, mean / max (`results/experts/symmetry_crossply_SS_v2_physics_L0_cert.log`):
+
+| | head | network Ritz | check 3 steps | 5 steps | 8 steps | 12 steps |
+|---|---|---|---|---|---|---|
+| NL 0 (physics only) | 11.93 / 24.09 | 23.73 / 59.32 | 4.09 / 11.97 | 1.92 / 6.45 | 0.73 / 2.87 | 0.28 / 1.39 |
+| NL 120 (hybrid) | 1.14 / 4.92 | 24.90 / 49.33 | 3.79 / 9.40 | 1.78 / 5.50 | 0.67 / 2.90 | 0.26 / 1.09 |
+| GP, 10 labels | 3.32 / 18.30 | | | | | |
+| GP, 40 labels | 1.68 / 7.68 | | | | | |
+
+* Honest reading:
+  1. The network's own number (head) is poor without labels: 11.9 % mean, always above full GBT. A GP with
+     10 labels is better. So for the fast number alone, labels are needed.
+  2. The physics check after the network is almost as good without labels as with 120 labels (5 steps 1.92 vs
+     1.78 %, 12 steps 0.28 vs 0.26 %). The mode shapes, which the check uses, come from the physics; the labels
+     mainly correct the head. NL 0 + 5-step check (1.92 / 6.45 %) is about as good as GP with 40 labels, with no
+     labelled design, but it costs the check time per design (about 6 s, not yet timed cleanly).
+* Deleted the NL 0 restart file (`_ckpt.pt`, 103 MB); the trained network and log are kept. NL 10 is running.

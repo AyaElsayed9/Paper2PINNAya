@@ -86,3 +86,61 @@ SS: 120 training designs, 40 test designs, n = 11865 per mode; inputs ready in 1
 exact targets for 120 of 120 training designs, mode = physics
 network: 0.5 M parameters
 continuing after outer iteration 27 from runs/experts/symmetry_crossply_SS_v2_physics_L0_ckpt.pt   (2 s)
+outer  28: training designs, N of the network before the step vs full GBT: mean 23.10 %, max 59.48 %; fit to the physics step: 0.2360 -> 0.2333   (176 s)
+   [28] train: Ritz N (upper bound) vs full GBT: mean 22.20 %, max 38.01 %  |  head N: mean 12.41 %, max 21.58 %, bias +12.41 %, above 16/16
+   [28] val net: Ritz N (upper bound) vs full GBT: mean 26.00 %, max 55.77 %  |  head N: mean 13.17 %, max 34.27 %, bias +13.17 %, above 32/32
+   [28] val ema: Ritz N (upper bound) vs full GBT: mean 26.27 %, max 56.14 %  |  head N: mean 13.46 %, max 35.00 %, bias +13.46 %, above 32/32
+   (266 s)
+outer  29: training designs, N of the network before the step vs full GBT: mean 23.04 %, max 59.08 %; fit to the physics step: 0.2357 -> 0.2334   (448 s)
+outer  30: training designs, N of the network before the step vs full GBT: mean 23.03 %, max 59.28 %; fit to the physics step: 0.2348 -> 0.2326   (627 s)
+   [30] train: Ritz N (upper bound) vs full GBT: mean 22.23 %, max 38.00 %  |  head N: mean 12.36 %, max 21.41 %, bias +12.36 %, above 16/16
+   [30] val net: Ritz N (upper bound) vs full GBT: mean 25.96 %, max 55.92 %  |  head N: mean 13.10 %, max 33.93 %, bias +13.10 %, above 32/32
+   [30] val ema: Ritz N (upper bound) vs full GBT: mean 26.05 %, max 55.92 %  |  head N: mean 13.28 %, max 34.52 %, bias +13.28 %, above 32/32
+   (719 s)
+   [end] train: Ritz N (upper bound) vs full GBT: mean 22.23 %, max 38.00 %  |  head N: mean 12.36 %, max 21.41 %, bias +12.36 %, above 16/16
+   [end] val net: Ritz N (upper bound) vs full GBT: mean 25.96 %, max 55.92 %  |  head N: mean 13.10 %, max 33.93 %, bias +13.10 %, above 32/32
+   [end] val ema: Ritz N (upper bound) vs full GBT: mean 26.05 %, max 55.92 %  |  head N: mean 13.28 %, max 34.52 %, bias +13.28 %, above 32/32
+   (816 s)
+chosen on validation: net weights of evaluation 30 (validation head mean 13.10 %); for the modes: net weights of evaluation 30 (validation Ritz mean 25.96 %)
+final train: Ritz N (upper bound) vs full GBT: mean 22.23 %, max 38.00 %  |  head N: mean 12.36 %, max 21.41 %, bias +12.36 %, above 16/16
+final test : Ritz N (upper bound) vs full GBT: mean 23.73 %, max 59.32 %  |  head N: mean 11.93 %, max 24.09 %, bias +11.93 %, above 40/40
+   test 00289ad33bbc bs 223 beta 3.21: full 11.2416  Ritz 13.2129 (+17.54 %)  head 12.0637 (+7.31 %)
+   test 05f3f4db6e6a bs 255 beta 1.33: full 8.2121  Ritz 10.9412 (+33.23 %)  head 9.4103 (+14.59 %)
+   test 0847a9b10dfd bs 216 beta 0.84: full 14.2115  Ritz 16.3591 (+15.11 %)  head 14.2595 (+0.34 %)
+   test 164671cfc8ff bs 215 beta 1.73: full 12.3383  Ritz 14.7908 (+19.88 %)  head 13.5711 (+9.99 %)
+   test 2530aa8856c1 bs 163 beta 1.28: full 24.9610  Ritz 32.0910 (+28.56 %)  head 29.0998 (+16.58 %)
+   test 271cdce40942 bs 237 beta 1.36: full 9.8659  Ritz 11.5783 (+17.36 %)  head 10.9165 (+10.65 %)
+   test 32082d0a5594 bs 233 beta 1.89: full 10.0888  Ritz 11.7790 (+16.75 %)  head 11.0893 (+9.92 %)
+   test 370cb31b7d9e bs 269 beta 2.08: full 7.3151  Ritz 8.8159 (+20.52 %)  head 8.1422 (+11.31 %)
+   test 37755e29c6a2 bs 147 beta 1.80: full 32.6091  Ritz 41.9867 (+28.76 %)  head 37.1912 (+14.05 %)
+   test 38fd357d32eb bs 124 beta 1.64: full 48.7641  Ritz 70.4718 (+44.52 %)  head 59.9954 (+23.03 %)
+   test 3f61e143a4d4 bs 143 beta 0.75: full 39.3769  Ritz 56.3491 (+43.10 %)  head 48.8639 (+24.09 %)
+   test 54bb0c12eb66 bs 187 beta 0.91: full 19.1251  Ritz 21.8959 (+14.49 %)  head 20.3001 (+6.14 %)
+   test 54e5c57b10e2 bs 133 beta 2.79: full 41.7281  Ritz 52.5797 (+26.01 %)  head 48.4242 (+16.05 %)
+   test 67ca52b00c18 bs 173 beta 3.02: full 21.0399  Ritz 26.9026 (+27.86 %)  head 23.8497 (+13.35 %)
+   test 6f5924caa864 bs 191 beta 1.99: full 16.6301  Ritz 20.2132 (+21.55 %)  head 18.2912 (+9.99 %)
+   test 7dd5b9a9340c bs 279 beta 2.87: full 6.6873  Ritz 7.7304 (+15.60 %)  head 7.4269 (+11.06 %)
+   test 8725f601808c bs 189 beta 2.45: full 16.7759  Ritz 20.8207 (+24.11 %)  head 18.8640 (+12.45 %)
+   test 8d5585ffccba bs 270 beta 2.37: full 7.1383  Ritz 8.8305 (+23.70 %)  head 8.0146 (+12.27 %)
+   test 92946237b6e0 bs 226 beta 2.21: full 11.0344  Ritz 13.3276 (+20.78 %)  head 11.8583 (+7.47 %)
+   test 939384b57cb0 bs 283 beta 1.19: full 6.4411  Ritz 10.2617 (+59.32 %)  head 7.7813 (+20.81 %)
+   test 96d6b71d13e7 bs 260 beta 1.02: full 8.2575  Ritz 10.6814 (+29.35 %)  head 9.4369 (+14.28 %)
+   test 97f39d14de74 bs 259 beta 3.38: full 7.9419  Ritz 9.2398 (+16.34 %)  head 8.6621 (+9.07 %)
+   test a4b5e9a4e283 bs 207 beta 2.71: full 13.7304  Ritz 16.1006 (+17.26 %)  head 14.9996 (+9.24 %)
+   test a702f0e47d0e bs 198 beta 1.10: full 15.1973  Ritz 17.6705 (+16.27 %)  head 16.8237 (+10.70 %)
+   test a936bdbc460a bs 179 beta 0.94: full 20.7242  Ritz 24.6238 (+18.82 %)  head 23.2071 (+11.98 %)
+   test b133c1aa078e bs 181 beta 3.47: full 18.6800  Ritz 23.9473 (+28.20 %)  head 21.2203 (+13.60 %)
+   test b5eec9bbfd38 bs 245 beta 3.03: full 8.9595  Ritz 10.6213 (+18.55 %)  head 9.7507 (+8.83 %)
+   test b7977d3b7773 bs 239 beta 2.57: full 9.5044  Ritz 11.1869 (+17.70 %)  head 10.3848 (+9.26 %)
+   test becc62490d8f bs 157 beta 1.58: full 27.1615  Ritz 33.8995 (+24.81 %)  head 30.9065 (+13.79 %)
+   test c5a7a8b1872f bs 220 beta 2.01: full 11.7289  Ritz 13.8662 (+18.22 %)  head 12.6610 (+7.95 %)
+   test ca9de8593425 bs 141 beta 2.31: full 36.0968  Ritz 46.2170 (+28.04 %)  head 41.3301 (+14.50 %)
+   test cdc1f6556dcc bs 153 beta 2.29: full 28.9172  Ritz 37.2116 (+28.68 %)  head 32.7779 (+13.35 %)
+   test d11a603998dc bs 154 beta 3.12: full 28.6435  Ritz 34.4509 (+20.27 %)  head 32.1922 (+12.39 %)
+   test dd060568550b bs 137 beta 3.30: full 38.9201  Ritz 49.5498 (+27.31 %)  head 45.1662 (+16.05 %)
+   test de113d89e952 bs 266 beta 3.27: full 7.3902  Ritz 8.8069 (+19.17 %)  head 8.1758 (+10.63 %)
+   test e4b072c4dd2d bs 201 beta 2.96: full 14.4661  Ritz 17.5457 (+21.29 %)  head 16.1349 (+11.54 %)
+   test e5df0bc932cf bs 170 beta 1.47: full 22.9098  Ritz 28.8040 (+25.73 %)  head 25.0641 (+9.40 %)
+   test e634a43c29ed bs 167 beta 2.64: full 23.2229  Ritz 27.3555 (+17.80 %)  head 25.9069 (+11.56 %)
+   test e742895272ed bs 253 beta 2.55: full 8.3305  Ritz 9.7817 (+17.42 %)  head 9.2194 (+10.67 %)
+   test e8f85550ad95 bs 249 beta 1.55: full 9.0700  Ritz 10.8318 (+19.42 %)  head 9.7071 (+7.02 %)
