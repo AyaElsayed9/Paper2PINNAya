@@ -1164,3 +1164,22 @@ designs) started from (a) random vectors, (b) the GBT modes of the nearest label
 * With 38 inputs the network is about as good as copying a neighbour: best worst case at 3 steps (3.98 %), a bit
   better mean than one neighbour at 3 steps, but worse from 5 steps on. No clear win either way. The floor at
   30 steps (0.06 %) is the Ritz space vs full GBT.
+
+### 9 Nov 2026, 20:40: neighbour + correction network (nnres); timing script; night chain
+
+* `epinn.NeighbourResidualPINN` (`--arch nnres`): output = GBT modes of the nearest labelled training design
+  (bank of the labelled designs, fixed layout, whitened) + a FunctionDecoderPINN correction whose last layer starts
+  at zero; head = neighbour's log N + correction. Trained exactly as before (ngfull, hybrid: physics step on every
+  design + label modes on labelled ones), so it stays a PINN. A design never copies itself (exact matches are
+  skipped), so labelled training designs are predicted from their neighbour, as test designs are. Unit test:
+  untrained output = neighbour copy, reload from checkpoint identical. `epinn.net_from_ckpt` now rebuilds every
+  network for evaluation (bank size from the weights). `logs/run_expert_nnres.sh` = run_expert.sh + ARCH
+  (run_expert.sh was left unchanged because the running job was still reading it).
+* `scripts/time_check.py`: clean timing of full GBT, the check's parts (operators of a new design, energy space,
+  steps), the network and the GP. A first test on ONE design while training was running (not clean, not kept):
+  full GBT 13.5 s; check = operators 5.6 s + energy space 3.4 s + 0.27 s per step, i.e. 10.7 s for 5 steps.
+  Warning: if the clean numbers are similar, the check is NOT much cheaper than full GBT (my earlier "about 6 s
+  vs 18 s" was too optimistic); the operators and the energy space dominate, not the steps. This makes the
+  planned offline / online split (point 3 of the plan) essential.
+* Night chain `logs/run_night_9nov.sh`: wait for periodic crossply NL 0, then clean timing (10 designs), then
+  nnres crossply / symmetry NL 10 and NL 120.
