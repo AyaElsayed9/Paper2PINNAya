@@ -6,3 +6,4 @@ restart 09 Nov 18:30: periodic crossply NL 0 was killed (out of memory) at round
 2026-11-09 22:27:14 night chain killed by 2 h limit during nnres L10 round 13; restarted (resumes ckpt)
 2026-11-10 00:27:43 night chain killed by 2 h limit during nnres L120 round 13; restarted
 2026-11-10 00:36:20 container restarted during nnres L120 (round 14); chain restarted from ckpt
+2026-11-10 00:55:43 container restarted again during nnres L120 (round 19); chain restarted from ckpt
