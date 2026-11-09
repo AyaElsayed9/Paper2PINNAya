@@ -1212,3 +1212,22 @@ designs) started from (a) random vectors, (b) the GBT modes of the nearest label
   Ritz of the network falls slowly from 58.4 % (round 2, ~the neighbour copy) to 52.3 % (round 12); head 20 % mean
   (worse than the plain hybrid L10 head 10.45 % and far worse than the GP, 3.32 %). The head result is expected:
   with 10 labels the nearest labelled design is far, and its log N is a poor base. Check results at the end.
+
+### 10 Nov 2026, 00:30: nnres crossply / symmetry NL 10 finished
+
+`results/experts/symmetry_crossply_SS_v2_nnres_L10_cert.log`, 40 test designs, |error| vs full GBT, mean / max:
+
+| start of the check | head | 3 steps | 5 steps | 8 steps | 12 steps |
+|---|---|---|---|---|---|
+| plain network, hybrid L10 | 10.45 / 26.14 | – | 1.91 / 6.23 | – | 0.28 / 1.42 |
+| nearest of 10 labelled (copy, no network) | – | 2.81 / 8.97 | 1.18 / 4.16 | 0.41 / 1.53 | 0.14 / 0.54 |
+| nnres L10 (copy + PINN correction) | 18.06 / 53.26 | 2.90 / 10.70 | 1.26 / 5.60 | 0.44 / 2.12 | 0.15 / 0.72 |
+| GP on 10 labels (number only) | 3.32 / 18.30 | | | | |
+
+* nnres makes the check start much better than the plain network (5 steps 1.26 vs 1.91 %, 12 steps 0.15 vs 0.28 %),
+  but only because it starts from the neighbour copy: the PINN correction makes it slightly WORSE than the copy
+  alone (all columns). Network Ritz 47 % mean (copy start ~ 58 % on validation at round 2, falling to 47 %): the
+  physics step lowers the Rayleigh quotient but not in the directions the check needs.
+* Head 18 % mean: worse than the plain network and much worse than the GP. With 10 labels the neighbour's log N is
+  a poor base.
+* Honest conclusion for NL 10: no gain from the PINN over the copy. NL 120 running (round 13/30 at 00:27).
