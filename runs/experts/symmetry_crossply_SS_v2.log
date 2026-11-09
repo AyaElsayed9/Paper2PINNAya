@@ -225,3 +225,5 @@ symmetry/train: 152 panels to build with 2 workers
 === EXPERT_DONE symmetry_crossply_SS_v2_hybrid_L10  09 Nov 18:30
 === EXPERT_DONE symmetry_crossply_SS_v2_hybrid_L20  09 Nov 18:30
 === EXPERT_DONE symmetry_crossply_SS_v2_hybrid_L40  09 Nov 18:30
+=== train symmetry_crossply_SS_v2_nnres_L10 (10 of 120 training designs labelled)  09 Nov 21:37
+=== train symmetry_crossply_SS_v2_nnres_L10 (10 of 120 training designs labelled)  09 Nov 22:27

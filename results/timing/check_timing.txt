@@ -1,0 +1,10 @@
+Machine: 2 CPU cores (Intel(R) Xeon(R) Processor @ 2.10GHz), 7.8 GB RAM, Linux; torch threads 2; nothing else running.
+10 test designs of symmetry_crossply_SS_v2; mean times:
+  full GBT (N_cr, reference)           9.76 s
+  check: operators of the new design   4.28 s
+  check: energy space + metric         1.92 s
+  check: one step                      0.168 s (first step 0.272 s)
+  check, 5 steps in total              7.14 s
+  check, 12 steps in total             8.31 s
+  network forward pass                 2.7 ms
+  GP prediction                        0.52 ms (fit on 120 labels once: 0.20 s)

@@ -3,3 +3,4 @@ restart after 2 h limit 09 Nov 13:38 (NL 10, ckpt round 27)
 restart after 2 h limit 09 Nov 15:39 (NL 20, ckpt round 26)
 restart after 2 h limit 09 Nov 17:39 (NL 40, ckpt round 25)
 restart 09 Nov 18:30: periodic crossply NL 0 was killed (out of memory) at round 5 because the start-baseline script ran beside it; now CACHE=3
+2026-11-09 22:27:14 night chain killed by 2 h limit during nnres L10 round 13; restarted (resumes ckpt)

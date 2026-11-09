@@ -1183,3 +1183,32 @@ designs) started from (a) random vectors, (b) the GBT modes of the nearest label
   planned offline / online split (point 3 of the plan) essential.
 * Night chain `logs/run_night_9nov.sh`: wait for periodic crossply NL 0, then clean timing (10 designs), then
   nnres crossply / symmetry NL 10 and NL 120.
+
+### 9 Nov 2026, 22:30: clean timing; periodic crossply NL 0; nnres L10 half-way
+
+* **Clean timing** (`results/timing/check_timing.txt`, 10 crossply / symmetry test designs, 2 CPU cores, 7.8 GB RAM,
+  nothing else running), mean per design:
+
+  | step | time |
+  |---|---|
+  | full GBT (reference N_cr) | 9.76 s |
+  | check: operators of the new design | 4.28 s |
+  | check: energy space + metric | 1.92 s |
+  | check: one step | 0.17 s (first 0.27 s) |
+  | check with 5 steps, total | 7.14 s |
+  | check with 12 steps, total | 8.31 s |
+  | network forward pass | 2.7 ms |
+  | GP prediction | 0.5 ms (fit 0.2 s) |
+
+  Honest result: the check as it is now saves only 15–27 % against full GBT (7.1–8.3 s vs 9.8 s). 87 % of the
+  check time is building the new design's operators and energy space, not the steps. The network and GP are
+  ~3000x faster than full GBT but give no bound. A real speed-up of the check needs the offline / online split
+  (operators interpolated or assembled from precomputed parts per expert); this is now a must before writing.
+* **Periodic crossply, physics only (NL 0)** (`results/experts/periodic_crossply_SS_v2_physics_L0_cert.log`, 40 test
+  designs, mean / max): head 11.52 / 24.72 %, network Ritz 23.85 / 55.65 %, check 3 steps 3.01 / 10.46 %,
+  5 steps 1.14 / 5.04 %, 8 steps 0.35 / 2.52 %, 12 steps 0.14 / 1.04 %. Same picture as symmetry crossply NL 0
+  (head 11.93 / 24.09, s5 1.92 / 6.45, s12 0.28 / 1.39); the periodic check converges a bit faster.
+* **nnres crossply / symmetry NL 10, round 13 of 30** (killed by the 2 h limit, resumed from ckpt): validation
+  Ritz of the network falls slowly from 58.4 % (round 2, ~the neighbour copy) to 52.3 % (round 12); head 20 % mean
+  (worse than the plain hybrid L10 head 10.45 % and far worse than the GP, 3.32 %). The head result is expected:
+  with 10 labels the nearest labelled design is far, and its log N is a poor base. Check results at the end.

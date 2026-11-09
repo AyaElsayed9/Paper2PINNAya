@@ -1,0 +1,21 @@
+e634a43c29ed: full GBT 11.7 s | check: operators 5.2 s + energy space 2.09 s + step 0.173 s (first 0.293) | net 2.1 ms | GP 0.44 ms
+e8f85550ad95: full GBT 7.3 s | check: operators 3.4 s + energy space 0.77 s + step 0.113 s (first 0.176) | net 2.6 ms | GP 0.43 ms
+b5eec9bbfd38: full GBT 14.4 s | check: operators 5.4 s + energy space 3.93 s + step 0.314 s (first 0.482) | net 3.5 ms | GP 0.56 ms
+2530aa8856c1: full GBT 5.3 s | check: operators 2.7 s + energy space 0.48 s + step 0.079 s (first 0.154) | net 2.8 ms | GP 0.51 ms
+dd060568550b: full GBT 15.8 s | check: operators 6.1 s + energy space 4.84 s + step 0.353 s (first 0.496) | net 2.6 ms | GP 0.47 ms
+0847a9b10dfd: full GBT 3.9 s | check: operators 2.0 s + energy space 0.37 s + step 0.055 s (first 0.127) | net 3.1 ms | GP 0.48 ms
+8d5585ffccba: full GBT 10.1 s | check: operators 5.1 s + energy space 1.75 s + step 0.157 s (first 0.314) | net 2.4 ms | GP 0.48 ms
+6f5924caa864: full GBT 9.3 s | check: operators 4.3 s + energy space 1.31 s + step 0.124 s (first 0.213) | net 2.0 ms | GP 0.44 ms
+e4b072c4dd2d: full GBT 14.2 s | check: operators 5.7 s + energy space 3.18 s + step 0.235 s (first 0.342) | net 3.7 ms | GP 0.47 ms
+939384b57cb0: full GBT 5.5 s | check: operators 2.7 s + energy space 0.46 s + step 0.075 s (first 0.128) | net 2.1 ms | GP 0.87 ms
+
+Machine: 2 CPU cores (Intel(R) Xeon(R) Processor @ 2.10GHz), 7.8 GB RAM, Linux; torch threads 2; nothing else running.
+10 test designs of symmetry_crossply_SS_v2; mean times:
+  full GBT (N_cr, reference)           9.76 s
+  check: operators of the new design   4.28 s
+  check: energy space + metric         1.92 s
+  check: one step                      0.168 s (first step 0.272 s)
+  check, 5 steps in total              7.14 s
+  check, 12 steps in total             8.31 s
+  network forward pass                 2.7 ms
+  GP prediction                        0.52 ms (fit on 120 labels once: 0.20 s)
