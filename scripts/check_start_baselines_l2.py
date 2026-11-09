@@ -64,9 +64,7 @@ def main():
         for f in sorted((ROOT / a.test).glob("*.pkl")):
             d = epinn.prepare(opio.load(f))
             if net is None:
-                net = epinn.build_net(ar.get("arch", "linear"), d.x[None].repeat(2, 0), d.rs, R=ar["R"], k=ar["k"],
-                                      width=ar["width"], depth=ar["depth"])
-                net.load_state_dict(ck["state"]); net.eval()
+                net = epinn.net_from_ckpt(ck, d)
             em = EnergyMetric(d.rs, groups="labels", ridge=1e-8)
             starts = [("random", None, "-", np.nan)]
             for NL in [int(v) for v in a.nn.split(",")]:

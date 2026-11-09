@@ -250,7 +250,60 @@ class HybridPINN(FunctionDecoderPINN):
         return out[:, :, self.gidx] + lin, self.hN(h)
 
 
-def build_net(arch, X_train, rs, R=8, k=3, width=256, depth=4):
+class NeighbourResidualPINN(nn.Module):
+    """Nearest labelled design + learnt correction (9 Nov 2026, after the start baselines).
+
+    Copying the GBT modes of the nearest labelled training design was a better start for the physics check than the
+    network's own modes.  Here the network output is that copy plus a correction from a FunctionDecoderPINN
+    (last layer zero at the start, so training starts exactly at the copy); the head is the neighbour's log N plus a
+    correction.  The correction is trained as before (GBT physics step on every design, plus the label modes on
+    labelled designs), so it stays a PINN.  The bank holds the labelled training designs only; a design never copies
+    itself (exact matches are skipped), so a labelled training design is predicted from its neighbour, as a test
+    design is."""
+
+    def __init__(self, X_train, rs, R=8, k=3, width=256, depth=4, n_bank=0):
+        super().__init__()
+        self.core = FunctionDecoderPINN(X_train, rs, R=R, k=k, width=width, depth=depth)
+        self.R, self.k, self.n = R, k, self.core.n
+        with torch.no_grad():
+            self.core.dec[-1].weight.zero_(); self.core.dec[-1].bias.zero_()
+            self.core.hN.weight.mul_(0.1); self.core.hN.bias.zero_()
+        self.register_buffer("bankZ", torch.zeros(n_bank, X_train.shape[1]))
+        self.register_buffer("bankY", torch.zeros(n_bank, R, self.n))
+        self.register_buffer("bankL", torch.zeros(n_bank, k))
+
+    def set_bank(self, X, Y, logN):
+        """X (m, d) design inputs, Y (m, R, n) unit whitened label modes in the fixed layout, logN (m, k)."""
+        with torch.no_grad():
+            self.bankZ = self.core.scale(torch.as_tensor(np.asarray(X), dtype=torch.float32)).detach()
+            self.bankY = torch.as_tensor(Y, dtype=torch.float32)
+            self.bankL = torch.as_tensor(logN, dtype=torch.float32)
+
+    def neighbour(self, x):
+        z = self.core.scale(x)
+        d2 = torch.cdist(z, self.bankZ) ** 2
+        d2 = torch.where(d2 < 1e-10, torch.full_like(d2, float("inf")), d2)      # never copy itself
+        return d2.argmin(1)
+
+    def forward(self, x):
+        j = self.neighbour(x)
+        Y, logN = self.core(x)
+        return self.bankY[j] + Y, self.bankL[j] + logN
+
+
+def net_from_ckpt(ck, d, state="state"):
+    """Rebuild a trained network for evaluation (design d gives the layout; bank size read from the weights)."""
+    ar = ck["args"]
+    nb = ck[state]["bankZ"].shape[0] if "bankZ" in ck[state] else 0
+    net = build_net(ar.get("arch", "linear"), d.x[None].repeat(2, 0), d.rs, R=ar["R"], k=ar["k"],
+                    width=ar["width"], depth=ar["depth"], n_bank=nb)
+    net.load_state_dict(ck[state]); net.eval()
+    return net
+
+
+def build_net(arch, X_train, rs, R=8, k=3, width=256, depth=4, n_bank=0):
+    if arch == "nnres":
+        return NeighbourResidualPINN(X_train, rs, R=R, k=k, width=width, depth=depth, n_bank=n_bank)
     if arch == "hybrid":
         return HybridPINN(X_train, rs, R=R, k=k, width=width, depth=depth)
     if arch == "decoder":

@@ -1126,7 +1126,7 @@ designs) started from (a) random vectors, (b) the GBT modes of the nearest label
   transverse strain. Wording point: the Ritz value bounds the Ritz-space load, not full GBT (crossply: 70 of 152
   labels are up to 0.04 % below full GBT).
 
-### 9 Nov 2026, 20:30: why the network start is weak; combined starts; Aya: stop the label study, fix the shapes
+### 9 Nov 2026, 19:55: why the network start is weak; combined starts; Aya: stop the label study, fix the shapes
 
 * Aya (19:45): stop the label study after the running run (periodic crossply NL 0), use the machine for clean
   timing and better mode shapes. The chain loop was stopped; the running training continues alone.
@@ -1148,7 +1148,7 @@ designs) started from (a) random vectors, (b) the GBT modes of the nearest label
 * Running: the same baselines for the level-2 network (38 inputs, `scripts/check_start_baselines_l2.py`), where
   nearest neighbours are far apart and a network may help more.
 
-### 9 Nov 2026, 21:15: start baselines for the level-2 network (38 inputs, 45 industrial test designs)
+### 9 Nov 2026, 20:20: start baselines for the level-2 network (38 inputs, 45 industrial test designs)
 
 `scripts/check_start_baselines_l2.py`; nearest labelled design in the network's standardised 38 inputs.
 `results/check_baselines/level2_industrial_hybrid_L518.csv`. Mean / max |error| % vs full GBT:

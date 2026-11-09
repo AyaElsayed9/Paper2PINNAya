@@ -49,7 +49,7 @@ def main():
     ap.add_argument("--n-train", type=int, default=64)
     ap.add_argument("--method", default="ritzng", choices=["ritzng", "adam", "ritzng+adam", "ngfull", "ngfull+adam"])
     ap.add_argument("--epochs", type=int, default=10, help="fit passes per outer iteration (ngfull)")
-    ap.add_argument("--arch", default="decoder", choices=["decoder", "linear", "hybrid"])
+    ap.add_argument("--arch", default="decoder", choices=["decoder", "linear", "hybrid", "nnres"])
     ap.add_argument("--cache", type=int, default=40, help="energy spaces kept in memory")
     ap.add_argument("--n-eval-train", type=int, default=16)
     ap.add_argument("--outer", type=int, default=30)
@@ -135,6 +135,16 @@ def main():
                 tr.lam_full[i] = float(r["N_ritz"][0])        # exact load in the Ritz space (reporting)
         print(f"exact targets for {sum(e is not None for e in exact)} of {len(exact)} training designs, "
               f"mode = {a.mode}", flush=True)
+    if a.arch == "nnres":                      # bank of the labelled training designs (9 Nov 2026)
+        assert exact is not None, "--arch nnres needs --exact"
+        lab = [i for i, e in enumerate(exact) if e is not None]
+        Yb = torch.zeros(len(lab), a.R, net.n)
+        for b, i in enumerate(lab):
+            Yb[b][:, tr.sel[i]] = exact[i][0].float()
+        net = epinn.build_net(a.arch, tr.X.numpy(), tr.get(0).rs, R=a.R, k=a.k, width=a.width, depth=a.depth,
+                              n_bank=len(lab))
+        net.set_bank(tr.X.numpy()[lab], Yb, torch.stack([exact[i][1] for i in lab]))
+        print(f"neighbour bank: {len(lab)} labelled training designs", flush=True)
     print(f"network: {sum(p.numel() for p in net.parameters()) / 1e6:.1f} M parameters", flush=True)
     t1 = time.perf_counter()
 

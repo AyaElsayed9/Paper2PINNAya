@@ -87,9 +87,7 @@ def main():
                 if m not in nets:
                     ck = torch.load(ROOT / f"runs/experts/{a.tag}_{m}.pt", weights_only=False); ar = ck["args"]
                     epinn.INPUT_COLS = None if ar.get("inputs", "all") == "all" else [0, 1]
-                    net = epinn.build_net(ar.get("arch", "linear"), d.x[None].repeat(2, 0), d.rs, R=ar["R"], k=ar["k"],
-                                          width=ar["width"], depth=ar["depth"])
-                    net.load_state_dict(ck["state"]); net.eval(); nets[m] = net
+                    nets[m] = epinn.net_from_ckpt(ck, d)
                 with torch.no_grad():
                     Y, _ = nets[m](torch.as_tensor(d.x[None]))
                 starts.append((f"net_{m}", Y[0, :, d.sel], m))

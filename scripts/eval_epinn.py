@@ -43,9 +43,7 @@ def main():
     for f in files:
         d = epinn.prepare(opio.load(f))
         if net is None:
-            net = epinn.build_net(ar.get("arch", "linear"), d.x[None].repeat(2, 0), d.rs, R=ar["R"], k=ar["k"],
-                                  width=ar["width"], depth=ar["depth"])
-            net.load_state_dict(ck["state"]); net.eval()
+            net = epinn.net_from_ckpt(ck, d)
             net_m = net
             if a.modes != "state":                     # second copy of the network for the mode shapes
                 import copy
