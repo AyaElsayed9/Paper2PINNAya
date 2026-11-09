@@ -1,0 +1,53 @@
+POD of 960 label modes: energy kept by r vectors 8: 0.2128, 16: 0.3503, 32: 0.5260, 48: 0.6371
+00289ad33bbc nn10 +15.53  nn120 +15.33  knn2 +14.34  knn4 +8.07  pod8 +32.15  pod16 +24.96  pod32 +15.42  pod48 +10.96  net_physics_L0 +17.54  net_hybrid_L120 +23.97
+05f3f4db6e6a nn10 +105.46  nn120 +8.17  knn2 +6.46  knn4 +2.63  pod8 +45.64  pod16 +35.34  pod32 +15.69  pod48 +10.08  net_physics_L0 +33.23  net_hybrid_L120 +25.78
+0847a9b10dfd nn10 +91.90  nn120 +40.53  knn2 +16.47  knn4 +6.57  pod8 +43.70  pod16 +21.17  pod32 +14.67  pod48 +12.41  net_physics_L0 +15.11  net_hybrid_L120 +14.67
+164671cfc8ff nn10 +33.34  nn120 +20.40  knn2 +13.36  knn4 +7.20  pod8 +44.47  pod16 +18.27  pod32 +9.63  pod48 +8.31  net_physics_L0 +19.88  net_hybrid_L120 +16.08
+2530aa8856c1 nn10 +21.85  nn120 +21.85  knn2 +10.87  knn4 +2.83  pod8 +54.25  pod16 +24.99  pod32 +11.69  pod48 +8.97  net_physics_L0 +28.56  net_hybrid_L120 +23.92
+271cdce40942 nn10 +20.91  nn120 +18.29  knn2 +7.07  knn4 +3.03  pod8 +28.79  pod16 +19.30  pod32 +8.84  pod48 +5.91  net_physics_L0 +17.36  net_hybrid_L120 +14.63
+32082d0a5594 nn10 +7.31  nn120 +7.95  knn2 +4.06  knn4 +2.60  pod8 +31.23  pod16 +12.09  pod32 +6.25  pod48 +3.90  net_physics_L0 +16.75  net_hybrid_L120 +14.53
+370cb31b7d9e nn10 +86.53  nn120 +14.03  knn2 +13.05  knn4 +6.15  pod8 +37.06  pod16 +19.23  pod32 +13.89  pod48 +10.75  net_physics_L0 +20.52  net_hybrid_L120 +21.32
+37755e29c6a2 nn10 +210.65  nn120 +16.28  knn2 +11.32  knn4 +9.92  pod8 +94.38  pod16 +36.66  pod32 +18.62  pod48 +14.97  net_physics_L0 +28.76  net_hybrid_L120 +28.19
+38fd357d32eb nn10 +191.73  nn120 +11.59  knn2 +11.25  knn4 +9.86  pod8 +268.62  pod16 +69.91  pod32 +35.83  pod48 +33.11  net_physics_L0 +44.52  net_hybrid_L120 +49.33
+3f61e143a4d4 nn10 +123.00  nn120 +42.69  knn2 +38.76  knn4 +10.92  pod8 +107.02  pod16 +74.36  pod32 +37.39  pod48 +28.41  net_physics_L0 +43.10  net_hybrid_L120 +44.78
+54bb0c12eb66 nn10 +32.63  nn120 +63.73  knn2 +23.59  knn4 +12.79  pod8 +48.34  pod16 +29.57  pod32 +14.45  pod48 +9.69  net_physics_L0 +14.49  net_hybrid_L120 +16.43
+54e5c57b10e2 nn10 +11.85  nn120 +12.45  knn2 +7.92  knn4 +5.01  pod8 +92.19  pod16 +52.52  pod32 +22.71  pod48 +20.10  net_physics_L0 +26.01  net_hybrid_L120 +32.50
+67ca52b00c18 nn10 +55.93  nn120 +14.70  knn2 +13.04  knn4 +11.49  pod8 +98.10  pod16 +37.36  pod32 +25.81  pod48 +15.86  net_physics_L0 +27.86  net_hybrid_L120 +33.29
+6f5924caa864 nn10 +22.38  nn120 +38.21  knn2 +5.45  knn4 +5.10  pod8 +83.40  pod16 +35.59  pod32 +19.68  pod48 +12.39  net_physics_L0 +21.55  net_hybrid_L120 +17.81
+7dd5b9a9340c nn10 +13.80  nn120 +13.80  knn2 +8.95  knn4 +4.91  pod8 +62.51  pod16 +29.56  pod32 +21.81  pod48 +14.92  net_physics_L0 +15.60  net_hybrid_L120 +22.90
+8725f601808c nn10 +17.43  nn120 +10.99  knn2 +10.75  knn4 +9.26  pod8 +103.29  pod16 +49.85  pod32 +21.26  pod48 +15.55  net_physics_L0 +24.11  net_hybrid_L120 +26.07
+8d5585ffccba nn10 +18.93  nn120 +15.63  knn2 +6.43  knn4 +5.30  pod8 +38.07  pod16 +26.68  pod32 +10.93  pod48 +9.10  net_physics_L0 +23.70  net_hybrid_L120 +24.05
+92946237b6e0 nn10 +26.58  nn120 +4.25  knn2 +4.14  knn4 +3.11  pod8 +20.87  pod16 +12.60  pod32 +6.03  pod48 +5.22  net_physics_L0 +20.78  net_hybrid_L120 +18.74
+939384b57cb0 nn10 +217.52  nn120 +44.23  knn2 +35.77  knn4 +15.64  pod8 +102.01  pod16 +75.25  pod32 +36.35  pod48 +22.13  net_physics_L0 +59.32  net_hybrid_L120 +44.29
+96d6b71d13e7 nn10 +90.11  nn120 +90.11  knn2 +21.64  knn4 +9.93  pod8 +72.90  pod16 +54.20  pod32 +26.84  pod48 +16.04  net_physics_L0 +29.35  net_hybrid_L120 +26.71
+97f39d14de74 nn10 +36.62  nn120 +13.55  knn2 +5.16  knn4 +3.85  pod8 +66.45  pod16 +31.07  pod32 +18.28  pod48 +13.50  net_physics_L0 +16.34  net_hybrid_L120 +23.98
+a4b5e9a4e283 nn10 +108.14  nn120 +13.86  knn2 +9.19  knn4 +4.25  pod8 +96.91  pod16 +35.22  pod32 +18.50  pod48 +11.43  net_physics_L0 +17.26  net_hybrid_L120 +19.99
+a702f0e47d0e nn10 +16.76  nn120 +16.76  knn2 +11.74  knn4 +8.53  pod8 +64.58  pod16 +37.63  pod32 +20.98  pod48 +12.43  net_physics_L0 +16.27  net_hybrid_L120 +16.16
+a936bdbc460a nn10 +76.34  nn120 +12.47  knn2 +9.17  knn4 +7.01  pod8 +40.92  pod16 +28.53  pod32 +13.32  pod48 +10.99  net_physics_L0 +18.82  net_hybrid_L120 +20.88
+b133c1aa078e nn10 +30.53  nn120 +14.27  knn2 +11.13  knn4 +8.99  pod8 +118.62  pod16 +88.76  pod32 +22.52  pod48 +14.59  net_physics_L0 +28.20  net_hybrid_L120 +28.90
+b5eec9bbfd38 nn10 +20.37  nn120 +4.98  knn2 +4.17  knn4 +3.37  pod8 +34.66  pod16 +25.71  pod32 +17.91  pod48 +12.55  net_physics_L0 +18.55  net_hybrid_L120 +25.54
+b7977d3b7773 nn10 +84.40  nn120 +19.17  knn2 +11.78  knn4 +8.93  pod8 +25.14  pod16 +16.70  pod32 +9.72  pod48 +8.87  net_physics_L0 +17.70  net_hybrid_L120 +21.52
+becc62490d8f nn10 +56.67  nn120 +13.42  knn2 +13.31  knn4 +8.96  pod8 +59.63  pod16 +25.76  pod32 +14.82  pod48 +12.35  net_physics_L0 +24.81  net_hybrid_L120 +24.67
+c5a7a8b1872f nn10 +20.10  nn120 +14.17  knn2 +11.70  knn4 +5.09  pod8 +31.76  pod16 +12.86  pod32 +7.57  pod48 +4.19  net_physics_L0 +18.22  net_hybrid_L120 +13.70
+ca9de8593425 nn10 +221.82  nn120 +17.49  knn2 +11.91  knn4 +10.34  pod8 +78.21  pod16 +39.41  pod32 +22.25  pod48 +18.40  net_physics_L0 +28.04  net_hybrid_L120 +35.77
+cdc1f6556dcc nn10 +103.74  nn120 +25.11  knn2 +19.42  knn4 +13.08  pod8 +65.28  pod16 +23.33  pod32 +20.16  pod48 +17.10  net_physics_L0 +28.68  net_hybrid_L120 +37.31
+d11a603998dc nn10 +19.65  nn120 +17.29  knn2 +13.26  knn4 +5.50  pod8 +57.94  pod16 +43.41  pod32 +18.69  pod48 +15.85  net_physics_L0 +20.27  net_hybrid_L120 +26.32
+dd060568550b nn10 +11.89  nn120 +11.89  knn2 +8.98  knn4 +5.88  pod8 +106.31  pod16 +72.20  pod32 +26.37  pod48 +23.48  net_physics_L0 +27.31  net_hybrid_L120 +33.87
+de113d89e952 nn10 +34.40  nn120 +8.64  knn2 +6.11  knn4 +4.43  pod8 +66.64  pod16 +33.07  pod32 +22.50  pod48 +18.01  net_physics_L0 +19.17  net_hybrid_L120 +26.72
+e4b072c4dd2d nn10 +52.98  nn120 +14.61  knn2 +2.95  knn4 +2.79  pod8 +125.93  pod16 +52.83  pod32 +25.13  pod48 +17.01  net_physics_L0 +21.29  net_hybrid_L120 +21.99
+e5df0bc932cf nn10 +81.46  nn120 +10.82  knn2 +10.23  knn4 +9.35  pod8 +38.26  pod16 +22.13  pod32 +13.47  pod48 +10.37  net_physics_L0 +25.73  net_hybrid_L120 +21.56
+e634a43c29ed nn10 +91.44  nn120 +5.45  knn2 +4.42  knn4 +3.74  pod8 +34.73  pod16 +26.41  pod32 +11.22  pod48 +8.13  net_physics_L0 +17.80  net_hybrid_L120 +21.10
+e742895272ed nn10 +14.75  nn120 +1.89  knn2 +1.78  knn4 +1.54  pod8 +27.81  pod16 +18.46  pod32 +7.57  pod48 +5.96  net_physics_L0 +17.42  net_hybrid_L120 +20.10
+e8f85550ad95 nn10 +11.90  nn120 +8.73  knn2 +6.55  knn4 +4.38  pod8 +41.75  pod16 +14.90  pod32 +9.34  pod48 +7.28  net_physics_L0 +19.42  net_hybrid_L120 +15.94
+
+symmetry_crossply_SS_v2: Ritz value of the start (no steps), |error| vs full GBT, mean / max
+  nn10                 62.73 /  221.82 %
+  nn120                19.24 /   90.11 %
+  knn2                 11.44 /   38.76 %
+  knn4                  6.81 /   15.64 %
+  pod8                 67.26 /  268.62 %
+  pod16                35.20 /   88.76 %
+  pod32                17.85 /   37.39 %
+  pod48                13.28 /   33.11 %
+  net_physics_L0       23.73 /   59.32 %
+  net_hybrid_L120      24.90 /   49.33 %

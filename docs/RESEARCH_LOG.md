@@ -1125,3 +1125,25 @@ designs) started from (a) random vectors, (b) the GBT modes of the nearest label
   load (uniaxial compression = zero mean transverse force). The paper's condition is uniaxial load with zero mean
   transverse strain. Wording point: the Ritz value bounds the Ritz-space load, not full GBT (crossply: 70 of 152
   labels are up to 0.04 % below full GBT).
+
+### 9 Nov 2026, 20:30: why the network start is weak; combined starts; Aya: stop the label study, fix the shapes
+
+* Aya (19:45): stop the label study after the running run (periodic crossply NL 0), use the machine for clean
+  timing and better mode shapes. The chain loop was stopped; the running training continues alone.
+* `scripts/check_mode_space.py`: Ritz value of the start itself (no steps), crossply / symmetry, 40 test designs,
+  mean / max: network L0 23.7 / 59.3 %, L120 24.9 / 49.3 %; nearest of 10 labelled 62.7 / 221.8 %, of 120
+  19.2 / 90.1 %; 2 / 4 nearest of 120 together 11.4 / 38.8 % and 6.8 / 15.6 %; POD of the 960 training label
+  modes (whitened coordinates) with 8 / 16 / 32 / 48 vectors 67.3 / 35.2 / 17.9 / 13.3 % (POD keeps only 71 % of
+  the energy with 64 vectors, so a common POD basis of label modes is not compact). (A first try with 128 / 256
+  POD vectors ran out of memory; only my script was killed.)
+* Combined starts (`check_start_baselines.py`, same 40 designs), mean / max after 5 / 12 steps: 4 nearest of 10
+  1.04 / 5.30 and 0.17 / 1.70 %; 2 nearest of 120 0.50 / 1.84 and 0.08 / 0.33 %; nearest of 10 + network L0
+  1.46 / 5.83 and 0.21 / 0.85 %; nearest of 10 + network L120 1.32 / 5.18 and 0.19 / 0.80 %.
+* Reading: the network's modes have a good Ritz value (24 %, better than a copied neighbour: 63 %) but the check
+  converges more slowly from them; adding them to the neighbour's modes makes the check worse, because the first
+  Rayleigh-Ritz step keeps the network's vectors (lower Ritz value) and drops useful neighbour vectors. The network
+  learns smooth shapes with a low energy quotient, not the detail the check needs; its training loss (fit to one
+  physics step / Ritz value) is not the quantity that matters for the check. And with labels, it does not even
+  fit the training modes (Ritz 19 % on labelled training designs).
+* Running: the same baselines for the level-2 network (38 inputs, `scripts/check_start_baselines_l2.py`), where
+  nearest neighbours are far apart and a network may help more.

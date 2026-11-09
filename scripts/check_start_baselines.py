@@ -54,9 +54,9 @@ def main():
     Xtr = np.array([scaled(float(r["bs"]), float(r["beta"])) for r in tab])
     nn_cache = {}
 
-    def nn_start(d, NL):
+    def nn_start(d, NL, rank=0):
         x = scaled(d.params["bs"], d.params["beta"])
-        j = int(np.argmin(((Xtr[:NL] - x) ** 2).sum(1)))
+        j = int(np.argsort(((Xtr[:NL] - x) ** 2).sum(1))[rank])
         sid = tab[j]["sid"]
         if sid not in nn_cache:
             op = opio.load(ROOT / f"data/operators/{a.tag}/train/{sid}.pkl")
@@ -93,6 +93,12 @@ def main():
                 with torch.no_grad():
                     Y, _ = nets[m](torch.as_tensor(d.x[None]))
                 starts.append((f"net_{m}", Y[0, :, d.sel], m))
+            # combined starts (9 Nov evening): the first Rayleigh-Ritz step keeps the best R of all vectors
+            byname = {n: Y for n, Y, _ in starts}
+            starts.append(("knn4_10", torch.cat([nn_start(d, 10, k)[0] for k in range(4)]), "4 nearest of 10"))
+            starts.append(("knn2_120", torch.cat([nn_start(d, 120, k)[0] for k in range(2)]), "2 nearest of 120"))
+            for m in a.models.split(","):
+                starts.append((f"nn10+net_{m}", torch.cat([byname["nn10"], byname[f"net_{m}"].double()]), m))
             for name, Y, src in starts:
                 if (d.sid, name) in done:
                     continue
