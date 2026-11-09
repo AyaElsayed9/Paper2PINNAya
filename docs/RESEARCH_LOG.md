@@ -1049,7 +1049,7 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   constraint, which is why the results agree. All Paper 2 labels use the fixed width. Proposed check: strip
   solver, fixed vs free width, a few designs per lay-up at beta <= 3.5. Waiting for Navid's exact point.
 
-### 9 Nov 2026, 15:35: label study, NL 10 finished (crossply / symmetry)
+### 9 Nov 2026, 13:58: label study, NL 10 finished (crossply / symmetry)
 
 40 test designs, mean / max vs full GBT: head 10.45 / 26.14 % (39/40 above), network Ritz 22.34 / 51.95 %,
 check 3 steps 4.02 / 11.73 %, 5 steps 1.91 / 6.23 %, 8 steps 0.71 / 2.88 %, 12 steps 0.28 / 1.42 %.
