@@ -1147,3 +1147,20 @@ designs) started from (a) random vectors, (b) the GBT modes of the nearest label
   fit the training modes (Ritz 19 % on labelled training designs).
 * Running: the same baselines for the level-2 network (38 inputs, `scripts/check_start_baselines_l2.py`), where
   nearest neighbours are far apart and a network may help more.
+
+### 9 Nov 2026, 21:15: start baselines for the level-2 network (38 inputs, 45 industrial test designs)
+
+`scripts/check_start_baselines_l2.py`; nearest labelled design in the network's standardised 38 inputs.
+`results/check_baselines/level2_industrial_hybrid_L518.csv`. Mean / max |error| % vs full GBT:
+
+| start | 3 steps | 5 steps | 8 steps | 12 steps | 30 steps |
+|---|---|---|---|---|---|
+| random | 5.84 / 20.76 | 1.90 / 7.11 | 0.57 / 3.39 | 0.24 / 2.10 | 0.07 / 0.21 |
+| network (hybrid, 518 labels) | 1.50 / 3.98 | 0.70 / 2.79 | 0.31 / 2.13 | 0.14 / 0.74 | 0.06 / 0.19 |
+| nearest of 50 labelled | 1.80 / 6.09 | 0.62 / 2.10 | 0.23 / 1.15 | 0.11 / 0.48 | 0.06 / 0.20 |
+| nearest of 518 labelled | 1.59 / 5.21 | 0.59 / 2.23 | 0.21 / 1.15 | 0.10 / 0.48 | 0.06 / 0.20 |
+| 2 nearest of 518 | 1.28 / 4.28 | 0.49 / 2.10 | 0.21 / 1.27 | 0.11 / 0.54 | 0.06 / 0.23 |
+
+* With 38 inputs the network is about as good as copying a neighbour: best worst case at 3 steps (3.98 %), a bit
+  better mean than one neighbour at 3 steps, but worse from 5 steps on. No clear win either way. The floor at
+  30 steps (0.06 %) is the Ritz space vs full GBT.
