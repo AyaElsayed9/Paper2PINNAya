@@ -1070,3 +1070,23 @@ check 3 steps 3.86 / 11.25 %, 5 steps 1.90 / 7.29 %, 8 steps 0.69 / 2.65 %, 12 s
 GP with the same 20 labels: 2.29 / 14.90 %. Head so far: NL 0 11.93, NL 10 10.45, NL 20 9.34, NL 120 1.14 % mean.
 The head improves only slowly with labels and stays biased high; the check is the same for every NL.
 Deleted the NL 20 restart file. NL 40 is running.
+
+### 9 Nov 2026, 18:05: label study, NL 40 finished; crossply / symmetry part complete
+
+40 test designs, mean / max vs full GBT (head = network number; check after 5 / 12 physics steps):
+
+| NL | head | check 5 | check 12 | GP head, same labels |
+|---|---|---|---|---|
+| 0 | 11.93 / 24.09 | 1.92 / 6.45 | 0.28 / 1.39 | - |
+| 10 | 10.45 / 26.14 | 1.91 / 6.23 | 0.28 / 1.42 | 3.32 / 18.30 |
+| 20 | 9.34 / 26.31 | 1.90 / 7.29 | 0.27 / 1.24 | 2.29 / 14.90 |
+| 40 | 6.95 / 13.06 | 1.78 / 5.62 | 0.26 / 1.22 | 1.68 / 7.68 |
+| 120 | 1.14 / 4.92 | 1.78 / 5.50 | 0.26 / 1.09 | 0.48 / 3.65 |
+
+* Honest conclusion: for the number alone, the GP beats the hybrid PINN at every label count (about 4x at
+  NL 10-40, 2x at NL 120). The PINN head is always biased high when few labels are used. The check (shape from
+  the network + GBT steps) is independent of the labels: with 0 labels, 5 steps match GP-40 in mean and are better
+  in max; 12 steps (0.28 / 1.4 %) beat GP-120 in max (3.65 %).
+* Needed before writing: (1) the check started without the network (shared basis / nearest training design) to
+  show what the network adds; (2) clean timing of the check; (3) the head fix idea (validation only).
+* Deleted the NL 40 restart file. NL 0 for the other 7 experts is running.
