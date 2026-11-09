@@ -905,3 +905,15 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   expert 1 at cache 24): the 553-design pool with `--cache 8` is too large for the about 6 GB limit (B2 used
   cache 2 for 1064 designs). Resumed from the checkpoint with `CACHE=2` (only speed changes, not results).
   Expected: about 27 more rounds × 13 min ≈ 6 h plus 2 h-limit restarts.
+
+## 9 Nov 2026 09:00 — level 2 at outer 19: validation got worse after round 8 (overfitting)
+* Restarts at the 2 h limit: during outer 12 (06:55) and during outer 20 (09:00; checkpoint after outer 19).
+* Validation (35 industrial designs, EMA head) mean / max by evaluation round: 2: 5.41 / 20.15 %,
+  4: 1.89 / 8.14, 6: 1.61 / 6.82, **8: 1.60 / 4.91 (best)**, 10: 1.80 / 4.70, 12: 2.00 / 6.08,
+  14: 2.24 / 5.53, 16: 2.23 / 5.69, 18: 2.45 / 7.37 %. Train head (16 designs) keeps improving
+  (round 18: 1.10 / 4.61 %), so the network is overfitting the 518 training designs.
+* `train_epinn.py` keeps the best-on-validation weights (now round 8 EMA), so the final model is not hurt by
+  the later rounds; it can only change if validation gets below 1.60 % in rounds 20–30.
+* Honest note: 1.60 % (validation) is about twice the GP of Option A (0.77 / 4.21 % on the 45 industrial test
+  designs; different set, so the fair comparison is the test run after training). Not restarted at 09:00:
+  waiting for Aya to choose (continue rounds 20–30, about 2.5 h, or finish now with the round-8 weights).
