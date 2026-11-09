@@ -46,3 +46,8 @@ exact targets for 120 of 120 training designs, mode = hybrid
 neighbour bank: 120 labelled training designs
 network: 0.5 M parameters
 continuing after outer iteration 13 from runs/experts/symmetry_crossply_SS_v2_nnres_L120_ckpt.pt   (1 s)
+outer  14: training designs, N of the network before the step vs full GBT: mean 18.18 %, max 114.73 %; fit to the physics step: 2.5142 -> 2.5155   (162 s)
+   [14] train: Ritz N (upper bound) vs full GBT: mean 13.57 %, max 40.98 %  |  head N: mean 7.19 %, max 22.64 %, bias +3.43 %, above 9/16
+   [14] val net: Ritz N (upper bound) vs full GBT: mean 19.33 %, max 50.09 %  |  head N: mean 6.58 %, max 17.90 %, bias -1.49 %, above 14/32
+   [14] val ema: Ritz N (upper bound) vs full GBT: mean 18.34 %, max 47.21 %  |  head N: mean 6.64 %, max 18.73 %, bias -1.01 %, above 15/32
+   (247 s)
