@@ -987,3 +987,6 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   check → full GBT); (2) fewer steps where 5 are enough; (3) profile the 2.5 s build and see whether the
   matrices can be prepared once per expert (offline) so that each design only needs a cheap online step
   (as in reduced-basis methods; literature topic 2).
+* Aya (10:19): add point 3 (prepare the check once per expert, cheap online step per design) to the plan; done in
+  `docs/STATUS.md` and `docs/LITERATURE_PLAN.md` (cheaper physics check: clean timing, profile the build,
+  offline / online split, fewer steps). Starts after the label study (the CPUs are busy with training now).

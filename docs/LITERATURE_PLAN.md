@@ -11,3 +11,5 @@ file, and the numbers go into one comparison table. Existing notes: `docs/LITERA
 | 4 | Solver-in-the-loop surrogates: multi-fidelity, active learning, trust / fallback rules | The GBT-call study (network → ensemble trigger → physics check → full GBT), as in Paper 1 | share of solver calls, time saved, miss rate |
 | 5 | Neural eigenvalue solvers (Ritz / subspace networks, energy natural gradient, PINNs for eigenproblems) | Method section: what our training builds on | loss, optimizer, problem size |
 | 6 | GBT with machine learning; GBT–Ritz works (Kharghani; Silvestre–Camotim notation) | Whether anyone has combined GBT and ML; citations for the GBT part | method, cases, validation |
+
+Linked work item (Aya, 9 Nov): topic 2 feeds the **cheaper physics check** (offline once per expert, cheap online step per design; see `docs/STATUS.md`). Look especially for geometry-parameter cases (empirical interpolation of the matrices) and for eigenvalue error bounds that are cheap online.
