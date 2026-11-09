@@ -1023,3 +1023,20 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
      mainly correct the head. NL 0 + 5-step check (1.92 / 6.45 %) is about as good as GP with 40 labels, with no
      labelled design, but it costs the check time per design (about 6 s, not yet timed cleanly).
 * Deleted the NL 0 restart file (`_ckpt.pt`, 103 MB); the trained network and log are kept. NL 10 is running.
+
+### 9 Nov 2026, 12:50: Navid: "something is wrong with the paper formulation, do not use it for the ML"
+
+* Aya reports that Navid says the periodic-GBT formulation should not be used for the ML, although its results
+  are correct. His exact reason is not known yet. Candidates (my reading of `manuscript/part2.md`, not
+  confirmed):
+  - the mesh changes with b_s (segments at most b_s/25: 92 nodes at b_s = 150 mm, 78 at 285.5 mm), so the
+    number and meaning of the modes jump across the design space; a network needs a smooth map from design to
+    answer;
+  - the GBT modes themselves are not smooth in the design (unit-maximum scaling, family-by-family projection,
+    hierarchical re-ordering at one reference wavenumber, mode crossings);
+  - the link walls use factors 10^3 / 10^-3 (penalty-like), and thin walls with Mindlin and transverse-extension
+    modes make K very ill-conditioned, which hurts gradient training;
+  - the computed pre-buckling state makes G depend on a linear solve for every design;
+  - the cell of width 2 b_s holds only Bloch waves 0 and pi (bay-repeating and alternating modes).
+* Our ML already avoids the first two (shared POD basis), and the labels are full-GBT values, so the trained
+  numbers are not affected by mode scaling. Decision: ask Navid for his exact point; nothing is stopped.
