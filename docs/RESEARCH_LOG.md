@@ -970,3 +970,20 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   the big files are deleted. `periodic_industrial_SS/oracle` holds only broken links (train set deleted 2 Nov).
 * Label study chain running: crossply / symmetry physics-only (NL 0) started 09:52; round 2 head 55 % (the
   physics-only start is slow, as in the pilot).
+
+## 9 Nov 2026 10:10 — deleted old files (Aya: "ok delete them"); certificate cost corrected
+* Deleted (numbers kept in git, see 09:52): the 8 expert restart files `runs/experts/*_hybrid_L120_ckpt.pt`
+  (finished, final models in git), `runs/b2/pilot_hybrid_ckpt.pt`, and the pre-v2 sets
+  `data/operators/{periodic_industrial_SS,symmetry_industrial}`, `data/exact_targets/{periodic_industrial_SS,
+  periodic_mixed_SS_v2_e16s15,smoke_v2}`. Free disk 2.9 → 4.9 GB. Kept: `runs/b2/hybrid_L1000_ckpt.pt` (D, the
+  only way to continue the one-network baseline; Aya's choice pending), all v2 expert / mixed operators and labels.
+* Correction (honest): I wrote "the certificate costs about one GBT solve". From the logs it is less, but not
+  measured cleanly: the certificate reads the design's GBT matrices in the network's Ritz space (building them
+  without the full GBT eigen solve took about 2.5 s per design, 5 Nov) and then needs about 0.3 s per step
+  (`eval_epinn.py` docstring), so about 2.5 + 12 × 0.3 ≈ 6 s with 12 steps, vs full GBT 8–24 s per expert design
+  (mean 18 s on the mixed set). Rough estimate ≈ 3× cheaper than full GBT; to be timed cleanly (nothing else
+  running) with a split into matrix build and steps.
+* Plan to cut the check cost: (1) check only flagged designs (tiered, as Paper 1: network → ensemble trigger →
+  check → full GBT); (2) fewer steps where 5 are enough; (3) profile the 2.5 s build and see whether the
+  matrices can be prepared once per expert (offline) so that each design only needs a cheap online step
+  (as in reduced-basis methods; literature topic 2).
