@@ -1,0 +1,17 @@
+35 validation designs held out
+SS: 518 training designs, 45 test designs, n = 12348 per mode; inputs ready in 164 s
+exact targets for 518 of 518 training designs, mode = hybrid
+network: 0.5 M parameters
+outer   1: training designs, N of the network before the step vs full GBT: mean 5204.35 %, max 10833.55 %; fit to the physics step: 7.4600 -> 6.1205   (775 s)
+outer   2: training designs, N of the network before the step vs full GBT: mean 140.31 %, max 356.28 %; fit to the physics step: 5.4460 -> 4.8728   (1550 s)
+   [2] train: Ritz N (upper bound) vs full GBT: mean 67.20 %, max 121.36 %  |  head N: mean 3.24 %, max 9.44 %, bias +0.22 %, above 8/16
+   [2] val net: Ritz N (upper bound) vs full GBT: mean 67.54 %, max 141.97 %  |  head N: mean 2.54 %, max 8.91 %, bias -1.30 %, above 14/35
+   [2] val ema: Ritz N (upper bound) vs full GBT: mean 88.88 %, max 181.27 %  |  head N: mean 5.41 %, max 20.15 %, bias -3.16 %, above 11/35
+   (1638 s)
+outer   3: training designs, N of the network before the step vs full GBT: mean 71.91 %, max 181.62 %; fit to the physics step: 4.6814 -> 4.3597   (2408 s)
+   (killed during outer 3, probably out of memory with --cache 8 and 553 designs; resumed from checkpoint with --cache 2)
+35 validation designs held out
+SS: 518 training designs, 45 test designs, n = 12348 per mode; inputs ready in 37 s
+exact targets for 518 of 518 training designs, mode = hybrid
+network: 0.5 M parameters
+continuing after outer iteration 3 from runs/level2/industrial_hybrid_L518_ckpt.pt   (2 s)

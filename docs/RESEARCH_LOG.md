@@ -887,3 +887,21 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Honest point to keep: the physics check costs about one GBT solve, so it must not run on every design,
   otherwise the time is no better than all-GBT (Paper 1's hybrid was also slower than all-Abaqus). The trigger
   decides the saving; its miss rate vs full GBT is measured on all sweep points.
+
+## 9 Nov 2026 — expert 8 (pm45 / periodic) done: all 8 experts finished
+* Labels 23:44–02:08 (one 2 h-limit restart), training 02:08–04:04 (restart at outer 19), certificate 04:08.
+  Test (40 designs), |error| vs full GBT, mean / max: head 0.29 / 0.97 %, network Ritz 21.2 / 76.7 %,
+  certificate 3 steps 1.07 / 4.79 %, 5 steps 0.40 / 2.17 %, 8 steps 0.19 / 0.67 %, 12 steps 0.14 / 0.44 %.
+  Final train head 0.26 / 0.85 %; validation (EMA, end) 0.25 / 0.81 %.
+* Same 40 test geometries as expert 7: full GBT periodic vs symmetry differ only 0.05 % mean, 0.12 % max
+  (2 of 40 above 0.1 %) for pm45 (crossply: identical; quasiiso 0.20 / 0.79 %; zerorich 0.28 / 1.82 %).
+* All 8 experts, test head mean / max: crossply 1.14 / 4.92, 1.18 / 4.75; quasiiso 0.55 / 1.74, 0.56 / 1.49;
+  zerorich 0.75 / 3.10, 0.67 / 2.14; pm45 0.24 / 0.87, 0.29 / 0.97 % (symmetry, periodic). Certificate
+  12 steps: 0.11–0.33 % mean, 0.38–1.09 % max.
+
+## 9 Nov 2026 — level 2 started; out of memory with cache 8
+* Level 2 (`NL=518 bash logs/run_level2.sh`) started 04:08 via `logs/run_night.sh`; outer rounds take about
+  775 s (553 designs, 2 threads). Killed during outer 3/4 (no Python error, "Killed" = memory limit, as with
+  expert 1 at cache 24): the 553-design pool with `--cache 8` is too large for the about 6 GB limit (B2 used
+  cache 2 for 1064 designs). Resumed from the checkpoint with `CACHE=2` (only speed changes, not results).
+  Expected: about 27 more rounds × 13 min ≈ 6 h plus 2 h-limit restarts.

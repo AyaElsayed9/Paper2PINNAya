@@ -197,3 +197,5 @@ periodic/train: 152 panels to build with 2 workers
 === GBT labels (LOBPCG R 8, 400 iterations)  09 Nov 01:19
 === train hybrid, 120 of 120 training designs labelled  09 Nov 02:08
 === train hybrid, 120 of 120 training designs labelled  09 Nov 03:19
+=== physics certificate on the 40 test designs  09 Nov 04:04
+=== EXPERT_DONE periodic_pm45_SS_v2_hybrid_L120  09 Nov 04:08
