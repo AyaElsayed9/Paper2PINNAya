@@ -35,13 +35,14 @@ if [ ! -f $EX/train/LABELS_DONE ]; then
   [ $(ls $EX/train/*.pt | wc -l) -ge 152 ] && touch $EX/train/LABELS_DONE || exit 1
 fi
 NL=${NL:-120}
-MTAG=${TAG}_hybrid_L$NL
+MTAG=${TAG}_hybrid_L$NL; MODE="--mode hybrid --n-labels $NL"
+[ "$NL" = 0 ] && { MTAG=${TAG}_physics_L0; MODE="--mode physics"; }     # label study (9 Nov): physics only
 if [ ! -f $RUN/$MTAG.pt ]; then
-  stage "train hybrid, $NL of 120 training designs labelled"
+  stage "train $MTAG ($NL of 120 training designs labelled)"
   python3 -u scripts/train_epinn.py --train $OPS/train --files $RUN/${TAG}_files.txt --test $OPS/test --bc $BC \
     --method ngfull --n-train 152 --val 32 --epochs 10 --arch decoder --cache ${CACHE:-8} --n-eval-train 16 --outer 30 \
     --batch 16 --lr 1e-3 --lr-final 1e-5 --ema 0.995 --R 8 --k 3 --seed 0 --threads 2 --no-test-log \
-    --inputs geom --exact $EX/train --mode hybrid --n-labels $NL --ckpt $RUN/${MTAG}_ckpt.pt --out $RUN/$MTAG.pt >> $RUN/$MTAG.log 2>&1 || exit 1
+    --inputs geom --exact $EX/train $MODE --ckpt $RUN/${MTAG}_ckpt.pt --out $RUN/$MTAG.pt >> $RUN/$MTAG.log 2>&1 || exit 1
 fi
 if [ ! -f results/experts/${MTAG}_cert.log ]; then
   stage "physics certificate on the 40 test designs"

@@ -6,6 +6,7 @@
 # designs of the 1000 B2 training designs + the 35 industrial of the 64 B2 validation designs (validation);
 # test = the 45 industrial of the 100 v2 test designs (symlinked).  Resumable (--ckpt).
 #     NL=518 bash logs/run_level2.sh      (all 518 training designs labelled; NL = 0 -> physics only)
+#     OUTER=19 (9 Nov): finish an earlier stopped run at its checkpoint (no more rounds; best-on-validation weights kept)
 cd /home/claude/paper2pinnaya
 export OMP_NUM_THREADS=2
 NL=${NL:-518}
@@ -15,7 +16,7 @@ RUN=runs/level2; TEST=data/operators/periodic_industrial_SS_v2/test
 if [ ! -f $RUN/$TAG.pt ]; then
   python3 -u scripts/train_epinn.py --train data/operators/periodic_mixed_SS_v2/train --files $RUN/files_industrial.txt \
     --test $TEST --bc SS --method ngfull --n-train 553 --val 35 --epochs 10 --arch decoder --cache ${CACHE:-8} \
-    --n-eval-train 16 --outer 30 --batch 16 --lr 1e-3 --lr-final 1e-5 --ema 0.995 --R 8 --k 3 --seed 0 --threads 2 \
+    --n-eval-train 16 --outer ${OUTER:-30} --batch 16 --lr 1e-3 --lr-final 1e-5 --ema 0.995 --R 8 --k 3 --seed 0 --threads 2 \
     --no-test-log --inputs all --exact data/exact_targets/periodic_mixed_SS_v2/train $MODE \
     --ckpt $RUN/${TAG}_ckpt.pt --out $RUN/$TAG.pt >> $RUN/$TAG.log 2>&1 || exit 1
 fi

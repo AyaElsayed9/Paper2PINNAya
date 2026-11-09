@@ -1,0 +1,52 @@
+symmetry_crossply_SS_v2      GP NL  10: test mean 3.32 %  max 18.30 %
+symmetry_crossply_SS_v2      GP NL  20: test mean 2.29 %  max 14.90 %
+symmetry_crossply_SS_v2      GP NL  40: test mean 1.68 %  max 7.68 %
+symmetry_crossply_SS_v2      GP NL 120: test mean 0.48 %  max 3.65 %
+symmetry_quasiiso_SS_v2      GP NL  10: test mean 0.98 %  max 5.05 %
+symmetry_quasiiso_SS_v2      GP NL  20: test mean 0.58 %  max 3.26 %
+symmetry_quasiiso_SS_v2      GP NL  40: test mean 0.60 %  max 3.10 %
+symmetry_quasiiso_SS_v2      GP NL 120: test mean 0.42 %  max 2.25 %
+symmetry_zerorich_SS_v2      GP NL  10: test mean 1.59 %  max 6.13 %
+symmetry_zerorich_SS_v2      GP NL  20: test mean 1.22 %  max 5.30 %
+symmetry_zerorich_SS_v2      GP NL  40: test mean 0.72 %  max 4.04 %
+symmetry_zerorich_SS_v2      GP NL 120: test mean 0.66 %  max 2.93 %
+symmetry_pm45_SS_v2          GP NL  10: test mean 1.61 %  max 14.29 %
+symmetry_pm45_SS_v2          GP NL  20: test mean 0.49 %  max 5.99 %
+symmetry_pm45_SS_v2          GP NL  40: test mean 0.07 %  max 0.50 %
+/usr/local/lib/python3.13/site-packages/sklearn/gaussian_process/_gpr.py:667: ConvergenceWarning: lbfgs failed to converge after 24 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+symmetry_pm45_SS_v2          GP NL 120: test mean 0.01 %  max 0.17 %
+periodic_crossply_SS_v2      GP NL  10: test mean 3.32 %  max 18.30 %
+periodic_crossply_SS_v2      GP NL  20: test mean 2.29 %  max 14.90 %
+periodic_crossply_SS_v2      GP NL  40: test mean 1.31 %  max 5.18 %
+periodic_crossply_SS_v2      GP NL 120: test mean 0.48 %  max 3.65 %
+periodic_quasiiso_SS_v2      GP NL  10: test mean 1.06 %  max 4.89 %
+periodic_quasiiso_SS_v2      GP NL  20: test mean 0.62 %  max 3.48 %
+periodic_quasiiso_SS_v2      GP NL  40: test mean 0.52 %  max 2.87 %
+periodic_quasiiso_SS_v2      GP NL 120: test mean 0.46 %  max 2.47 %
+periodic_zerorich_SS_v2      GP NL  10: test mean 1.53 %  max 5.63 %
+/usr/local/lib/python3.13/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k2__noise_level is close to the specified lower bound 1e-10. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+periodic_zerorich_SS_v2      GP NL  20: test mean 1.95 %  max 11.43 %
+periodic_zerorich_SS_v2      GP NL  40: test mean 0.67 %  max 3.24 %
+periodic_zerorich_SS_v2      GP NL 120: test mean 0.69 %  max 2.77 %
+periodic_pm45_SS_v2          GP NL  10: test mean 1.62 %  max 14.30 %
+periodic_pm45_SS_v2          GP NL  20: test mean 0.48 %  max 5.95 %
+periodic_pm45_SS_v2          GP NL  40: test mean 0.07 %  max 0.51 %
+/usr/local/lib/python3.13/site-packages/sklearn/gaussian_process/_gpr.py:667: ConvergenceWarning: lbfgs failed to converge after 22 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+/usr/local/lib/python3.13/site-packages/sklearn/gaussian_process/_gpr.py:667: ConvergenceWarning: lbfgs failed to converge after 31 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+periodic_pm45_SS_v2          GP NL 120: test mean 0.01 %  max 0.17 %

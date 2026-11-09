@@ -917,3 +917,41 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Honest note: 1.60 % (validation) is about twice the GP of Option A (0.77 / 4.21 % on the 45 industrial test
   designs; different set, so the fair comparison is the test run after training). Not restarted at 09:00:
   waiting for Aya to choose (continue rounds 20–30, about 2.5 h, or finish now with the round-8 weights).
+
+## 9 Nov 2026 09:45 — level 2 finished with the round-8 weights; label study started; GP baseline for the experts
+* Aya: finish level 2 with the best-on-validation weights (round 8) and start the next step. `run_level2.sh` got
+  `OUTER` (default 30); `OUTER=19` continues the checkpoint of outer 19 with no more rounds, runs the final
+  evaluation, keeps the best-on-validation weights and saves. Then its certificate on the 45 industrial test designs.
+* Chain `logs/run_label_study.sh` (resumable): level 2 finish → expert crossply / symmetry with NL = 0, 10, 20,
+  40 labels of 120 → NL = 0 (physics only) for the other 7 experts. `run_expert.sh`: NL = 0 → `--mode physics`,
+  tag `<side>_<lay>_SS_v2_physics_L0`.
+* Aya asked why labels matter if the 1064-label run "did not work": that run (B2, NL = 1000) was on the MIXED
+  space (half random ply-by-ply lay-ups); there even a GP with 1000 labels had 5.2 % mean / 28 % max, so it says
+  nothing about labels on realistic lay-ups. More labels did help there (physics-only pilot 7.75 % → 4.7 %).
+* **New baseline (`scripts/expert_tables.py`, `results/expert_tables/gp_baseline.csv`):** Gaussian process (same
+  kernel as option A, log N, inputs b_s and β) on the SAME first NL training designs as the PINN, errors on the
+  same 40 test designs vs full GBT, mean / max (%):
+
+  | expert | GP 10 | GP 20 | GP 40 | GP 120 | PINN head 120 |
+  |---|---|---|---|---|---|
+  | crossply / sym | 3.32 / 18.30 | 2.29 / 14.90 | 1.68 / 7.68 | 0.48 / 3.65 | 1.14 / 4.92 |
+  | quasiiso / sym | 0.98 / 5.05 | 0.58 / 3.26 | 0.60 / 3.10 | 0.42 / 2.25 | 0.55 / 1.74 |
+  | zerorich / sym | 1.59 / 6.13 | 1.22 / 5.30 | 0.72 / 4.04 | 0.66 / 2.93 | 0.75 / 3.10 |
+  | pm45 / sym | 1.61 / 14.29 | 0.49 / 5.99 | 0.07 / 0.50 | 0.01 / 0.17 | 0.24 / 0.87 |
+  | crossply / per | 3.32 / 18.30 | 2.29 / 14.90 | 1.31 / 5.18 | 0.48 / 3.65 | 1.18 / 4.75 |
+  | quasiiso / per | 1.06 / 4.89 | 0.62 / 3.48 | 0.52 / 2.87 | 0.46 / 2.47 | 0.56 / 1.49 |
+  | zerorich / per | 1.53 / 5.63 | 1.95 / 11.43 | 0.67 / 3.24 | 0.69 / 2.77 | 0.67 / 2.14 |
+  | pm45 / per | 1.62 / 14.30 | 0.48 / 5.95 | 0.07 / 0.51 | 0.01 / 0.17 | 0.24 / 0.97 |
+
+* **Reading (honest):** with all 120 labels and only 2 inputs, a plain GP gives the critical load as well as or
+  better than the PINN head (better mean on 6 of 8; PINN better max on quasiiso and zerorich / periodic; GP far
+  better on pm45, 0.01 vs 0.24 %). So the paper cannot claim that the PINN head beats a data model with many
+  labels. What only the PINN gives: the buckling mode, the physics check (the GP answer has no check), and
+  training without labels or with few labels. With 10–20 labels the GP max error is 5–18 %, so the label study
+  (NL = 0 / 10 / 20 / 40) decides whether the physics helps there. A few-label win (if it comes) and the
+  physics check are the honest case for the PINN.
+* The same script writes every expert's GBT numbers (152 training + 40 test designs: b_s, β, full-GBT N, label
+  Ritz loads, label time) to `results/expert_tables/*.csv`, kept in git, so the numbers survive if the big label
+  and operator files are deleted.
+* Literature plan written: `docs/LITERATURE_PLAN.md` (6 topics, one comparison table).
+* Disk: 2.9 GB free (data 18 GB). No new operators are needed for the label study.
