@@ -1048,3 +1048,17 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
   in GBT). The "symmetry" side condition (U1 = 0 on both sides) also fixes the width. Abaqus used the same
   constraint, which is why the results agree. All Paper 2 labels use the fixed width. Proposed check: strip
   solver, fixed vs free width, a few designs per lay-up at beta <= 3.5. Waiting for Navid's exact point.
+
+### 9 Nov 2026, 15:35: label study, NL 10 finished (crossply / symmetry)
+
+40 test designs, mean / max vs full GBT: head 10.45 / 26.14 % (39/40 above), network Ritz 22.34 / 51.95 %,
+check 3 steps 4.02 / 11.73 %, 5 steps 1.91 / 6.23 %, 8 steps 0.71 / 2.88 %, 12 steps 0.28 / 1.42 %.
+(NL 0: head 11.93 / 24.09 %; NL 120: 1.14 / 4.92 %; GP with the same 10 labels: 3.32 / 18.30 %.)
+
+* Honest reading: 10 labels barely improve the head (11.9 -> 10.5 %); the GP with the same 10 labels is 3x better.
+  In the hybrid loss, the head of the 110 unlabelled designs is fitted to the physics step, whose value is still
+  far above full GBT (upper bound, slow convergence), and this pulls the head up; 10 labels cannot correct it.
+  The check is unchanged (mode shapes come from the physics).
+* Not changed during the study (no tuning). Idea for later, to test on validation only: fit the head of
+  unlabelled designs to the refined check value, or give the labelled designs more weight.
+* Deleted the NL 10 restart file. NL 20 is running.
