@@ -1062,3 +1062,11 @@ check 3 steps 4.02 / 11.73 %, 5 steps 1.91 / 6.23 %, 8 steps 0.71 / 2.88 %, 12 s
 * Not changed during the study (no tuning). Idea for later, to test on validation only: fit the head of
   unlabelled designs to the refined check value, or give the labelled designs more weight.
 * Deleted the NL 10 restart file. NL 20 is running.
+
+### 9 Nov 2026, 16:00: label study, NL 20 finished (crossply / symmetry)
+
+40 test designs, mean / max vs full GBT: head 9.34 / 26.31 % (40/40 above), network Ritz 22.38 / 51.28 %,
+check 3 steps 3.86 / 11.25 %, 5 steps 1.90 / 7.29 %, 8 steps 0.69 / 2.65 %, 12 steps 0.27 / 1.24 %.
+GP with the same 20 labels: 2.29 / 14.90 %. Head so far: NL 0 11.93, NL 10 10.45, NL 20 9.34, NL 120 1.14 % mean.
+The head improves only slowly with labels and stays biased high; the check is the same for every NL.
+Deleted the NL 20 restart file. NL 40 is running.
