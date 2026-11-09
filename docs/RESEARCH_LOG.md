@@ -1090,3 +1090,38 @@ Deleted the NL 20 restart file. NL 40 is running.
 * Needed before writing: (1) the check started without the network (shared basis / nearest training design) to
   show what the network adds; (2) clean timing of the check; (3) the head fix idea (validation only).
 * Deleted the NL 40 restart file. NL 0 for the other 7 experts is running.
+
+### 9 Nov 2026, 19:30: what does the network add to the check? Start baselines (crossply / symmetry)
+
+`scripts/check_start_baselines.py` (new): the same check (block LOBPCG, energy metric, R = 8, seed 1, same 40 test
+designs) started from (a) random vectors, (b) the GBT modes of the nearest labelled training design in scaled
+(b_s, beta) among the first 10 or 120, copied into the test design's coordinates, (c) the trained networks.
+`results/check_baselines/symmetry_crossply_SS_v2.csv` (every step for every design).
+
+| start | 3 steps | 5 steps | 8 steps | 12 steps | 20 steps | 30 steps |
+|---|---|---|---|---|---|---|
+| random (no labels, no network) | 11.10 / 27.77 | 4.25 / 11.78 | 1.39 / 6.19 | 0.39 / 1.83 | 0.09 / 0.40 | 0.04 / 0.18 |
+| network, physics only (L0) | 4.09 / 11.97 | 1.92 / 6.45 | 0.73 / 2.87 | 0.28 / 1.39 | 0.09 / 0.37 | 0.05 / 0.20 |
+| network, hybrid 120 labels | 3.79 / 9.40 | 1.78 / 5.50 | 0.67 / 2.90 | 0.26 / 1.09 | 0.08 / 0.32 | 0.04 / 0.19 |
+| nearest of 10 labelled designs | 2.81 / 8.97 | 1.18 / 4.16 | 0.41 / 1.53 | 0.14 / 0.54 | 0.05 / 0.19 | 0.03 / 0.13 |
+| nearest of 120 labelled designs | 1.28 / 2.70 | 0.51 / 1.72 | 0.21 / 1.08 | 0.08 / 0.32 | 0.03 / 0.12 | 0.02 / 0.10 |
+
+(mean / max |error| % vs full GBT.)
+
+* Honest reading: the network start saves a few steps against a random start (5 steps: 1.9 vs 4.3 %), but copying
+  the modes of the nearest of only 10 labelled designs is better than every network at every step, and the
+  nearest of 120 is about 3x better. As trained now, the network's mode shapes are not good enough to justify it
+  for the check (its own Ritz value is 22-25 % above full GBT, i.e. the predicted modes are far from the
+  eigenvectors). Together with the GP result for the number, the current PINN does not beat simple baselines.
+* Mistake (mine): the baseline ran beside the training, the memory limit was hit and the training of periodic
+  crossply NL 0 was killed at round 6 (resumed from the round-5 checkpoint, cache 3 instead of 8; the cache only
+  changes speed).
+* Formulation check (Aya: "are all our formulations correct?"): `manuscript/verify_math.py` passes again (paper's
+  modal matrices = code to 1e-15 for all lay-ups, every mode periodic at the side nodes, classical limit -0.001 %).
+  I re-derived the equilibrium operators (Eq. Kop) and geometric tensors by integration by parts: signs agree.
+  Physics point: the periodic condition fixes the cell width. Standard periodic conditions allow a constant jump
+  (macroscopic strain, Xia, Zhang and Ellyin 2003), and Bloch-wave buckling theory (Geymonat, Mueller and
+  Triantafyllidis 1993; Triantafyllidis and Schnaidt 1993) computes the pre-buckling state under the macroscopic
+  load (uniaxial compression = zero mean transverse force). The paper's condition is uniaxial load with zero mean
+  transverse strain. Wording point: the Ritz value bounds the Ritz-space load, not full GBT (crossply: 70 of 152
+  labels are up to 0.04 % below full GBT).

@@ -200,3 +200,4 @@ periodic/train: 152 panels to build with 2 workers
 === physics certificate on the 40 test designs  07 Nov 22:54
 === EXPERT_DONE periodic_crossply_SS_v2_hybrid_L120  07 Nov 22:57
 === train periodic_crossply_SS_v2_physics_L0 (0 of 120 training designs labelled)  09 Nov 18:05
+=== train periodic_crossply_SS_v2_physics_L0 (0 of 120 training designs labelled)  09 Nov 18:30
