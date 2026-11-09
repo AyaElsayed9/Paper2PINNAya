@@ -990,3 +990,16 @@ one seed and 32 test designs). Next: step B0 (extend the design space as Paper 1
 * Aya (10:19): add point 3 (prepare the check once per expert, cheap online step per design) to the plan; done in
   `docs/STATUS.md` and `docs/LITERATURE_PLAN.md` (cheaper physics check: clean timing, profile the build,
   offline / online split, fewer steps). Starts after the label study (the CPUs are busy with training now).
+
+### 9 Nov 2026, 11:40: label study, interim (crossply / symmetry, NL 0 = physics only)
+
+* The chain was stopped by the 2 h limit at round 27 of 30 (checkpoint after round 27). Restarted
+  `logs/run_label_study.sh` (Aya: "keep running"); level 2 is skipped, the expert resumes at round 28.
+* Physics-only progress (validation, 32 designs, vs full GBT): round 6 head 35.1 / 73.9 %, round 24 13.6 / 35.5 %,
+  round 26 13.4 / 34.8 % (mean / max). Every head value is **above** full GBT (bias +13 %, 32/32 above). The Ritz
+  upper bound is 26 / 56 %.
+* Honest reading so far: without labels the network learns slowly and stays far from full GBT; GP with 10 labels
+  is 3.3 / 18.3 % and the hybrid PINN with 120 labels 1.14 / 4.92 %. The final test numbers (and the certificate,
+  which corrects the network with physics steps) follow when the run ends. Possible reason for the bias: the
+  physics loss only pushes the Ritz quotient down step by step (an upper bound), and 30 rounds are not enough
+  to converge; to check after the run (not a change to the run).

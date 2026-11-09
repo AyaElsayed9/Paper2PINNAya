@@ -128,3 +128,4 @@ final test : Ritz N (upper bound) vs full GBT: mean 16.86 %, max 34.68 %  |  hea
    test fb1c16039237 bs 239 beta 2.12: full 8.9951  Ritz 10.3271 (+14.81 %)  head 8.9867 (-0.09 %)
    test ff51ef500189 bs 267 beta 1.41: full 6.9480  Ritz 7.7607 (+11.70 %)  head 6.9831 (+0.51 %)
 LEVEL2_DONE industrial_hybrid_L518 09 Nov 09:52
+LEVEL2_DONE industrial_hybrid_L518 09 Nov 11:38
