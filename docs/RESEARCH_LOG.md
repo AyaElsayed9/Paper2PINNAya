@@ -1349,3 +1349,23 @@ drops tracked changes inside equations). Scripts in the same folder (build.sh).
 Checks: docx schema validation passed, all text edits tracked (validator --author), rendered and read.
 LibreOffice cannot display tracked changes inside equations (it drops them); Word supports this format
 (w:ins/w:del around m:r, per the Open XML spec). Aya should open it in Word before sending.
+
+### 10 Nov 2026, 12:00 — level-2 fast check (45 test designs) + the coarse pre-buckling state re-checked
+`scripts/fast_check_l2.py` -> results/fast_check/level2_industrial.csv, runs/fast_check/level2_industrial.log.
+Level-2 net (38 inputs, 518 labels), starts nn518 / knn2 (2 nearest, 16 vectors) / net; nothing else running.
+Full GBT 10.08 s mean (3.4–21.8); check ops (coarse pre, k=4) 1.83 s + metric 0.98 s.
+| start | 5 steps: time (% of full) , |e| mean/max | 12 steps |
+| nn518 | 3.89 s (39 %), 0.55 / 2.19 % | 5.18 s (51 %), 0.07 / 0.47 % |
+| knn2  | 4.00 s (40 %), 0.45 / 2.06 % | 5.32 s (53 %), 0.07 / 0.52 % |
+| net   | 3.87 s (38 %), 0.66 / 2.75 % | 5.18 s (51 %), 0.11 / 0.72 % |
+Net better than nn518 in 22/45 designs at 5 steps, 18/45 at 12. => at level 2 too, the network is not a better start
+than the nearest label (honest result).
+Values below full GBT: up to 7/45 (min -0.037 %). Cause checked (`scripts/coarse_pre_l2.py`,
+results/fast_check/level2_coarse_pre.csv): full GBT with the coarse pre-buckling state vs the solver's own, all 45:
+  k = 4: dN mean -0.038 %, range -0.107 … -0.010 % (always lower); pre time 1.42 s
+  k = 2: dN mean -0.011 %, range -0.025 … -0.001 %;                pre time 2.17 s
+  k = 1 (solver's own): 3.86 s
+CORRECTION: the 08:00 statement "dN < 0.01 %" held only for the 5 cross-ply designs tested; for the industrial
+lay-ups k = 4 lowers N_cr by up to 0.11 %. The check is an upper bound of the coarse-pre problem, not always of full
+GBT. Options for the paper (Aya to decide): k = 4 (fastest, state <= 0.11 %), k = 2 (+0.75 s, <= 0.025 %), k = 1
+(exact bound of the full-GBT Ritz space, ~+2.4 s, check ~60 % of full GBT; estimates from the component times).
