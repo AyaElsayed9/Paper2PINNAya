@@ -1325,3 +1325,27 @@ Honest reading: (1) the check is ~2× faster than full GBT (not 10×); ~3 s of f
 pre-buckling change (< 0.01 %); with the solver's own fine pre-buckling they would be upper bounds. (3) In the
 2-input experts the network start is worse than the nearest-label copy (net better at 12 steps in 58/320 designs);
 the competitive test for the network is level 2 (mixed lay-ups), next.
+
+### 10 Nov 2026, 11:00 — Navid's comments on Sections 1–2 worked in (manuscript/revisions/nk_04112026/)
+Aya: "He said the introduction was awful; make the corrections and send the file again with the track."
+Output: `GBT_periodic-NK-04112026_AME-10112026.docx` (Navid's file + tracked changes by "Aya Medhat Elsayed" + a reply
+under each of his 13 comments) and a `_clean` reading copy (all changes accepted by our own script, since LibreOffice
+drops tracked changes inside equations). Scripts in the same folder (build.sh).
+- Introduction rewritten (tracked): 5 paragraphs -> 8 paragraphs, short sentences, every reference group explained,
+  no new reference, no reference removed (numbering unchanged, order of first citation kept). First paragraph only
+  [1,2]; omega stringer, periodic cell (now explained) and strip methods in a new paragraph 2; [9–12] now described
+  as strip methods for prismatic plate assemblies (no claim that they use periodic conditions). Correction: [33] is
+  the vibration paper, now cited for vibration, not shear deformation.
+- Comment 27: global axes X -> Y (across), Y -> Z (normal), x along the stringers: 35 math symbols (tracked) in
+  2.1.1, 2.1.3, Eq. (10), Table 1, Eq. (12), 2.2.2, 2.2.5, 2.3.4, 3 (Abaqus set-up); figures 1, 3, 6 regenerated
+  (figures_paper.py, only labels changed; fig06 numbers identical to 1e-11). Not renamed: geometric tensors X_ik,
+  matrices Z_g.
+- Comment 28: Figure 1 panel texts replaced by (a), (b), (c); details moved into the caption (tracked).
+- Comments 29, 30, 32, 33: Eqs. (1), (2), (4) one expression per line (m:eqArr), Eq. (3) as 2-column array (left
+  eps_xx, eps_ss, gamma_xs; right gamma_xz, gamma_sz). Layout only, done directly (not tracked), said in the replies.
+- Comment 37: text after Eq. (9) now explains that gamma_k is constant on each segment for G/D modes (exact, not only
+  at the mid-point). Comment 66: Table 1 row U5 before U6 (tracked row insert/delete). Comment 81: sentence before
+  Eq. (16) rewritten. Also removed the double full stop left in the first paragraph of Section 2.
+Checks: docx schema validation passed, all text edits tracked (validator --author), rendered and read.
+LibreOffice cannot display tracked changes inside equations (it drops them); Word supports this format
+(w:ins/w:del around m:r, per the Open XML spec). Aya should open it in Word before sending.

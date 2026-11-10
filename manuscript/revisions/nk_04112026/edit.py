@@ -1,0 +1,175 @@
+import copy
+import sys
+from lxml import etree
+sys.path.insert(0, '.')
+from trk import *  # noqa
+
+SRC, DST = sys.argv[1], sys.argv[2]
+tree = etree.parse(SRC); root = tree.getroot(); body = root.find('w:body', ns)
+cx = Ctx(root)
+B = list(body)                      # element references BEFORE any insertion
+P = {i: B[i] for i in range(len(B))}
+assert vis_text(P[10]).startswith('1. Introduction') and vis_text(P[16]).startswith('2. Theory')
+
+# ---------------------------------------------------------------- 1. Introduction (comments 7, 8, 10, 21)
+INTRO = {
+11: [
+"Stringer-stiffened panels are the standard construction of aircraft fuselage and wing covers, and buckling is often "
+"the criterion that governs their design [1,2]. In composite panels, buckling can occur locally in the skin between the "
+"stringers or in the stringer walls, globally as a column of skin and stringers together, or as a coupling of these "
+"forms. Since many geometries and lay-ups are compared in the early design stage, buckling models are needed that are "
+"both accurate and fast.",
+"Among the stringer profiles, the omega (hat) stringer is widely used. Its closed profile gives high bending and "
+"torsional stiffness, and its two flanges provide a wide bonding area with the skin [3,4]. A cover usually carries many "
+"identical stringers at a constant spacing, the stringer pitch. Away from the longitudinal edges of the cover, the "
+"deformation therefore repeats from one stringer bay to the next, and the analysis can be reduced to one repeating cell "
+"[5–7]. The two side edges of this cell are linked by periodic boundary conditions: the displacements and rotations "
+"at one side edge are set equal to those at the other side edge. The cell then behaves like a part of an infinitely "
+"wide panel. The same idea is used in the theory of wave propagation in periodic structures, where the response of one "
+"repeating unit describes the response of the whole structure [8]. Prismatic plate assemblies such as stiffened panels "
+"are also analyzed efficiently by semi-analytical strip methods. The exact strip programs VIPASA and VICONOPT assemble "
+"exact stiffness matrices of the individual plate strips [9,10], and finite strip methods use polynomial functions "
+"across each strip combined with harmonic [11] or spline [12] functions along the length."],
+12: [
+"Closed-form and semi-analytical models give fast buckling estimates for stiffened composite panels and are therefore "
+"well suited to preliminary design. For blade-stringer-stiffened plates, Mittelstedt derived closed-form buckling loads "
+"of a repeating unit with periodic boundary conditions [5] and explicit local buckling solutions that account for the "
+"interaction between stiffener and plate [6]. For omega stringers, closed-form solutions were developed for the buckling "
+"of compressively loaded plates braced by omega stringers [3] and for the local postbuckling of hat-stringer-stiffened "
+"plates under transverse compression [13]. Schilling and Mittelstedt extended this work to the local buckling [4] and "
+"the column buckling [7] of omega-stringer-stiffened panels, to shear buckling [14], to combined compression and shear "
+"[15] and to local postbuckling [16]. Most recently, El Yaakoubi-Mesbah and Mittelstedt presented closed-form and "
+"computational models for the local buckling and postbuckling of compressively loaded omega-stringer-stiffened panels "
+"that include the effect of the stringer feet [17–19]. An overview of these methods is given in [20].",
+"All these models reduce the panel to a repeating unit, either with periodic boundary conditions [5–7] or with "
+"symmetry conditions [18]. Symmetry conditions are simpler to apply, but they admit only modes that are symmetric about "
+"the symmetry lines, so antisymmetric modes are excluded. To obtain closed-form expressions, the models also need "
+"several idealizations. The interaction between skin and stringer is represented by elastic restraints, and local and "
+"global buckling are treated separately. The pre-buckling stress is assumed to be uniform. The membrane–bending "
+"coupling of unsymmetric laminates is included only approximately, through a reduced bending stiffness whose validity "
+"is limited [21]. The physics-informed neural network developed earlier by the authors for the local buckling of "
+"stiffened panels uses the same reduced bending stiffness [22]. Shell finite element models avoid all these "
+"idealizations. However, they are computationally expensive in parametric studies with many designs. They also give "
+"the buckling mode only as a nodal displacement field, which does not show directly how local, distortional and global "
+"deformations contribute to it."],
+13: [
+"Generalized Beam Theory (GBT) lies between these two groups of models. It was originated by Schardt [23,24] and "
+"developed further by Davies and Leach [25]. GBT describes the deformation of a thin-walled member as a sum of "
+"cross-section deformation modes, each multiplied by an amplitude function along the member axis. The analysis has two "
+"stages. The cross-section analysis computes the deformation modes and their stiffness properties, and the member "
+"analysis determines the amplitude functions and the critical load. Since every mode has a clear structural meaning, "
+"such as global, distortional or local deformation, GBT shows directly how the modes interact in coupled instabilities, "
+"and it needs far fewer degrees of freedom than a shell model [26–29]. Silvestre and Camotim extended first-order "
+"and second-order GBT to arbitrary orthotropic materials [30,31] and later formulated it for thin-walled composite "
+"members with shear deformation [32] and for their vibration [33]. The cross-section analysis was generalized to "
+"arbitrarily branched open sections [34] and then reformulated as a systematic procedure that can be automated "
+"[35,36]. This work also clarified the role of the shear deformation modes [37] and is implemented in the code GBTul "
+"2.0 [38]. Closed sections were treated for circular cylindrical shells and tubes [39] and for regular polygonal tubes "
+"[40]. For composite structures, GBT was applied to fiber-reinforced polymer (FRP) open-section columns [41] and to "
+"laminated CFRP cylindrical stiffened panels [42], and Taig and Ranzi formulated it for stiffened sections [43].",
+"In the member analysis, the amplitude functions can be approximated by the Ritz method, which is widely used for the "
+"buckling of laminated plates and beams [44–46]. Kharghani and Mittelstedt combined GBT and the Ritz method into a "
+"GBT–Ritz approach and applied it to the global, local and distortional buckling of shear-deformable composite "
+"beams with open cross-sections [47], to composite box girders [48] and to thin-walled composite beams with symmetric "
+"and unsymmetric lay-ups [49,50]. In this approach, the cross-section analysis provides the modes, and the Ritz method "
+"provides the amplitude functions with only a few unknowns per mode."],
+14: [
+"However, GBT has so far been formulated for members whose cross-section is either open, with free longitudinal edges, "
+"or closed. The cross-section of a periodic panel cell is neither: the skin ends at two side edges, and the periodic "
+"condition requires equal displacements and rotations at both of them. This condition has not yet been formulated in "
+"GBT. It also cannot simply be imposed on a truncated set of classical modes. These modes are computed for an open "
+"cross-section with independent side edges, so only a few of their combinations satisfy the periodic condition. In "
+"addition, the omega stringer forms closed cells with the skin, so Vlasov’s assumption of zero membrane shear "
+"cannot hold; the stringer is offset from the skin; and the pre-buckling stress is not uniform over the cross-section."],
+15: [
+"The present study closes this gap. Its main novelty is that the periodic condition is formulated within the "
+"cross-section analysis of GBT. As a result, every mode, and therefore every truncated set of modes, satisfies the "
+"periodic condition exactly. This formulation is combined with a shear-deformable GBT–Ritz member analysis [50] "
+"and applied to omega-stringer-stiffened panels with symmetric and unsymmetric laminates. The results are verified "
+"against Abaqus shell models. The mode decomposition shows the transition from local to global buckling as the cell "
+"becomes longer, and it reveals a long-wave mode that is caused by the constant width imposed by the periodic "
+"condition. Since every mode is periodic by construction, the formulation is also suited as the physics model of "
+"physics-informed neural networks for such panels, extending the authors’ earlier network [22] (Section 4)."],
+}
+for i, texts in INTRO.items():
+    rewrite_paragraph(cx, P[i], texts)
+
+# ---------------------------------------------------------------- Section 2, first paragraph: ".." left by an edit
+full = vis_text(P[17]); k = full.find('critical load..'); assert k > 0
+replace_span(cx, P[17], k + len('critical load.'), k + len('critical load..'), '')
+
+# ---------------------------------------------------------------- comment 27: global axes X -> Y, Y -> Z
+REN = {'X': 'Y', 'Y': 'Z'}
+nren = 0
+for i in (20, 38, 44, 57, 58, 60, 68, 69, 81, 130, 148):
+    for r, s in list(vis_runs(P[i])):
+        if r.tag == q('m:r') and s in REN:
+            w = wrap_del(cx, r); ins = cx.mark('ins'); nr = copy.deepcopy(r)
+            for t in nr.findall(q('m:t')):
+                t.text = REN[s]
+            ins.append(nr); w.addnext(ins); nren += 1
+print('axis symbols renamed:', nren)
+
+# ---------------------------------------------------------------- Figure 1 caption (comment 28: sub-captions only in the caption)
+cap = P[22]
+replace(cx, cap, 'linked by the periodic condition.', 'linked by the periodic condition, and the global axes $x$, $Y$, $Z$.')
+replace(cx, cap, 'Infinitely wide panel and the cell (shaded).',
+        'Infinitely wide panel with identical stringers at the pitch $b_s$ and the cell (shaded), which contains two stringers.')
+replace(cx, cap, 'GBT discretisation for ', 'GBT discretization of the cell for ')
+replace(cx, cap, ' mm with nodes, wall types', ' mm (92 nodes, 19 walls and 93 segments) with natural and intermediate nodes, wall types')
+
+# ---------------------------------------------------------------- comment 37: Eq. (9), gamma_k on the whole segment
+p53 = P[53]
+replace(cx, p53, 'For an open contour the minimum is zero and Vlasov’s warping is recovered; in a closed contour the remaining ',
+        'Only the G and D modes receive this warping. Their segments are not elongated, so $v_p$ is constant along each '
+        'segment and, with the warping linear in $s$, the bracket is the shear strain $γ_k$ along the whole segment, '
+        'not only at its mid-point. For an open contour the minimum is therefore zero, $γ_k$ = 0 holds along the entire '
+        'contour and Vlasov’s warping is recovered exactly; in a closed contour the remaining ')
+
+# ---------------------------------------------------------------- comment 81: sentence before Eq. (16)
+rewrite_paragraph(cx, P[88], ["Substituting the strains of Eq. (3) and the constitutive law of Eq. (5) into Eq. (15) and "
+                              "integrating over the contour gives, in the notation of Silvestre and Camotim [32],"])
+
+# ---------------------------------------------------------------- comment 66: Table 1, row U5 before row U6
+tbl = P[60]; rows = tbl.findall('w:tr', ns)
+r6, r5 = rows[-2], rows[-1]
+assert vis_text(r6).startswith('U6') and vis_text(r5).startswith('U5'), (vis_text(r6)[:10], vis_text(r5)[:10])
+new5 = copy.deepcopy(r5)
+CMT = {q('w:commentRangeStart'), q('w:commentRangeEnd'), q('w:commentReference')}
+for e in new5.iter():
+    if q('w:id') in e.attrib and e.tag not in CMT:
+        e.set(q('w:id'), str(cx.nid)); cx.nid += 1
+    for a in ('{http://schemas.microsoft.com/office/word/2010/wordml}paraId',
+              '{http://schemas.microsoft.com/office/word/2010/wordml}textId'):
+        e.attrib.pop(a, None)
+# old row: no comment anchors (they move with the new row), everything deleted
+for e in list(r5.iter(*CMT)):
+    par = e.getparent()
+    if e.tag == q('w:commentReference'):
+        par.getparent().remove(par)                 # the run holding the reference
+    else:
+        par.remove(e)
+
+
+def row_mark(row, kind):
+    trPr = row.find(q('w:trPr'))
+    if trPr is None:
+        trPr = etree.Element(q('w:trPr')); row.insert(0, trPr) if row[0].tag != q('w:tblPrEx') else row.insert(1, trPr)
+    chg = trPr.find(q('w:trPrChange'))
+    (chg.addprevious(cx.mark(kind)) if chg is not None else trPr.append(cx.mark(kind)))
+    for p in row.iter(q('w:p')):
+        para_mark(cx, p, kind)
+    for cp in row.iter(q('m:ctrlPr')):
+        mark_ctrl(cx, cp, kind)
+
+
+for r_, s_ in vis_runs(r5):
+    wrap_del(cx, r_)
+row_mark(r5, 'del')
+for r_, s_ in vis_runs(new5):
+    w_ = cx.mark('ins'); par = r_.getparent(); par.replace(r_, w_); w_.append(r_)
+row_mark(new5, 'ins')
+r6.addprevious(new5)
+
+tree.write(DST, xml_declaration=True, encoding='UTF-8', standalone=True)
+print('ok, next id', cx.nid)

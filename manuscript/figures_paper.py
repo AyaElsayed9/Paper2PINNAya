@@ -86,7 +86,7 @@ def fig01():
     # axes triad
     from matplotlib.patches import FancyArrowPatch
     o = np.array([x0 - 30, 52.0])
-    for d_, lab in ((np.array([28.0, 0]), r"$X$"), (np.array([0, 26.0]), r"$Y$"), (np.array([c, sn]) * 46, r"$x$")):
+    for d_, lab in ((np.array([28.0, 0]), r"$Y$"), (np.array([0, 26.0]), r"$Z$"), (np.array([c, sn]) * 46, r"$x$")):
         a.add_patch(FancyArrowPatch(tuple(o), tuple(o + d_), arrowstyle="-|>", mutation_scale=6, lw=0.6, color=INK, zorder=9))
         a.text(*(o + d_ * 1.12 + np.array([1.5, 0])), lab, fontsize=8, ha="left", va="center")
     # dimension of the cell length
@@ -98,7 +98,7 @@ def fig01():
     a.text(0.5 * (p0[0] + p1[0]), p0[1] - 4, r"$W = 2b_s$", fontsize=8, ha="center", va="top")
     a.set_aspect("equal"); a.axis("off")
     a.set_xlim(x0 - 75, x1 + c * Ldraw + 95); a.set_ylim(-62, sn * Ldraw + 40)
-    panel_label(a, r"(a) periodic cell of the stiffened panel: compressive end load $n_0$ and periodic side edges", x=0.0, y=0.98)
+    panel_label(a, r"(a)", x=0.0, y=0.98)
 
     # (b) infinite panel and the cell ------------------------------------------------------
     b = fig.add_subplot(gs[1])
@@ -114,7 +114,7 @@ def fig01():
     b.annotate("", xy=(-75 - 150, 38), xytext=(-75, 38), arrowprops=dict(arrowstyle="<|-|>", lw=0.5, mutation_scale=5, color=MUTED))
     b.text(-150, 40, r"$b_s$", ha="center", va="bottom", fontsize=8)
     b.set_xlim(x0 - W - 40, x1 + W + 40); b.set_ylim(-6, 62); b.set_aspect("equal"); b.axis("off")
-    panel_label(b, r"(b) infinitely wide panel with identical stringers at the pitch $b_s$; the cell contains two stringers", x=0.0, y=0.98)
+    panel_label(b, r"(b)", x=0.0, y=0.98)
 
     # (c) GBT discretisation ---------------------------------------------------------------
     d = fig.add_subplot(gs[2])
@@ -143,7 +143,7 @@ def fig01():
     d.legend(hs, ["skin", "foot (skin + flange)", "web", "crown", "link wall (offset tie)", "natural node", "intermediate node"],
              ncol=7, loc="lower center", bbox_to_anchor=(0.5, -0.36), fontsize=6.8, handlelength=1.5, columnspacing=1.1, frameon=False)
     d.set_xlim(x0 - 8, x1 + 8); d.set_ylim(-9, 42); d.set_aspect("equal"); d.axis("off")
-    panel_label(d, rf"(c) GBT discretisation of the cell ($b_s = 150$ mm): {sec.N} nodes, {len(sec.walls)} walls, {len(sec.S)} segments", x=0.0, y=1.0)
+    panel_label(d, r"(c)", x=0.0, y=1.0)
     save(fig, "fig01_geometry")
 
 
@@ -227,7 +227,7 @@ def fig03():
         xs = np.sort(ft[np.abs(ft[:, 1]) < 1e-9, 0]); br = np.nonzero(np.diff(xs) > 5)[0]
         for st, en in zip(np.r_[0, br + 1], np.r_[br, len(xs) - 1]):
             ax.axvspan(xs[st] - 1, xs[en] + 1, color="#eef1f5", lw=0, zorder=0)
-        ax.set_xlim(-300, 0); ax.set_xlabel(r"$X$ [mm]"); ax.xaxis.set_major_locator(mt.MultipleLocator(50))
+        ax.set_xlim(-300, 0); ax.set_xlabel(r"$Y$ [mm]"); ax.xaxis.set_major_locator(mt.MultipleLocator(50))
         grid(ax)
     ax_a.set_ylabel(r"$-S_{xx}/n_0$"); ax_b.set_ylabel(r"$-S_{ss}/n_0$")
     ax_a.set_ylim(0, 2.3); ax_a.text(-75, 2.12, "foot", ha="center", fontsize=6.5, color=MUTED)
@@ -250,8 +250,8 @@ def fig03():
     for ax in (ax_c, ax_d):
         ax.set_xlim(0, 1); ax.set_xlabel(r"$x/L$"); grid(ax)
     ax_c.set_ylabel(r"$-S_{xx}/n_0$"); ax_d.set_ylabel(r"$-S_{ss}/n_0$")
-    panel_label(ax_c, r"(c) middle of the skin bay, $X = -b_s$")
-    panel_label(ax_d, r"(d) middle of the skin bay, $X = -b_s$")
+    panel_label(ax_c, r"(c) middle of the skin bay, $Y = -b_s$")
+    panel_label(ax_d, r"(d) middle of the skin bay, $Y = -b_s$")
     hs = [Line2D([], [], color=COL[l], lw=1.0, marker=MK[l], ms=2.8, mfc="w", mew=0.6) for l in LAY] + [
         Line2D([], [], color=INK, lw=0.9, marker="o", ms=2.6, mfc="w", mew=0.6),
         Line2D([], [], color=INK, lw=0.9, ls=(0, (3.5, 1.6)), marker="o", ms=2.6, mew=0.6)]
@@ -427,7 +427,7 @@ def _mode3d_ortho(ax, d, amp=22.0, azim=-35.0, elev=28.0, cmap=None, norm=None, 
     X, U, xs = d["X"], d["U"], d["xs"]
     Um = np.abs(U).max(); Ui = U * amp / Um
     a, e = np.radians(azim), np.radians(elev)
-    def proj(Xc, Yc, zc):                     # world: X across, Y up, z = x along the stringers
+    def proj(Xc, Yc, zc):                     # world: Y across, Z up, z = x along the stringers (axes renamed 10 Nov 2026, Navid)
         h = np.cos(a) * Xc + np.sin(a) * zc
         dpt = -np.sin(a) * Xc + np.cos(a) * zc
         return h, np.cos(e) * Yc + np.sin(e) * dpt, -np.sin(e) * Yc + np.cos(e) * dpt
@@ -521,7 +521,7 @@ def fig06():
         wa = sg * ab["U"][mk, 1]; wa = wa / np.abs(wa).max()
         c = fig.add_subplot(gs[2, k])
         _skinmap(c, ab["xyz"][mk, 0], ab["xyz"][mk, 2], wa, cmap, norm, tri=True)
-        c.set_ylim(0, d["L"]); c.set_xlabel(r"$X$ [mm]")
+        c.set_ylim(0, d["L"]); c.set_xlabel(r"$Y$ [mm]")
         if k == 0:
             c.set_ylabel(r"$x$ [mm]")
         panel_label(c, rf"({'ef'[k]}) Abaqus, {bc}: $N_{{cr}} = {ab['eig']:.2f}$ N/mm; MAC {mac:.4f}")
