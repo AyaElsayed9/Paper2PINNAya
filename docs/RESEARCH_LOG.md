@@ -1287,3 +1287,18 @@ the metric as `d.em` (used as the preconditioner, built once). New `scripts/fast
 time, fast check time and error from the nn120 copy and from the expert network after 3 / 5 / 8 / 12 steps) and
 `logs/run_fast_check.sh` (all 8 experts, 40 test designs each). Smoke test, 2 designs: full GBT 9.8 s; check with
 nn120 start 4.1 s (5 steps, 0.12 % error) / 5.4 s (12 steps, 0.03 %).
+
+### 10 Nov 2026, 10:00 — Navid's revision of Sections 1–2 (GBT_periodic-NK-04112026.docx)
+13 comments + tracked edits (title subtitle removed, abstract reworded, outline sentence and LSM sentence removed,
+British -> US spelling). 12 comments are editorial (fewer references in the first paragraph; expand the two
+literature paragraphs from ~300 to ~800 words without new references; long sentences; global axes X,Y -> Y,Z;
+sub-captions a/b/c as text; equations on separate lines / in a 2-column table; "first U5 then u6"; rewrite the
+energy sentence). One technical comment (on Eq. (9)): "gamma_k is enforced zero only at the segment midpoint, so
+'for an open contour the minimum is zero and Vlasov's warping is recovered' holds only in the discrete-midpoint
+sense; soften". Check: warping is computed only for G and D modes, which are transversely inextensible, so the
+tangential displacement v is constant along every segment (solver section, omega periodic and symmetry: max
+|v_a - v_b| = 3e-15). With u linear, gamma_k = (u_q' - u_q)/b_p + v_p is constant along the segment, so the
+midpoint value is the whole field and for an open contour gamma_k = 0 identically (exact, continuous). L modes
+have no in-plane nodal motion; T modes get no Vlasov warping (their gamma is kept in Eq. (3)). Result: no error in
+the formulation or numbers; the text should write v_p (constant) instead of v_p(eta=1/2) and say why. My earlier
+guess (fixed width) was not his point. No rerun, Paper 2 unaffected.
