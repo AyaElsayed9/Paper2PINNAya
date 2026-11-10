@@ -125,9 +125,11 @@ def prepare(op, ridge=1e-8) -> Design:
     from .dictionary import dictionary_kw
     rs = RitzSpace(op, raw=True, **dictionary_kw(op))
     assert rs.labels == layout_labels(op), "dictionary labels differ from layout_labels"
-    fm = FlatMetric(rs, EnergyMetric(rs, groups="labels", ridge=ridge))
-    return Design(op.sid, op.params, op.params["bc"], design_inputs(op), rs, fm, float(op.lam_full),
-                  sel=design_sel(op, rs.labels))
+    em = EnergyMetric(rs, groups="labels", ridge=ridge)
+    d = Design(op.sid, op.params, op.params["bc"], design_inputs(op), rs, FlatMetric(rs, em), float(op.lam_full),
+               sel=design_sel(op, rs.labels))
+    d.em = em          # the same metric is the check's preconditioner (10 Nov: no need to build it twice)
+    return d
 
 
 def _color_T(fm: FlatMetric, V):

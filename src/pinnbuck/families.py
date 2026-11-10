@@ -40,8 +40,20 @@ class _Omega:
         r = self.m.omega_gbt_solve(self.sec, self.L, self.bc, hx=self.hx, nev=nev, return_mode=return_mode)
         return dict(N=r["N"], eigs=r["eigs"], coefs=r.get("coefs"))
 
-    def pre(self):
-        return self.m.omega_gbt_solve(self.sec, self.L, self.bc, hx=self.hx, pre_only=True)["pre"]
+    def pre(self, coarsen=1):
+        """First-order pre-buckling resultants at the Gauss points of the solver mesh.
+        coarsen > 1 (fast check, 10 Nov 2026): the same solver on a longitudinal mesh coarsened by this
+        factor, the resultants interpolated (cubic, along z) to the fine Gauss points.  The pre-buckling
+        state is smooth along z; on 5 crossply designs the factor 4 changes full-GBT N_cr by < 0.01 % and
+        costs ~1/3 of the time (no factorisation of the fine system)."""
+        if coarsen == 1:
+            return self.m.omega_gbt_solve(self.sec, self.L, self.bc, hx=self.hx, pre_only=True)["pre"]
+        from scipy.interpolate import CubicSpline
+        hc = coarsen * self.hx
+        pc = self.m.omega_gbt_solve(self.sec, self.L, self.bc, hx=hc, pre_only=True)["pre"]
+        zc = np.asarray(self.m._LongSpline(self.L, self.m._sfs_breaks(self.L, hc, hc, self.L)).xg)
+        zf = np.asarray(self.lb.xg)
+        return tuple(CubicSpline(zc, np.asarray(P), axis=0)(zf) for P in pc)
 
     def solve_reduced(self, w, pre, nev=2):
         return self.m.omega_gbt_solve(w, self.L, self.bc, hx=self.hx, nev=nev, pre=pre)["N"]

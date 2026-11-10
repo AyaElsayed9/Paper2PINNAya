@@ -141,10 +141,12 @@ def long_classes(m, sec, w, bc):
 
 
 def build_operator(sample: Sample, sb: SharedBasis, lam_full: float | None = None,
-                   with_shared_reference: bool = True, n_teacher: int = 3) -> PanelOperator:
+                   with_shared_reference: bool = True, n_teacher: int = 3, pre_coarsen: int = 1) -> PanelOperator:
     """Operators of one design (omega panel or member, `families.py`) in the shared basis.
     lam_full = None runs the full GBT (validated model) and stores its n_teacher lowest
-    modes as `teacher`; pass a number (or nan) to skip it."""
+    modes as `teacher`; pass a number (or nan) to skip it.
+    pre_coarsen > 1 (omega only, fast check): pre-buckling state from a coarser longitudinal mesh
+    (`families._Omega.pre`); default 1 = exactly as before."""
     from .families import family_context
     p = sample.params
     with family_context(sample) as fc:
@@ -153,7 +155,7 @@ def build_operator(sample: Sample, sb: SharedBasis, lam_full: float | None = Non
         if lam_full is None:
             rfull = fc.solve(nev=n_teacher, return_mode=True)
             lam_full = rfull["N"]
-        pre = fc.pre()
+        pre = fc.pre() if pre_coarsen == 1 else fc.pre(coarsen=pre_coarsen)
         w = shared_section(m, sec, sb)
         teacher = teig = None
         if rfull is not None:                  # lowest modes, least-squares in the shared coordinates
@@ -168,7 +170,8 @@ def build_operator(sample: Sample, sb: SharedBasis, lam_full: float | None = Non
     return PanelOperator(sid=sample.sid, params=dict(p), features=sample.features(), L=float(L), bc=p["bc"],
                          side=p.get("side", sample.family), nm=int(w.nm), K=K, G=G, P=P, z=np.asarray(lb.xg),
                          wz=np.asarray(lb.wx), classes=classes, lam_full=float(lam_full),
-                         lam_shared=float(lam_sh), info=dict(hx=fc.hx, nspan=lb.nspan, sample=sample.to_dict()),
+                         lam_shared=float(lam_sh), info=dict(hx=fc.hx, nspan=lb.nspan, sample=sample.to_dict(),
+                                                             pre_coarsen=pre_coarsen),
                          teacher=teacher, teacher_eigs=teig)
 
 

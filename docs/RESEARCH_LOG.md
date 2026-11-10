@@ -1250,3 +1250,40 @@ Two container restarts and one 2 h kill during training; resumed from the checkp
 * nnres head 5.6 % mean: worse than the plain network head (1.1 %) and the GP (0.5 %).
 * Conclusion (both NL 10 and NL 120): for the lay-up experts the best check start is a plain neighbour copy and the
   best number is the GP. The current PINN beats neither. Options for the paper are listed in STATUS for Aya.
+
+### 10 Nov 2026, 08:00: Aya's decision: plan B (fast certified check = main contribution, level-2 PINN inside it)
+
+Aya (07:57): "Go with what u suggest bec level 2 is the competitive part and also fast check is important".
+
+**Where the check time goes** (profile, crossply / symmetry):
+* operators of a new design: cross-section 0.2 s, **pre-buckling state 2.4–9.7 s** (full-GBT static solve:
+  assembly of the fine spline system + PARDISO factorisation + one solve), shared section 0.2 s, K, G, P 0.1 s.
+* energy space 0.1 s; **energy metric 0.14–2.35 s** (Cholesky of the per-wavelength blocks, the end-layer block up
+  to 4969 wide). `time_check.py` built the metric twice (once in `prepare`, once as preconditioner).
+* Full GBT = the same assembly + factorisation + pre-buckling solve + eigen solve; so the old check only replaced the
+  eigen solve and could not be much faster.
+
+**Tests (not kept as results, scratchpad scripts):**
+* Pre-buckling solved in the shared basis (241 modes) instead of full GBT (570 modes): SLOWER (4.1–9.2 s, the shared
+  basis is dense) although N_cr changes only 0.0002–0.007 %. Rejected.
+* Pre-buckling on a coarser longitudinal mesh (same solver, hx x k), resultants interpolated (cubic) to the fine Gauss
+  points; N_cr = full GBT eigen solve with this state imposed, 5 crossply designs:
+
+  | k | time of pre-buckling | dN_cr vs full GBT |
+  |---|---|---|
+  | 1 | 2.4–6.3 s | 0 |
+  | 2 | 1.5–3.4 s | −0.004 … −0.001 % |
+  | 4 | 1.1–1.8 s | −0.007 … −0.001 % |
+  | 8 | 1.1–1.4 s | −0.002 … +0.023 % |
+  | 16 | 0.8–1.2 s | −0.017 … +0.032 % |
+
+  Chosen k = 4 (< 0.01 %, ~1/3 of the time). The check then needs no factorisation of the fine system at all.
+  Note: this is a (tiny) change of the reference problem; the check's values are upper bounds of the Ritz-space load
+  WITH the coarse state, and errors are always reported vs full GBT with the solver's own state.
+
+**Code** (pinnbuck only, solver untouched; defaults unchanged so all earlier data stay valid):
+`families._Omega.pre(coarsen)`, `build_operator(..., pre_coarsen=1)` (stored in `op.info`), `epinn.prepare` keeps
+the metric as `d.em` (used as the preconditioner, built once). New `scripts/fast_check.py` (per design: full GBT
+time, fast check time and error from the nn120 copy and from the expert network after 3 / 5 / 8 / 12 steps) and
+`logs/run_fast_check.sh` (all 8 experts, 40 test designs each). Smoke test, 2 designs: full GBT 9.8 s; check with
+nn120 start 4.1 s (5 steps, 0.12 % error) / 5.4 s (12 steps, 0.03 %).
