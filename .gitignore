@@ -13,3 +13,5 @@ data/*.log
 data/teacher/
 data/exact_targets/
 runs/**/*_ckpt.pt*
+# nnres model with 120-design neighbour bank (192 MB > GitHub limit); kept on the machine only, the bank is the GBT labels
+runs/experts/symmetry_crossply_SS_v2_nnres_L120.pt

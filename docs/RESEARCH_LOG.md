@@ -1231,3 +1231,22 @@ designs) started from (a) random vectors, (b) the GBT modes of the nearest label
 * Head 18 % mean: worse than the plain network and much worse than the GP. With 10 labels the neighbour's log N is
   a poor base.
 * Honest conclusion for NL 10: no gain from the PINN over the copy. NL 120 running (round 13/30 at 00:27).
+
+### 10 Nov 2026, 01:45: nnres crossply / symmetry NL 120 finished (night chain done)
+
+Two container restarts and one 2 h kill during training; resumed from the checkpoint each time (no loss).
+`results/experts/symmetry_crossply_SS_v2_nnres_L120_cert.log`, 40 test designs, |error| vs full GBT, mean / max:
+
+| start of the check | head | 3 steps | 5 steps | 8 steps | 12 steps |
+|---|---|---|---|---|---|
+| plain network, hybrid L120 | 1.14 / 4.92 | 3.79 / 9.40 | 1.78 / 5.50 | 0.67 / 2.90 | 0.26 / 1.09 |
+| nearest of 120 labelled (copy, no network) | – | 1.28 / 2.70 | 0.51 / 1.72 | 0.21 / 1.08 | 0.08 / 0.32 |
+| nnres L120 (copy + PINN correction) | 5.62 / 12.69 | 1.30 / 2.71 | 0.51 / 1.71 | 0.21 / 1.07 | 0.08 / 0.32 |
+| GP on 120 labels (number only) | 0.48 / 3.65 | | | | |
+
+* nnres = the neighbour copy, to two decimals. The physics-trained correction hardly moves the modes (start Ritz
+  19.6 % vs 19.2 % for the copy; physics fit 2.517 -> 2.503 over 30 rounds). So in the 2-input experts the
+  "PINN" part adds nothing measurable to the check start; all the gain comes from the labels.
+* nnres head 5.6 % mean: worse than the plain network head (1.1 %) and the GP (0.5 %).
+* Conclusion (both NL 10 and NL 120): for the lay-up experts the best check start is a plain neighbour copy and the
+  best number is the GP. The current PINN beats neither. Options for the paper are listed in STATUS for Aya.
