@@ -8,7 +8,7 @@ R={
 8:"Done. These two paragraphs are rewritten as four paragraphs (about 900 words) without any new reference; each group of references is now explained. All references are kept, so the numbering is unchanged. Ref. [33] is now cited for vibration (its topic) instead of shear deformation.",
 10:"Done: split into short sentences.",
 21:"Done: split into short sentences.",
-27:"Done: the global axes are now x (along the stringers), Y (across the panel) and Z (normal to the skin), in the text, Eqs. (10) and (12), Table 1, Sections 2.2.5, 2.3.4 and 3, and Figures 1, 3 and 6. Not changed: the geometric tensors X_ik and the matrices Z_g of Section 2.2.2 (we can rename Z_g if it now looks confusing).",
+27:"Done: the global axes are now X (along the stringers), Y (across the panel) and Z (normal to the skin), in the text, Eqs. (10) and (12), Table 1, Sections 2.2.2, 2.2.5, 2.3.4 and 3, and Figures 1, 3, 6 and 9. The local wall coordinates of GBT stay x, s, z (Silvestre–Camotim notation), with x parallel to X; this is now stated in Section 2.1.1. Not changed: the geometric tensors X_ik and the matrices Z_g of Section 2.2.2 (we can rename them if they now look confusing).",
 28:"Done: the figure shows only (a), (b), (c); all descriptions are in the caption (the numbers of nodes, walls and segments moved to the caption).",
 29:"Done: three lines. Layout only, no symbol changed (made directly, not as a tracked change).",
 30:"Done: two lines. Layout only (made directly, not as a tracked change).",

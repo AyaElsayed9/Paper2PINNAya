@@ -1383,3 +1383,11 @@ Honest reading: the certified check is only ~1.6x faster than full GBT (5 steps)
 Profile of the fine pre-buckling state (one design, 2.5 s): PARDISO factorisation 0.71 s, cross-section stiffness
 _gbt_Kcs 0.57 s, sparse kron assembly / format conversions ~1 s. Possible engineering gains (not done): compute
 the cross-section stiffness once for pre-buckling and operators, fewer sparse conversions.
+
+### 10 Nov 2026, 13:15 — global axes now X, Y, Z (Aya: "make it big X like Y and Z, change everything accordingly")
+Global longitudinal axis x -> X wherever x is the GLOBAL coordinate: Section 2.1.1, Fig. 1 caption, Eq. (10) and
+the text after it, 2.2.2 (rotation about X), Bloch waves in 2.2.5, Table 4 caption, Abaqus set-up and Fig. 3 text
+in Section 3 (15 symbols, tracked); figures 1, 3, 6, 9 regenerated (labels only; numbers unchanged to 1e-9).
+The local wall coordinates of GBT stay x, s, z (Silvestre–Camotim notation; all strains, amplitude functions
+phi_k(x), derivatives); 2.1.1 now states "x parallel to X". Reply to Navid's comment 27 updated. Not renamed:
+geometric tensors X_ik / matrix X and matrices Z_g (possible confusion with the axes X, Z — Aya/Navid to decide).

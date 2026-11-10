@@ -101,6 +101,16 @@ replace_span(cx, P[17], k + len('critical load.'), k + len('critical load..'), '
 # ---------------------------------------------------------------- comment 27: global axes X -> Y, Y -> Z
 REN = {'X': 'Y', 'Y': 'Z'}
 nren = 0
+# global longitudinal axis x -> X (Aya, 10 Nov 12:48): only where x is the GLOBAL coordinate; the local wall
+# coordinate x of GBT (Silvestre-Camotim: x, s, z) stays.  (paragraph, index of the visible run in the original)
+XG = {20: [22], 57: [6, 14, 26], 58: [11, 23], 69: [92], 81: [13, 24], 146: [2], 148: [16, 31, 38], 152: [55]}
+xruns = []
+for i, ks in XG.items():
+    rs = vis_runs(P[i])
+    for k in ks:
+        r, s_ = rs[k]
+        assert r.tag == q('m:r') and s_.strip('\u2009') == 'x', (i, k, s_)
+        xruns.append(r)
 for i in (20, 38, 44, 57, 58, 60, 68, 69, 81, 130, 148):
     for r, s in list(vis_runs(P[i])):
         if r.tag == q('m:r') and s in REN:
@@ -108,11 +118,18 @@ for i in (20, 38, 44, 57, 58, 60, 68, 69, 81, 130, 148):
             for t in nr.findall(q('m:t')):
                 t.text = REN[s]
             ins.append(nr); w.addnext(ins); nren += 1
+for r in xruns:
+    w = wrap_del(cx, r); ins = cx.mark('ins'); nr = copy.deepcopy(r)
+    for t in nr.findall(q('m:t')):
+        t.text = t.text.replace('x', 'X')
+    ins.append(nr); w.addnext(ins); nren += 1
 print('axis symbols renamed:', nren)
+full = vis_text(P[20]); k = full.find(',s,z ('); assert k > 0
+replace_span(cx, P[20], k + 5, k + 6, '($x$ parallel to $X$, ')
 
 # ---------------------------------------------------------------- Figure 1 caption (comment 28: sub-captions only in the caption)
 cap = P[22]
-replace(cx, cap, 'linked by the periodic condition.', 'linked by the periodic condition, and the global axes $x$, $Y$, $Z$.')
+replace(cx, cap, 'linked by the periodic condition.', 'linked by the periodic condition, and the global axes $X$, $Y$, $Z$.')
 replace(cx, cap, 'Infinitely wide panel and the cell (shaded).',
         'Infinitely wide panel with identical stringers at the pitch $b_s$ and the cell (shaded), which contains two stringers.')
 replace(cx, cap, 'GBT discretisation for ', 'GBT discretization of the cell for ')

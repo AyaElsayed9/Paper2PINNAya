@@ -86,7 +86,7 @@ def fig01():
     # axes triad
     from matplotlib.patches import FancyArrowPatch
     o = np.array([x0 - 30, 52.0])
-    for d_, lab in ((np.array([28.0, 0]), r"$Y$"), (np.array([0, 26.0]), r"$Z$"), (np.array([c, sn]) * 46, r"$x$")):
+    for d_, lab in ((np.array([28.0, 0]), r"$Y$"), (np.array([0, 26.0]), r"$Z$"), (np.array([c, sn]) * 46, r"$X$")):
         a.add_patch(FancyArrowPatch(tuple(o), tuple(o + d_), arrowstyle="-|>", mutation_scale=6, lw=0.6, color=INK, zorder=9))
         a.text(*(o + d_ * 1.12 + np.array([1.5, 0])), lab, fontsize=8, ha="left", va="center")
     # dimension of the cell length
@@ -232,8 +232,8 @@ def fig03():
     ax_a.set_ylabel(r"$-S_{xx}/n_0$"); ax_b.set_ylabel(r"$-S_{ss}/n_0$")
     ax_a.set_ylim(0, 2.3); ax_a.text(-75, 2.12, "foot", ha="center", fontsize=6.5, color=MUTED)
     ax_a.text(-225, 2.12, "foot", ha="center", fontsize=6.5, color=MUTED)
-    panel_label(ax_a, r"(a) skin and feet at $x = L/2$, SS")
-    panel_label(ax_b, r"(b) skin and feet at $x = L/2$, SS")
+    panel_label(ax_a, r"(a) skin and feet at $X = L/2$, SS")
+    panel_label(ax_b, r"(b) skin and feet at $X = L/2$, SS")
     # (c), (d): S_xx and S_ss along x in the middle of the skin bay between the stringers
     ax_c = fig.add_subplot(gs[1, 0]); ax_d = fig.add_subplot(gs[1, 1])
     for lay in LAY:
@@ -248,7 +248,7 @@ def fig03():
             ax_d.plot(xr, d["Pss"][:, j], **kw)
             out[f"{lay}_{bc}_bay_end"] = (float(d["Pxx"][0, j]), float(d["Pss"][0, j]), float(d["Pss"][len(xr) // 2, j]))
     for ax in (ax_c, ax_d):
-        ax.set_xlim(0, 1); ax.set_xlabel(r"$x/L$"); grid(ax)
+        ax.set_xlim(0, 1); ax.set_xlabel(r"$X/L$"); grid(ax)
     ax_c.set_ylabel(r"$-S_{xx}/n_0$"); ax_d.set_ylabel(r"$-S_{ss}/n_0$")
     panel_label(ax_c, r"(c) middle of the skin bay, $Y = -b_s$")
     panel_label(ax_d, r"(d) middle of the skin bay, $Y = -b_s$")
@@ -512,7 +512,7 @@ def fig06():
         pc = _skinmap(b, d["X"][sk, 0], d["xs"], wn, cmap, norm)
         b.set_ylim(0, d["L"]); b.tick_params(labelbottom=False)
         if k == 0:
-            b.set_ylabel(r"$x$ [mm]")
+            b.set_ylabel(r"$X$ [mm]")
         panel_label(b, rf"({'cd'[k]}) GBT, {bc}: skin deflection")
         # Abaqus mode of the same cell
         ab = AQ.read_abq("MODE1_val_bs150_beta1p5_Unsym_PBC.csv" if bc == "SS" else "MODE1_val_bs150_beta1p5_Unsym_CC_PBC.csv")
@@ -523,7 +523,7 @@ def fig06():
         _skinmap(c, ab["xyz"][mk, 0], ab["xyz"][mk, 2], wa, cmap, norm, tri=True)
         c.set_ylim(0, d["L"]); c.set_xlabel(r"$Y$ [mm]")
         if k == 0:
-            c.set_ylabel(r"$x$ [mm]")
+            c.set_ylabel(r"$X$ [mm]")
         panel_label(c, rf"({'ef'[k]}) Abaqus, {bc}: $N_{{cr}} = {ab['eig']:.2f}$ N/mm; MAC {mac:.4f}")
         out[bc] = dict(N=d["N"], abq=ab["eig"], mac=mac, edge=float(np.abs(wn[:, 0] - wn[:, -1]).max()))
     cax = fig.add_axes([0.935, 0.12, 0.012, 0.5])
@@ -803,7 +803,7 @@ def fig09():
                 b.text(0.5, -0.04, rf"Abaqus with free lateral expansion: {float(fr[0]['Ncr']):.2f} N/mm (local mode)",
                        transform=b.transAxes, ha="center", va="top", fontsize=6.5, color="#c0392b")
         b.set_xlim(-310, 10); b.set_ylim(-28, 58); b.set_aspect("equal"); b.axis("off")
-        b.set_title(rf"cross-section at $x/L = {d['xs'][i] / d['L']:.2f}$", fontsize=7, pad=1)
+        b.set_title(rf"cross-section at $X/L = {d['xs'][i] / d['L']:.2f}$", fontsize=7, pad=1)
         out[f"{lay}_{beta}_{pss}"] = d["N"]
     cax = fig.add_axes([0.16, 0.075, 0.30, 0.010])
     cb = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cax, orientation="horizontal")
