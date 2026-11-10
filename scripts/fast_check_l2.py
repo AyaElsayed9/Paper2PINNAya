@@ -75,7 +75,7 @@ def main():
         return full[:, d.sel]
 
     out = ROOT / "results/fast_check"; out.mkdir(parents=True, exist_ok=True)
-    fcsv = out / "level2_industrial.csv"
+    fcsv = out / ("level2_industrial.csv" if a.coarsen == 4 else f"level2_industrial_k{a.coarsen}.csv")
     done = {r["sid"] for r in csv.DictReader(open(fcsv))} if fcsv.exists() else set()
     cols = ["sid", "bs", "beta", "N_full", "t_full", "t_ops", "t_prep"] + \
         [f"{s}_{k}" for s in STARTS for k in ["t_start"] + [f"t{j}" for j in STEPS] + [f"e{j}" for j in STEPS]]
