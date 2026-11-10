@@ -1369,3 +1369,17 @@ CORRECTION: the 08:00 statement "dN < 0.01 %" held only for the 5 cross-ply desi
 lay-ups k = 4 lowers N_cr by up to 0.11 %. The check is an upper bound of the coarse-pre problem, not always of full
 GBT. Options for the paper (Aya to decide): k = 4 (fastest, state <= 0.11 %), k = 2 (+0.75 s, <= 0.025 %), k = 1
 (exact bound of the full-GBT Ritz space, ~+2.4 s, check ~60 % of full GBT; estimates from the component times).
+
+### 10 Nov 2026, 13:00 — level-2 fast check with the solver's own (fine) pre-buckling state (Aya's choice)
+Aya chose the full mesh (true upper bound of the Ritz-space load of full GBT). results/fast_check/level2_industrial_k1.csv.
+Full GBT 10.14 s; check ops (fine pre) 4.32 s + metric 0.99 s.
+| start | 5 steps: time (% full), |e| mean/max | 12 steps |
+| nn518 | 6.41 s (63 %; median 66 %, max 87 %), 0.59 / 2.23 % | 7.72 s (76 %; max 103 %), 0.10 / 0.48 % |
+| knn2  | 6.48 s (64 %), 0.49 / 2.10 % | 7.77 s (77 %), 0.11 / 0.53 % |
+| net   | 6.37 s (63 %), 0.70 / 2.79 % | 7.67 s (76 %), 0.14 / 0.74 % |
+No value below full GBT (min +0.02 %), as it must be. Net better than nn518 in 22/45 (5 steps), 16/45 (12 steps).
+Honest reading: the certified check is only ~1.6x faster than full GBT (5 steps), ~1.3x (12 steps); for one design
+12 steps take longer than full GBT. The PINN start does not beat the nearest-label copy at level 2 either.
+Profile of the fine pre-buckling state (one design, 2.5 s): PARDISO factorisation 0.71 s, cross-section stiffness
+_gbt_Kcs 0.57 s, sparse kron assembly / format conversions ~1 s. Possible engineering gains (not done): compute
+the cross-section stiffness once for pre-buckling and operators, fewer sparse conversions.
