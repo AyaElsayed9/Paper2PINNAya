@@ -1302,3 +1302,26 @@ midpoint value is the whole field and for an open contour gamma_k = 0 identicall
 have no in-plane nodal motion; T modes get no Vlasov warping (their gamma is kept in Eq. (3)). Result: no error in
 the formulation or numbers; the text should write v_p (constant) instead of v_p(eta=1/2) and say why. My earlier
 guess (fixed width) was not his point. No rerun, Paper 2 unaffected.
+
+### 10 Nov 2026, 10:15 — fast check, all 8 experts × 40 test designs (results/fast_check/, runs/fast_check/)
+Machine: 2 cores Xeon 2.10 GHz, nothing else running. Per design, online, means over 320 designs:
+full GBT 10.71 s; check = operators with coarse pre-buckling 1.92 s + energy space/metric 1.14 s + steps.
+| start | steps | time (% of full GBT; median / max per design) | abs. error vs full GBT mean / max | below full GBT |
+| nn120 | 3 | 3.83 s (36 %; 37 / 60 %) | 1.20 / 4.95 % | 0 |
+| nn120 | 5 | 4.25 s (40 %; 41 / 64 %) | 0.45 / 2.39 % | 0 |
+| nn120 | 8 | 4.87 s (45 %; 47 / 70 %) | 0.19 / 1.26 % | 1 (-0.003 %) |
+| nn120 | 12 | 5.70 s (53 %; 54 / 80 %) | 0.10 / 0.74 % | 4 (min -0.006 %) |
+| net | 3 | 3.84 s (36 %) | 2.09 / 9.40 % | 0 |
+| net | 5 | 4.26 s (40 %) | 0.99 / 5.49 % | 0 |
+| net | 8 | 4.88 s (46 %) | 0.39 / 2.96 % | 0 |
+| net | 12 | 5.71 s (53 %; 55 / 83 %) | 0.17 / 1.08 % | 0 |
+Per expert (5 / 12 steps, nn120 | net, mean/max %): sym crossply 0.50/1.72, 0.08/0.33 | 1.78/5.49, 0.25/1.08;
+per crossply 0.30/2.06, 0.04/0.29 | 1.10/4.68, 0.10/0.78; sym pm45 0.43/1.57, 0.11/0.33 | 0.48/2.11, 0.14/0.45;
+per pm45 0.41/1.51, 0.13/0.53 | 0.40/2.18, 0.14/0.45; sym quasiiso 0.62/2.39, 0.15/0.74 | 1.15/2.66, 0.26/1.00;
+per quasiiso 0.30/1.79, 0.07/0.35 | 0.60/2.14, 0.10/0.56; sym zerorich 0.85/2.23, 0.16/0.54 | 1.84/4.70, 0.29/1.08;
+per zerorich 0.17/0.68, 0.04/0.29 | 0.56/2.44, 0.07/0.37.
+Honest reading: (1) the check is ~2× faster than full GBT (not 10×); ~3 s of fixed cost (pre-buckling + operators
++ metric) before any step. (2) The 5 values below full GBT are all > -0.007 %, i.e. inside the coarse
+pre-buckling change (< 0.01 %); with the solver's own fine pre-buckling they would be upper bounds. (3) In the
+2-input experts the network start is worse than the nearest-label copy (net better at 12 steps in 58/320 designs);
+the competitive test for the network is level 2 (mixed lay-ups), next.

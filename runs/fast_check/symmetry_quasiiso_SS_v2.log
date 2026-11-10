@@ -1,0 +1,53 @@
+symmetry_quasiiso_SS_v2: offline (labels in the fixed layout + network) 52 s
+ab417cbceeec bs 167 beta 2.64: full GBT 15.4 s | check 1.8 + 1.1 s + steps | nn120: 5 steps 4.2 s +0.23 %, 12 steps 5.7 s +0.07 % | net: 5 steps +0.93 %, 12 steps +0.24 %
+f2ce1401e760 bs 249 beta 1.55: full GBT 6.6 s | check 1.5 + 0.4 s + steps | nn120: 5 steps 2.7 s +0.18 %, 12 steps 3.5 s +0.05 % | net: 5 steps +0.58 %, 12 steps +0.08 %
+4b68e37e125d bs 245 beta 3.03: full GBT 16.0 s | check 2.1 + 1.8 s + steps | nn120: 5 steps 5.5 s +0.13 %, 12 steps 7.3 s +0.02 % | net: 5 steps +1.12 %, 12 steps +0.16 %
+1efb0ebb30e6 bs 163 beta 1.28: full GBT 6.0 s | check 1.6 + 0.3 s + steps | nn120: 5 steps 2.5 s +0.49 %, 12 steps 3.2 s +0.16 % | net: 5 steps +0.71 %, 12 steps +0.20 %
+e7a7fa916f2a bs 137 beta 3.30: full GBT 20.5 s | check 2.5 + 2.4 s + steps | nn120: 5 steps 6.6 s +0.24 %, 12 steps 8.6 s +0.05 % | net: 5 steps +0.64 %, 12 steps +0.37 %
+872572894b9f bs 216 beta 0.84: full GBT 3.6 s | check 1.3 + 0.2 s + steps | nn120: 5 steps 2.1 s +0.25 %, 12 steps 2.6 s +0.16 % | net: 5 steps +0.40 %, 12 steps +0.15 %
+3cd88c27e052 bs 270 beta 2.37: full GBT 14.9 s | check 2.0 + 1.0 s + steps | nn120: 5 steps 3.9 s +0.22 %, 12 steps 5.2 s +0.05 % | net: 5 steps +1.15 %, 12 steps +0.09 %
+50bcd814c54e bs 191 beta 1.99: full GBT 10.1 s | check 1.9 + 0.8 s + steps | nn120: 5 steps 3.6 s +0.28 %, 12 steps 4.8 s +0.09 % | net: 5 steps +0.60 %, 12 steps +0.12 %
+5a35c4ae0b86 bs 201 beta 2.96: full GBT 19.6 s | check 2.2 + 2.0 s + steps | nn120: 5 steps 5.9 s +0.24 %, 12 steps 8.1 s +0.05 % | net: 5 steps +1.60 %, 12 steps +0.28 %
+edbf616e116c bs 283 beta 1.19: full GBT 5.6 s | check 1.7 + 0.3 s + steps | nn120: 5 steps 2.6 s +1.21 %, 12 steps 3.3 s +0.21 % | net: 5 steps +1.46 %, 12 steps +0.28 %
+2db0f988dbb9 bs 207 beta 2.71: full GBT 15.6 s | check 1.8 + 1.7 s + steps | nn120: 5 steps 5.1 s +0.89 %, 12 steps 7.1 s +0.13 % | net: 5 steps +2.04 %, 12 steps +0.29 %
+cb0240c20581 bs 124 beta 1.64: full GBT 7.8 s | check 1.6 + 0.4 s + steps | nn120: 5 steps 2.7 s +1.17 %, 12 steps 3.6 s +0.16 % | net: 5 steps +1.88 %, 12 steps +0.24 %
+00bf274fe4b0 bs 153 beta 2.29: full GBT 12.3 s | check 1.9 + 1.2 s + steps | nn120: 5 steps 4.2 s +0.52 %, 12 steps 5.5 s +0.12 % | net: 5 steps +0.85 %, 12 steps +0.15 %
+c9775e266dfb bs 233 beta 1.89: full GBT 9.8 s | check 1.6 + 0.6 s + steps | nn120: 5 steps 3.1 s +0.19 %, 12 steps 4.1 s +0.05 % | net: 5 steps +0.46 %, 12 steps +0.12 %
+72ee2d5d4c51 bs 259 beta 3.38: full GBT 17.9 s | check 2.3 + 2.8 s + steps | nn120: 5 steps 7.2 s +0.59 %, 12 steps 10.1 s +0.12 % | net: 5 steps +1.75 %, 12 steps +0.29 %
+856bf32c4254 bs 179 beta 0.94: full GBT 4.7 s | check 1.4 + 0.3 s + steps | nn120: 5 steps 2.2 s +0.24 %, 12 steps 2.8 s +0.14 % | net: 5 steps +0.43 %, 12 steps +0.15 %
+6ffd094c658a bs 181 beta 3.47: full GBT 19.4 s | check 2.2 + 2.9 s + steps | nn120: 5 steps 7.4 s +0.30 %, 12 steps 10.4 s +0.06 % | net: 5 steps +1.42 %, 12 steps +0.26 %
+597c9249dbc4 bs 260 beta 1.02: full GBT 5.1 s | check 1.7 + 0.3 s + steps | nn120: 5 steps 2.5 s +0.98 %, 12 steps 3.1 s +0.29 % | net: 5 steps +0.94 %, 12 steps +0.27 %
+3216e4852106 bs 226 beta 2.21: full GBT 12.9 s | check 1.9 + 0.8 s + steps | nn120: 5 steps 3.7 s +0.32 %, 12 steps 5.0 s +0.08 % | net: 5 steps +0.75 %, 12 steps +0.11 %
+4a385fcfd143 bs 147 beta 1.80: full GBT 9.9 s | check 1.8 + 0.5 s + steps | nn120: 5 steps 3.2 s +1.45 %, 12 steps 4.1 s +0.33 % | net: 5 steps +1.76 %, 12 steps +0.48 %
+46d1d32d2c12 bs 133 beta 2.79: full GBT 12.7 s | check 1.9 + 1.8 s + steps | nn120: 5 steps 5.3 s +0.15 %, 12 steps 7.1 s +0.04 % | net: 5 steps +0.90 %, 12 steps +0.18 %
+9369b134c365 bs 215 beta 1.73: full GBT 8.4 s | check 1.7 + 0.4 s + steps | nn120: 5 steps 2.9 s +0.34 %, 12 steps 3.9 s +0.08 % | net: 5 steps +0.45 %, 12 steps +0.07 %
+d8b8a10e1e4c bs 279 beta 2.87: full GBT 16.7 s | check 2.2 + 2.2 s + steps | nn120: 5 steps 5.7 s +0.34 %, 12 steps 7.3 s +0.04 % | net: 5 steps +1.88 %, 12 steps +0.28 %
+e125a26c252e bs 198 beta 1.10: full GBT 5.5 s | check 1.6 + 0.3 s + steps | nn120: 5 steps 2.4 s +0.51 %, 12 steps 3.2 s +0.14 % | net: 5 steps +0.57 %, 12 steps +0.15 %
+5b5e1aa108e1 bs 189 beta 2.45: full GBT 13.5 s | check 1.9 + 1.2 s + steps | nn120: 5 steps 4.2 s +0.85 %, 12 steps 5.5 s +0.19 % | net: 5 steps +1.63 %, 12 steps +0.26 %
+37bd3d86fb1f bs 269 beta 2.08: full GBT 10.6 s | check 1.9 + 0.7 s + steps | nn120: 5 steps 3.4 s +0.67 %, 12 steps 4.5 s +0.19 % | net: 5 steps +1.36 %, 12 steps +0.22 %
+385d91c24537 bs 223 beta 3.21: full GBT 17.0 s | check 2.5 + 1.9 s + steps | nn120: 5 steps 6.0 s +0.25 %, 12 steps 8.1 s +0.06 % | net: 5 steps +1.19 %, 12 steps +0.18 %
+79d44104d5dd bs 143 beta 0.75: full GBT 3.1 s | check 1.3 + 0.2 s + steps | nn120: 5 steps 1.9 s +0.91 %, 12 steps 2.4 s +0.39 % | net: 5 steps +0.67 %, 12 steps +0.29 %
+4f33a02ec04d bs 154 beta 3.12: full GBT 16.7 s | check 2.1 + 1.6 s + steps | nn120: 5 steps 5.2 s +0.85 %, 12 steps 7.1 s +0.20 % | net: 5 steps +1.31 %, 12 steps +0.55 %
+3828a7ae3aad bs 237 beta 1.36: full GBT 6.4 s | check 1.6 + 0.3 s + steps | nn120: 5 steps 2.4 s +0.41 %, 12 steps 3.2 s +0.12 % | net: 5 steps +0.48 %, 12 steps +0.12 %
+00d87c26dd13 bs 253 beta 2.55: full GBT 13.8 s | check 2.0 + 1.0 s + steps | nn120: 5 steps 4.2 s +0.16 %, 12 steps 5.7 s +0.04 % | net: 5 steps +1.46 %, 12 steps +0.14 %
+c8920ed94e04 bs 170 beta 1.47: full GBT 7.4 s | check 1.6 + 0.4 s + steps | nn120: 5 steps 2.7 s +2.39 %, 12 steps 3.4 s +0.39 % | net: 5 steps +2.66 %, 12 steps +0.42 %
+73c8ad9f34af bs 173 beta 3.02: full GBT 16.1 s | check 2.3 + 1.9 s + steps | nn120: 5 steps 5.7 s +1.79 %, 12 steps 7.5 s +0.74 % | net: 5 steps +1.96 %, 12 steps +1.00 %
+83592d1b0eee bs 255 beta 1.33: full GBT 6.4 s | check 1.6 + 0.4 s + steps | nn120: 5 steps 2.6 s +0.19 %, 12 steps 3.4 s +0.05 % | net: 5 steps +0.41 %, 12 steps +0.10 %
+fa13077c746d bs 239 beta 2.57: full GBT 13.6 s | check 2.0 + 1.5 s + steps | nn120: 5 steps 4.6 s +0.78 %, 12 steps 6.1 s +0.15 % | net: 5 steps +1.67 %, 12 steps +0.34 %
+dfa3e921200f bs 157 beta 1.58: full GBT 8.2 s | check 1.3 + 0.4 s + steps | nn120: 5 steps 2.4 s +1.11 %, 12 steps 3.1 s +0.22 % | net: 5 steps +1.43 %, 12 steps +0.44 %
+03ac82d05391 bs 141 beta 2.31: full GBT 11.7 s | check 1.8 + 1.0 s + steps | nn120: 5 steps 3.8 s +1.10 %, 12 steps 5.2 s +0.31 % | net: 5 steps +1.40 %, 12 steps +0.50 %
+ed933c05810b bs 220 beta 2.01: full GBT 11.2 s | check 1.8 + 0.8 s + steps | nn120: 5 steps 3.4 s +0.49 %, 12 steps 4.6 s +0.11 % | net: 5 steps +0.46 %, 12 steps +0.11 %
+58e8f5333e5c bs 266 beta 3.27: full GBT 18.1 s | check 2.2 + 2.4 s + steps | nn120: 5 steps 6.7 s +0.58 %, 12 steps 9.2 s +0.16 % | net: 5 steps +1.96 %, 12 steps +0.48 %
+b081952ce3c6 bs 187 beta 0.91: full GBT 4.3 s | check 1.5 + 0.2 s + steps | nn120: 5 steps 2.1 s +0.74 %, 12 steps 2.7 s +0.19 % | net: 5 steps +0.68 %, 12 steps +0.18 %
+
+symmetry_quasiiso_SS_v2: 40 test designs, mean (max) on this machine
+  full GBT                        11.37 s (20.5)
+  check: operators (coarse pre)    1.84 s   energy space + metric 1.06 s
+  nn120   3 steps: time  3.59 s (6.5) =  32 % of full GBT | |error| 1.37 / 4.36 %, below full GBT 0
+  nn120   5 steps: time  3.98 s (7.4) =  35 % of full GBT | |error| 0.62 / 2.39 %, below full GBT 0
+  nn120   8 steps: time  4.54 s (8.7) =  40 % of full GBT | |error| 0.31 / 1.26 %, below full GBT 0
+  nn120  12 steps: time  5.29 s (10.4) =  47 % of full GBT | |error| 0.15 / 0.74 %, below full GBT 0
+  net     3 steps: time  3.59 s (6.5) =  32 % of full GBT | |error| 1.97 / 5.42 %, below full GBT 0
+  net     5 steps: time  3.97 s (7.4) =  35 % of full GBT | |error| 1.15 / 2.66 %, below full GBT 0
+  net     8 steps: time  4.54 s (8.7) =  40 % of full GBT | |error| 0.57 / 1.52 %, below full GBT 0
+  net    12 steps: time  5.31 s (10.4) =  47 % of full GBT | |error| 0.26 / 1.00 %, below full GBT 0
