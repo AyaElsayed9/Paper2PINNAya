@@ -217,7 +217,7 @@ A = 'http://schemas.openxmlformats.org/drawingml/2006/main'
 PIC = 'http://schemas.openxmlformats.org/drawingml/2006/picture'
 RNS = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
 cxmax = max(int(e.get('cx')) for e in root.iter('{%s}extent' % WP))
-SCH_PX = (3803, 2929)
+SCH_PX = (3803, 3047)
 cx_, cy_ = cxmax, int(round(cxmax * SCH_PX[1] / SCH_PX[0]))
 for e in sch.iter('{%s}extent' % WP, '{%s}ext' % A):
     e.set('cx', str(cx_)); e.set('cy', str(cy_))
@@ -235,9 +235,10 @@ rp_ = copy.deepcopy(first_rpr(capp)) if first_rpr(capp) is not None else etree.E
 for e in rp_.findall(q('w:b')) + rp_.findall(q('w:bCs')):
     rp_.remove(e)
 ins_ = cx.mark('ins')
-for r_ in markup_runs(' Steps of the periodic GBT\u2013Ritz analysis with the corresponding sections and equations. Step 3 (red) '
-                      'is the contribution of this study; the other steps follow shear-deformable GBT [32,50] with the '
-                      'extensions named in the text.', rp_):
+for r_ in markup_runs(' The periodic GBT\u2013Ritz analysis in six steps, illustrated with computed results of the Unsym cell '
+                      '($b_s$ = 150 mm, $\u03b2$ = 1.5, SS; Figures 6 and 7). Step 3 (red) is the contribution of this study: every '
+                      'cross-section mode takes equal values at the side edges $s_L$ and $s_R$ (squares), so that any combination of '
+                      'the modes is periodic.', rp_):
     ins_.append(r_)
 capn.append(ins_)
 

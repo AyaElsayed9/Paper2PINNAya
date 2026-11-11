@@ -1454,3 +1454,11 @@ verification vs classical GBT (3.1). Added, all as tracked changes in
    reproduces 2-pitch to 0.001 %; spans 15 mm; limits stated: sampled wavenumbers only). 7. Conclusions: one sentence.
 Not done / open: Abaqus 4-pitch result (Aya is running it; add to 3.5 when it arrives); comparison with a
 closed-form model; symbols X_ik / Z_g vs axes X, Z (Navid to decide). Docx validated; rendered and read (clean copy).
+
+### 11 Nov 2026, 16:45 — Scheme 1 redrawn as pictures (Aya: "boring, paragraphs in a flowchart")
+`manuscript/scheme_overview.py` rewritten: six steps shown with computed pictures of the Unsym cell (b_s 150,
+beta 1.5, SS; the cell of Figures 6–7), paper style and drawing functions: (1) discretised section, (2) rigid
+rotation of the cell with free side edges (U = omega x (X - c) as in the solver; s_L != s_R), (3) the three
+dominant periodic hierarchical modes 12, 18, 8 (49.2, 24.6, 17.7 % = 91.5 %), (4) computed S_xx, S_ss across the skin
+at mid-length, (5) amplitude functions of the same modes, (6) critical mode, N_cr = 32.26 N/mm; Eq. (1) links the
+two rows. Caption and image replaced in AME-11112026 (tracked + clean rebuilt, validated, rendered).
