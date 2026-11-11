@@ -1391,3 +1391,20 @@ in Section 3 (15 symbols, tracked); figures 1, 3, 6, 9 regenerated (labels only;
 The local wall coordinates of GBT stay x, s, z (Silvestre–Camotim notation; all strains, amplitude functions
 phi_k(x), derivatives); 2.1.1 now states "x parallel to X". Reply to Navid's comment 27 updated. Not renamed:
 geometric tensors X_ik / matrix X and matrices Z_g (possible confusion with the axes X, Z — Aya/Navid to decide).
+
+### 11 Nov 2026, 14:15 — Navid: Bloch wavenumbers between 0 and pi (n-pitch cells) — checked, load unchanged
+Navid (WhatsApp 11 Nov): a real 2-pitch periodic cell contains only k_B b_s = 0 and pi; the long-wave mode of
+Section 3.5 (driven by S_ss) could have a lower load at an interior wavenumber; Abaqus has the same restriction.
+Asked: (1) a sentence in 2.2.5 (n-pitch cell samples 2 pi m / n), (2) a 4-pitch cell for Isotropic and Sym1, beta 8.
+Done: `manuscript/run_npitch.py` (solver unchanged; the panel is rebuilt with n pitches exactly like
+make_omega_panel; n = 2 is asserted identical to the solver's panel and reproduces the paper) ->
+manuscript/results/npitch.jsonl. b_s = 150 mm, beta = 8, SS, same longitudinal mesh hx = 15 mm for every n (the
+solver's default hx depends on the cell width; paper: 7.5 mm; n = 4 at 7.5 mm does not fit in 6 GB).
+| lay-up | n = 2 (0, pi) | n = 3 (0, 2pi/3) | n = 4 (0, pi/2, pi) | paper (hx 7.5) |
+| Isotropic | 75.0945 | 80.189 (double) | 75.0946; 2nd/3rd 88.109 (double) | 75.0931 |
+| Sym1      | 5.1979  | 5.503 (double)  | 5.1979; 2nd/3rd 5.977 (double)   | 5.1977  |
+=> load of the Bloch branch: pi 75.09 < 2pi/3 80.19 < pi/2 88.11 < 0 (>= 121) [Sym1: 5.198 < 5.503 < 5.977 < >= 14.2]:
+it decreases monotonically towards k_B b_s = pi, the minimum is at the zone edge, which the 2-pitch cell contains.
+The reported values are NOT changed by the wider cells. Limits: three interior/edge points sampled (pi/2, 2pi/3),
+not the continuous range; only beta = 8, two lay-ups. hx check: n = 2 at hx = 40 mm gives 75.0998 / 5.1981.
+To do in the manuscript: sentence in 2.2.5 + this comparison in 3.5.
