@@ -1408,3 +1408,15 @@ it decreases monotonically towards k_B b_s = pi, the minimum is at the zone edge
 The reported values are NOT changed by the wider cells. Limits: three interior/edge points sampled (pi/2, 2pi/3),
 not the continuous range; only beta = 8, two lay-ups. hx check: n = 2 at hx = 40 mm gives 75.0998 / 5.1981.
 To do in the manuscript: sentence in 2.2.5 + this comparison in 3.5.
+
+### 11 Nov 2026, 15:00 — n-pitch cells: transverse pattern of every mode measured; Abaqus n-pitch script
+`manuscript/plot_npitch.py` -> results/npitch_modes.json, fig/check_npitch_modes.png. For every mode the value
+c = <w(Y + b_s), w(Y)> / <w, w> (skin deflection shifted by one pitch) = cos(k_B b_s) was computed:
+Isotropic  n=2: 75.095 (c -1.000), 121.02.. (+1) | n=3: 80.189 x2 (-0.500), 121.02 (+1) | n=4: 75.095 (-1), 88.109 x2 (0.000), 121.03 (+1)
+Sym1       n=2: 5.198 (-1), 14.25.. (+1)         | n=3: 5.503 x2 (-0.500), 14.25 (+1)   | n=4: 5.198 (-1), 5.977 x2 (0.000), 14.25 (+1)
+So the assignment of the loads to k_B b_s = pi, 2pi/3, pi/2, 0 is measured, not inferred. (One process per case:
+the six cases in one process ran out of memory.)
+`manuscript/abaqus/Omegastiffener_PBC_npitch.py`: Aya's Omegastiffener_PBC_v2.py + PANEL_NPITCH (width n*bs, n
+stringers, suffix _n<N> in names); default 2 = v2. NOT run here (no Abaqus); syntax checked only. Aya runs
+Isotropic and Sym1, beta 8, n = 4 as an independent check (expected first eigenvalues near the n = 2 values
+75.32 and the paper's Sym1 value, then a double pair).
