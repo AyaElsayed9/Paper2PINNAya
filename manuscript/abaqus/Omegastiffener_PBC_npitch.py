@@ -7,15 +7,16 @@
 #  transverse (Bloch) wavenumbers k_B*b_s = 2*pi*m/n.  The standard cell (n = 2)
 #  contains 0 and pi; n = 4 adds pi/2, n = 3 contains 0 and 2*pi/3.
 #
-#  Cell size (environment variable PANEL_NPITCH, default 2 = identical to v2):
-#     width = PANEL_NPITCH * bs, PANEL_NPITCH stringers; everything else unchanged.
-#     For PANEL_NPITCH != 2 the tag, job and file names get the suffix _n<N>
+#  Cell size: width = NPITCH * bs, NPITCH stringers; everything else unchanged.
+#     The tag, job and file names get the suffix _n<N>
 #     (e.g. omega_validation_eigs_PBC_n4.csv), so no v2 result is overwritten.
 #
-#  Check requested: Isotropic and Sym1, bs = 150, beta = 8, SS, PBC, n = 4
-#     $env:PANEL_NPITCH="4"; $env:PANEL_SIDES="PBC"; $env:PANEL_BC="SS"
-#     $env:PANEL_CASES="150:8:Isotropic,150:8:Sym1"
+#  RUN WITHOUT ANY SETTING (just this one line):
 #     abaqus cae noGUI=Omegastiffener_PBC_npitch.py
+#  It then runs ONLY the requested check: 2 jobs, Isotropic and Sym1, bs = 150,
+#  beta = 8, SS, PBC, 4 pitches (defaults below: DEFAULT_NPITCH, DEFAULT_CASES).
+#  Other cells / pitches: environment variables PANEL_NPITCH, PANEL_CASES,
+#  PANEL_BC, PANEL_SIDES as in v2 (PANEL_NPITCH=2 gives the v2 model).
 #  The eigenvalue CSV lists the first 6 eigenvalues (m1_eig ... m6_eig).
 #  GBT (same cells): n = 4  Isotropic 75.09, 88.11, 88.11, 121.0   Sym1 5.198, 5.977, 5.977, 14.25
 #                    n = 3  Isotropic 80.19, 80.19, 121.0          Sym1 5.503, 5.503, 14.25
@@ -84,9 +85,11 @@ for bs in BS_VALS:
         for lname, mtype, skin_seq, stiff_seq in LAYUPS:
             TEST_POINTS.append((bs, beta, lname, mtype, skin_seq, stiff_seq))
 
+DEFAULT_NPITCH = "4"                                      # used when PANEL_NPITCH is not set
+DEFAULT_CASES = "150:8:Isotropic,150:8:Sym1"              # used when PANEL_CASES is not set (never the 30 cells)
 BC_LIST = [b.strip().upper() for b in os.environ.get("PANEL_BC", "SS").split(",") if b.strip()]
 SIDES_LIST = [b.strip().upper() for b in os.environ.get("PANEL_SIDES", "PBC").split(",") if b.strip()]   # PBC | PBC_FREE (SS only)
-_cases = os.environ.get("PANEL_CASES", "").strip()        # e.g. "150:12:Cross-ply,150:8:Isotropic"
+_cases = os.environ.get("PANEL_CASES", "").strip() or DEFAULT_CASES
 if _cases:
     _lay = dict((l[0], l) for l in LAYUPS)
     TEST_POINTS = []
@@ -102,7 +105,7 @@ if _cases:
 OUTPUT_DIR = os.environ.get(
     "PANEL_OUT", os.path.join(os.path.expanduser("~"), "Downloads"))
 
-NPITCH = int(os.environ.get("PANEL_NPITCH", "2"))     # stringer pitches in the periodic cell (2 = v2)
+NPITCH = int(os.environ.get("PANEL_NPITCH", "").strip() or DEFAULT_NPITCH)   # stringer pitches in the cell (2 = v2)
 if NPITCH < 1:
     raise ValueError("PANEL_NPITCH must be >= 1")
 
@@ -498,6 +501,8 @@ if __name__ == "__main__":
 
     import time
     t0 = time.time()
+    print(">>> %d pitches per cell, %d cell(s): %s" % (NPITCH, len(TEST_POINTS),
+          ", ".join("%s bs=%g beta=%g" % (p[2], p[0], p[1]) for p in TEST_POINTS)))
     for sides in SIDES_LIST:
       for bc in BC_LIST:
         for k, (bs, beta, lname, mtype, skin_seq, stiff_seq) in enumerate(TEST_POINTS, 1):

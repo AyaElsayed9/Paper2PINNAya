@@ -1426,3 +1426,9 @@ Isotropic and Sym1, beta 8, n = 4 as an independent check (expected first eigenv
 layout of Figure 9): fig/check_npitch_Isotropic_n4, check_npitch_Sym1_n4 (.png/.pdf); one row per computed mode
 (deformed cell + cross-section at the largest displacement). All labels are read from the modes: eigenvalue,
 measured c, k_B b_s = arccos(c). No hand-written pattern names. The first sketch (check_npitch_modes.png) is removed.
+
+### 11 Nov 2026, 15:35 — Abaqus n-pitch script: Aya's first run used the defaults (30 standard cells, 2 pitches)
+Her CSVs (omega_validation_eigs_PBC.csv, no _n4 suffix, panel_width 300) show the environment variables were not
+applied: the run repeated the standard cells (rows identical to the old ones). Script changed: without any
+variable it now runs only Isotropic + Sym1, bs 150, beta 8, 4 pitches (DEFAULT_NPITCH, DEFAULT_CASES) and prints
+the list of cells at the start. Still not run here (no Abaqus).
