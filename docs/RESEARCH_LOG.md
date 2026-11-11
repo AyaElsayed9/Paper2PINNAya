@@ -1420,3 +1420,9 @@ the six cases in one process ran out of memory.)
 stringers, suffix _n<N> in names); default 2 = v2. NOT run here (no Abaqus); syntax checked only. Aya runs
 Isotropic and Sym1, beta 8, n = 4 as an independent check (expected first eigenvalues near the n = 2 values
 75.32 and the paper's Sym1 value, then a double pair).
+
+### 11 Nov 2026, 15:20 — n-pitch check figures in the paper style (Aya: like the paper, everything from the data)
+`manuscript/plot_npitch.py` now draws with the paper's own style and functions (fp_common, figures_paper._mode3d_ortho,
+layout of Figure 9): fig/check_npitch_Isotropic_n4, check_npitch_Sym1_n4 (.png/.pdf); one row per computed mode
+(deformed cell + cross-section at the largest displacement). All labels are read from the modes: eigenvalue,
+measured c, k_B b_s = arccos(c). No hand-written pattern names. The first sketch (check_npitch_modes.png) is removed.
