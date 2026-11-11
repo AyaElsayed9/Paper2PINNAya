@@ -5,10 +5,11 @@ python3 edit.py u/word/document.xml w2/word/document.xml
 python3 eq.py w2/word/document.xml
 cp $F/fig01_geometry.png w2/word/media/image1.png; cp $F/fig03_prebuckling.png w2/word/media/image3.png; cp $F/fig06_buckling_modes.png w2/word/media/image6.png; cp $F/fig09_long_modes.png w2/word/media/image9.png
 cp $F/scheme01_overview.png w2/word/media/scheme1.png
+cp $F/fig10_npitch.png w2/word/media/npitch.png
 python3 - <<'PY'
 p='w2/word/_rels/document.xml.rels'; s=open(p,encoding='utf8').read()
 assert 'rIdScheme1' not in s
-s=s.replace('</Relationships>','<Relationship Id="rIdScheme1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/scheme1.png"/></Relationships>')
+s=s.replace('</Relationships>','<Relationship Id="rIdScheme1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/scheme1.png"/><Relationship Id="rIdNpitch" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/npitch.png"/></Relationships>')
 open(p,'w',encoding='utf8').write(s)
 PY
 python3 replies.py

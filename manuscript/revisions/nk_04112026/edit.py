@@ -217,8 +217,8 @@ A = 'http://schemas.openxmlformats.org/drawingml/2006/main'
 PIC = 'http://schemas.openxmlformats.org/drawingml/2006/picture'
 RNS = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
 cxmax = max(int(e.get('cx')) for e in root.iter('{%s}extent' % WP))
-SCH_PX = (3803, 4653)
-cx_ = int(0.90 * cxmax); cy_ = int(round(cx_ * SCH_PX[1] / SCH_PX[0]))        # 0.90: fits on the page below the text
+SCH_PX = (3869, 2694)
+cx_ = int(1.00 * cxmax); cy_ = int(round(cx_ * SCH_PX[1] / SCH_PX[0]))        # 0.90: fits on the page below the text
 for e in sch.iter('{%s}extent' % WP, '{%s}ext' % A):
     e.set('cx', str(cx_)); e.set('cy', str(cy_))
 ids = [int(e.get('id')) for e in root.iter('{%s}docPr' % WP, '{%s}cNvPr' % PIC)]
@@ -235,11 +235,11 @@ rp_ = copy.deepcopy(first_rpr(capp)) if first_rpr(capp) is not None else etree.E
 for e in rp_.findall(q('w:b')) + rp_.findall(q('w:bCs')):
     rp_.remove(e)
 ins_ = cx.mark('ins')
-for r_ in markup_runs(' Flowchart of the periodic GBT\u2013Ritz analysis. Step 3 (red) is the contribution of this study: the '
-                      'three branches make the in-plane modes, the warping and the nodal shear and Mindlin functions periodic one by '
-                      'one. Blue tags mark the other differences from classical GBT. The mode numbers and the small pictures are '
-                      'computed results of the Unsym cell ($b_s$ = 150 mm, $\u03b2$ = 1.5, SS; Figures 6 and 7); the hat functions in '
-                      'the third branch are schematic.', rp_):
+for r_ in markup_runs(' Flowchart of the periodic GBT\u2013Ritz analysis. The cross-section analysis (top) is done once per '
+                      'cross-section; the frame contains the periodic modes, the contribution of this study; the member analysis '
+                      '(bottom) is repeated for every length and end condition. The drawings are computed results of the Unsym cell '
+                      '($b_s$ = 150 mm, $\u03b2$ = 1.5, SS; Figures 6 and 7): the cell, its three dominant periodic modes and its '
+                      'critical mode.', rp_):
     ins_.append(r_)
 capn.append(ins_)
 
@@ -276,14 +276,6 @@ append_text(cx, P[113], ' For laminates with membrane–bending coupling (coupli
             'tensors, and its deflections are neglected.')
 
 # ---- 3.5: cells of three and four pitches (manuscript/run_npitch.py, plot_npitch.py; results/npitch*.json*)
-append_text(cx, P[174], ' Whether another Bloch wavenumber gives a lower load for the long-wave mode (Section 2.2.5) was '
-        'examined with cells of three and four pitches, which contain $k_B$$b_s$ = 2\u03c0/3 and \u03c0/2 (same model, spans of '
-        '15 mm; the wavenumber of every mode was identified from its skin deflection shifted by one pitch). At $\u03b2$ = 8, '
-        'the modes with $k_B$$b_s$ = 2\u03c0/3 and \u03c0/2 buckle at 80.19 and 88.11 N/mm in the isotropic cell and at 5.50 '
-        'and 5.98 N/mm in the Sym1 cell, above the alternating mode (75.09 and 5.20 N/mm), and the four-pitch cells reproduce '
-        'the critical loads of the two-pitch cells to 0.001 %. For these cells the load thus decreases steadily towards '
-        '$k_B$$b_s$ = \u03c0, which the two-pitch cell contains; wavenumbers between the sampled values were not examined.')
-
 # ---- 4: conclusions
 replace(cx, P[194], 'for the two cells examined.',
         'for the two cells examined. Cells of three and four pitches, which contain further Bloch wavenumbers, give the same '
@@ -299,10 +291,131 @@ for k_, old_, new_ in ((16, '194', '205'), (17, '558', '569'), (25, '166', '174'
     replace(cx, cells[k_], old_, new_)
 replace(cx, P[188], '474–558 modes', '482–569 modes')
 
-# ---- 3.5: Abaqus with four pitches (Aya's run, 11 Nov 2026; manuscript/src/abaqus_npitch/)
-append_text(cx, P[174], ' Shell models of the four-pitch cells confirm this: their critical loads, 75.32 and 5.22 N/mm, are those of '
-            'the two-pitch models, and the next two eigenvalues are equal, 88.67 N/mm (isotropic) and 6.02 N/mm (Sym1), within '
-            '0.8 % of the GBT values for $k_B$$b_s$ = π/2.')
+# ================================================================ 11 Nov 2026 (evening): n-pitch study as Table 6 + Figure 10
+# ---- renumbering (tracked): new Table 6 and Figure 10 in Section 3.5
+assert 'finer segments lower the GBT result further, Table 6' in vis_text(P[161])
+replace(cx, P[161], 'finer segments lower the GBT result further, Table 6', 'finer segments lower the GBT result further, Section 3.7')
+for p_, old_, new_ in ((188, 'Table 7', 'Table 8'), (189, 'Table 7', 'Table 8'), (185, 'Table 6', 'Table 7'), (186, 'Table 6', 'Table 7'),
+                       (181, 'Figure 10', 'Figure 11'), (183, 'Figure 10', 'Figure 11')):
+    assert vis_text(P[p_]).count(old_) == 1, (p_, old_)
+    replace(cx, P[p_], old_, new_)
+
+# ---- Section 3.5: new paragraph after the Abaqus paragraph
+assert vis_text(P[175]).startswith('Abaqus confirms both mechanisms')
+np35 = new_para_after(cx, P[175], P[175],
+    'The two-pitch cell contains only the Bloch wavenumbers $k_B$$b_s$ = 0 and π (Section 2.2.5). Whether another wavenumber '
+    'gives a lower load for the long-wave mode was examined with cells of three and four pitches, which also contain '
+    '$k_B$$b_s$ = 2π/3 and π/2, in GBT and, for four pitches, in Abaqus (the shell model of this section with the width '
+    '4$b_s$). The wavenumber of every GBT mode was identified from its skin deflection shifted by one pitch. Table 6 and Figure 10 '
+    'show that the modes with $k_B$$b_s$ = 2π/3 and π/2 buckle at higher loads than the alternating mode, that the '
+    'four-pitch cells give the same critical loads as the two-pitch cells in both models, and that their second and third '
+    'eigenvalues are equal in both models, as expected for the two Bloch waves with $k_B$$b_s$ = ±π/2. For these cells '
+    'the load thus decreases steadily towards $k_B$$b_s$ = π, which the two-pitch cell contains; wavenumbers between the '
+    'sampled values were not examined. GBT stays 0.3–1.1 % below Abaqus, as for the short cells.')
+
+
+def caption_after(ref, like, label, text):
+    cp = new_para_after(cx, ref, like, label)
+    rp = copy.deepcopy(first_rpr(like)) if first_rpr(like) is not None else etree.Element(q('w:rPr'))
+    for e in rp.findall(q('w:b')) + rp.findall(q('w:bCs')):
+        rp.remove(e)
+    ins = cx.mark('ins')
+    for r in markup_runs(text, rp):
+        ins.append(r)
+    cp.append(ins)
+    return cp
+
+
+def clean_copy(el):
+    el = copy.deepcopy(el)
+    for e in list(el.iter()):
+        if e.tag in (q('w:commentRangeStart'), q('w:commentRangeEnd'), q('w:bookmarkStart'), q('w:bookmarkEnd'),
+                     q('w:lastRenderedPageBreak'), q('w:rPrChange'), q('w:pPrChange'), q('w:tcPrChange'), q('w:trPrChange')):
+            e.getparent().remove(e)
+            continue
+        for a in list(e.attrib):
+            if a.endswith('}paraId') or a.endswith('}textId') or a.endswith('}anchorId') or a.endswith('}editId'):
+                del e.attrib[a]
+    return el
+
+
+# ---- Table 6 (after the caption of Figure 9)
+assert vis_text(P[179]).startswith('Figure 9.') and vis_text(P[189]).startswith('Table 8.') and P[190].tag == q('w:tbl')
+tcap = caption_after(P[179], P[189], 'Table 6.',
+    ' Critical loads [N/mm] for the Bloch wavenumbers $k_B$$b_s$ contained in periodic cells of two, three and four pitches '
+    '($b_s$ = 150 mm, $β$ = 8, SS; GBT with spans of 15 mm; Abaqus: shell model of the four-pitch cell, whose first '
+    'eigenvalue equals that of the two-pitch cell) and deviation e of GBT from Abaqus.')
+tbl = clean_copy(P[190])
+rows_t = tbl.findall(q('w:tr')); hdr_t, body_t = rows_t[0], rows_t[1]
+for r_ in rows_t:
+    tbl.remove(r_)
+grid = tbl.find(q('w:tblGrid'))
+for g_ in list(grid):
+    grid.remove(g_)
+for w_ in (1330, 1000, 1330, 1400, 1600, 1199):
+    gc = etree.SubElement(grid, q('w:gridCol')); gc.set(q('w:w'), str(w_))
+import json as _json
+NT = _json.load(open('/home/claude/paper2pinnaya/manuscript/results/npitch_table.json'))
+KBTXT = {r'\pi': 'π', r'2\pi/3': '2π/3', r'\pi/2': 'π/2', '0': '0'}
+data = [['Lay-up', '$k_B$$b_s$', 'Cells (pitches)', 'GBT', 'Abaqus', 'e [%]']]
+for lay, fmt in (('Isotropic', '{:.2f}'), ('Sym1', '{:.3f}')):
+    for j_, kb in enumerate((r'\pi', r'2\pi/3', r'\pi/2', '0')):
+        t_ = NT[lay][kb]; ab = t_['N_abq']
+        data.append([lay if j_ == 0 else '', KBTXT[kb], ', '.join(str(c) for c in t_['cells']), fmt.format(t_['N_gbt']),
+                     fmt.format(ab) if ab else '–', '{:+.2f}'.format(100 * (t_['N_gbt'] / ab - 1)).replace('-', '−') if ab else '–'])
+
+
+def make_row(tmpl, vals):
+    r_ = copy.deepcopy(tmpl)
+    tcs = r_.findall(q('w:tc'))
+    while len(tcs) < len(vals):
+        r_.append(copy.deepcopy(tcs[-1])); tcs = r_.findall(q('w:tc'))
+    for tc, v in zip(tcs, vals):
+        ps = tc.findall(q('w:p'))
+        for p2 in ps[1:]:
+            tc.remove(p2)
+        p0 = ps[0]
+        for ch in list(p0):
+            if ch.tag != q('w:pPr'):
+                p0.remove(ch)
+        if v:
+            ins = cx.mark('ins')
+            for rr in markup_runs(v):
+                ins.append(rr)
+            p0.append(ins)
+        para_mark(cx, p0, 'ins')
+    trPr = r_.find(q('w:trPr'))
+    if trPr is None:
+        trPr = etree.Element(q('w:trPr')); r_.insert(0, trPr)
+    trPr.append(cx.mark('ins'))
+    return r_
+
+
+for k_, vals in enumerate(data):
+    tbl.append(make_row(hdr_t if k_ == 0 else body_t, vals))
+tcap.addnext(tbl)
+
+# ---- Figure 10 (after Table 6)
+fig10 = clean_copy(P[82])
+assert fig10.find('.//' + q('w:drawing')) is not None
+F10_PX = (3756, 3017)
+c10x = cxmax; c10y = int(round(c10x * F10_PX[1] / F10_PX[0]))
+for e in fig10.iter('{%s}extent' % WP, '{%s}ext' % A):
+    e.set('cx', str(c10x)); e.set('cy', str(c10y))
+ids = [int(e.get('id')) for e in root.iter('{%s}docPr' % WP, '{%s}cNvPr' % PIC)]
+dp = fig10.find('.//{%s}docPr' % WP); dp.set('id', str(max(ids) + 1)); dp.set('name', 'Figure 10'); dp.set('descr', 'Figure 10. Modes of the four-pitch cells.')
+cp_ = fig10.find('.//{%s}cNvPr' % PIC); cp_.set('id', str(max(ids) + 2)); cp_.set('name', 'Figure 10'); cp_.set('descr', 'fig/fig10_npitch.png')
+fig10.find('.//{%s}blip' % A).set('{%s}embed' % RNS, 'rIdNpitch')
+for r_ in list(fig10.findall(q('w:r'))):
+    w_ = cx.mark('ins'); fig10.replace(r_, w_); w_.append(r_)
+para_mark(cx, fig10, 'ins')
+tbl.addnext(fig10)
+caption_after(fig10, P[179], 'Figure 10.',
+    ' Buckling modes of the four-pitch cells ($b_s$ = 150 mm, $\u03b2$ = 8, SS; GBT): deformed cell (colour: displacement normal '
+    'to the walls) and cross-section at the largest displacement (dotted: stringer pitches) of the (a, b) first, (c, d) second '
+    'and (e, f) fourth mode; (a, c, e) isotropic, (b, d, f) Sym1 cell. The Bloch wavenumbers $k_B$$b_s$ = \u03c0, \u03c0/2 and 0 '
+    'were identified from the skin deflection shifted by one pitch; the third mode equals the second (double eigenvalue). '
+    'Abaqus: eigenvalues of the four-pitch shell model (Table 6).')
 
 tree.write(DST, xml_declaration=True, encoding='UTF-8', standalone=True)
 print('ok, next id', cx.nid)

@@ -1480,3 +1480,18 @@ Inserted at 90 % of the text width so that it fits below the text.
 (b_s = 150 / 285.5; `nmodes: 569` in results/long_curves.jsonl; the formula of Section 2.2.4 gives 205 and 174 with
 23 and 20 nodes of two independent tangents, link walls included). The table values were written by hand in
 part2.md and were wrong; no result depends on them. Corrected (tracked): Table 2 and "482–569 modes" in 3.7.
+
+### 11 Nov 2026, 18:30 — Scheme 1 in the style of Paper 1's flowchart; n-pitch study as Table 6 + Figure 10
+Aya: the flowchart should look like the one of her previous paper (Composite Structures, Fig. 3 of [22]) and not
+"AI-made"; the n-pitch figures, the Abaqus result and a table were missing in the manuscript.
+- `manuscript/scheme_overview.py` v4: plain rectangles with thin black borders, light blue process boxes, light
+  green decision diamonds (R v = 0 ?; other length or end condition?), an ellipse end node, elbow connectors,
+  equations in the boxes, Yes/No labels, Carlito font (as Calibri in Paper 1), colours taken from her figure
+  (#DCEAF7, #D9F2D0, pink frame for the periodic part); small computed drawings (cell, 3 periodic modes, critical mode).
+- `manuscript/fig_npitch.py` -> fig/fig10_npitch (3D cell + cross-section, like Figure 9 and the check figures Aya
+  liked) and results/npitch_table.json. Abaqus assignment: four-pitch eigenvalues in ascending order map to
+  pi, pi/2 (double), 0 exactly as the measured GBT modes (asserted: same order, equal 2nd/3rd values).
+- Manuscript (tracked): new paragraph in 3.5 (replaces the sentences appended to the isotropic paragraph), new
+  Table 6 (lay-up, k_B b_s, cells, GBT, Abaqus, e) and Figure 10 after Figure 9. Renumbered: old Table 6 -> 7,
+  old Table 7 -> 8, old Figure 10 -> 11; the citation of the discretisation table in 3.3 now reads "Section 3.7" so
+  that tables stay numbered in order of first citation. Validated; rendered and read.
