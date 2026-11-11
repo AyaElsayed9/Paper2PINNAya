@@ -1462,3 +1462,21 @@ rotation of the cell with free side edges (U = omega x (X - c) as in the solver;
 dominant periodic hierarchical modes 12, 18, 8 (49.2, 24.6, 17.7 % = 91.5 %), (4) computed S_xx, S_ss across the skin
 at mid-length, (5) amplitude functions of the same modes, (6) critical mode, N_cr = 32.26 N/mm; Eq. (1) links the
 two rows. Caption and image replaced in AME-11112026 (tracked + clean rebuilt, validated, rendered).
+
+### 11 Nov 2026, 17:30 — Abaqus 4-pitch result; Scheme 1 as a real flowchart; Table 2 corrected
+**Abaqus, 4 pitches** (Aya's run, manuscript/src/abaqus_npitch/*.csv; b_s 150, beta 8, SS, PBC, width 600):
+Isotropic 75.317, 88.665, 88.665, 122.33 (solver step 1088 s); Sym1 5.222, 6.0241, 6.0241, 14.35 (587 s).
+The first eigenvalues equal the 2-pitch Abaqus values (75.317, 5.222); the pi/2 pair is double as in GBT.
+GBT vs Abaqus (GBT hx 15): 75.09 / 88.11 / 121.02 -> -0.30 / -0.63 / -1.07 %; 5.198 / 5.977 / 14.25 -> -0.46 / -0.78 /
+-0.72 %. Independent confirmation of the n-pitch check. Added to Section 3.5 and the conclusions (tracked).
+**Scheme 1** (Aya: the picture version was a bad idea; wants a scientific flowchart, attractive, complete, showing the
+complexity): `manuscript/scheme_overview.py` third version: terminals, 7 numbered processes, the decision
+"mode already periodic?" with the three steps of Section 2.2.2, three parallel branches of step 3 (in-plane modes /
+warping / nodal S and M functions), lanes A (cross-section, once) and B (member, per length), family chips in the
+colours of Figure 7, red = new, blue tags = the differences from classical GBT, small computed pictures (Unsym cell).
+Inserted at 90 % of the text width so that it fits below the text.
+**CORRECTION in the manuscript (found while reading the mode counts from the solver for the scheme):** Table 2 gave
+194 / 166 Mindlin modes and totals 558 / 474. The solver's sections have M = 205 / 174 and nm = 569 / 482
+(b_s = 150 / 285.5; `nmodes: 569` in results/long_curves.jsonl; the formula of Section 2.2.4 gives 205 and 174 with
+23 and 20 nodes of two independent tangents, link walls included). The table values were written by hand in
+part2.md and were wrong; no result depends on them. Corrected (tracked): Table 2 and "482–569 modes" in 3.7.

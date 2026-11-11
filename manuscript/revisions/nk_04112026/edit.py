@@ -217,8 +217,8 @@ A = 'http://schemas.openxmlformats.org/drawingml/2006/main'
 PIC = 'http://schemas.openxmlformats.org/drawingml/2006/picture'
 RNS = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
 cxmax = max(int(e.get('cx')) for e in root.iter('{%s}extent' % WP))
-SCH_PX = (3803, 3047)
-cx_, cy_ = cxmax, int(round(cxmax * SCH_PX[1] / SCH_PX[0]))
+SCH_PX = (3803, 4653)
+cx_ = int(0.90 * cxmax); cy_ = int(round(cx_ * SCH_PX[1] / SCH_PX[0]))        # 0.90: fits on the page below the text
 for e in sch.iter('{%s}extent' % WP, '{%s}ext' % A):
     e.set('cx', str(cx_)); e.set('cy', str(cy_))
 ids = [int(e.get('id')) for e in root.iter('{%s}docPr' % WP, '{%s}cNvPr' % PIC)]
@@ -235,10 +235,11 @@ rp_ = copy.deepcopy(first_rpr(capp)) if first_rpr(capp) is not None else etree.E
 for e in rp_.findall(q('w:b')) + rp_.findall(q('w:bCs')):
     rp_.remove(e)
 ins_ = cx.mark('ins')
-for r_ in markup_runs(' The periodic GBT\u2013Ritz analysis in six steps, illustrated with computed results of the Unsym cell '
-                      '($b_s$ = 150 mm, $\u03b2$ = 1.5, SS; Figures 6 and 7). Step 3 (red) is the contribution of this study: every '
-                      'cross-section mode takes equal values at the side edges $s_L$ and $s_R$ (squares), so that any combination of '
-                      'the modes is periodic.', rp_):
+for r_ in markup_runs(' Flowchart of the periodic GBT\u2013Ritz analysis. Step 3 (red) is the contribution of this study: the '
+                      'three branches make the in-plane modes, the warping and the nodal shear and Mindlin functions periodic one by '
+                      'one. Blue tags mark the other differences from classical GBT. The mode numbers and the small pictures are '
+                      'computed results of the Unsym cell ($b_s$ = 150 mm, $\u03b2$ = 1.5, SS; Figures 6 and 7); the hat functions in '
+                      'the third branch are schematic.', rp_):
     ins_.append(r_)
 capn.append(ins_)
 
@@ -286,7 +287,22 @@ append_text(cx, P[174], ' Whether another Bloch wavenumber gives a lower load fo
 # ---- 4: conclusions
 replace(cx, P[194], 'for the two cells examined.',
         'for the two cells examined. Cells of three and four pitches, which contain further Bloch wavenumbers, give the same '
-        'long-wave loads.')
+        'long-wave loads in GBT and, for four pitches, in Abaqus.')
+
+
+# ---- Table 2 and Section 3.7: number of Mindlin modes corrected to the solver's section (11 Nov 2026).
+# Solver: b_s = 150: M = 205, total 569 (as "nmodes": 569 in results/long_curves.jsonl); b_s = 285.5: M = 174, total 482.
+# The formula of Section 2.2.4 gives these values (23 and 20 nodes with two independent tangents, incl. the link walls).
+cells = list(P[79].iter(q('w:tc')))
+for k_, old_, new_ in ((16, '194', '205'), (17, '558', '569'), (25, '166', '174'), (26, '474', '482')):
+    assert vis_text(cells[k_]) == old_, (k_, vis_text(cells[k_]))
+    replace(cx, cells[k_], old_, new_)
+replace(cx, P[188], '474–558 modes', '482–569 modes')
+
+# ---- 3.5: Abaqus with four pitches (Aya's run, 11 Nov 2026; manuscript/src/abaqus_npitch/)
+append_text(cx, P[174], ' Shell models of the four-pitch cells confirm this: their critical loads, 75.32 and 5.22 N/mm, are those of '
+            'the two-pitch models, and the next two eigenvalues are equal, 88.67 N/mm (isotropic) and 6.02 N/mm (Sym1), within '
+            '0.8 % of the GBT values for $k_B$$b_s$ = π/2.')
 
 tree.write(DST, xml_declaration=True, encoding='UTF-8', standalone=True)
 print('ok, next id', cx.nid)
