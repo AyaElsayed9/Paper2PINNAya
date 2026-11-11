@@ -308,7 +308,8 @@ np35 = new_para_after(cx, P[175], P[175],
     '$k_B$$b_s$ = 2π/3 and π/2, in GBT and, for four pitches, in Abaqus (the shell model of this section with the width '
     '4$b_s$). The wavenumber of every GBT mode was identified from its skin deflection shifted by one pitch. Table 6 and Figure 10 '
     'show that the modes with $k_B$$b_s$ = 2π/3 and π/2 buckle at higher loads than the alternating mode, that the '
-    'four-pitch cells give the same critical loads as the two-pitch cells in both models, and that their second and third '
+    'four-pitch cells give the same critical loads as the two-pitch cells in both models, with the same mode (skin MAC > 0.9999 '
+    'between GBT and Abaqus), and that their second and third '
     'eigenvalues are equal in both models, as expected for the two Bloch waves with $k_B$$b_s$ = ±π/2. For these cells '
     'the load thus decreases steadily towards $k_B$$b_s$ = π, which the two-pitch cell contains; wavenumbers between the '
     'sampled values were not examined. GBT stays 0.3–1.1 % below Abaqus, as for the short cells.')
@@ -415,7 +416,8 @@ caption_after(fig10, P[179], 'Figure 10.',
     'to the walls) and cross-section at the largest displacement (dotted: stringer pitches) of the (a, b) first, (c, d) second '
     'and (e, f) fourth mode; (a, c, e) isotropic, (b, d, f) Sym1 cell. The Bloch wavenumbers $k_B$$b_s$ = \u03c0, \u03c0/2 and 0 '
     'were identified from the skin deflection shifted by one pitch; the third mode equals the second (double eigenvalue). '
-    'Abaqus: eigenvalues of the four-pitch shell model (Table 6).')
+    'Abaqus: eigenvalues of the four-pitch shell model (Table 6); dots in (a, b): its first mode, with the modal assurance '
+    'criterion MAC of the skin deflections.')
 
 tree.write(DST, xml_declaration=True, encoding='UTF-8', standalone=True)
 print('ok, next id', cx.nid)

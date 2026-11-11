@@ -73,7 +73,21 @@ for c, lay in enumerate(("Isotropic", "Sym1")):
             b.axvline(y, color="#c0392b", lw=0.3, ls=(0, (2, 2)), zorder=0)
         b.set_xlim(-d["W"] - 12, 12); b.set_ylim(-50, 80); b.set_aspect("equal"); b.axis("off")
         dbl = " (double)" if k == 1 else ""
-        fig.text((x0 + 61.5) / FW, (y0 + 26.0) / FH, rf"GBT: {m['N']:.2f} N/mm{dbl}" + "\n" + rf"Abaqus: {t['N_abq']:.2f} N/mm{dbl}",
+        mac_txt = ""
+        if k == 0:                                     # Abaqus mode 1 of the four-pitch shell model (Aya, 11 Nov 2026)
+            import abq_modes as AQ
+            AQ.FE = H / "src" / "abaqus_npitch" / "fe_modes"
+            ab = AQ.read_abq(f"MODE1_bs150_beta8_{lay}_PBC_n4.csv"); mc, sg = AQ.mac(dict(d, U=U), ab)
+            assert abs(ab["eig"] - t["N_abq"]) < 1e-6
+            zc = ab["xyz"][np.argmin(np.abs(ab["xyz"][:, 2] - d["xs"][i])), 2]
+            sel = np.abs(ab["xyz"][:, 2] - zc) < 1e-3
+            Ua = sg * ab["U"][sel][:, :2]; Ua = Ua / np.abs(Ua).max()
+            o_ = np.argsort(ab["xyz"][sel, 0])[::3]                     # every third node: the GBT line stays visible
+            b.plot(ab["xyz"][sel, 0][o_] + 40 * Ua[o_, 0], ab["xyz"][sel, 1][o_] + 40 * Ua[o_, 1], "o", ms=0.9, mfc="#c0392b",
+                   mec="none", zorder=4)
+            mac_txt = "\n" + rf"(dots), MAC {mc:.4f}"
+            table[lay][kb]["mac_skin"] = mc
+        fig.text((x0 + 61.5) / FW, (y0 + 26.0) / FH, rf"GBT: {m['N']:.2f} N/mm{dbl}" + "\n" + rf"Abaqus: {t['N_abq']:.2f} N/mm{dbl}{mac_txt}",
                  ha="center", va="top", fontsize=6.8, linespacing=1.35)
         fig.text((x0 + 61.5) / FW, (y0 + 4.5) / FH, rf"cross-section at $X/L = {d['xs'][i] / d['L']:.2f}$", ha="center", va="top",
                  fontsize=6.2, color=P.MUTED)
@@ -82,4 +96,5 @@ cb = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cax, orientat
 cb.set_label(r"normal displacement $w/|w|_{\max}$", fontsize=7.5); cb.ax.tick_params(labelsize=6.5, length=2)
 cb.set_ticks([-1, -0.5, 0, 0.5, 1]); cb.outline.set_linewidth(0.4)
 P.save(fig, "fig10_npitch")
+json.dump(table, open(H / "results" / "npitch_table.json", "w"), indent=1)
 print(json.dumps(table, indent=1))

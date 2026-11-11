@@ -1495,3 +1495,9 @@ Aya: the flowchart should look like the one of her previous paper (Composite Str
   Table 6 (lay-up, k_B b_s, cells, GBT, Abaqus, e) and Figure 10 after Figure 9. Renumbered: old Table 6 -> 7,
   old Table 7 -> 8, old Figure 10 -> 11; the citation of the discretisation table in 3.3 now reads "Section 3.7" so
   that tables stay numbered in order of first citation. Validated; rendered and read.
+
+### 11 Nov 2026, 18:50 — Abaqus mode 1 of the four-pitch cells: shape comparison
+Aya sent fe_modes/MODE1_bs150_beta8_{Isotropic,Sym1}_PBC_n4.csv (manuscript/src/abaqus_npitch/fe_modes/).
+Skin-deflection MAC between GBT (4-pitch, mode 1) and Abaqus (4-pitch, mode 1), abq_modes.mac:
+Isotropic 0.9999983, Sym1 0.9999982 (eigenvalues 75.317 / 5.222 as in the CSV). Added as dots in Figure 10 (a, b)
+and as "skin MAC > 0.9999" in 3.5 and the caption (tracked). Modes pi/2 and 0 of Abaqus: eigenvalues only.
