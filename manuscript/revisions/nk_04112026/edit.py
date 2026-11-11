@@ -188,5 +188,104 @@ for r_, s_ in vis_runs(new5):
 row_mark(new5, 'ins')
 r6.addprevious(new5)
 
+
+# ================================================================ 11 Nov 2026: reviewer-proofing of the theory
+# (Navid: "the theory is complicated"; Bloch wavenumbers; Aya: add, correct, make the idea easy to follow)
+# ---- Section 2, opening: overview in plain words + Scheme 1
+replace(cx, P[17], 'Classical GBT is extended, and recovered as a special case (Section 2.3.4), by periodic modes, the main '
+        'contribution (Section 2.2), closed contours without Vlasov’s assumptions, Reissner–Mindlin laminated walls '
+        'and a computed pre-buckling state.',
+        'Scheme 1 summarizes the analysis. Compared with classical GBT, four things are different: the modes are periodic '
+        '(Section 2.2, the main contribution); the contours are closed, so Vlasov’s assumptions are not used; the walls '
+        'are shear-deformable (Reissner–Mindlin) laminates; and the pre-buckling state is computed instead of assumed. '
+        'Classical GBT is recovered as a special case (Section 2.3.4). The idea of the periodic formulation is simple. The '
+        'two side edges of the cell are the same line of the infinite panel, so the cell must deform identically at both. '
+        'Shell models enforce this on the solution by constraint equations. Here, every cross-section mode is made periodic '
+        'before the member analysis. Any combination of periodic modes is periodic, so the member analysis itself needs no '
+        'change.')
+figp, capp = P[82], P[83]
+assert figp.find('.//' + q('w:drawing')) is not None and vis_text(capp).startswith('Figure 2.')
+sch = copy.deepcopy(figp)
+for e in list(sch.iter()):
+    if e.tag in (q('w:commentRangeStart'), q('w:commentRangeEnd'), q('w:bookmarkStart'), q('w:bookmarkEnd'), q('w:lastRenderedPageBreak')):
+        e.getparent().remove(e)
+    for a in list(e.attrib):
+        if a.endswith('}paraId') or a.endswith('}textId') or a.endswith('}anchorId') or a.endswith('}editId'):
+            del e.attrib[a]
+WP = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing'
+A = 'http://schemas.openxmlformats.org/drawingml/2006/main'
+PIC = 'http://schemas.openxmlformats.org/drawingml/2006/picture'
+RNS = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
+cxmax = max(int(e.get('cx')) for e in root.iter('{%s}extent' % WP))
+SCH_PX = (3803, 2929)
+cx_, cy_ = cxmax, int(round(cxmax * SCH_PX[1] / SCH_PX[0]))
+for e in sch.iter('{%s}extent' % WP, '{%s}ext' % A):
+    e.set('cx', str(cx_)); e.set('cy', str(cy_))
+ids = [int(e.get('id')) for e in root.iter('{%s}docPr' % WP, '{%s}cNvPr' % PIC)]
+dp = sch.find('.//{%s}docPr' % WP); dp.set('id', str(max(ids) + 1)); dp.set('name', 'Scheme 1')
+dp.set('descr', 'Scheme 1. Steps of the periodic GBT-Ritz analysis.')
+cp_ = sch.find('.//{%s}cNvPr' % PIC); cp_.set('id', str(max(ids) + 2)); cp_.set('name', 'Scheme 1'); cp_.set('descr', 'fig/scheme01_overview.png')
+sch.find('.//{%s}blip' % A).set('{%s}embed' % RNS, 'rIdScheme1')
+for r_ in list(sch.findall(q('w:r'))):
+    w_ = cx.mark('ins'); sch.replace(r_, w_); w_.append(r_)
+para_mark(cx, sch, 'ins')
+P[17].addnext(sch)
+capn = new_para_after(cx, sch, capp, 'Scheme 1.')
+rp_ = copy.deepcopy(first_rpr(capp)) if first_rpr(capp) is not None else etree.Element(q('w:rPr'))
+for e in rp_.findall(q('w:b')) + rp_.findall(q('w:bCs')):
+    rp_.remove(e)
+ins_ = cx.mark('ins')
+for r_ in markup_runs(' Steps of the periodic GBT\u2013Ritz analysis with the corresponding sections and equations. Step 3 (red) '
+                      'is the contribution of this study; the other steps follow shear-deformable GBT [32,50] with the '
+                      'extensions named in the text.', rp_):
+    ins_.append(r_)
+capn.append(ins_)
+
+# ---- 2.2.2: why the modes are built family by family (plain words before the four steps)
+replace(cx, P[69], 'To keep the GBT meaning of the modes, they are built family by family. With ',
+        'Any basis of this null space would give periodic modes, but such modes would no longer be global, distortional, '
+        'local or transverse extension modes. To keep the GBT meaning of the modes, the periodic modes are therefore built '
+        'family by family, in three ideas: a mode that is already periodic is kept; modes that are not periodic are combined '
+        'within their own family so that their side-edge differences cancel; and the few periodic deformations that are '
+        'then still missing are added. In detail, with ')
+
+# ---- 2.2.3: the remaining shear strain is the shear flow of a closed section (checked in the code, see RESEARCH_LOG)
+append_text(cx, P[73], ' Indeed, the stationarity condition of Eq. (9) at a node is the balance of the shear flows (shear '
+            'stiffness times $γ_k$) of the segments that meet there, so the shear flow is constant between two '
+            'junctions, as in closed thin-walled sections; for the cross-ply cell with $b_s$ = 150 mm the computed warping '
+            'satisfies this balance to 10⁻⁹ of the largest shear flow.')
+
+# ---- 2.2.5: which Bloch wavenumbers a cell contains (Navid, 11 Nov)
+replace(cx, P[81], 'modes that repeat in every bay and modes that alternate.',
+        'modes that repeat in every bay and modes that alternate. In general, a cell of $n$ pitches with real periodic modes '
+        'contains only the wavenumbers $k_B$$b_s$ = 2π$m$/$n$ with integer $m$. In an infinite panel, $k_B$$b_s$ can take '
+        'any value between 0 and π, and the critical load is the minimum over this range; the present cell of two '
+        'pitches samples its two ends. Other wavenumbers require a wider cell or complex Bloch conditions and are examined '
+        'for the long cells in Section 3.5.')
+
+replace(cx, P[81], 'To order them from global to local, the conventional modes are recombined',
+        'To order the conventional modes from global to local, they are recombined')
+
+# ---- 2.3.2: laminates with membrane-bending coupling bend before buckling
+append_text(cx, P[113], ' For laminates with membrane–bending coupling (coupling stiffness of Eq. (5) not zero), the cell '
+            'bends from the beginning of loading ($κ_0$ ≠ 0), so that buckling is not a bifurcation in the strict '
+            'sense. As in the linear buckling analyses of the shell models (Section 3), the critical load is here the '
+            'bifurcation load of the linearized problem: the membrane forces of the first-order state enter the geometric '
+            'tensors, and its deflections are neglected.')
+
+# ---- 3.5: cells of three and four pitches (manuscript/run_npitch.py, plot_npitch.py; results/npitch*.json*)
+append_text(cx, P[174], ' Whether another Bloch wavenumber gives a lower load for the long-wave mode (Section 2.2.5) was '
+        'examined with cells of three and four pitches, which contain $k_B$$b_s$ = 2\u03c0/3 and \u03c0/2 (same model, spans of '
+        '15 mm; the wavenumber of every mode was identified from its skin deflection shifted by one pitch). At $\u03b2$ = 8, '
+        'the modes with $k_B$$b_s$ = 2\u03c0/3 and \u03c0/2 buckle at 80.19 and 88.11 N/mm in the isotropic cell and at 5.50 '
+        'and 5.98 N/mm in the Sym1 cell, above the alternating mode (75.09 and 5.20 N/mm), and the four-pitch cells reproduce '
+        'the critical loads of the two-pitch cells to 0.001 %. For these cells the load thus decreases steadily towards '
+        '$k_B$$b_s$ = \u03c0, which the two-pitch cell contains; wavenumbers between the sampled values were not examined.')
+
+# ---- 4: conclusions
+replace(cx, P[194], 'for the two cells examined.',
+        'for the two cells examined. Cells of three and four pitches, which contain further Bloch wavenumbers, give the same '
+        'long-wave loads.')
+
 tree.write(DST, xml_declaration=True, encoding='UTF-8', standalone=True)
 print('ok, next id', cx.nid)

@@ -1432,3 +1432,25 @@ Her CSVs (omega_validation_eigs_PBC.csv, no _n4 suffix, panel_width 300) show th
 applied: the run repeated the standard cells (rows identical to the old ones). Script changed: without any
 variable it now runs only Isotropic + Sym1, bs 150, beta 8, 4 pitches (DEFAULT_NPITCH, DEFAULT_CASES) and prints
 the list of cells at the start. Still not run here (no Abaqus).
+
+### 11 Nov 2026, 16:15 — manuscript: theory made easier to follow + reviewer points (tracked, AME-11112026)
+Aya: "go on, add, correct, do all that is needed; the complexity must be solved or the reviewer rejects".
+Review of Sections 2–4 against the likely reviewer questions. Already covered in the text (no change): fixed cell
+width (3.2, 3.5, 3.7, conclusions), link-wall factors with numbers (2.1.2, 3.7), honest DOF/time statement (3.7),
+verification vs classical GBT (3.1). Added, all as tracked changes in
+`manuscript/revisions/nk_04112026/GBT_periodic-NK-04112026_AME-11112026.docx` (+ `_clean`):
+1. Section 2 opening rewritten in plain words (what differs from classical GBT; the idea of periodic modes) and
+   new **Scheme 1** (flowchart, `manuscript/scheme_overview.py` -> fig/scheme01_overview: 7 steps with sections and
+   equation numbers, step 3 = contribution). "Scheme" numbering, so no figure/table is renumbered.
+2. 2.2.2: three plain "ideas" before the four formal steps of the family-wise construction.
+3. 2.2.3: the stationarity of Eq. (9) is the nodal balance of the shear flows (shear flow constant between
+   junctions, as in closed sections). Checked in the solver's section (Cross-ply, b_s 150): imbalance <= 5e-8 against
+   flows of 1e2–7e3, i.e. < 1e-9 relative, for all 15 G/D modes.
+4. 2.2.5: Navid's sentence (n-pitch cell: k_B b_s = 2 pi m / n; two-pitch cell = the two ends; wider cell or
+   complex Bloch conditions otherwise).
+5. 2.3.2: laminates with membrane–bending coupling bend from the start (kappa_0 != 0); the load is the
+   bifurcation load of the linearized problem, as in the shell models' linear buckling step.
+6. 3.5: 3- and 4-pitch comparison at beta 8 (80.19 / 88.11 vs 75.09 isotropic; 5.50 / 5.98 vs 5.20 Sym1; 4-pitch
+   reproduces 2-pitch to 0.001 %; spans 15 mm; limits stated: sampled wavenumbers only). 7. Conclusions: one sentence.
+Not done / open: Abaqus 4-pitch result (Aya is running it; add to 3.5 when it arrives); comparison with a
+closed-form model; symbols X_ik / Z_g vs axes X, Z (Navid to decide). Docx validated; rendered and read (clean copy).

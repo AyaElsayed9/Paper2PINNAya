@@ -229,3 +229,31 @@ def rewrite_paragraph(cx, p, texts):
         np_.append(i2)
         prev.addnext(np_); prev = np_
     return prev
+
+
+def append_text(cx, p, text):
+    """tracked insertion of text (markup) at the end of paragraph p"""
+    ins = cx.mark('ins')
+    for r in markup_runs(text, first_rpr(p)):
+        ins.append(r)
+    p.append(ins)
+    return ins
+
+
+def new_para_after(cx, ref, like, text=None):
+    """new tracked paragraph after `ref` with the paragraph properties of `like`"""
+    np_ = etree.Element(q('w:p'))
+    pPr = like.find(q('w:pPr'))
+    if pPr is not None:
+        pp = copy.deepcopy(pPr)
+        for e in pp.findall(q('w:rPr')):
+            pp.remove(e)
+        np_.append(pp)
+    para_mark(cx, np_, 'ins')
+    if text:
+        ins = cx.mark('ins')
+        for r in markup_runs(text, first_rpr(like)):
+            ins.append(r)
+        np_.append(ins)
+    ref.addnext(np_)
+    return np_
