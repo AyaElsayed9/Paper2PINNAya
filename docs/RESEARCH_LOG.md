@@ -1503,3 +1503,16 @@ Isotropic 0.9999983, Sym1 0.9999982 (eigenvalues 75.317 / 5.222 as in the CSV). 
 and as "skin MAC > 0.9999" in 3.5 and the caption (tracked). Modes pi/2 and 0 of Abaqus: eigenvalues only.
 
 ### 12 Nov 2026, 07:20 — reply to Navid's comment on Eq. (9) rewritten in simpler words (Aya's request); docx rebuilt.
+
+### 12 Nov 2026, 08:15 — Aya's edited file: strip sentence and its references removed, Scheme 1 caption shorter
+Aya edited AME-11112026 herself (shortened replies, highlights) and asked: remove the highlighted strip-method
+sentence (Navid did not understand it) with its references and renumber; shorten the Scheme 1 caption.
+From now on HER file is the base (`..._AME-11112026_Aya-edited.docx`); build.sh/edit.py are superseded.
+`fix12.py` -> `GBT_periodic-NK-04112026_AME-12112026.docx` (+ `_clean`):
+- the sentence (my own insertion) removed; Scheme 1 caption shortened (my insertion, replaced).
+- references: Wittrick–Williams, Kennedy et al. (VIPASA/VICONOPT) and Cheung (FSM), former [9]–[11], deleted
+  (tracked). Lau & Hancock (former [12]) is KEPT because Section 2.3.3 cites it ("spline finite strips"); it moves to
+  its first citation, now [51]. Mapping old -> new: 1–8 same; 13–54 -> 9–50; 12 -> 51; 55 -> 52; 56 -> 53.
+  87 citation numbers changed (38 inside my own inserted text edited directly, the rest tracked); checked that the
+  citations are now in order of first appearance 1..53, and in the clean copy that the list matches.
+- my reply to comment 7 updated accordingly. accept.py now also drops paragraphs whose marks are deleted.

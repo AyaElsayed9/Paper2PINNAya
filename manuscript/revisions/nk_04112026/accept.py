@@ -7,6 +7,7 @@ t=etree.parse(sys.argv[1]); root=t.getroot()
 for tr in list(root.iter(q('w:tr'))):
     tp=tr.find(q('w:trPr'))
     if tp is not None and tp.find(q('w:del')) is not None: tr.getparent().remove(tr)
+delp = [p for p in root.iter(q('w:p')) if p.find(q('w:pPr') + '/' + q('w:rPr') + '/' + q('w:del')) is not None]
 for e in list(root.iter(q('w:del'))):
     par=e.getparent()
     if par is None: continue
@@ -18,6 +19,9 @@ for e in list(root.iter(q('w:del'))):
         for c in list(e.iter(q('w:commentRangeStart'),q('w:commentRangeEnd'),q('w:bookmarkStart'),q('w:bookmarkEnd'))):
             c.getparent().remove(c); e.addprevious(c)
         par.remove(e)
+for p in delp:                      # paragraph whose mark is deleted: removed when nothing visible is left in it
+    if p.getparent() is not None and not ''.join(x.text or '' for x in p.iter(q('w:t'), q('m:t'))).strip():
+        p.getparent().remove(p)
 for e in list(root.iter(q('w:ins'))):
     par=e.getparent()
     if par.tag in (q('w:trPr'),) or (par.tag==q('w:rPr') and par.getparent().tag==q('w:pPr')):
