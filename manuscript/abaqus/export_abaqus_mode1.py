@@ -11,6 +11,9 @@
 #  RUN (PowerShell), with the folder that contains the job folders, e.g.
 #     abaqus python export_abaqus_mode1.py "$HOME\Downloads\omega_modes_runs" val_bs150_beta1p5_Unsym_PBC
 #  arguments after the folder = job-name filters (substring); none = all jobs.
+#  More modes (12 Nov 2026): $env:PANEL_MODES="1,2,3,4" writes MODE1..MODE4_<jobname>.csv
+#  (modes numbered by ascending positive eigenvalue), e.g. for the four-pitch cells:
+#     $env:PANEL_MODES="1,2,3,4"; abaqus python export_abaqus_mode1.py "<folder of the n4 jobs>" _n4
 # =============================================================================
 import os
 import re
@@ -48,6 +51,7 @@ def dat_info(base):
 
 root = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.expanduser("~"), "Downloads", "omega_modes_runs")
 filters = sys.argv[2:]
+MODES = [int(k) for k in os.environ.get("PANEL_MODES", "1").split(",") if k.strip()]
 out = os.path.join(os.path.dirname(os.path.abspath(root)), "fe_modes")
 if not os.path.isdir(out):
     os.makedirs(out)
@@ -62,25 +66,32 @@ for dirpath, _dirs, files in os.walk(root):
             continue
         odb = openOdb(os.path.join(dirpath, fn), readOnly=True)
         step = odb.steps[list(odb.steps.keys())[-1]]
-        best = None
+        evs = []
         for fr in step.frames:
             ev = eigval(fr.description)
-            if ev is not None and ev > 1.0e-3 and (best is None or ev < best[0]):
-                best = (ev, fr)
-        if best is None:
+            if ev is not None and ev > 1.0e-3:
+                evs.append((ev, fr))
+        evs.sort(key=lambda t: t[0])
+        if not evs:
             print("%s: no positive eigenvalue" % job); odb.close(); continue
-        with open(os.path.join(out, "MODE1_%s.csv" % job), "w") as fm:
-            fm.write("instance,node,x,y,z,U1,U2,U3,eigenvalue=%.6f\n" % best[0])
-            for ikey in odb.rootAssembly.instances.keys():
-                ins = odb.rootAssembly.instances[ikey]
-                cxyz = dict((n.label, n.coordinates) for n in ins.nodes)
-                if not cxyz:
-                    continue
-                for v in best[1].fieldOutputs["U"].getSubset(region=ins).values:
-                    c = cxyz.get(v.nodeLabel)
-                    if c is not None:
-                        fm.write("%s,%d,%.5f,%.5f,%.5f,%.8e,%.8e,%.8e\n" % (ikey, v.nodeLabel, c[0], c[1], c[2],
-                                                                       v.data[0], v.data[1], v.data[2]))
+        best = evs[0]
+        for k in MODES:
+            if k > len(evs):
+                print("%s: only %d positive eigenvalues, mode %d skipped" % (job, len(evs), k)); continue
+            ev_k, fr_k = evs[k - 1]
+            with open(os.path.join(out, "MODE%d_%s.csv" % (k, job)), "w") as fm:
+                fm.write("instance,node,x,y,z,U1,U2,U3,eigenvalue=%.6f\n" % ev_k)
+                for ikey in odb.rootAssembly.instances.keys():
+                    ins = odb.rootAssembly.instances[ikey]
+                    cxyz = dict((n.label, n.coordinates) for n in ins.nodes)
+                    if not cxyz:
+                        continue
+                    for v in fr_k.fieldOutputs["U"].getSubset(region=ins).values:
+                        c = cxyz.get(v.nodeLabel)
+                        if c is not None:
+                            fm.write("%s,%d,%.5f,%.5f,%.5f,%.8e,%.8e,%.8e\n" % (ikey, v.nodeLabel, c[0], c[1], c[2],
+                                                                           v.data[0], v.data[1], v.data[2]))
+            print("%s: mode %d, eigenvalue %.4f written" % (job, k, ev_k))
         odb.close()
         inf = dat_info(os.path.join(dirpath, job))
         summary.write("%s,%.5f,%s,%s,%s\n" % (job, best[0], inf["total_cpu_s"], inf["wallclock_s"], inf["variables"]))

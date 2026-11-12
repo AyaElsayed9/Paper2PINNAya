@@ -1528,3 +1528,43 @@ the solver; Table 2 counts from the solver; "GBT 0.3–1.1 % below Abaqus, as fo
 Not data-based (told to Aya): the descriptions of the cited papers in the new introduction are written from the
 titles and general knowledge, not from reading every paper; the Abaqus pi/2 and 0 rows of Table 6 are assigned
 by eigenvalue order and multiplicity (only mode 1 shape exported).
+
+### 12 Nov 2026, 09:00 — full audit of the manuscript (Aya: "dont make up abaqus numbers ... check the all paper")
+Every number of the abstract, Sections 2–4, Tables 1–8 and captions re-derived from the data files (not from earlier
+text). Sources: src/abaqus_job_summary.csv (Aya's 60 PBC jobs), src/abaqus_cc_periodic.csv, src/abaqus_long.csv,
+results/periodic_curves.jsonl, long_curves.jsonl, figdata.json, hier_conv.json, reduced*.json, periodic_conv.json,
+link_soft.json, strip_timing.json, abq_mode_mac.json, figp/pre_*.pkl; verify_math.py rerun; solver section rebuilt.
+- Table 5: all 60 Abaqus values = Aya's job summary, all 60 GBT values = periodic_curves, all e recomputed
+  (`revisions/nk_04112026/audit_table5_12112026.py`): SS mean 0.567 / max 1.253 %, CC 0.636 / 1.525 %, per lay-up
+  0.488–0.726 %, b_s 150: 0.928 / 1.253 % (15 of 15 below), 285.5: 0.206 / 0.464 %; CC < SS in 9 cells (GBT and
+  Abaqus); clamping +59.0 % (iso, 150, beta 0.5). All as in the text.
+- 2.1.1 (92 nodes, 19 walls, 93 segments), 2.3.4 (33 splines, 18,230 unknowns), Table 2, 2.4 (41/58 %, 1/97 %),
+  3.1 (7.9e-15, 1.1e-16, 2.3e-11, 1.6e-15, 33.747 at -0.001 %), 3.4 (local 96.1–101.4 %, G <= 3.5 %, D -1.6..1.1 %,
+  T+S < 0.09 %, 96.5 / 97.9 %, 1.3e-10, MAC 0.9998/0.9999), 3.5 (every long-cell value, Abaqus long and free values,
+  ratios 2.02 / 2.95, 2.44 %, 15.1 %, MAC >= 0.99999), 3.6 (factors 5.6–28.5, 20–40 / 80–100 modes, Mindlin
+  +0.36..+2.01 %, 41 modes +1.45 / +10.36 %), 3.7 (Table 7, +0.26/+0.47/+0.62 %, -0.32 %, link values, +22.8 %,
+  4.63 s, section 0.15 s), Table 8 (DOFs, times, 32 %, 24–51 %), Table 3 (b_t, b_1, c), Table 4 (= solver and Abaqus
+  script lay-ups), materials and mesh (= Abaqus script): all correct.
+- CORRECTED (3.2): skin axial force at mid-length 0.98–1.19 n0 (text had 1.00–1.16 = the medians of the lay-ups);
+  angle-ply transverse force 0.84–0.90 n0 (text 0.86–0.89 = medians). Feet 1.56–1.99 (1.6–2.0), A12/A11 within
+  0.1–1.5 % (iso, cross-ply, Sym1), 1.43 at clamped end: correct.
+- Abstract: "mode shapes matching MAC > 0.999" read as if for all 30 cells -> "the mode shapes of the six cells compared".
+- Table 6 / Figure 10 / 3.5: the Abaqus pi/2 and 0 values are real eigenvalues (2 = 3 and 4 of the four-pitch model),
+  but their wavenumber is assigned by order and multiplicity only (only mode 1 exported). Now said in the caption of
+  Table 6, the caption and panel labels of Figure 10 ("Abaqus, eig. 2 = 3", "Abaqus, eig. 4") and in 3.5.
+  `abaqus/export_abaqus_mode1.py`: new PANEL_MODES="1,2,3,4" option to export modes 2–4 from the existing .odb.
+- Figures in the docx = the current generated PNGs (md5), Figure 10 replaced by the relabelled version.
+- Introduction checked against the papers (abstracts / full texts where reachable): [14] symmetry conditions, foot
+  modelled, web as rotational restraint, and its larger deviation for b_s = 150 mm (3.4 % mean, 4.45 % max) confirmed;
+  [42] uses Rayleigh–Ritz (confirmed); [3] closed form with elastic restraints and periodic local modes (confirmed).
+  Wording corrected (tracked): "Schilling, Mittelstedt and co-workers" ([11] has four authors); "These models"
+  instead of "All these models"; coupling "neglected or included only approximately"; [31]–[34] described by what
+  their titles say (new approach to the mode calculation, procedure that rationalises and automates the
+  cross-section analysis, study of the shear modes, GBTul 2.0 code) instead of "reformulated ... this work clarified";
+  Taig & Ranzi no longer listed under composite structures; "with only a few unknowns per mode" removed; gap sentence:
+  "open cross-sections, whose longitudinal edges are independent of each other, and closed cross-sections" (Silva et
+  al. [38] analysed stiffened panels with GBT, so "free longitudinal edges" was not safe).
+  NOT verifiable here (no access): the omega advantages sentence cited to [3,4] (Aya's original text; the abstracts
+  of [3] and [7] do not mention them); Abaqus/Standard 2024 and the i5-13420H of Table 8 (given earlier, no file).
+- Output: `GBT_periodic-NK-04112026_AME-12112026b.docx` (+ _clean), `fix13.py`. Edits inside my own earlier
+  insertions are made directly (as Word does for one's own insertion); edits of other text are tracked. XSD valid.

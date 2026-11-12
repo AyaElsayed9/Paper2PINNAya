@@ -87,7 +87,10 @@ for c, lay in enumerate(("Isotropic", "Sym1")):
                    mec="none", zorder=4)
             mac_txt = "\n" + rf"(dots), MAC {mc:.4f}"
             table[lay][kb]["mac_skin"] = mc
-        fig.text((x0 + 61.5) / FW, (y0 + 26.0) / FH, rf"GBT: {m['N']:.2f} N/mm{dbl}" + "\n" + rf"Abaqus: {t['N_abq']:.2f} N/mm{dbl}{mac_txt}",
+        # Abaqus pi/2 and 0: eigenvalues 2 (= 3) and 4 of the four-pitch shell model, assigned by order and multiplicity
+        # (their mode shapes were not exported), so the label names the eigenvalue number (12 Nov 2026)
+        a_lab = "Abaqus" if k == 0 else ("Abaqus, eig. 2 = 3" if k == 1 else "Abaqus, eig. 4")
+        fig.text((x0 + 61.5) / FW, (y0 + 26.0) / FH, rf"GBT: {m['N']:.2f} N/mm{dbl}" + "\n" + rf"{a_lab}: {t['N_abq']:.2f} N/mm{mac_txt}",
                  ha="center", va="top", fontsize=6.8, linespacing=1.35)
         fig.text((x0 + 61.5) / FW, (y0 + 4.5) / FH, rf"cross-section at $X/L = {d['xs'][i] / d['L']:.2f}$", ha="center", va="top",
                  fontsize=6.2, color=P.MUTED)
