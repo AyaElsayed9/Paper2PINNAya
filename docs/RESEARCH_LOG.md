@@ -1568,3 +1568,13 @@ link_soft.json, strip_timing.json, abq_mode_mac.json, figp/pre_*.pkl; verify_mat
   of [3] and [7] do not mention them); Abaqus/Standard 2024 and the i5-13420H of Table 8 (given earlier, no file).
 - Output: `GBT_periodic-NK-04112026_AME-12112026b.docx` (+ _clean), `fix13.py`. Edits inside my own earlier
   insertions are made directly (as Word does for one's own insertion); edits of other text are tracked. XSD valid.
+
+### 12 Nov 2026, 09:10 — why rho_G jumps in Figure 7b (Unsym, b_s 150, SS) — checked
+rho_G = 1.8–2.1 % at beta 0.5, 0.75, 1, 1.5 and 0.00–0.01 % at 1.25, 2, 2.5, 3 (real data). First guess (odd/even
+number of half-waves) is WRONG: beta 0.75/1 have 2 half-waves and G 2 %, beta 2.5 has 7 and G 0.
+Real cause (`manuscript/check_unsym_G_jump.py`, results/unsym_G_jump.json): correlation c of the skin deflection of
+one bay with the next bay = +0.95..+1.00 for every G ~ 2 % case (both bays buckle the same way, k_B b_s = 0, the two
+stringers move together -> a small net translation of the whole cell = G) and -0.99..-1.00 for every G ~ 0 case
+(bays alternate, k_B b_s = pi, the stringers move oppositely and the net translation cancels). The two kinds of
+local mode have close loads (eig2/eig1 - 1 = 0.1–5.4 %), so the lowest one switches with beta. (beta 0.75: c = 0.95,
+not 1, because the two eigenvalues are only 0.1 % apart.) Not yet in the manuscript; offered to Aya as one sentence in 3.4.
