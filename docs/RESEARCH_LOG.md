@@ -1516,3 +1516,15 @@ From now on HER file is the base (`..._AME-11112026_Aya-edited.docx`); build.sh/
   87 citation numbers changed (38 inside my own inserted text edited directly, the rest tracked); checked that the
   citations are now in order of first appearance 1..53, and in the clean copy that the list matches.
 - my reply to comment 7 updated accordingly. accept.py now also drops paragraphs whose marks are deleted.
+
+### 12 Nov 2026, 08:40 — audit of everything added to the manuscript since 10 Nov (Aya: "nothing made up?")
+Re-checked against the sources: Table 6 / Figure 10 values = results/npitch.jsonl (GBT, hx 15) and Aya's Abaqus CSVs
+(n4 and n2), e and 4- vs 2-pitch differences recomputed (0.00001 % / 0.00016 %); MAC recomputed; Scheme 1: every
+equation shown exists in the manuscript with the cited number (8, 9, 12, 13, 14, 26, 29, 30, 38, 41), counts from
+the solver; Table 2 counts from the solver; "GBT 0.3–1.1 % below Abaqus, as for the short cells" vs Section 3.3
+(b_s 150: 0.93 % mean, all below). CORRECTION of the 11 Nov 16:15 entry: the shear-flow balance holds to
+<= 5e-10 relative for the 14 G/D modes that HAVE a shear flow; the 15th (mode 1, G) has no shear flow at all
+(|q| ~ 1e-7), so "all 15" was imprecise (the manuscript sentence itself is correct).
+Not data-based (told to Aya): the descriptions of the cited papers in the new introduction are written from the
+titles and general knowledge, not from reading every paper; the Abaqus pi/2 and 0 rows of Table 6 are assigned
+by eigenvalue order and multiplicity (only mode 1 shape exported).
