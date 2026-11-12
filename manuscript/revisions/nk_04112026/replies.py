@@ -14,7 +14,7 @@ R={
 30:"Done: two lines. Layout only (made directly, not as a tracked change).",
 32:"Done: two columns, left εxx, εss, γxs and right γxz, γsz. Layout only (made directly, not as a tracked change).",
 33:"Done: three lines. Layout only (made directly, not as a tracked change).",
-37:"Thank you, the sentence was too short. The statement is however exact, not only at the mid-point: the warping is computed only for the G and D modes, which elongate no segment, so v_p is constant along each segment, and u_k is linear, so γ_k = (u_q' − u_q)/b_p + v_p is constant along the segment. The mid-point value is therefore the value on the whole segment, and for an open contour γ_k = 0 everywhere (checked in the code: v_p differs between the two ends of a segment by about 1e-15). The text now says this explicitly.",
+37:"Thank you, Navid, you are right that the sentence was too short. But here γ_k is zero along the whole segment, not only at the mid-point. We compute the warping only for the G and D modes, and these modes do not stretch any segment, so v_p is the same along the segment. The warping u_k is linear between the nodes. So γ_k = (u_q' − u_q)/b_p + v_p has one constant value on each segment, and the mid-point value is the value everywhere. I also checked it in the code: v_p at the two ends of a segment differs by only about 1e-15. I added this explanation after Eq. (9).",
 66:"Done: U5 now comes before U6.",
 81:"Done: rewritten.",
 }

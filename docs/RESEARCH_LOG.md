@@ -1501,3 +1501,5 @@ Aya sent fe_modes/MODE1_bs150_beta8_{Isotropic,Sym1}_PBC_n4.csv (manuscript/src/
 Skin-deflection MAC between GBT (4-pitch, mode 1) and Abaqus (4-pitch, mode 1), abq_modes.mac:
 Isotropic 0.9999983, Sym1 0.9999982 (eigenvalues 75.317 / 5.222 as in the CSV). Added as dots in Figure 10 (a, b)
 and as "skin MAC > 0.9999" in 3.5 and the caption (tracked). Modes pi/2 and 0 of Abaqus: eigenvalues only.
+
+### 12 Nov 2026, 07:20 — reply to Navid's comment on Eq. (9) rewritten in simpler words (Aya's request); docx rebuilt.
