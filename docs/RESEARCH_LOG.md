@@ -1607,3 +1607,5 @@ MACs 0.88/0.12 and 0.92/0.08 only show that Abaqus picked another rotation insid
 So the order-based assignment was right, now proven. Manuscript AME-13112026 (fix14): the caveats in 3.5, Table 6
 caption and Figure 10 caption replaced by this result; Figure 10 shows Abaqus dots in (a, b, e, f) and the subspace MAC
 in (c, d). XSD valid.
+13 Nov 11:30: Aya sent her saved copy of AME-12112026b (re-saved in Word: same visible text, same 26 comments, same
+figures as mine). fix14 applied to HER file instead; AME-13112026 (+ _clean) rebuilt from it (clean text identical).
