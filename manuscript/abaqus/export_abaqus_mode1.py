@@ -55,7 +55,9 @@ MODES = [int(k) for k in os.environ.get("PANEL_MODES", "1").split(",") if k.stri
 out = os.path.join(os.path.dirname(os.path.abspath(root)), "fe_modes")
 if not os.path.isdir(out):
     os.makedirs(out)
-summary = open(os.path.join(out, "job_summary.csv"), "w")
+# with job filters, the summary gets its own name, so an earlier job_summary.csv is not overwritten (13 Nov 2026)
+sname = "job_summary.csv" if not filters else "job_summary_%s.csv" % "_".join(re.sub(r"\W+", "", f) for f in filters)
+summary = open(os.path.join(out, sname), "w")
 summary.write("job,Ncr_mode1,total_cpu_s,wallclock_s,variables\n")
 for dirpath, _dirs, files in os.walk(root):
     for fn in sorted(files):
