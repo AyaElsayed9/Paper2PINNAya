@@ -1,0 +1,30 @@
+{
+ "Isotropic": [
+  {
+   "mode": 1,
+   "eig": 75.317,
+   "c_abaqus": -1.0,
+   "mac_gbt": [
+    1.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "share_in_gbt_pi2_plane": 0.0
+  }
+ ],
+ "Sym1": [
+  {
+   "mode": 1,
+   "eig": 5.222,
+   "c_abaqus": -1.0,
+   "mac_gbt": [
+    1.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "share_in_gbt_pi2_plane": 0.0
+  }
+ ]
+}
