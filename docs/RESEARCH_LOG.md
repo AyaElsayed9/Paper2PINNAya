@@ -1578,3 +1578,11 @@ stringers move together -> a small net translation of the whole cell = G) and -0
 (bays alternate, k_B b_s = pi, the stringers move oppositely and the net translation cancels). The two kinds of
 local mode have close loads (eig2/eig1 - 1 = 0.1–5.4 %), so the lowest one switches with beta. (beta 0.75: c = 0.95,
 not 1, because the two eigenvalues are only 0.1 % apart.) Not yet in the manuscript; offered to Aya as one sentence in 3.4.
+
+### 13 Nov 2026 — Table 6 / Figure 10 rechecked from the raw files (Aya: "did u make anything here up?")
+All GBT values = figp/npitch_<lay>_<n>.pkl (wavenumber from measured c = -1, -0.5, 0, +1 exactly); all Abaqus values =
+src/abaqus_npitch/omega_validation_eigs_PBC_n4.csv (75.317, 88.665 x2, 122.33; 5.222, 6.0241 x2, 14.35); e recomputed
+(-0.30, -0.63, -1.07; -0.46, -0.78, -0.72); MAC 0.999998 (shown 1.0000). Extra support for the order-based assignment
+of Abaqus eig. 2-4: Aya's script also counts the half-waves along the length (m column): modes 1-3 m = 1 for both lay-ups,
+mode 4 m = 15 (Isotropic) and 1 (Sym1); GBT four-pitch modes: 1, 1, 1 and 14-15 (Isotropic, same counting without
+threshold) and 1, 1, 1, 1 (Sym1). Consistent, but still not a measured Abaqus wavenumber (needs modes 2-4 exported).
