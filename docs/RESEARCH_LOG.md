@@ -1586,3 +1586,12 @@ src/abaqus_npitch/omega_validation_eigs_PBC_n4.csv (75.317, 88.665 x2, 122.33; 5
 of Abaqus eig. 2-4: Aya's script also counts the half-waves along the length (m column): modes 1-3 m = 1 for both lay-ups,
 mode 4 m = 15 (Isotropic) and 1 (Sym1); GBT four-pitch modes: 1, 1, 1 and 14-15 (Isotropic, same counting without
 threshold) and 1, 1, 1, 1 (Sym1). Consistent, but still not a measured Abaqus wavenumber (needs modes 2-4 exported).
+
+### 13 Nov 2026 — Abaqus pi/2 values of Table 6 can be proven from Aya's two runs (no new run)
+Two-pitch Abaqus model (width 300, Aya's eigs_PBC.csv): Isotropic 75.317, 122.33, 122.50, 122.83, ...; Sym1 5.222,
+14.35, 14.807, ... A two-pitch cell contains every mode with k_B b_s = 0 or pi of the four-pitch cell. The four-pitch
+double eigenvalue 88.665 (6.0241) lies below 122.33 (14.35) but is absent from the two-pitch list, so it cannot be 0 or
+pi; the only other wavenumbers of a four-pitch cell are +-pi/2 -> the pi/2 assignment is proven (and its
+multiplicity 2 agrees). The four-pitch eig. 4 = 122.33 (14.35) equals the two-pitch eig. 2, so it is 0 or pi (not
+pi/2); that it is 0 (not a second pi mode) is supported by GBT (two-pitch eigs 2-4 all k_B b_s = 0) and the half-wave
+count (15 vs 14-15) but not proven. Not yet in the manuscript; options given to Aya.
