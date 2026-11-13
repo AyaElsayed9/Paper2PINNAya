@@ -1609,3 +1609,4 @@ caption and Figure 10 caption replaced by this result; Figure 10 shows Abaqus do
 in (c, d). XSD valid.
 13 Nov 11:30: Aya sent her saved copy of AME-12112026b (re-saved in Word: same visible text, same 26 comments, same
 figures as mine). fix14 applied to HER file instead; AME-13112026 (+ _clean) rebuilt from it (clean text identical).
+13 Nov 14:05: Aya sent AME-13112026 to Navid (same text as ours); clean copy made from her sent file (_sent-to-Navid_clean).
