@@ -20,6 +20,7 @@ P.apply_style()
 abq = {r["layup"]: [float(r[f"m{k}_eig"]) for k in range(1, 7)]
        for r in csv.DictReader(open(H / "src" / "abaqus_npitch" / "omega_validation_eigs_PBC_n4.csv"))}
 cell = {(lay, n): pickle.load(open(P.CACHE / f"npitch_{lay}_{n}.pkl", "rb")) for lay in ("Isotropic", "Sym1") for n in (2, 3, 4)}
+AQ_CHECK = json.load(open(H / "results" / "npitch_abq_modes.json"))
 KB = [(-1.0, r"\pi"), (-0.5, r"2\pi/3"), (0.0, r"\pi/2"), (1.0, r"0")]
 
 
@@ -35,7 +36,8 @@ for lay in ("Isotropic", "Sym1"):
         for m in cell[(lay, n)]["modes"]:
             k = kb_of(m["c"]); assert abs(np.cos({r"\pi": np.pi, r"2\pi/3": 2 * np.pi / 3, r"\pi/2": np.pi / 2, r"0": 0}[k]) - m["c"]) < 1e-3
             rows.setdefault(k, {}).setdefault(n, []).append(m["N"])
-    # Abaqus four-pitch eigenvalues in ascending order: pi, pi/2 (double), 0 -- same order and multiplicity as GBT n = 4
+    # Abaqus four-pitch eigenvalues 1-4: wavenumbers pi, pi/2 (double), 0, measured from the Abaqus modes (13 Nov 2026)
+    assert [kb_of(q_["c_abaqus"]) for q_ in AQ_CHECK[lay]] == [r"\pi", r"\pi/2", r"\pi/2", r"0"]
     g4 = [kb_of(m["c"]) for m in cell[(lay, 4)]["modes"]]
     assert g4 == [r"\pi", r"\pi/2", r"\pi/2", r"0"], g4
     a4 = abq[lay][:4]; assert abs(a4[1] - a4[2]) < 1e-9 * a4[1]
@@ -73,12 +75,20 @@ for c, lay in enumerate(("Isotropic", "Sym1")):
             b.axvline(y, color="#c0392b", lw=0.3, ls=(0, (2, 2)), zorder=0)
         b.set_xlim(-d["W"] - 12, 12); b.set_ylim(-50, 80); b.set_aspect("equal"); b.axis("off")
         dbl = " (double)" if k == 1 else ""
+        a_dbl = dbl
         mac_txt = ""
-        if k == 0:                                     # Abaqus mode 1 of the four-pitch shell model (Aya, 11 Nov 2026)
-            import abq_modes as AQ
-            AQ.FE = H / "src" / "abaqus_npitch" / "fe_modes"
-            ab = AQ.read_abq(f"MODE1_bs150_beta8_{lay}_PBC_n4.csv"); mc, sg = AQ.mac(dict(d, U=U), ab)
-            assert abs(ab["eig"] - t["N_abq"]) < 1e-6
+        # Abaqus modes of the four-pitch shell model (Aya: mode 1 on 11 Nov, modes 2-4 on 13 Nov 2026); their wavenumbers
+        # are measured from the Abaqus skin deflection itself (check_npitch_modes.py -> results/npitch_abq_modes.json)
+        import abq_modes as AQ
+        AQ.FE = H / "src" / "abaqus_npitch" / "fe_modes"
+        ka = {0: 1, 1: 2, 3: 4}[k]
+        ab = AQ.read_abq(f"MODE{ka}_val_bs150_beta8_{lay}_PBC_n4.csv"); assert abs(ab["eig"] - t["N_abq"]) < 1e-6
+        qa = AQ_CHECK[lay][ka - 1]; assert kb_of(qa["c_abaqus"]) == kb, (lay, ka, qa["c_abaqus"], kb)
+        if k == 1:                                     # double pair: share of the Abaqus mode in the plane of the GBT pair
+            mac_txt = "\n" + rf"subspace MAC {min(AQ_CHECK[lay][1]['share_in_gbt_pi2_plane'], AQ_CHECK[lay][2]['share_in_gbt_pi2_plane']):.4f}"
+            table[lay][kb]["subspace_mac"] = [AQ_CHECK[lay][1]["share_in_gbt_pi2_plane"], AQ_CHECK[lay][2]["share_in_gbt_pi2_plane"]]
+        else:
+            mc, sg = AQ.mac(dict(d, U=U), ab)
             zc = ab["xyz"][np.argmin(np.abs(ab["xyz"][:, 2] - d["xs"][i])), 2]
             sel = np.abs(ab["xyz"][:, 2] - zc) < 1e-3
             Ua = sg * ab["U"][sel][:, :2]; Ua = Ua / np.abs(Ua).max()
@@ -87,10 +97,8 @@ for c, lay in enumerate(("Isotropic", "Sym1")):
                    mec="none", zorder=4)
             mac_txt = "\n" + rf"(dots), MAC {mc:.4f}"
             table[lay][kb]["mac_skin"] = mc
-        # Abaqus pi/2 and 0: eigenvalues 2 (= 3) and 4 of the four-pitch shell model, assigned by order and multiplicity
-        # (their mode shapes were not exported), so the label names the eigenvalue number (12 Nov 2026)
-        a_lab = "Abaqus" if k == 0 else ("Abaqus, eig. 2 = 3" if k == 1 else "Abaqus, eig. 4")
-        fig.text((x0 + 61.5) / FW, (y0 + 26.0) / FH, rf"GBT: {m['N']:.2f} N/mm{dbl}" + "\n" + rf"{a_lab}: {t['N_abq']:.2f} N/mm{mac_txt}",
+        a_lab = "Abaqus"
+        fig.text((x0 + 61.5) / FW, (y0 + 26.0) / FH, rf"GBT: {m['N']:.2f} N/mm{dbl}" + "\n" + rf"{a_lab}: {t['N_abq']:.2f} N/mm{a_dbl}{mac_txt}",
                  ha="center", va="top", fontsize=6.8, linespacing=1.35)
         fig.text((x0 + 61.5) / FW, (y0 + 4.5) / FH, rf"cross-section at $X/L = {d['xs'][i] / d['L']:.2f}$", ha="center", va="top",
                  fontsize=6.2, color=P.MUTED)

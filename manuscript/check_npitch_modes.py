@@ -32,7 +32,7 @@ for lay in ("Isotropic", "Sym1"):
         macs = [AQ.mac(g, ab)[0] for g in G]
         pts = np.c_[z, x]; wg = np.c_[[AQ.gbt_skin_interp(G[j])(pts) for j in (1, 2)]].T
         coef = np.linalg.lstsq(wg, w, rcond=None)[0]; share = float(1 - np.sum((w - wg @ coef) ** 2) / np.sum(w ** 2))
-        res.append(dict(mode=k, eig=ab["eig"], c_abaqus=round(c, 4), mac_gbt=[round(v, 4) for v in macs], share_in_gbt_pi2_plane=round(share, 4)))
+        res.append(dict(mode=k, eig=ab["eig"], c_abaqus=round(c, 4), mac_gbt=[round(v, 6) for v in macs], share_in_gbt_pi2_plane=round(share, 6)))
         print(lay, res[-1])
     out[lay] = res
 json.dump(out, open(H / "results" / "npitch_abq_modes.json", "w"), indent=1)

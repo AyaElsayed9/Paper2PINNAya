@@ -5,10 +5,46 @@
    "eig": 75.317,
    "c_abaqus": -1.0,
    "mac_gbt": [
-    1.0,
+    0.999998,
     0.0,
     0.0,
     0.0
+   ],
+   "share_in_gbt_pi2_plane": 0.0
+  },
+  {
+   "mode": 2,
+   "eig": 88.665,
+   "c_abaqus": -0.0026,
+   "mac_gbt": [
+    0.0,
+    0.120148,
+    0.879605,
+    0.0
+   ],
+   "share_in_gbt_pi2_plane": 0.999993
+  },
+  {
+   "mode": 3,
+   "eig": 88.665,
+   "c_abaqus": 0.0026,
+   "mac_gbt": [
+    0.0,
+    0.878168,
+    0.122066,
+    0.0
+   ],
+   "share_in_gbt_pi2_plane": 0.999993
+  },
+  {
+   "mode": 4,
+   "eig": 122.33,
+   "c_abaqus": 0.9999,
+   "mac_gbt": [
+    0.0,
+    0.0,
+    0.0,
+    0.99967
    ],
    "share_in_gbt_pi2_plane": 0.0
   }
@@ -19,12 +55,48 @@
    "eig": 5.222,
    "c_abaqus": -1.0,
    "mac_gbt": [
-    1.0,
+    0.999998,
     0.0,
     0.0,
     0.0
    ],
    "share_in_gbt_pi2_plane": 0.0
+  },
+  {
+   "mode": 2,
+   "eig": 6.0241,
+   "c_abaqus": -0.0018,
+   "mac_gbt": [
+    0.0,
+    0.075476,
+    0.924525,
+    9.4e-05
+   ],
+   "share_in_gbt_pi2_plane": 0.999995
+  },
+  {
+   "mode": 3,
+   "eig": 6.0241,
+   "c_abaqus": 0.0018,
+   "mac_gbt": [
+    0.0,
+    0.92357,
+    0.07642,
+    8e-06
+   ],
+   "share_in_gbt_pi2_plane": 0.999995
+  },
+  {
+   "mode": 4,
+   "eig": 14.35,
+   "c_abaqus": 1.0,
+   "mac_gbt": [
+    0.0,
+    0.0,
+    9.9e-05,
+    0.999754
+   ],
+   "share_in_gbt_pi2_plane": 9.9e-05
   }
  ]
 }

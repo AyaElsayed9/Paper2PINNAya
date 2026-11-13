@@ -1595,3 +1595,15 @@ pi; the only other wavenumbers of a four-pitch cell are +-pi/2 -> the pi/2 assig
 multiplicity 2 agrees). The four-pitch eig. 4 = 122.33 (14.35) equals the two-pitch eig. 2, so it is 0 or pi (not
 pi/2); that it is 0 (not a second pi mode) is supported by GBT (two-pitch eigs 2-4 all k_B b_s = 0) and the half-wave
 count (15 vs 14-15) but not proven. Not yet in the manuscript; options given to Aya.
+
+### 13 Nov 2026, 11:30 — Abaqus modes 2-4 of the four-pitch cells: Table 6 fully verified
+Aya exported modes 1-4 from the existing n4 .odb (`export_abaqus_mode1.py`, PANEL_MODES=1,2,3,4; files in
+src/abaqus_npitch/fe_modes/MODE<k>_val_...; MODE1 identical to the 11 Nov export). `check_npitch_modes.py` ->
+results/npitch_abq_modes.json. Wavenumber measured from the Abaqus skin deflection alone (c = shift correlation):
+mode 1 c = -1.000 (pi), modes 2/3 c = -0.003/+0.003 (Iso), -0.002/+0.002 (Sym1) (pi/2), mode 4 c = +1.000 (0).
+MAC with GBT: mode 1 0.999998 (both); mode 4 0.99967 (Iso), 0.99975 (Sym1). Double pair: each Abaqus mode lies in the
+plane of the two GBT pi/2 modes to 0.999993 (Iso) / 0.999995 (Sym1) (least-squares share = subspace MAC); single-mode
+MACs 0.88/0.12 and 0.92/0.08 only show that Abaqus picked another rotation inside the pair (any rotation is a mode).
+So the order-based assignment was right, now proven. Manuscript AME-13112026 (fix14): the caveats in 3.5, Table 6
+caption and Figure 10 caption replaced by this result; Figure 10 shows Abaqus dots in (a, b, e, f) and the subspace MAC
+in (c, d). XSD valid.
