@@ -1694,3 +1694,18 @@ Aya asked whether the new code is really better than her old code and whether we
   agreed: Paper 2 stays with the constant cell width (the validated condition, same as the Abaqus models of both
   papers, conservative). Free expansion is an optional extension only if Navid or a reviewer asks; to be stated
   clearly in the paper.
+
+### 16 Nov 2026, 17:00 — physics-only runs for the other six experts: pre-flight checks and start
+Aya: "start, and check everything very well first". Checks before starting:
+* data complete for all six (152 training operators, 40 test, 152 labels, file lists; BUILD_DONE and LABELS_DONE);
+* code: the only change of `src/pinnbuck` since the 9 Nov runs (c32ab4a) leaves the defaults untouched;
+* reproduction with today's code: `eval_epinn.py` on the stored crossply / symmetry physics-only network gives the
+  stored certificate log line for line (head 11.93 / 24.09 %, Ritz 23.73 / 59.32 %, s5 1.92 / 6.45 %, s12 0.28 / 1.39 %);
+  the nn10 / nn120 baselines also reproduced exactly earlier today;
+* `pytest tests`: 27 passed; smoke test of the training (8 designs, 2 outer iterations) and of the checkpoint resume: OK;
+* settings = the two finished cross-ply runs (args compared from their .json), CACHE=3; disk 3.4 GB free, memory 7.6 GB free,
+  nothing else running.
+* Caveat written in the script: "physics only" = no label in the loss; the saved weights are still chosen on the 32
+  validation designs (label used for this choice only; both cross-ply runs chose the last iteration). Each new run's
+  choice will be reported.
+Chain `logs/run_physics_only.sh` (resumable, ~3 h per expert on this machine, restart needed every 2 h).
