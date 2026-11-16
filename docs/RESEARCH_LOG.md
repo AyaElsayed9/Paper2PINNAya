@@ -1709,3 +1709,19 @@ Aya: "start, and check everything very well first". Checks before starting:
   validation designs (label used for this choice only; both cross-ply runs chose the last iteration). Each new run's
   choice will be reported.
 Chain `logs/run_physics_only.sh` (resumable, ~3 h per expert on this machine, restart needed every 2 h).
+
+### 16 Nov 2026, 18:45 — physics-only chain: environment stops jobs after each reply; expert 1 of 6 finished
+* The cloud machine now shuts down 3–4 minutes after each reply (seen twice: 12:59 and 14:55 UTC), so a training only
+  advances while a turn is kept open. Chain restarted from the checkpoint each time (no loss; outer 24 recomputed after
+  the second restart gave the same numbers, 13.65 / 41.95 %). The 2 h jobs of 9–10 Nov ran unattended; that no longer works.
+* **quasiiso / symmetry, physics only (NL 0)**, 30 outer iterations, weights chosen on validation = evaluation 30 (the
+  last one, so no label influenced the result). 40 test designs, |error| vs full GBT, mean / max:
+  | | head | network Ritz | 3 steps | 5 steps | 8 steps | 12 steps |
+  | physics only (L0) | 6.71 / 16.06 (above in 40 / 40) | 13.76 / 36.79 | 2.88 / 12.49 | 1.75 / 7.69 | 0.91 / 2.51 | 0.43 / 1.41 |
+  | hybrid, 120 labels | 0.55 / 1.74 | 14.03 / 45.29 | 2.00 / 5.42 | 1.18 / 2.69 | 0.60 / 1.55 | 0.28 / 1.02 |
+  Reading: as for cross-ply, the labels fix the head (6.7 -> 0.55 %) and the network's own Ritz value is the same
+  without labels (13.8 vs 14.0 %). But here the check from the physics-only modes is clearly slower than from the
+  labelled network (5 steps 1.75 vs 1.18 %, 12 steps 0.43 vs 0.28 %); for cross-ply the two were almost equal
+  (1.92 vs 1.78, 0.28 vs 0.26). So "the modes are learnt from the physics alone" holds less well for quasiiso.
+* Chain continues with quasiiso / periodic (stops when the turn ends; resumable). Remaining: 5 experts, ~2 h each of
+  open-turn time.

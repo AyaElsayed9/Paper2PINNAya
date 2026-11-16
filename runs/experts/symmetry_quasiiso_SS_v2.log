@@ -199,3 +199,8 @@ symmetry/train: 152 panels to build with 2 workers
 === train hybrid, 120 of 120 training designs labelled  08 Nov 02:58
 === physics certificate on the 40 test designs  08 Nov 03:43
 === EXPERT_DONE symmetry_quasiiso_SS_v2_hybrid_L120  08 Nov 03:45
+=== train symmetry_quasiiso_SS_v2_physics_L0 (0 of 120 training designs labelled)  16 Nov 13:45
+=== train symmetry_quasiiso_SS_v2_physics_L0 (0 of 120 training designs labelled)  16 Nov 14:22
+=== train symmetry_quasiiso_SS_v2_physics_L0 (0 of 120 training designs labelled)  16 Nov 16:01
+=== physics certificate on the 40 test designs  16 Nov 16:37
+=== EXPERT_DONE symmetry_quasiiso_SS_v2_physics_L0  16 Nov 16:40
