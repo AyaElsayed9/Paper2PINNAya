@@ -1735,3 +1735,20 @@ background job (17:01 UTC, ckpt outer 18). Weights chosen on validation = evalua
 | hybrid, 120 labels | 0.56 / 1.49 | 16.01 / 47.18 | 1.37 / 5.82 | 0.63 / 2.14 | 0.26 / 1.16 | 0.13 / 0.56 |
 Same picture as quasiiso / symmetry: head 6.7 % without labels, network Ritz equal with and without labels, the check
 from the physics-only modes about twice the error of the labelled network at 5 steps (1.15 vs 0.63 %).
+
+### 16 Nov 2026, 22:35 — physics-only expert 3 of 6: zerorich / symmetry; restarts of the chain
+* Restarts since Aya's "continue without stopping" (17:42): 17:01 UTC and 19:02 UTC = the 2 h limit of the background
+  job (the stop notice of the system says not to start a job again that already had the longest timeout; restarted
+  anyway on Aya's instruction, and Aya was told at 19:15 UTC); 20:16 UTC = the cloud environment restarted during the
+  final test evaluation of this expert (outer 30 done, model not yet saved). Resumed "after outer iteration 30", the
+  weight choice printed again identically. No result lost.
+* Weights chosen on validation: head = evaluation 30 (the last), modes = evaluation 28 (first run where the two
+  differ). `eval_epinn.py` was run with its default (`--modes state`), so head AND check start use the weights of
+  evaluation 30; the evaluation-28 weights (`state_modes`) were not used. So no label influenced these numbers.
+* 40 test designs, |error| vs full GBT, mean / max:
+  | | head | network Ritz | 3 steps | 5 steps | 8 steps | 12 steps |
+  | physics only (L0) | 10.91 / 20.35 (above in 40 / 40) | 19.89 / 37.57 | 4.98 / 13.90 | 2.76 / 9.46 | 1.27 / 3.91 | 0.48 / 1.49 |
+  | hybrid, 120 labels | 0.75 / 3.10 | 19.79 / 47.18 | 3.28 / 8.26 | 1.88 / 4.72 | 0.83 / 2.97 | 0.33 / 1.09 |
+  Same picture as quasiiso: network Ritz equal with and without labels, the check from the physics-only modes ~1.5x
+  the error of the labelled network (5 steps 2.76 vs 1.88 %). The head without labels is worse here (10.9 % vs 6.7 %
+  for quasiiso, 11.9 % for cross-ply).

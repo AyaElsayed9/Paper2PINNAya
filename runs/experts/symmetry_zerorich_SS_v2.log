@@ -199,3 +199,8 @@ symmetry/train: 152 panels to build with 2 workers
 === train hybrid, 120 of 120 training designs labelled  08 Nov 12:59
 === physics certificate on the 40 test designs  08 Nov 13:37
 === EXPERT_DONE symmetry_zerorich_SS_v2_hybrid_L120  08 Nov 13:40
+=== train symmetry_zerorich_SS_v2_physics_L0 (0 of 120 training designs labelled)  16 Nov 19:06
+=== train symmetry_zerorich_SS_v2_physics_L0 (0 of 120 training designs labelled)  16 Nov 20:05
+=== train symmetry_zerorich_SS_v2_physics_L0 (0 of 120 training designs labelled)  16 Nov 21:25
+=== physics certificate on the 40 test designs  16 Nov 21:31
+=== EXPERT_DONE symmetry_zerorich_SS_v2_physics_L0  16 Nov 21:34
