@@ -1684,3 +1684,13 @@ Aya asked whether the new code is really better than her old code and whether we
   is not yet better than simple baselines; the new code is much larger and harder to explain than her notebook.
   Note: her ansatz (one sine wave along the length, m scanned) agrees with today's finding that the exact GBT modes
   are ~98 % one harmonic in shape.
+
+### 16 Nov 2026, 16:35 — correction: the experts already cover Paper 1's design space; Aya keeps the constant width
+* I told Aya today that "the Paper-1 design space is not done, the networks are trained on a narrower range". WRONG:
+  `designspace.SPACES["v2"]` = b_s 124.25–285.5 mm, beta 0.75–3.5, and all 8 experts and level 2 were built with
+  `--space v2`. Only beta < 0.75 (Paper 1's curves start lower) and CC are not covered. The "Next:" line in STATUS was
+  stale (written before v2) and is corrected.
+* Lateral condition (Aya, 16 Nov): "the GBT code is the basis and its validated numbers are right, why change?" —
+  agreed: Paper 2 stays with the constant cell width (the validated condition, same as the Abaqus models of both
+  papers, conservative). Free expansion is an optional extension only if Navid or a reviewer asks; to be stated
+  clearly in the paper.
