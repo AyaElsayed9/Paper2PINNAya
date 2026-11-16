@@ -1610,3 +1610,23 @@ in (c, d). XSD valid.
 13 Nov 11:30: Aya sent her saved copy of AME-12112026b (re-saved in Word: same visible text, same 26 comments, same
 figures as mine). fix14 applied to HER file instead; AME-13112026 (+ _clean) rebuilt from it (clean text identical).
 13 Nov 14:05: Aya sent AME-13112026 to Navid (same text as ours); clean copy made from her sent file (_sent-to-Navid_clean).
+
+### 16 Nov 2026 — back to Paper 2: effect of the constant cell width on N_cr in the Paper-2 design space
+Aya asked for an expert recommendation on the Paper-2 story. Before answering, Navid's point of 9 Nov (the periodic
+condition fixes the cell width) was measured for the four expert lay-ups: full GBT, periodic, SS, beta 1.5, with
+S_ss (as all Paper-2 labels) and with S_ss removed from G (`pss_scale = 0`; the manuscript's approximation of a
+laterally free panel, within 2.4 % of free-expansion Abaqus for one local mode, 15 % off for one global mode).
+`scripts/check_fixed_width_effect.py` -> `results/fixed_width_effect.csv`:
+| lay-up | b_s 150: fixed / no S_ss (change) | b_s 285.5 |
+| crossply | 31.24 / 32.13 (+2.8 %) | 6.60 / 6.86 (+4.0 %) |
+| quasiiso | 34.90 / 45.97 (+31.7 %) | 6.65 / 8.30 (+24.9 %) |
+| zerorich | 31.32 / 38.01 (+21.4 %) | 5.78 / 7.23 (+25.1 %) |
+| pm45 | 17.31 / 45.03 (+160 %) | 4.00 / 8.02 (+100 %) |
+Reading: for cross-ply (Paper 1) the side restraint hardly matters; for every lay-up with +-45 plies the labels of
+Paper 2 describe a laterally restrained panel and are 20–60 % below the load without transverse compression. This
+is a physics choice that must be made before more labels or training. Not yet validated against free-expansion
+Abaqus for short cells (only beta = 8 cases exist).
+Recommendation given to Aya (her decision pending): (1) decide the lateral condition (proposal: both limits,
+restrained and free, as an input flag); (2) story = GBT-engine framework: instant hybrid network + rigorous Ritz
+certificate + GBT oracle, lay-up as input, honest GP / neighbour baselines; (3) one time-boxed try to make the
+network's modes useful for the check (loss on what the check needs), stop if no gain; (4) GBT-call count study.
