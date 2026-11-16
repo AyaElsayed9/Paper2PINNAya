@@ -1671,3 +1671,16 @@ Aya: "start with number 1". Before any training, four measurements (no network t
   NOT done: computing the mid-length state without the full solve (a cross-section-only solve); the values used here
   still come from the full solve. Idea for the network (not tested): learn the end-zone part of the pre-buckling
   state (a smooth static field, energy-minimisation PINN as in Paper 1), which is the expensive part of the check.
+
+### 16 Nov 2026, 16:15 — Aya's Paper-1 notebook read (Active_Physics-Informed_Learning.ipynb); tests rerun
+Aya asked whether the new code is really better than her old code and whether we are working correctly.
+* Notebook (66 cells) read: two 1D networks (30 x 30, tanh) for the foot strip and the skin strip, W(y) sin(m pi x / a),
+  CLPT plate energy with RBS (D* = D - B A^-1 B), stringer as a closed-form rotational spring, continuity by penalties
+  (doubling every 100 epochs), one training (800 Adam + L-BFGS) per panel and per m = 1..7, window 0.85–1.03 of the
+  previous panel, ensemble, Abaqus oracle by subprocess, then an MLP surrogate (b_s, beta). Matches PAPER1_SUMMARY.
+* `pytest tests`: 27 passed (115 s), including the solver regression test.
+* Honest comparison given to Aya: the physics engine and its verification are clearly stronger (whole cross-section,
+  full ABD, any lay-up, 0.54 % vs 2.53 % at Paper 1's Abaqus points, 60 periodic cases 0.57 / 0.64 %); the network part
+  is not yet better than simple baselines; the new code is much larger and harder to explain than her notebook.
+  Note: her ansatz (one sine wave along the length, m scanned) agrees with today's finding that the exact GBT modes
+  are ~98 % one harmonic in shape.
