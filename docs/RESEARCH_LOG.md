@@ -1630,3 +1630,44 @@ Recommendation given to Aya (her decision pending): (1) decide the lateral condi
 restrained and free, as an input flag); (2) story = GBT-engine framework: instant hybrid network + rigorous Ritz
 certificate + GBT oracle, lay-up as input, honest GP / neighbour baselines; (3) one time-boxed try to make the
 network's modes useful for the check (loss on what the check needs), stop if no gain; (4) GBT-call count study.
+
+### 16 Nov 2026, 14:00–16:00 — step 1 (better mode shapes for the check): diagnosis, stopped early
+Aya: "start with number 1". Before any training, four measurements (no network trained; crossply / symmetry unless said).
+* CORRECTION of what I proposed: "train the modes on the distance to the true modes" is NOT new. The hybrid mode of
+  `train_ritz_ng_full` already adds `subspace_fit_loss(Y, exact modes)` on every labelled design. So the weak modes
+  are not a missing loss term; the network does not fit the label modes even on training designs (Ritz ~19 %).
+* `scripts/check_mode_structure.py` (30 labelled designs, results/mode_structure/): the first exact mode is on
+  average 98.2 % (worst 95.1 %) ONE harmonic sin(j pi z / L) of the panel length (L2 share, with its cos partner);
+  on the dictionary's fixed wavelengths the same mode needs 6.3 groups for 90 % and 10.4 for 99 % (largest group
+  34 %). So in shape the modes are very simple, but not in the coordinates the network predicts.
+* `scripts/check_harmonic_ceiling.py` (12 labelled designs): the design's OWN exact modes cut to their 1 / 2 / 3 / 5
+  strongest harmonics and projected back: Ritz value wrong by a factor > 60 on average (s0 13336 % … 6759 %), still
+  9–13 % after 5 check steps; with all harmonics 0.00 % (pipeline correct). Reading: the 1–2 % of the shape that is
+  not the main harmonic carries the stiff (membrane / end-condition) part of the energy. A mode that is right "to
+  98 %" in shape is useless in energy. Caveat: the least-squares projection of cos terms on classes with zero end
+  values adds error of its own, so this is not a clean bound on a harmonic network.
+* `scripts/check_harmonic_start.py` (all 40 test designs, results/check_baselines/*_harmonic.csv): neighbour's modes
+  stretched to the new length in harmonic coordinates (hs) vs the old copy of dictionary coefficients (nn), mean / max:
+  | start | s0 | s3 | s5 | s8 | s12 |
+  | nn120 | 19.24 / 90.11 | 1.28 / 2.70 | 0.51 / 1.72 | 0.21 / 1.08 | 0.08 / 0.32 |
+  | hs120 | 20.02 / 78.57 | 1.19 / 3.87 | 0.52 / 1.87 | 0.22 / 0.84 | 1.53 / 57.88 (*) |
+  | nn10 | 62.73 / 221.82 | 2.81 / 8.97 | 1.18 / 4.16 | 0.41 / 1.53 | 0.14 / 0.54 |
+  | hs10 | 172.21 / 1476 | 2.24 / 12.10 | 1.13 / 9.49 | 2.45 / 81.72 (*) | 1.35 / 48.42 (*) |
+  nn rows reproduce the 9 Nov numbers exactly. hs = nn on average (better in 18 of 40 at 5 steps, NL 120).
+  (*) hs breaks down numerically in 1–3 designs at late steps (values 48–58 % BELOW full GBT = invalid; LOBPCG
+  loses definiteness with the ill-conditioned projected start). Not usable as it is, and no gain where it works.
+  The variant with the same half-wavelengths (hw, rounded harmonic numbers) was far worse on 3 designs and dropped.
+* Time argument (numbers of 9–10 Nov): one check step costs ~0.17–0.2 s; the fixed cost (operators with the
+  pre-buckling state + metric) is 5.3 s of 6.4 s. The network start needs ~4 steps more than nn120 for the same error
+  (net s12 0.17 % ~ nn120 s8 0.19 %), i.e. ~0.7 s. Even a PERFECT start saves at most ~1.5 s of 6.4 s. So better
+  mode shapes cannot change the speed result of the check; only the fixed cost can.
+* Decision proposed to Aya: stop step 1 here (2 h, not a week). Reason: target (beat nn120 at 5 steps) would be worth
+  < 1 s even if reached, and the simple-shape route does not carry over to energy accuracy.
+* First look at the fixed cost — `scripts/check_uniform_prestate.py` (results/check_baselines/*_uniform_prestate.csv):
+  the true pre-buckling forces replaced at every z by their mid-length values, eigenproblem converged again:
+  crossply / symmetry (16 designs) mean |e| 0.04 %, max 0.06 % (range −0.06 … 0.00 %); pm45 / periodic (12 designs)
+  mean 0.56 %, max 1.97 % (range −1.97 … +0.67 %; the forces deviate from mid-length by up to 70–95 % of n0 near the
+  ends). So for cross-ply the solve along the length is not needed for N_cr; for +-45 the end zones matter (2 %).
+  NOT done: computing the mid-length state without the full solve (a cross-section-only solve); the values used here
+  still come from the full solve. Idea for the network (not tested): learn the end-zone part of the pre-buckling
+  state (a smooth static field, energy-minimisation PINN as in Paper 1), which is the expensive part of the check.
