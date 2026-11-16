@@ -1752,3 +1752,17 @@ from the physics-only modes about twice the error of the labelled network at 5 s
   Same picture as quasiiso: network Ritz equal with and without labels, the check from the physics-only modes ~1.5x
   the error of the labelled network (5 steps 2.76 vs 1.88 %). The head without labels is worse here (10.9 % vs 6.7 %
   for quasiiso, 11.9 % for cross-ply).
+
+### 17 Nov 2026, 00:50 (22:50 UTC) — physics-only expert 4 of 6: zerorich / periodic
+* Restart no. 4 of the chain at ~22:03 UTC: the cloud environment restarted during a wait (ckpt outer 22); resumed
+  "after outer iteration 22". Total since 17:42: two restarts after the 2 h limit of the background job (17:01, 19:02 UTC;
+  against the system's "do not restart" note, on Aya's "continue without stopping", she was told) and two after
+  environment restarts (20:16, 22:03 UTC). Aya interrupted the waiting several times and each time wrote "continue".
+* Weights chosen on validation: evaluation 30 for head and modes (the last iteration; no label influenced the numbers).
+* 40 test designs, |error| vs full GBT, mean / max:
+  | | head | network Ritz | 3 steps | 5 steps | 8 steps | 12 steps |
+  | physics only (L0) | 8.57 / 17.72 (above in 40 / 40) | 18.18 / 33.95 | 2.91 / 10.49 | 1.13 / 3.93 | 0.35 / 1.59 | 0.14 / 0.43 |
+  | hybrid, 120 labels | 0.67 / 2.14 | 18.00 / 47.09 | 1.45 / 4.79 | 0.60 / 2.46 | 0.21 / 0.97 | 0.11 / 0.38 |
+  Fourth expert with the same picture: network Ritz equal with and without labels; the check from the physics-only
+  modes has about twice the error at 5 steps (1.13 vs 0.60 %) and is almost equal at 12 steps (0.14 vs 0.11 %).
+* Running: pm45 / symmetry (started 22:45 UTC), then pm45 / periodic.
