@@ -1,0 +1,779 @@
+{
+ "train": [
+  {
+   "sid": "742a3d34fe89",
+   "bc": "SS",
+   "params": {
+    "bs": 181.248,
+    "beta": 2.1018,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 23.0620199341749,
+   "N_head": 22.009214401245117,
+   "N_full": 20.79202952141521
+  },
+  {
+   "sid": "b52a482e5048",
+   "bc": "SS",
+   "params": {
+    "bs": 208.6797,
+    "beta": 2.3637,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 16.14515083793784,
+   "N_head": 15.088664054870605,
+   "N_full": 14.38817264467053
+  },
+  {
+   "sid": "7fd0b42f95dc",
+   "bc": "SS",
+   "params": {
+    "bs": 259.9062,
+    "beta": 0.8409,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 10.330878964676355,
+   "N_head": 9.405293464660645,
+   "N_full": 8.443771038298346
+  },
+  {
+   "sid": "b0401ff01215",
+   "bc": "SS",
+   "params": {
+    "bs": 131.2801,
+    "beta": 3.1949,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 54.12702855582752,
+   "N_head": 50.38097381591797,
+   "N_full": 47.43523065814535
+  },
+  {
+   "sid": "97c276ac4655",
+   "bc": "SS",
+   "params": {
+    "bs": 160.2663,
+    "beta": 1.1869,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 35.12871565774172,
+   "N_head": 31.753957748413086,
+   "N_full": 29.553733627946947
+  },
+  {
+   "sid": "a530179cee48",
+   "bc": "SS",
+   "params": {
+    "bs": 268.7165,
+    "beta": 2.8476,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 8.74817930054132,
+   "N_head": 8.282286643981934,
+   "N_full": 7.6495584226984255
+  },
+  {
+   "sid": "66715b890d51",
+   "bc": "SS",
+   "params": {
+    "bs": 237.6648,
+    "beta": 1.7495,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 11.379561024592677,
+   "N_head": 10.953683853149414,
+   "N_full": 10.492896353715455
+  },
+  {
+   "sid": "fda9256e8c66",
+   "bc": "SS",
+   "params": {
+    "bs": 190.0571,
+    "beta": 2.7147,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 21.908640831236994,
+   "N_head": 19.503610610961914,
+   "N_full": 18.327104525058548
+  },
+  {
+   "sid": "cf910e6403da",
+   "bc": "SS",
+   "params": {
+    "bs": 195.6568,
+    "beta": 1.0338,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 18.576388812231933,
+   "N_head": 17.474464416503906,
+   "N_full": 17.57990977974222
+  },
+  {
+   "sid": "a32251510bf8",
+   "bc": "SS",
+   "params": {
+    "bs": 233.3248,
+    "beta": 3.3443,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 12.441881184160277,
+   "N_head": 11.583849906921387,
+   "N_full": 10.824189680909956
+  },
+  {
+   "sid": "8374bb4f4585",
+   "bc": "SS",
+   "params": {
+    "bs": 283.2927,
+    "beta": 1.951,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 7.572245428752669,
+   "N_head": 7.2507100105285645,
+   "N_full": 6.7916136211227744
+  },
+  {
+   "sid": "8fd395b33027",
+   "bc": "SS",
+   "params": {
+    "bs": 144.4304,
+    "beta": 2.1694,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 42.10076142254466,
+   "N_head": 40.52498245239258,
+   "N_full": 38.599131648396515
+  },
+  {
+   "sid": "65868b9fc981",
+   "bc": "SS",
+   "params": {
+    "bs": 135.6201,
+    "beta": 1.5994,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 53.50908680414503,
+   "N_head": 49.94357681274414,
+   "N_full": 44.7520559797203
+  },
+  {
+   "sid": "b77770b93f10",
+   "bc": "SS",
+   "params": {
+    "bs": 254.3064,
+    "beta": 2.5225,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 9.66573556040445,
+   "N_head": 9.28190803527832,
+   "N_full": 8.815204625154486
+  },
+  {
+   "sid": "0c26f712df97",
+   "bc": "SS",
+   "params": {
+    "bs": 224.5157,
+    "beta": 1.3805,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 13.163818547086318,
+   "N_head": 12.701364517211914,
+   "N_full": 11.952913190121809
+  },
+  {
+   "sid": "ae701ffdac83",
+   "bc": "SS",
+   "params": {
+    "bs": 166.6718,
+    "beta": 2.9991,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 31.603793647899465,
+   "N_head": 27.847152709960938,
+   "N_full": 26.075865670457237
+  }
+ ],
+ "test": [
+  {
+   "sid": "0ab471fab428",
+   "bc": "SS",
+   "params": {
+    "bs": 222.9591,
+    "beta": 3.2105,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 14.594638001350923,
+   "N_head": 13.067303657531738,
+   "N_full": 12.162765931795988
+  },
+  {
+   "sid": "0bacc3c8c1a1",
+   "bc": "SS",
+   "params": {
+    "bs": 279.2324,
+    "beta": 2.8728,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 8.001394381910067,
+   "N_head": 7.629912376403809,
+   "N_full": 6.977381315332978
+  },
+  {
+   "sid": "0f71b1a6d482",
+   "bc": "SS",
+   "params": {
+    "bs": 132.9822,
+    "beta": 2.7925,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 52.058000706797,
+   "N_head": 49.17703628540039,
+   "N_full": 46.357653313197225
+  },
+  {
+   "sid": "21d71bbeb2c9",
+   "bc": "SS",
+   "params": {
+    "bs": 143.2895,
+    "beta": 0.7538,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 53.96974156013741,
+   "N_head": 46.57549285888672,
+   "N_full": 39.54414520933287
+  },
+  {
+   "sid": "2eaef6caaeda",
+   "bc": "SS",
+   "params": {
+    "bs": 170.4649,
+    "beta": 1.4668,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 27.832201704944715,
+   "N_head": 26.15122413635254,
+   "N_full": 24.548891252901225
+  },
+  {
+   "sid": "2ed0686f0e1d",
+   "bc": "SS",
+   "params": {
+    "bs": 197.6397,
+    "beta": 1.1023,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 18.130530673234833,
+   "N_head": 17.009214401245117,
+   "N_full": 17.065773669978388
+  },
+  {
+   "sid": "3e8606def1fa",
+   "bc": "SS",
+   "params": {
+    "bs": 140.9552,
+    "beta": 2.3144,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 45.07628303398636,
+   "N_head": 42.99973678588867,
+   "N_full": 41.02742785911156
+  },
+  {
+   "sid": "3f2e3012363a",
+   "bc": "SS",
+   "params": {
+    "bs": 225.9181,
+    "beta": 2.2055,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 13.022959011715153,
+   "N_head": 12.259427070617676,
+   "N_full": 11.730728342032988
+  },
+  {
+   "sid": "4ea08d84e5f4",
+   "bc": "SS",
+   "params": {
+    "bs": 191.392,
+    "beta": 1.9909,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 20.372922682527655,
+   "N_head": 18.780746459960938,
+   "N_full": 18.02962492137679
+  },
+  {
+   "sid": "5cbdba1430c8",
+   "bc": "SS",
+   "params": {
+    "bs": 244.8412,
+    "beta": 3.0295,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 11.257111026788541,
+   "N_head": 10.2234525680542,
+   "N_full": 9.60054953638429
+  },
+  {
+   "sid": "6b28cf9ff66f",
+   "bc": "SS",
+   "params": {
+    "bs": 153.2887,
+    "beta": 2.2874,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 37.703837258880185,
+   "N_head": 34.54317855834961,
+   "N_full": 32.849882539749586
+  },
+  {
+   "sid": "6c3c507c22d2",
+   "bc": "SS",
+   "params": {
+    "bs": 181.3928,
+    "beta": 3.4652,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 24.293684013297895,
+   "N_head": 22.54779624938965,
+   "N_full": 20.73267983103103
+  },
+  {
+   "sid": "6fafac192f82",
+   "bc": "SS",
+   "params": {
+    "bs": 282.9438,
+    "beta": 1.1869,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 9.03919030102127,
+   "N_head": 7.792266845703125,
+   "N_full": 6.939295717619815
+  },
+  {
+   "sid": "7a0339dd6598",
+   "bc": "SS",
+   "params": {
+    "bs": 124.3319,
+    "beta": 1.6425,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 69.99442517103633,
+   "N_head": 62.590641021728516,
+   "N_full": 53.22543098032263
+  },
+  {
+   "sid": "7b4d03bcc837",
+   "bc": "SS",
+   "params": {
+    "bs": 136.7091,
+    "beta": 3.3005,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 55.383291365622355,
+   "N_head": 45.70247268676758,
+   "N_full": 43.98485191187753
+  },
+  {
+   "sid": "7e1732186d14",
+   "bc": "SS",
+   "params": {
+    "bs": 146.8658,
+    "beta": 1.8045,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 42.08011846949434,
+   "N_head": 39.39809799194336,
+   "N_full": 36.87945260191819
+  },
+  {
+   "sid": "83af03635e85",
+   "bc": "SS",
+   "params": {
+    "bs": 270.4419,
+    "beta": 2.3702,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 8.509222759809,
+   "N_head": 8.084532737731934,
+   "N_full": 7.567263806480253
+  },
+  {
+   "sid": "85c8e26cf9f9",
+   "bc": "SS",
+   "params": {
+    "bs": 249.0766,
+    "beta": 1.5541,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 10.36096473364749,
+   "N_head": 9.987884521484375,
+   "N_full": 9.248012825901217
+  },
+  {
+   "sid": "874e49eeb52d",
+   "bc": "SS",
+   "params": {
+    "bs": 167.4842,
+    "beta": 2.6358,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 28.52257097504706,
+   "N_head": 27.36615753173828,
+   "N_full": 25.83637414780148
+  },
+  {
+   "sid": "8832faf9b210",
+   "bc": "SS",
+   "params": {
+    "bs": 236.7199,
+    "beta": 1.3625,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 11.560223024114833,
+   "N_head": 11.293439865112305,
+   "N_full": 10.48118170840411
+  },
+  {
+   "sid": "8965db58a3d0",
+   "bc": "SS",
+   "params": {
+    "bs": 173.3063,
+    "beta": 3.0193,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 26.83555724716053,
+   "N_head": 25.171754837036133,
+   "N_full": 23.442865556863914
+  },
+  {
+   "sid": "8fb3e57bb849",
+   "bc": "SS",
+   "params": {
+    "bs": 232.9586,
+    "beta": 1.8918,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 11.925328198557944,
+   "N_head": 11.405966758728027,
+   "N_full": 10.95215378379548
+  },
+  {
+   "sid": "90992e94b2f5",
+   "bc": "SS",
+   "params": {
+    "bs": 239.0117,
+    "beta": 2.5654,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 11.178743092372253,
+   "N_head": 10.724761962890625,
+   "N_full": 10.241665529667648
+  },
+  {
+   "sid": "92a106526f19",
+   "bc": "SS",
+   "params": {
+    "bs": 252.6306,
+    "beta": 2.5539,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 9.933590556859725,
+   "N_head": 9.427604675292969,
+   "N_full": 8.944579480580662
+  },
+  {
+   "sid": "9b2b41cedc6d",
+   "bc": "SS",
+   "params": {
+    "bs": 157.4719,
+    "beta": 1.5842,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 36.10464502445451,
+   "N_head": 32.787330627441406,
+   "N_full": 30.497225202781205
+  },
+  {
+   "sid": "a04787fe5085",
+   "bc": "SS",
+   "params": {
+    "bs": 214.5279,
+    "beta": 1.7325,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 14.644053884480176,
+   "N_head": 14.030274391174316,
+   "N_full": 13.537068531185344
+  },
+  {
+   "sid": "ab3f81049de4",
+   "bc": "SS",
+   "params": {
+    "bs": 206.5641,
+    "beta": 2.7079,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 17.259200947330214,
+   "N_head": 15.658102035522461,
+   "N_full": 14.742115105379218
+  },
+  {
+   "sid": "ac11f07f8c94",
+   "bc": "SS",
+   "params": {
+    "bs": 215.7611,
+    "beta": 0.8384,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 15.145194010683644,
+   "N_head": 13.889684677124023,
+   "N_full": 13.353877575041833
+  },
+  {
+   "sid": "ae9a7012eab7",
+   "bc": "SS",
+   "params": {
+    "bs": 260.4423,
+    "beta": 1.0248,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 10.669453844160063,
+   "N_head": 9.364873886108398,
+   "N_full": 8.67569698186652
+  },
+  {
+   "sid": "b3d04453966c",
+   "bc": "SS",
+   "params": {
+    "bs": 254.9073,
+    "beta": 1.3311,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 10.459985330033996,
+   "N_head": 9.662782669067383,
+   "N_full": 8.755914544388883
+  },
+  {
+   "sid": "b94fc321ef68",
+   "bc": "SS",
+   "params": {
+    "bs": 154.4875,
+    "beta": 3.1168,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 35.409571291684834,
+   "N_head": 33.8489990234375,
+   "N_full": 32.13800289221097
+  },
+  {
+   "sid": "c9aa9b4915a1",
+   "bc": "SS",
+   "params": {
+    "bs": 266.1834,
+    "beta": 3.265,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 9.31417740448305,
+   "N_head": 8.424778938293457,
+   "N_full": 7.855094050800511
+  },
+  {
+   "sid": "cf027de127ee",
+   "bc": "SS",
+   "params": {
+    "bs": 269.0697,
+    "beta": 2.0809,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 8.461653283738197,
+   "N_head": 8.127496719360352,
+   "N_full": 7.642619920908592
+  },
+  {
+   "sid": "d02c92214b7e",
+   "bc": "SS",
+   "params": {
+    "bs": 187.1471,
+    "beta": 0.9142,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 21.368581334101496,
+   "N_head": 19.910964965820312,
+   "N_full": 19.397974864371893
+  },
+  {
+   "sid": "d53212d9a89a",
+   "bc": "SS",
+   "params": {
+    "bs": 163.2952,
+    "beta": 1.2806,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 32.50524430753884,
+   "N_head": 29.86762809753418,
+   "N_full": 27.809055198655077
+  },
+  {
+   "sid": "e223f0c42432",
+   "bc": "SS",
+   "params": {
+    "bs": 189.3777,
+    "beta": 2.4548,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 21.722362214233833,
+   "N_head": 19.589094161987305,
+   "N_full": 18.562619808792313
+  },
+  {
+   "sid": "edaaa6ed7c5d",
+   "bc": "SS",
+   "params": {
+    "bs": 200.7779,
+    "beta": 2.9628,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 18.3473497702896,
+   "N_head": 16.864543914794922,
+   "N_full": 15.84816882013952
+  },
+  {
+   "sid": "f1f067c3d3fd",
+   "bc": "SS",
+   "params": {
+    "bs": 179.2209,
+    "beta": 0.9429,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 25.00896252967674,
+   "N_head": 22.661251068115234,
+   "N_full": 21.78785912290698
+  },
+  {
+   "sid": "f58c35da813b",
+   "bc": "SS",
+   "params": {
+    "bs": 220.0184,
+    "beta": 2.0065,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 13.714336449280717,
+   "N_head": 13.125298500061035,
+   "N_full": 12.56975614918212
+  },
+  {
+   "sid": "faf58a547eee",
+   "bc": "SS",
+   "params": {
+    "bs": 258.9127,
+    "beta": 3.3779,
+    "bc": "SS",
+    "side": "periodic"
+   },
+   "N_ritz": 10.045379854926619,
+   "N_head": 8.953728675842285,
+   "N_full": 8.376516735220578
+  }
+ ],
+ "args": {
+  "train": "data/operators/periodic_quasiiso_SS_v2/train",
+  "test": "data/operators/periodic_quasiiso_SS_v2/test",
+  "bc": "SS",
+  "n_train": 152,
+  "method": "ngfull",
+  "epochs": 10,
+  "arch": "decoder",
+  "cache": 3,
+  "n_eval_train": 16,
+  "outer": 30,
+  "inner": 20,
+  "steps": 1000,
+  "batch": 16,
+  "lr": 0.001,
+  "R": 8,
+  "k": 3,
+  "width": 256,
+  "depth": 4,
+  "threads": 2,
+  "seed": 0,
+  "out": "runs/experts/periodic_quasiiso_SS_v2_physics_L0.pt",
+  "init": null,
+  "oracle": null,
+  "gamma": 0.0,
+  "n_oracle_batch": 4,
+  "mode": "physics",
+  "exact": "data/exact_targets/periodic_quasiiso_SS_v2/train",
+  "val": 32,
+  "lr_final": 1e-05,
+  "ema": 0.995,
+  "no_test_log": true,
+  "n_labels": null,
+  "ckpt": "runs/experts/periodic_quasiiso_SS_v2_physics_L0_ckpt.pt",
+  "files": "runs/experts/periodic_quasiiso_SS_v2_files.txt",
+  "inputs": "geom"
+ },
+ "chosen": {
+  "it": "30",
+  "name": "net",
+  "val_head": 0.07374603048019245,
+  "modes_it": "30",
+  "modes_name": "net",
+  "val_ritz": 0.16844716933219223
+ }
+}

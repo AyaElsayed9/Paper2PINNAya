@@ -199,3 +199,7 @@ periodic/train: 152 panels to build with 2 workers
 === train hybrid, 120 of 120 training designs labelled  08 Nov 07:46
 === physics certificate on the 40 test designs  08 Nov 08:55
 === EXPERT_DONE periodic_quasiiso_SS_v2_hybrid_L120  08 Nov 08:58
+=== train periodic_quasiiso_SS_v2_physics_L0 (0 of 120 training designs labelled)  16 Nov 16:40
+=== train periodic_quasiiso_SS_v2_physics_L0 (0 of 120 training designs labelled)  16 Nov 18:02
+=== physics certificate on the 40 test designs  16 Nov 19:02
+=== EXPERT_DONE periodic_quasiiso_SS_v2_physics_L0  16 Nov 19:06

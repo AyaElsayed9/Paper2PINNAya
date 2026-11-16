@@ -1725,3 +1725,13 @@ Chain `logs/run_physics_only.sh` (resumable, ~3 h per expert on this machine, re
   (1.92 vs 1.78, 0.28 vs 0.26). So "the modes are learnt from the physics alone" holds less well for quasiiso.
 * Chain continues with quasiiso / periodic (stops when the turn ends; resumable). Remaining: 5 experts, ~2 h each of
   open-turn time.
+
+### 16 Nov 2026, 20:10 — physics-only expert 2 of 6: quasiiso / periodic
+Aya (17:42): "continue without stopping" -> the turn is kept open; chain restarted once more after the 2 h limit of the
+background job (17:01 UTC, ckpt outer 18). Weights chosen on validation = evaluation 30 (the last). 40 test designs,
+|error| vs full GBT, mean / max:
+| | head | network Ritz | 3 steps | 5 steps | 8 steps | 12 steps |
+| physics only (L0) | 6.70 / 17.78 (above in 39 / 40) | 15.48 / 36.48 | 2.24 / 12.09 | 1.15 / 7.13 | 0.43 / 1.60 | 0.20 / 0.98 |
+| hybrid, 120 labels | 0.56 / 1.49 | 16.01 / 47.18 | 1.37 / 5.82 | 0.63 / 2.14 | 0.26 / 1.16 | 0.13 / 0.56 |
+Same picture as quasiiso / symmetry: head 6.7 % without labels, network Ritz equal with and without labels, the check
+from the physics-only modes about twice the error of the labelled network at 5 steps (1.15 vs 0.63 %).
