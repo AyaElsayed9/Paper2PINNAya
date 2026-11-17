@@ -1794,3 +1794,39 @@ from the physics-only modes about twice the error of the labelled network at 5 s
   labels here (10.9 vs 15.9 %), but the check still converges about twice as slowly (5 steps 0.86 vs 0.48 %,
   12 steps 0.30 vs 0.14 %).
 * Running: pm45 / periodic (last expert).
+
+### 17 Nov 2026, 05:00 (03:00 UTC) — physics-only chain finished: all eight experts with and without labels
+* **pm45 / periodic (expert 6 of 6)**: weights chosen on validation = evaluation 30 (the last). 40 test designs, mean / max:
+  head 5.80 / 23.16 % (above in 40 / 40), network Ritz 17.99 / 60.79 %, check 3 steps 1.81 / 10.80, 5 steps 0.70 / 2.82,
+  8 steps 0.32 / 0.61, 12 steps 0.25 / 0.49 %. Hybrid L120: head 0.29 / 0.97, Ritz 21.19 / 76.67, 5 steps 0.40 / 2.17,
+  12 steps 0.14 / 0.44 %.
+* **pm45 / symmetry with the last weights** (the validation had chosen evaluation 28; `state` replaced by `state_last`
+  in a copy of the model, `results/experts/symmetry_pm45_SS_v2_physics_L0_cert_lastweights.log`): head 4.69 / 17.29 %,
+  Ritz 10.93 / 47.57 %, 5 steps 0.84 / 3.18 %, 12 steps 0.29 / 0.62 % — the same as with the chosen weights
+  (4.68 / 17.38, 0.86 / 3.31, 0.30 / 0.62). So the validation labels made no practical difference in any of the eight
+  physics-only runs (seven chose the last iteration for the weights used, one is equal within 0.02 %).
+* Chain: segments 1 and 2 of 100 min ended by themselves (codes 124 and 0), no limit reached; resume after segment 1
+  recomputed outer 16 identically. `PHYSICS_ONLY_CHAIN_DONE 17 Nov 03:50` (02:50 UTC).
+* **All eight experts** (40 test designs each, |error| vs full GBT, mean / max; L0 = physics only, L120 = hybrid with 120 labels):
+| expert | L0 head | L0 Ritz | L0 5 steps | L0 12 steps | L120 head | L120 Ritz | L120 5 steps | L120 12 steps |
+| crossply / symmetry | 11.93 / 24.09 | 23.73 / 59.32 | 1.92 / 6.45 | 0.28 / 1.39 | 1.14 / 4.92 | 24.90 / 49.33 | 1.78 / 5.50 | 0.26 / 1.09 |
+| crossply / periodic | 11.52 / 24.72 | 23.85 / 55.65 | 1.14 / 5.04 | 0.14 / 1.04 | 1.18 / 4.75 | 23.39 / 53.25 | 1.11 / 4.69 | 0.11 / 0.79 |
+| quasiiso / symmetry | 6.71 / 16.06 | 13.76 / 36.79 | 1.75 / 7.69 | 0.43 / 1.41 | 0.55 / 1.74 | 14.03 / 45.29 | 1.18 / 2.69 | 0.28 / 1.02 |
+| quasiiso / periodic | 6.70 / 17.78 | 15.48 / 36.48 | 1.15 / 7.13 | 0.20 / 0.98 | 0.56 / 1.49 | 16.01 / 47.18 | 0.63 / 2.14 | 0.13 / 0.56 |
+| zerorich / symmetry | 10.91 / 20.35 | 19.89 / 37.57 | 2.76 / 9.46 | 0.48 / 1.49 | 0.75 / 3.10 | 19.79 / 47.18 | 1.88 / 4.72 | 0.33 / 1.09 |
+| zerorich / periodic | 8.57 / 17.72 | 18.18 / 33.95 | 1.13 / 3.93 | 0.14 / 0.43 | 0.67 / 2.14 | 18.00 / 47.09 | 0.60 / 2.46 | 0.11 / 0.38 |
+| pm45 / symmetry | 4.68 / 17.38 | 10.86 / 48.68 | 0.86 / 3.31 | 0.30 / 0.62 | 0.24 / 0.87 | 15.89 / 49.26 | 0.48 / 2.10 | 0.14 / 0.44 |
+| pm45 / periodic | 5.80 / 23.16 | 17.99 / 60.79 | 0.70 / 2.82 | 0.25 / 0.49 | 0.29 / 0.97 | 21.19 / 76.67 | 0.40 / 2.17 | 0.14 / 0.44 |
+* Over the eight experts (mean of the eight means; worst maximum):
+  physics_L0 head: mean of means 8.35 %, worst max 24.72 %; ritz: mean of means 17.97 %, worst max 60.79 %; s3: mean of means 2.95 %, worst max 13.90 %; s5: mean of means 1.43 %, worst max 9.46 %; s8: mean of means 0.60 %, worst max 3.91 %; s12: mean of means 0.28 %, worst max 1.49 %
+  hybrid_L120 head: mean of means 0.67 %, worst max 4.92 %; ritz: mean of means 19.15 %, worst max 76.67 %; s3: mean of means 2.10 %, worst max 9.40 %; s5: mean of means 1.01 %, worst max 5.50 %; s8: mean of means 0.41 %, worst max 2.97 %; s12: mean of means 0.19 %, worst max 1.09 %
+* Reading (honest):
+  1. Without labels the instant number is poor everywhere: 4.7–11.9 % mean, up to 24.7 %, and always too high. The
+     120 labels bring it to 0.24–1.18 %. The labels are what makes the head usable.
+  2. The network's own Ritz value is the same with and without labels (10.9–23.9 % vs 14.0–24.9 %): the labels do
+     not improve the predicted modes as an energy bound.
+  3. The check started from the physics-only modes reaches 0.14–0.48 % after 12 steps (labelled: 0.11–0.33 %). After
+     5 steps it is 1.1–1.9x worse than from the labelled network; for cross-ply the two are almost equal. So "the
+     physics alone teaches the shapes" is true to within a few check steps, best for cross-ply.
+  4. Not shown here and still true from 9–10 Nov: a random start reaches 0.39 % after 12 steps and a copied neighbour
+     0.08 % (cross-ply / symmetry), so these physics-only modes are worth roughly 2–3 check steps, not more.

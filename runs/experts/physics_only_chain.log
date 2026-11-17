@@ -1,0 +1,44 @@
+physics-only chain started / restarted 16 Nov 13:45
+machine shut down ~3 min after the reply of 12:56 UTC (ckpt outer 3); restart follows
+physics-only chain started / restarted 16 Nov 14:22
+stopped again at outer 24 (ckpt 14:54 UTC): the wait was interrupted and the machine shut down; restart 15:01 UTC
+physics-only chain started / restarted 16 Nov 16:00
+done quasiiso/symmetry 16 Nov 16:40
+2 h limit of the background job reached at 17:01 UTC (periodic quasiiso, ckpt outer 18); restart
+physics-only chain started / restarted 16 Nov 18:02
+done quasiiso/symmetry 16 Nov 18:02
+done quasiiso/periodic 16 Nov 19:06
+2 h limit of the background job reached at 19:02 UTC (symmetry zerorich, ckpt outer 13); restart
+physics-only chain started / restarted 16 Nov 20:05
+done quasiiso/symmetry 16 Nov 20:05
+done quasiiso/periodic 16 Nov 20:05
+cloud environment restarted ~20:16 UTC (symmetry zerorich: outer 30 done, stopped before the final test / save; ckpt outer 30); restart
+physics-only chain started / restarted 16 Nov 21:25
+done quasiiso/symmetry 16 Nov 21:25
+done quasiiso/periodic 16 Nov 21:25
+done zerorich/symmetry 16 Nov 21:34
+cloud environment restarted ~22:03 UTC (periodic zerorich, ckpt outer 22); restart no. 4
+physics-only chain started / restarted 16 Nov 23:04
+done quasiiso/symmetry 16 Nov 23:04
+done quasiiso/periodic 16 Nov 23:04
+done zerorich/symmetry 16 Nov 23:04
+done zerorich/periodic 16 Nov 23:45
+2 h limit of the background job reached at 00:04 UTC (symmetry pm45, ckpt outer 22). NOT restarted: the stop notice says a job that had the longest timeout must not be started again. Waiting for Aya.
+Aya 02:08 (00:08 UTC): continue every time it stops, no confirmation needed. Segments of 100 min that end by themselves (timeout 6000), so the 2 h job limit is not reached; segment 1 starts
+physics-only chain started / restarted 17 Nov 01:08
+done quasiiso/symmetry 17 Nov 01:08
+done quasiiso/periodic 17 Nov 01:08
+done zerorich/symmetry 17 Nov 01:08
+done zerorich/periodic 17 Nov 01:08
+done pm45/symmetry 17 Nov 01:46
+segment ended with code 124 at 01:48 UTC
+segment 2 starts 01:48 UTC (periodic pm45, ckpt after outer 15; segment 1 ended by its own timeout, code 124)
+physics-only chain started / restarted 17 Nov 02:48
+done quasiiso/symmetry 17 Nov 02:48
+done quasiiso/periodic 17 Nov 02:48
+done zerorich/symmetry 17 Nov 02:48
+done zerorich/periodic 17 Nov 02:48
+done pm45/symmetry 17 Nov 02:48
+done pm45/periodic 17 Nov 03:50
+PHYSICS_ONLY_CHAIN_DONE 17 Nov 03:50
+segment ended with code 0 at 02:50 UTC

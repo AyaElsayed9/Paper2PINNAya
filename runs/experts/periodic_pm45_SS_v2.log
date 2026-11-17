@@ -199,3 +199,7 @@ periodic/train: 152 panels to build with 2 workers
 === train hybrid, 120 of 120 training designs labelled  09 Nov 03:19
 === physics certificate on the 40 test designs  09 Nov 04:04
 === EXPERT_DONE periodic_pm45_SS_v2_hybrid_L120  09 Nov 04:08
+=== train periodic_pm45_SS_v2_physics_L0 (0 of 120 training designs labelled)  17 Nov 01:46
+=== train periodic_pm45_SS_v2_physics_L0 (0 of 120 training designs labelled)  17 Nov 02:48
+=== physics certificate on the 40 test designs  17 Nov 03:47
+=== EXPERT_DONE periodic_pm45_SS_v2_physics_L0  17 Nov 03:50
