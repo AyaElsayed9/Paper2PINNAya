@@ -1919,3 +1919,15 @@ Result (symmetry crossply, net-120 start, results/two_sided/symmetry_crossply_SS
 CG did not reach 1e-10 in 400 iterations (5-30 s per design, more than the whole check), and an unconverged CG
 under-estimates eps^2. Decision: drop it. The lower side is 20x looser than the upper side and costs more than the
 check; the guarantee of the tool stays one-sided (upper bound of the Ritz-space load) + convergence history.
+
+### 17 Nov 2026, 16:10 — check of the half-wave measure; +-45 one half-wave; Paper 1 Riks
+* Measure checked: m from the shared amplitudes (half_waves.py) = m from the nodal displacement field of the
+  conventional modes for every GBT mode tried (24 designs, 4 experts; nodal share 0.80-1.00). The table of 15:30 stands.
+* +-45 (Sym1) m = 1 in GBT for every design (nodal share >= 0.999, L 181-875 mm). Supporting evidence already in the
+  GBT paper's Abaqus runs (eigenvalues only): Sym1 SS PBC b_s 150 gives 22.88 / 17.48 / 15.20 N/mm at beta 0.75 / 1.5 / 3
+  (load falls with length, as for a one-half-wave mode), and at beta 8 PBC 5.22 vs PBC_FREE 15.40 (the constant-width
+  effect). No Abaqus mode shapes of Sym1 in this range yet -> asked Aya to export modes 1-2 from her existing
+  val_*_Sym1_PBC .odb files (export_abaqus_mode1.py, nothing re-run).
+* Correction: I told Aya neither paper did post-buckling. Wrong: Paper 1 ran Abaqus Riks seeded with the PINN mode
+  (now in docs/PAPER1_SUMMARY.md). ROADMAP phase 4 (Koiter imperfection sensitivity in GBT, validated by Riks) is the
+  planned post-buckling part of Paper 2; not started; asked Aya whether it goes in Paper 2.

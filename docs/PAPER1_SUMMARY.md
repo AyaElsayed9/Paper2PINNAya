@@ -27,3 +27,9 @@ Composite Structures 399 (2026) 120959. (PDF uploaded by Aya: `1-s2_0-S026382232
 3. Replace the −15 %/+3 % neighbour logic check by a reasonable one.
 4. Lay-up as an input (generalisation over lay-ups), not one lay-up.
 5. The tool must be fast.
+
+## Post-buckling in Paper 1 (added 17 Nov 2026; was missing from this summary)
+Paper 1 also ran Abaqus Riks: the PINN's predicted mode 1 was mapped onto the Abaqus skin mesh as a mode-shaped
+imperfection (scale 0.01, `generate_abaqus_matched_imperfection`, `build_abaqus_riks_case2.py` in the notebook) and the
+load / end-shortening path was compared with the Riks path seeded by Abaqus's own eigenmode (Case 1 m = 3; Case 2
+b_s = 205 mm; figures Fig_Riks_Case1, Fig_11_Riks_Case2). So Paper 1's mode shapes were used for post-buckling.
