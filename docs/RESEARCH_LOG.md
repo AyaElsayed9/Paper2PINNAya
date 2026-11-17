@@ -1854,3 +1854,19 @@ Aya: "start with the first (cheap check)". Measurements on this machine (scripts
   (5 steps). The "63 % / 76 % of the full GBT time" of 10 Nov (same fine state in both) is the fair number.
 * Reading: the check's speed is not where Paper 2's advantage can come from; its value is the guarantee (upper bound)
   and the converged accuracy. Decision for Aya.
+
+### 17 Nov 2026, 13:30 — baselines for all eight experts; Paper-2 results document (Docs)
+Aya: "do what you think is right". Decision: no label study on +-45 (its GP already reaches 0.07 % with 40 labels and
+0.01 % with 120, so a network label curve would only repeat the cross-ply result at 6 h of open-turn training).
+Instead: (1) random / nn10 / nn120 starts of the check for the 7 other experts (`logs/run_baselines_all.sh`,
+`check_start_baselines.py --starts` option added, 12 steps, 10:37–11:27 UTC, one segment, no limit reached);
+(2) a results-and-story document for Aya and Navid (Claude Docs: "Paper 2 – results tables and story").
+Check after 5 / 12 steps, mean of the 8 experts' mean errors vs full GBT (40 test designs each):
+  random 3.23 / 0.34 %, nn10 0.83 / 0.15 %, nn120 0.47 / 0.11 %, net physics-only 1.43 / 0.28 %, net hybrid L120 1.01 / 0.19 %.
+Reading: in every expert the copied modes of the nearest labelled design (even of only 10) are a better start than
+either network; the physics-only network beats only the random start (2.3x at 5 steps, little at 12 steps).
+Values below full GBT after 12 steps: 2 of 640 neighbour-start values (one crossply design, -0.0002 %, the known
+longitudinal-resolution artefact), none of 320 random or 640 network starts. Correction for the document: "the check
+never falls below full GBT" is only true for the network starts; the guarantee is for the Ritz-space load.
+Proposed story in the document: framework paper (GBT engine + guaranteed check + parametric network benchmarked
+honestly against GP and neighbour copy); network-first story not supported by the data. Open questions listed there.

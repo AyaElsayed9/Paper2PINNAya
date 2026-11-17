@@ -41,6 +41,8 @@ def main():
     ap.add_argument("--nn", default="10,120")
     ap.add_argument("--steps", default="3,5,8,12,20,30")
     ap.add_argument("--threads", type=int, default=1)
+    ap.add_argument("--starts", default="all", help="comma list of start names to run (17 Nov 2026: 'random,nn10,nn120' "
+                                                     "for the other experts); default all = as before")
     a = ap.parse_args()
     torch.set_num_threads(a.threads)
     steps = [int(s) for s in a.steps.split(",")]; S = max(steps)
@@ -97,6 +99,8 @@ def main():
             starts.append(("knn2_120", torch.cat([nn_start(d, 120, k)[0] for k in range(2)]), "2 nearest of 120"))
             for m in a.models.split(","):
                 starts.append((f"nn10+net_{m}", torch.cat([byname["nn10"], byname[f"net_{m}"].double()]), m))
+            if a.starts != "all":
+                starts = [x for x in starts if x[0] in a.starts.split(",")]
             for name, Y, src in starts:
                 if (d.sid, name) in done:
                     continue
