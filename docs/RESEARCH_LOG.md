@@ -1830,3 +1830,27 @@ from the physics-only modes about twice the error of the labelled network at 5 s
      physics alone teaches the shapes" is true to within a few check steps, best for cross-ply.
   4. Not shown here and still true from 9–10 Nov: a random start reaches 0.39 % after 12 steps and a copied neighbour
      0.08 % (cross-ply / symmetry), so these physics-only modes are worth roughly 2–3 check steps, not more.
+
+### 17 Nov 2026, 13:00 — "cheap check": where the fixed cost goes, and what can be saved (measured; small)
+Aya: "start with the first (cheap check)". Measurements on this machine (scripts/cheap_*.py):
+* Profile, 6 crossply / symmetry test designs after a warm-up (`cheap_profile_check.py`), mean (range):
+  section 0.14 s, pre-buckling x4 1.38 s (1.2–1.8), other operators 0.17 s, Ritz space 0.08 s, energy metric 0.98 s
+  (0.14–2.26, grows with the panel length), one check step 0.16 s (0.07–0.31). Check = 4.7 s with 12 steps,
+  3.6 s with 5; full GBT 9.6 s (4.1–15.9).
+* The pre-buckling x4 has a floor: the cross-section matrices Kcs alone cost 0.45–0.55 s (`cheap_pre_parts.py`).
+  Coarser meshes (`cheap_pre_variants.py`, 5 pm45 / periodic designs, converged Ritz-space load vs the fine state):
+  x4 1.46 s, error 0.010 / 0.023 %; x8 1.14 s, 0.053 / 0.149 %; x16 0.82 s, 0.387 / 0.852 %; uniform (mid-length
+  state everywhere) 0.216 / 0.459 %. Fine state x1 4.41 s. The pre-state in the shared reduced section (241 modes)
+  is NOT cheaper (1.0 s at x4, 4.6 s at x1: its blocks are dense) and 0.06–0.12 % off. So at most ~0.3 s can be saved
+  here (x8) for 0.05–0.15 % error.
+* Metric in float32 for the Cholesky and the preconditioner solve (`cheap_metric32.py`, 8 crossply designs): same
+  accuracy to 2 decimals, never below full GBT, but metric 0.97 -> 0.94 s and step 0.20 -> 0.16 s only: the time is in
+  assembling the blocks, not in the factorisation.
+* CORRECTION of my estimate of 16 Nov ("check ~2.5 s, 4x faster than GBT"): wrong. I used the fine (x1) pre-buckling
+  times (2.4–4.3 s), but the check already uses x4 (1.4 s). Realistic best with the measured options: ~3.5–4 s for
+  12 steps, i.e. ~2.5x faster than the full GBT.
+* Fairness note for the paper: the full GBT computes its pre-buckling state on the fine mesh (x1, ~4.4 s of its 9.6 s).
+  With the same x4 state the full GBT would take ~6.5 s, and the check's own gain is then ~1.4x (12 steps) to ~1.8x
+  (5 steps). The "63 % / 76 % of the full GBT time" of 10 Nov (same fine state in both) is the fair number.
+* Reading: the check's speed is not where Paper 2's advantage can come from; its value is the guarantee (upper bound)
+  and the converged accuracy. Decision for Aya.
