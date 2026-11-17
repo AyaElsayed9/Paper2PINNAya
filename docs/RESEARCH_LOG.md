@@ -1778,3 +1778,19 @@ from the physics-only modes about twice the error of the labelled network at 5 s
 * State: 4 of 6 physics-only experts finished and committed (quasiiso and zerorich, symmetry and periodic);
   pm45 / symmetry at outer 22 of 30 (resumable); pm45 / periodic not started. Nothing running.
 * Open for Aya: how to run the remaining ~3 h of training (short jobs that end inside the limit, or her decision).
+
+### 17 Nov 2026, 02:50 (00:50 UTC) — physics-only expert 5 of 6: pm45 / symmetry; chain runs in self-ending segments
+* Aya (02:08, going to sleep): "continue every time it stops, without needing my reply or confirmation". The chain now
+  runs in segments of 100 minutes that end by themselves (`timeout 6000 bash logs/run_physics_only.sh`), so the 2 h limit
+  of the background job is not reached; each new segment resumes from the checkpoint.
+* Weights chosen on validation: evaluation 28 for head and modes — NOT the last iteration, so here the 32 validation
+  labels did influence which weights were saved. To do when the chain is finished: the same test with the last weights
+  (`state_last`) for a strictly label-free number.
+* 40 test designs, |error| vs full GBT, mean / max:
+  | | head | network Ritz | 3 steps | 5 steps | 8 steps | 12 steps |
+  | physics only (L0), weights of evaluation 28 | 4.68 / 17.38 | 10.86 / 48.68 | 1.66 / 8.68 | 0.86 / 3.31 | 0.44 / 0.88 | 0.30 / 0.62 |
+  | hybrid, 120 labels | 0.24 / 0.87 | 15.89 / 49.26 | 1.21 / 5.23 | 0.48 / 2.10 | 0.21 / 0.70 | 0.14 / 0.44 |
+  Head without labels 4.7 % (best of the physics-only experts so far); the network's own Ritz value is BETTER without
+  labels here (10.9 vs 15.9 %), but the check still converges about twice as slowly (5 steps 0.86 vs 0.48 %,
+  12 steps 0.30 vs 0.14 %).
+* Running: pm45 / periodic (last expert).
