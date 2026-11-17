@@ -1870,3 +1870,23 @@ longitudinal-resolution artefact), none of 320 random or 640 network starts. Cor
 never falls below full GBT" is only true for the network starts; the guarantee is for the Ritz-space load.
 Proposed story in the document: framework paper (GBT engine + guaranteed check + parametric network benchmarked
 honestly against GP and neighbour copy); network-first story not supported by the data. Open questions listed there.
+
+### 17 Nov 2026, 14:50 — are the predicted modes good as information? (scripts/mode_quality.py, all 8 experts)
+Aya: "is it not the modes that make the PINN better than the GP?". For each test design, mode 1 of each predictor =
+its lowest Ritz vector on its 8 candidates; compared with the full-GBT modes 1-3 (stored teacher; pipeline checked:
+converged Ritz modes give MAC 1.000 with the teacher). In-plane nodal displacements over all Gauss points.
+320 test designs (results/mode_quality/*.csv):
+| predictor | MAC with GBT mode 1 | best MAC with modes 1-3 (median; >0.9) | share in span of modes 1-3 (median; >0.9) | family participation distance mean (median) |
+| net physics only | 0.39 | 0.55 (0.55; 46) | 0.71 (0.84; 129) | 0.18 (0.14) |
+| net 120 labels | 0.40 | 0.57 (0.56; 49) | 0.76 (0.86; 137) | 0.20 (0.13) |
+| copy, nearest of 10 | 0.23 | 0.43 (0.42; 13) | 0.56 (0.60; 61) | 0.59 (0.42) |
+| copy, nearest of 120 | 0.29 | 0.50 (0.52; 21) | 0.66 (0.80; 121) | 0.30 (0.19) |
+Best for +-45 (network span 0.94-0.97, MAC 0.73-0.85). Reading: as SHAPES the network's modes are closer to GBT than
+the copied neighbour modes (in every expert for the participation distance, in 6 of 8 for the span), although the
+copies are the better START of the check (their 8 vectors carry the stiff detail better). But a single predicted
+mode is not the exact mode 1 (MAC > 0.9 in only ~15 % of designs): the lowest modes are 2-5 % apart and the
+prediction is mostly a mix of them. Mode type: all 320 test designs are local (GBT rho_L 0.996), so the design space
+cannot show whether the PINN identifies the mode type; untested.
+Literature checked for Aya's question on the PINN trend: Grossmann et al. 2024 (IMA J Appl Math 89:143-174, PINNs did
+not beat FEM in time and accuracy) and McGreivy & Hakim 2024 (Nat Mach Intell 6, 79 % of ML-for-PDE papers claiming
+to beat numerical methods use weak baselines).
