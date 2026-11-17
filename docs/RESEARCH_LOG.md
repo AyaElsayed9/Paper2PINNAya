@@ -1890,3 +1890,32 @@ cannot show whether the PINN identifies the mode type; untested.
 Literature checked for Aya's question on the PINN trend: Grossmann et al. 2024 (IMA J Appl Math 89:143-174, PINNs did
 not beat FEM in time and accuracy) and McGreivy & Hakim 2024 (Nat Mach Intell 6, 79 % of ML-for-PDE papers claiming
 to beat numerical methods use weak baselines).
+
+### 17 Nov 2026, 15:30 — number of half-waves of the critical mode (scripts/half_waves.py, all 8 experts)
+Aya: "in my 1st paper I could get the correct wave number". Paper 1: the GBT-PINN got the Abaqus half-wave number in
+20 of 22 points (GBT itself 22/22). Here: m = dominant harmonic sin/cos(j pi z/L) (j = 1..J) of the amplitude field,
+least-squares share; reference = full-GBT mode 1 (share median 0.90-0.99). 320 test designs, 40 per expert
+(results/half_waves/*.csv). Mean over experts, % of designs:
+| predictor | m exact | m of one of GBT modes 1-3 | within +-1 |
+| net physics only | 39.4 | 55.9 | 65.9 |
+| net 120 labels | 44.1 | 59.4 | 70.0 |
+| copy, nearest of 120 | 57.2 | 93.4 | 96.2 |
+| check, 12 steps from the net-120 start | 99.4 (318/320) | 100 | 100 |
+The 2 misses of the check are near-ties (GBT modes 1 and 2 0.03 % and 0.34 % apart; the check gives mode 2's m).
+Reading: the network alone does NOT get the half-wave number (its single mode is a mix of harmonics, share 0.45-0.87);
+the check does, like GBT in Paper 1. For +-45 every design has m = 1 in GBT (share 0.95-0.99) and in the check; not yet
+compared with Abaqus (no +-45 Abaqus runs) and not yet understood physically -> to look at before it goes in a paper.
+84 of 320 designs have GBT modes 1 and 2 less than 1 % apart (zerorich median gap 0.7 %): there m is not a robust label.
+
+### 17 Nov 2026, 15:50 — two-sided bound: Kato-Temple lower estimate (scripts/two_sided_probe.py, 6 crossply designs)
+Idea: beside the check's upper bound, a lower value N_low = 1/(theta + eps^2/(theta - nu)), eps^2 = r^T K^-1 r of the
+mode-1 residual (K^-1 by CG with the check's metric as preconditioner), nu = the check's mode-2 Ritz value.
+Honest limits before running: nu is an estimate of mu_2, so this is an ESTIMATE, not a proof; a rigorous lower bound
+needs the full model (inertia / Cholesky of K - N_low G at full-GBT cost).
+Result (symmetry crossply, net-120 start, results/two_sided/symmetry_crossply_SS_v2.csv):
+| steps | upper bound vs converged Ritz | lower estimate | width mean (max) | bracket holds |
+| 5 | +0.96 % | -13.0 % | 14.0 % (18.4 %) | 6/6 |
+| 12 | +0.14 % | -2.8 % | 2.9 % (4.1 %) | 6/6 |
+CG did not reach 1e-10 in 400 iterations (5-30 s per design, more than the whole check), and an unconverged CG
+under-estimates eps^2. Decision: drop it. The lower side is 20x looser than the upper side and costs more than the
+check; the guarantee of the tool stays one-sided (upper bound of the Ritz-space load) + convergence history.
