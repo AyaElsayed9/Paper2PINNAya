@@ -1951,3 +1951,16 @@ by Koiter coefficients a, b of mode 1 in GBT + close-mode flag (interaction); (3
 report the post-buckling stiffness (testable against Case 1's slope ratio); (4) unstable / interacting designs:
 imperfection analysis -> load range for a tolerance-based amplitude -> design-specific knock-down; Riks checks.
 Open: the current design space is all local; unstable designs may need longer panels (local-global interaction).
+
+### 18 Nov 2026, 13:25 — Paper 1 post-buckling cases from the published paper (Compos Struct 399 (2026) 120959, Table 5)
+Correction of the 13:10 entry: the notebook's "Case 1/Case 2" plots are the paper's Case 2 and Case 1 (files renamed).
+Cross-ply skin [0/90/0/90]s, stringer [0/90/0/90/0/90/0], t_ply 0.125 mm, symmetry sides, SS; imperfection = mode
+shape scaled to 0.01 mm; Riks seeded with the PINN mode vs the Abaqus eigenmode.
+| case | b_s | beta | regime | m PINN/FEA | path read from the figures |
+| 1 | 205 | 0.86 | m-transition (near-tie) | 1/2 | knee ~15 N/mm, kink and small drop at ~17.2 N/mm where the curve ends (~0.042 mm) |
+| 2 | 205 | 1.67 | plateau | 3/3 | knee ~13.5 N/mm, rises to 25 N/mm: stable |
+| 3 | 150 | 0.50 | plateau | 1/1 | knee ~29 N/mm, rises to 44 N/mm: stable |
+| 4 | 205 | 1.77 | plateau | 3/3 | knee ~13 N/mm, rises to 25 N/mm: stable |
+The three plateau cases are stable (no limit load); the only one with a drop is the near-tie case, consistent with
+the flow "close modes -> check imperfection sensitivity", but its path stops at the drop, so not yet proven.
+Targets for the GBT post-buckling test: knee load and post-buckling stiffness ratio of cases 2-4; case 1 behaviour.
