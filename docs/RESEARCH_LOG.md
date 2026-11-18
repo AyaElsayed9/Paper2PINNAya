@@ -1931,3 +1931,12 @@ check; the guarantee of the tool stays one-sided (upper bound of the Ritz-space 
 * Correction: I told Aya neither paper did post-buckling. Wrong: Paper 1 ran Abaqus Riks seeded with the PINN mode
   (now in docs/PAPER1_SUMMARY.md). ROADMAP phase 4 (Koiter imperfection sensitivity in GBT, validated by Riks) is the
   planned post-buckling part of Paper 2; not started; asked Aya whether it goes in Paper 2.
+
+### 18 Nov 2026, 12:20 — Abaqus confirms one half-wave for +-45 (Sym1)
+Aya exported mode 1 of her existing GBT-paper Abaqus jobs (nothing re-run; data/abaqus_sym1_modes/*.csv.gz,
+scripts/abaqus_half_waves.py). Dominant harmonic along z, skin out-of-plane U2 (share):
+b_s 150: beta 0.75 / 1.5 / 3 (L 112 / 225 / 450): m = 1 / 1 / 1 (1.00 each), N_cr 22.88 / 17.48 / 15.20
+b_s 285.5: beta 0.75 / 1.5 / 3 (L 214 / 428 / 856): m = 1 / 1 / 1 (1.00 each), N_cr 4.76 / 4.01 / 3.83
+Skin-dominated (skin U2 rms 0.36-0.40 vs stringer 0.03-0.06). So GBT's m = 1 for every +-45 design is what Abaqus
+gives too; not an artefact. Physical reason not yet worked out (load still falling at L = 856 mm: the preferred
+half-wave is longer than the panels). The +-45 rows of the half-wave table stand.
