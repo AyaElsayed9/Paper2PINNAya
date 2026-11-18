@@ -1940,3 +1940,14 @@ b_s 285.5: beta 0.75 / 1.5 / 3 (L 214 / 428 / 856): m = 1 / 1 / 1 (1.00 each), N
 Skin-dominated (skin U2 rms 0.36-0.40 vs stringer 0.03-0.06). So GBT's m = 1 for every +-45 design is what Abaqus
 gives too; not an artefact. Physical reason not yet worked out (load still falling at L = 856 mm: the preferred
 half-wave is longer than the panels). The +-45 rows of the half-wave table stand.
+
+### 18 Nov 2026, 13:10 — Paper 1 Riks curves read; proposed flow for the imperfection part
+Paper 1 Riks plots taken from the notebook outputs (docs/paper1_riks/): Case 1 has a smooth knee at about 13 N/mm and
+the load keeps rising to 25 N/mm (stiffness after the knee about half of before): stable local post-buckling, no
+limit load. Case 2 (b_s 205): knee about 15 N/mm, small kink and drop at 17.2 N/mm where the Abaqus curve ends
+(0.043 mm); cannot tell from the plot whether that is a limit point or a mode change.
+Proposed flow (Aya's idea, 18 Nov): (1) network + check -> N_cr, mode, gap to the next modes; (2) stability screen
+by Koiter coefficients a, b of mode 1 in GBT + close-mode flag (interaction); (3) stable designs: knock-down ~ 1,
+report the post-buckling stiffness (testable against Case 1's slope ratio); (4) unstable / interacting designs:
+imperfection analysis -> load range for a tolerance-based amplitude -> design-specific knock-down; Riks checks.
+Open: the current design space is all local; unstable designs may need longer panels (local-global interaction).
