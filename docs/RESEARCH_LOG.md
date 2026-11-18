@@ -1964,3 +1964,29 @@ shape scaled to 0.01 mm; Riks seeded with the PINN mode vs the Abaqus eigenmode.
 The three plateau cases are stable (no limit load); the only one with a drop is the near-tie case, consistent with
 the flow "close modes -> check imperfection sensitivity", but its path stops at the drop, so not yet proven.
 Targets for the GBT post-buckling test: knee load and post-buckling stiffness ratio of cases 2-4; case 1 behaviour.
+
+### 18 Nov 2026, 15:30 — Koiter initial post-buckling in GBT (src/pinnbuck/koiter.py) vs Paper 1's Riks cases
+Aya: start the imperfection part (goal: a tool that tells which panels are imperfection-sensitive and gives a
+design-specific knock-down instead of one conservative factor).
+Method: new module, solver untouched. `assemble` repeats omega_gbt_solve's assembly with the solver's own helpers
+(buckling loads identical to omega_gbt_solve to all printed digits). Energy with the same quadratic membrane strains
+the solver uses for Kg: cubic C3 = int N(u).eps_Q(u), quartic C4 = 1/2 int eps_Q' A eps_Q; Koiter a, b by one
+bordered sparse solve for the second-order field; end-shortening slope after buckling; mode-shaped imperfection
+path xi(1 - r) + a xi^2 + b xi^3 = r xi_bar. Mode 1 normalised to 1 mm largest nodal displacement. 10-25 s per design.
+Mesh check (case 2): hx/2 and cross-section nodes x2 change b by < 1 %, stiffness ratio 0.676 -> 0.676 / 0.673.
+Abaqus curves digitized from the published figures (docs/paper1_riks/case<k>_abaqus_digitized.csv; legend pixels
+removed). scripts/koiter_paper1_cases.py -> results/koiter/paper1_cases.json, paper1_cases_paths.png/.csv.
+| case | b_s, beta | GBT N_cr | gap 1-2 | b [1/mm^2] | pre slope GBT / Abaqus | post/pre ratio GBT: mean / skin edge node / crown | Abaqus ratio (1.08-1.3 / 1.4-1.8 N_cr) |
+| 1 | 205, 0.86 | 16.37 | 1.6 % (modes 2, 3 within 1.8 %) | -0.002 | 449 / 451 | - (b < 0) | Abaqus: gradual bend, peak 17.2 then small drop |
+| 2 | 205, 1.67 | 13.87 | 4.1 % | 0.434 | 232 / 231 | 0.68 / 0.36 / 1.06 | 0.48 / 0.41 |
+| 3 | 150, 0.50 | 31.17 | 4.9 % | 0.332 | 1047 / 1053 | 0.64 / 0.24 / 0.99 | 0.28 / - |
+| 4 | 205, 1.77 | 13.75 | 4.7 % | 0.456 | 219 / 219 | 0.71 / 0.41 / 1.06 | 0.50 / 0.43 |
+Reading: knee load and pre-buckling stiffness agree with Abaqus (slopes within 0.6 %). After buckling the loaded edge
+does not stay straight, so the shortening (and its slope) depends on the node: GBT gives 0.24-0.41 at a skin node on
+the side edge up to ~1.06 at the stringer crown; the Abaqus curves lie between the load-weighted mean and the skin
+node, close to the skin node (case 3 almost on it). The monitored Abaqus node is not known -> asked Aya. Koiter's
+path is straight after the knee (initial post-buckling only); Abaqus softens gradually with load, as expected.
+The near-tie case 1 is the only one with b <= 0 and three modes within 1.8 % -> single-mode Koiter is not valid
+there; needs the multi-mode (interaction) form; it is the case where Abaqus shows the small drop. Consistent with
+the screening idea (close modes -> check), but one case is not a proof.
+Not done: classical isotropic-plate benchmark of the module; multi-mode Koiter; larger imperfections (Abaqus).
