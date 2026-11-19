@@ -1990,3 +1990,12 @@ The near-tie case 1 is the only one with b <= 0 and three modes within 1.8 % -> 
 there; needs the multi-mode (interaction) form; it is the case where Abaqus shows the small drop. Consistent with
 the screening idea (close modes -> check), but one case is not a proof.
 Not done: classical isotropic-plate benchmark of the module; multi-mode Koiter; larger imperfections (Abaqus).
+
+### 19 Nov 2026, 10:50 — Abaqus monitor node = skin midway between the stringers (Aya)
+Aya: the Riks reference point sat exactly midway between the stringers. GBT node used: the skin node nearest to the
+midpoint of the two stringer crowns (4.6 mm off for b_s 205; by symmetry it gives the same as the side-edge node).
+GBT Koiter post/pre stiffness ratio there: 0.37 / 0.24 / 0.41 (cases 2 / 3 / 4); Abaqus 0.48 / 0.28 / 0.50 just
+after the knee and 0.41 / - / 0.43 at higher load. Load at the same shortening, GBT vs Abaqus:
+case 2: -4.0 / -6.2 / -5.7 % (at 50 / 75 / 100 % of the Abaqus path); case 3: +0.4 / -3.3 / -4.4 %;
+case 4: -3.8 / -5.7 / -5.1 %. So the one-mode Koiter path at the monitored node is within 6.2 % of Riks up to
+1.8 N_cr and on the safe side (lower load). Next (Aya agreed): multi-mode Koiter for close modes (case 1).

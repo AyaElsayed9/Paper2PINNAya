@@ -35,10 +35,16 @@ def main():
         rn = sh0 / (sh0 + sh2 / (k["b"] * k["lam_c"])) if k["b"] > 0 else np.full(len(sh0), np.nan)
         i_mid = int(np.argmin(np.hypot(X[:, 0] - 0.0, X[:, 1])))            # skin node on the symmetry edge x = 0
         i_crown = int(np.argmax(X[:, 1]))
+        top = X[X[:, 1] > 0.9 * X[:, 1].max(), 0]                          # crown nodes of the stringers
+        cen = sorted({round(v, 0) for v in top}); cut = np.median(top)
+        xm = 0.5 * (top[top < cut].mean() + top[top >= cut].mean()) if (top < cut).any() else float(top.mean())
+        sk = np.nonzero(X[:, 1] < 1e-9)[0]
+        i_bay = int(sk[np.argmin(np.abs(X[sk, 0] - xm))])                    # skin node midway between the stringers
+        print("   mid-bay node x %.1f (stringer crowns at %.1f / %.1f)" % (X[i_bay, 0], top[top < cut].mean(), top[top >= cut].mean()))
         r = dict(bs=bs, beta=beta, L=bs * beta, lam=[float(v) for v in lam], gap12_pct=100 * (lam[1] / lam[0] - 1),
                  a=k["a"], b=k["b"], e0=k["e0"], e2=k["e2"], ratio_mean=k["stiff_ratio"],
                  ratio_node_min=float(np.nanmin(rn)), ratio_node_max=float(np.nanmax(rn)),
-                 ratio_edge_x0=float(rn[i_mid]), ratio_crown=float(rn[i_crown]),
+                 ratio_edge_x0=float(rn[i_mid]), ratio_crown=float(rn[i_crown]), ratio_midbay=float(rn[i_bay]),
                  pre_slope=1.0 / k["e0"])
         res[c] = r
         print(c, {q: (round(v, 4) if isinstance(v, float) else v) for q, v in r.items()}, flush=True)
@@ -50,7 +56,7 @@ def main():
         r.update(abq_pre_slope=slope(0.2, 0.7), abq_post_slope_1=slope(1.08, 1.3), abq_post_slope_2=slope(1.4, 1.8))
         r["abq_ratio_1"] = r["abq_post_slope_1"] / r["abq_pre_slope"]; r["abq_ratio_2"] = r["abq_post_slope_2"] / r["abq_pre_slope"]
         curves[c] = (dig, {}, k)
-        for name, (e0, e2) in dict(load_mean=(k["e0"], k["e2"]), skin_edge_x0=(sh0[i_mid], sh2[i_mid]),
+        for name, (e0, e2) in dict(load_mean=(k["e0"], k["e2"]), midbay=(sh0[i_bay], sh2[i_bay]),
                                    crown=(sh0[i_crown], sh2[i_crown])).items():
             if k["b"] > 0:
                 l, d = KO.imperfect_path(k, XI_BAR, lam_max_ratio=1.9, e0=e0, e2=e2); curves[c][1][name] = (d, l)
@@ -58,7 +64,7 @@ def main():
               r["abq_post_slope_2"], r["abq_ratio_1"], r["abq_ratio_2"]), flush=True)
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
     fig, axs = plt.subplots(2, 2, figsize=(10, 7.5))
-    sty = dict(load_mean=("-", "GBT Koiter: load-weighted mean shortening"), skin_edge_x0=("--", "GBT Koiter: skin node on the side edge"),
+    sty = dict(load_mean=("-", "GBT Koiter: load-weighted mean shortening"), midbay=("--", "GBT Koiter: skin node midway between the stringers (Abaqus monitor)"),
                crown=(":", "GBT Koiter: stringer crown node"))
     for ax, (c, (dig, cv, k)) in zip(axs.ravel(), curves.items()):
         ax.plot(dig[:, 0], dig[:, 1], color="#d62728", lw=2.2, label="Abaqus Riks (Paper 1, digitized)")
