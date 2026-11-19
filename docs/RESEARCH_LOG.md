@@ -2054,3 +2054,28 @@ elastic (no material failure / debonding).
    for crossply at L ~ 660 mm with 4 modes (two OOM kills) -> needs chunked field evaluation.
 Next: memory fix (chunk over x), choose coupled modes by type (global + local cluster), then the full path
 (Koiter-Newton or non-linear GBT) for the mixed-mode designs.
+
+### 19 Nov 2026, 23:40 — realistic design space and its stability screen (Aya: "make it realistic")
+Anchor (literature, checked): the NASA / Politecnico hat-stiffened panel (Bisagni, Vescovini & Davila, NASA TM
+2010 / 2012): L 720 mm, width 680, pitch 152 mm, h 30 mm, web 25 deg from the normal, 15 mm flanges, skin
+[45/90/-45/0]s 1 mm, stringer [-45/0/45/0/45/0/-45] 0.875 mm, IM7/8552 = the lay-ups / thicknesses / h of Paper 1
+and the GBT paper. POSICOSS curved panels: nominal length 680 mm, quasi-iso skin of 0.125 mm plies.
+Realistic space chosen: L 500-750 mm (frame pitch), b_s 124.25-205, h 20-35 mm (15 mm dropped: not realistic for a
+primary panel), the four expert lay-ups.
+Code: koiter.py memory fix: full K, Kg dropped after reduction (K a via the blocks), the bordered PARDISO solve
+replaced by PCG on the Gr-complement of the modes with the existing Kr factor (constrained_solve; 7-16 iterations).
+Regression: case 2 b 0.4342, ratio 0.676, case 1 b -0.0023, coupled B1111 14.2693 = previous; peak RSS 1.5 GB.
+scripts/realistic_screen.py (96 designs: 4 lay-ups x b_s {124.25,152,205} x h {20,25,30,35} x L {500,750}),
+results/koiter/realistic_screen.csv, 30-95 s per design:
+* critical mode: local in 92/96; a mixed global-local mode (G or L share ~0.5) is critical for +-45 at L 750 with
+  h 20-25 (N1 7.0-11.2 vs local 8.5-16.3) and for quasiiso b_s 152 h 20 L 750 (34.29, local cluster 1.4 % higher);
+  quasiiso b_s 124.25 h 20/25 L 750 also has a mixed mode far below the local cluster (38.8 vs 58.7).
+* coupled Koiter (modes within 10 %, max 5), imperfections +-0.1 / +-0.5 / +-1.0 mm: limit point in 1 of 96
+  designs and only for 0.1 mm (quasiiso 124.25/20/500, peak at 1.38 N1, 5 local modes within 2 %): beyond the range
+  of initial post-buckling and not present for larger imperfections -> treated as not reliable.
+* one-mode b > 0 everywhere except near-tie artefacts (quasiiso gap 0.009 %); post-buckling stiffness ratio
+  (load-weighted) 0.44-0.97; +-45 global-type designs 0.57-0.65.
+Reading: in the realistic space no design is imperfection-sensitive within initial post-buckling (knock-down of the
+buckling load ~1); the critical mode type does change (local <-> mixed global) inside the space, so mode-type
+prediction becomes testable. Not done: full non-linear path (Koiter-Newton / non-linear GBT) for the mixed-mode and
+the flagged design; Abaqus Riks for 2 designs; material failure along the path.

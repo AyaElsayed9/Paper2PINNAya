@@ -11,7 +11,7 @@ from pinnbuck import koiter as KO
 
 
 def parts(S, a):
-    sec = S["sec"]; nb = S["nb"]; Ka = S["K"] @ a; tot = float(a @ Ka)
+    sec = S["sec"]; nb = S["nb"]; Ka = S["Kmul"](a); tot = float(a @ Ka)
     grp = np.array(sec.group); out = {}
     for g in ("G", "D", "L"):
         k = np.nonzero(grp == g)[0]

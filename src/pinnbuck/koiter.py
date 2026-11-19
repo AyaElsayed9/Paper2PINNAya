@@ -14,7 +14,7 @@ from the compression-positive first-order resultants), so the eigenproblem is ex
 
 Koiter expansion, u = xi u1 + xi^2 u2, u1 the critical mode, u2 G-orthogonal to u1 (G11 = u1'Kg u1):
     lam / lam_c = 1 + a xi + b xi^2,   a = 3 C3(u1) / (lam_c G11)
-    (K - lam_c Kg) u2 = -r,  r = grad C3(u1)  (bordered solve, u2' Kg u1 = 0)
+    (K - lam_c Kg) u2 = -r,  r = grad C3(u1)  (constrained PCG, u2' Kg u1 = 0)
     E4 = C4(u1) + 1/2 r'u2,   b = 4 E4 / (lam_c G11)        (a = 0 case)
     end-shortening  D = lam e0 + xi^2 e2,  e0 = f'K^-1 f / P,  e2 = f'u2 / P   (P = total end load per unit lam)
     stable (b > 0): post-buckling stiffness / pre-buckling stiffness = e0 / (e0 + e2 / (b lam_c))
@@ -37,9 +37,10 @@ def assemble(fc):
     lb = fc.lb
     nb, nm, nip = lb.nb, sec.nm, sec.nip; ndof = nm * nb
     K = None
-    Kcs = m29._gbt_Kcs(sec)
+    Kcs = m29._gbt_Kcs(sec); Kblk = []
     for (d, e), A in Kcs.items():
         X = (lb.B[d].T @ sp.diags(lb.wx) @ lb.B[e]).tocsr()
+        Kblk.append((np.asarray(A), X))
         T = sp.kron(sp.csr_matrix(A), X, format="csr")
         K = T if K is None else K + T
     U = sec.U
@@ -105,8 +106,34 @@ def assemble(fc):
     pre = (Nres[..., 0], Nres[..., 1], Nres[..., 2])
     Kg = m29._omega_kg_assemble(sec, lb, pre, full, ndof)
     Gr = (Cm.T @ Kg @ Cm).tocsc(); Gr = 0.5 * (Gr + Gr.T)
-    return dict(sec=sec, lb=lb, K=K, Kg=Kg, Cm=Cm, f=f, Ptot=Ptot, Kr=Kr, Gr=Gr, solve=solve, release=release,
+    del K, Kg                                    # 19 Nov: full matrices dropped (memory); K a via the blocks
+
+    def Kmul(a):
+        C = a.reshape(nm, nb)
+        return sum(A @ C @ X.T for A, X in Kblk).ravel()
+    return dict(sec=sec, lb=lb, Kmul=Kmul, Cm=Cm, f=f, Ptot=Ptot, Kr=Kr, Gr=Gr, solve=solve, release=release,
                 a0=a0, full=full, nm=nm, nb=nb, ndof=ndof)
+
+
+def constrained_solve(S, lam_c, Vr, rhs, tol=1e-10, maxit=2000):
+    """w with (Kr - lam_c Gr) w = rhs - Gr Vr mu,  Vr' Gr w = 0  (Vr: buckling modes, reduced coords, columns).
+    PCG with the Kr factor as preconditioner: on the Gr-complement of the modes K - lam_c G is positive definite,
+    and both the operator and the preconditioner keep the iterates there (19 Nov, replaces the bordered solve)."""
+    Kr, Gr, Ksolve = S["Kr"], S["Gr"], S["solve"]
+    GV = Gr @ Vr; VGV = Vr.T @ GV
+    def projR(y):                                 # remove the GV part: V' y = 0
+        return y - GV @ np.linalg.solve(VGV, Vr.T @ y)
+    def projC(x):                                 # Gr-orthogonal complement of the modes
+        return x - Vr @ np.linalg.solve(VGV, GV.T @ x)
+    b = projR(rhs); x = np.zeros_like(b); r = b.copy(); z = projC(Ksolve(r)); p_ = z.copy(); rz = r @ z
+    nb_ = np.linalg.norm(b)
+    for it in range(maxit):
+        Ap = Kr @ p_ - lam_c * (Gr @ p_)
+        al = rz / (p_ @ Ap); x = x + al * p_; r = projR(r - al * Ap)
+        if np.linalg.norm(r) < tol * nb_:
+            return projC(x), it + 1
+        z = projC(Ksolve(r)); rzn = r @ z; p_ = z + (rzn / rz) * p_; rz = rzn
+    return projC(x), maxit
 
 
 def buckle(S, nev=3):
@@ -175,33 +202,25 @@ class Fields:
 
 def koiter(S, lam, V, mode=0):
     """Koiter coefficients of buckling mode `mode` (0 = critical)."""
-    Cm, Kg, f, P = S["Cm"], S["Kg"], S["f"], S["Ptot"]
+    Cm, f, P = S["Cm"], S["f"], S["Ptot"]
     F = Fields(S)
     v = V[:, mode]; a1 = Cm @ v
     s = 1.0 / F.maxdisp(torch.as_tensor(a1)); a1 = a1 * s; v = v * s                        # max nodal disp 1 mm
     lc = float(lam[mode])
-    G11 = float(a1 @ (Kg @ a1))
+    G11 = float(v @ (S["Gr"] @ v))
     t = torch.as_tensor(a1, dtype=torch.float64).requires_grad_(True)
     c3 = F.C3(t); (r,) = torch.autograd.grad(c3, t)
     C3v = float(c3); r = r.numpy(); C4v = float(F.C4(torch.as_tensor(a1)))
     a_coef = 3.0 * C3v / (lc * G11)
     rr = Cm.T @ r
-    Kt = (S["Kr"] - lc * S["Gr"]).tocsc()
-    gv = S["Gr"] @ v
-    Bd = sp.bmat([[Kt, sp.csc_matrix(gv[:, None])], [sp.csc_matrix(gv[None, :]), None]], format="csc")
-    try:
-        import pypardiso
-        sol = pypardiso.spsolve(Bd, np.concatenate([-rr, [0.0]]))
-    except Exception:
-        sol = spla.spsolve(Bd, np.concatenate([-rr, [0.0]]))
-    u2 = sol[:-1]; res = np.linalg.norm(Bd @ sol - np.concatenate([-rr, [0.0]])) / max(np.linalg.norm(rr), 1e-300)
+    u2, res = constrained_solve(S, lc, v[:, None], -rr)
     E4 = C4v + 0.5 * float(rr @ u2)
     b_coef = 4.0 * E4 / (lc * G11)
     e0 = float(f @ S["a0"]) / P
     e2 = float(f @ (Cm @ u2)) / P
     ratio = e0 / (e0 + e2 / (b_coef * lc)) if b_coef > 0 else float("nan")
     return dict(lam_c=lc, G11=G11, C3=C3v, C4=C4v, E4=E4, a=a_coef, b=b_coef, e0=e0, e2=e2,
-                stiff_ratio=ratio, solve_res=res, u1=a1, u2=Cm @ u2, lmult=float(sol[-1]))
+                stiff_ratio=ratio, cg_iters=res, u1=a1, u2=Cm @ u2)
 
 
 def imperfect_path(k, xi_bar, lam_max_ratio=2.0, n=400, e0=None, e2=None):
@@ -229,12 +248,12 @@ def imperfect_path(k, xi_bar, lam_max_ratio=2.0, n=400, e0=None, e2=None):
 #   Shortening D = lam e0 + sum_ij [(xi_i + xibar_i)(xi_j + xibar_j) - xibar_i xibar_j] e_ij,  e_ij = f'w_ij / P.
 # ---------------------------------------------------------------------------------------------------------------
 def koiter_multi(S, lam, V, M):
-    Cm, Kg, f, P = S["Cm"], S["Kg"], S["f"], S["Ptot"]
+    Cm, f, P = S["Cm"], S["f"], S["Ptot"]
     F = Fields(S); W = F.W(); dt = torch.float64
     U = []; Vr = []
     for i in range(M):
         a = Cm @ V[:, i]; s = 1.0 / F.maxdisp(torch.as_tensor(a)); U.append(a * s); Vr.append(V[:, i] * s)
-    Gd = np.array([float(U[i] @ (Kg @ U[i])) for i in range(M)])
+    Gd = np.array([float(Vr[i] @ (S["Gr"] @ Vr[i])) for i in range(M)])
     T = [torch.as_tensor(u, dtype=dt) for u in U]
     A = [F.amp(t) for t in T]; g = [F.grad(x) for x in A]
     Nl = [torch.einsum("pca,xpa->xpc", F.Cp[:, :3, :], F.lin(x)) for x in A]
@@ -247,17 +266,7 @@ def koiter_multi(S, lam, V, M):
                                           + (Nl[k] * q[i, j]).sum(-1))).sum()) / 3.0
                 for l in range(M):
                     Q[i, j, k, l] = 0.5 * float((W * torch.einsum("xpi,pij,xpj->xp", q[i, j], F.Cp[:, :3, :3], q[k, l])).sum())
-    Kt = (S["Kr"] - float(lam[0]) * S["Gr"]).tocsc()
-    Gv = np.stack([S["Gr"] @ v for v in Vr], 1)
-    Bd = sp.bmat([[Kt, sp.csc_matrix(Gv)], [sp.csc_matrix(Gv.T), None]], format="csc")
-    try:
-        import pypardiso
-        def bsolve(rhs):
-            return pypardiso.spsolve(Bd, rhs)
-    except Exception:
-        lu = spla.splu(Bd)
-        def bsolve(rhs):
-            return lu.solve(rhs)
+    Vm = np.stack(Vr, 1); its = []
     r = {}; w = {}
     for i in range(M):
         for j in range(i, M):
@@ -268,8 +277,9 @@ def koiter_multi(S, lam, V, M):
             # 3 c(u_i,u_j,d) = int [N(d) q_ij + N_i q(u_j,d) + N_j q(u_i,d)],  q = quad = symmetric bilinear eps_Q
             (rv,) = torch.autograd.grad(val, d)
             rr = Cm.T @ rv.numpy()
-            sol = bsolve(np.concatenate([-rr, np.zeros(M)]))
-            r[i, j] = r[j, i] = rr; w[i, j] = w[j, i] = sol[:-M]
+            sol, it = constrained_solve(S, float(lam[0]), Vm, -rr); its.append(it)
+            del d, Ad, gd, Nd, val, rv
+            r[i, j] = r[j, i] = rr; w[i, j] = w[j, i] = sol
     B = np.zeros((M, M, M, M))
     for i in range(M):
         for j in range(M):
@@ -280,7 +290,7 @@ def koiter_multi(S, lam, V, M):
     B = sum(np.transpose(B, p) for p in itertools.permutations(range(4))) / 24.0     # fully symmetric quartic form
     e0 = float(f @ S["a0"]) / P
     E = np.array([[float(f @ (Cm @ w[i, j])) / P for j in range(M)] for i in range(M)])
-    return dict(M=M, lam=np.asarray(lam[:M], float), G=Gd, c=c, Q=Q, B=B, e0=e0, E=E,
+    return dict(M=M, lam=np.asarray(lam[:M], float), G=Gd, c=c, Q=Q, B=B, e0=e0, E=E, cg_iters=its,
                 U=U, W={k: Cm @ v for k, v in w.items()})
 
 
