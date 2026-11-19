@@ -217,3 +217,109 @@ def imperfect_path(k, xi_bar, lam_max_ratio=2.0, n=400, e0=None, e2=None):
             break
         out_l.append(r * lc); out_d.append(r * lc * e0 + (xi ** 2 + 2 * xi * xi_bar) * e2)
     return np.array(out_l), np.array(out_d)
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# Multi-mode (interaction) Koiter, 19 Nov 2026.  Modes u_i (i < M) with loads lam_i close to lam_1:
+#   Pi(xi) = sum_i 1/2 G_ii (lam_i - lam) xi_i^2 - lam sum_i G_ii xibar_i xi_i + sum_ijk c_ijk xi_i xi_j xi_k
+#            + sum_ijkl B_ijkl xi_i xi_j xi_k xi_l
+#   c_ijk = c(u_i, u_j, u_k) (C3(u) = c(u, u, u));  second-order fields w_ij: (K - lam_1 Kg) w_ij = -r_ij,
+#   r_ij = 3 c(u_i, u_j, .),  w_ij Kg-orthogonal to every u_k;  B_ijkl = Q_ijkl + 1/2 r_ij' w_kl,
+#   Q_ijkl = 1/2 int q(u_i,u_j)' A q(u_k,u_l)  (q = symmetric bilinear form of eps_Q).
+#   Shortening D = lam e0 + sum_ij [(xi_i + xibar_i)(xi_j + xibar_j) - xibar_i xibar_j] e_ij,  e_ij = f'w_ij / P.
+# ---------------------------------------------------------------------------------------------------------------
+def koiter_multi(S, lam, V, M):
+    Cm, Kg, f, P = S["Cm"], S["Kg"], S["f"], S["Ptot"]
+    F = Fields(S); W = F.W(); dt = torch.float64
+    U = []; Vr = []
+    for i in range(M):
+        a = Cm @ V[:, i]; s = 1.0 / F.maxdisp(torch.as_tensor(a)); U.append(a * s); Vr.append(V[:, i] * s)
+    Gd = np.array([float(U[i] @ (Kg @ U[i])) for i in range(M)])
+    T = [torch.as_tensor(u, dtype=dt) for u in U]
+    A = [F.amp(t) for t in T]; g = [F.grad(x) for x in A]
+    Nl = [torch.einsum("pca,xpa->xpc", F.Cp[:, :3, :], F.lin(x)) for x in A]
+    q = {(i, j): F.quad(g[i], g[j]) for i in range(M) for j in range(M)}
+    c = np.zeros((M, M, M)); Q = np.zeros((M, M, M, M))
+    for i in range(M):
+        for j in range(M):
+            for k in range(M):
+                c[i, j, k] = float((W * ((Nl[i] * q[j, k]).sum(-1) + (Nl[j] * q[i, k]).sum(-1)
+                                          + (Nl[k] * q[i, j]).sum(-1))).sum()) / 3.0
+                for l in range(M):
+                    Q[i, j, k, l] = 0.5 * float((W * torch.einsum("xpi,pij,xpj->xp", q[i, j], F.Cp[:, :3, :3], q[k, l])).sum())
+    Kt = (S["Kr"] - float(lam[0]) * S["Gr"]).tocsc()
+    Gv = np.stack([S["Gr"] @ v for v in Vr], 1)
+    Bd = sp.bmat([[Kt, sp.csc_matrix(Gv)], [sp.csc_matrix(Gv.T), None]], format="csc")
+    try:
+        import pypardiso
+        def bsolve(rhs):
+            return pypardiso.spsolve(Bd, rhs)
+    except Exception:
+        lu = spla.splu(Bd)
+        def bsolve(rhs):
+            return lu.solve(rhs)
+    r = {}; w = {}
+    for i in range(M):
+        for j in range(i, M):
+            d = torch.zeros(len(U[0]), dtype=dt, requires_grad=True)
+            Ad = F.amp(d); gd = F.grad(Ad); Nd = torch.einsum("pca,xpa->xpc", F.Cp[:, :3, :], F.lin(Ad))
+            val = (W * ((Nd * q[i, j]).sum(-1) + (Nl[i] * F.quad(g[j], gd)).sum(-1)
+                        + (Nl[j] * F.quad(g[i], gd)).sum(-1))).sum()
+            # 3 c(u_i,u_j,d) = int [N(d) q_ij + N_i q(u_j,d) + N_j q(u_i,d)],  q = quad = symmetric bilinear eps_Q
+            (rv,) = torch.autograd.grad(val, d)
+            rr = Cm.T @ rv.numpy()
+            sol = bsolve(np.concatenate([-rr, np.zeros(M)]))
+            r[i, j] = r[j, i] = rr; w[i, j] = w[j, i] = sol[:-M]
+    B = np.zeros((M, M, M, M))
+    for i in range(M):
+        for j in range(M):
+            for k in range(M):
+                for l in range(M):
+                    B[i, j, k, l] = Q[i, j, k, l] + 0.5 * float(r[i, j] @ w[k, l])
+    import itertools
+    B = sum(np.transpose(B, p) for p in itertools.permutations(range(4))) / 24.0     # fully symmetric quartic form
+    e0 = float(f @ S["a0"]) / P
+    E = np.array([[float(f @ (Cm @ w[i, j])) / P for j in range(M)] for i in range(M)])
+    return dict(M=M, lam=np.asarray(lam[:M], float), G=Gd, c=c, Q=Q, B=B, e0=e0, E=E,
+                U=U, W={k: Cm @ v for k, v in w.items()})
+
+
+def multi_path(km, xibar, lam_max_ratio=1.9, ds=0.01, nmax=20000, e0=None, E=None):
+    """Equilibrium path of the reduced M-mode model with imperfection xibar (vector, mm) by pseudo-arc-length
+    continuation in (xi, lam).  Returns lam, xi (n, M), shortening D."""
+    lamv, Gd, c, B = km["lam"], km["G"], km["c"], km["B"]
+    e0 = km["e0"] if e0 is None else e0; E = km["E"] if E is None else E
+    M = len(lamv); xb = np.asarray(xibar, float); sc = lamv[0]
+    def R(x, l):          # dPi/dxi, scaled by lam_1 G_ii
+        return (Gd * (lamv - l) * x - l * Gd * xb + 3 * np.einsum("ijk,j,k->i", c, x, x)
+                + 4 * np.einsum("ijkl,j,k,l->i", B, x, x, x)) / (sc * Gd)
+    def J(x, l):
+        Jx = (np.diag(Gd * (lamv - l)) + 6 * np.einsum("ijk,k->ij", c, x) + 12 * np.einsum("ijkl,k,l->ij", B, x, x)) / (sc * Gd)[:, None]
+        Jl = (-Gd * x - Gd * xb) / (sc * Gd)
+        return Jx, Jl
+    x = np.zeros(M); l = 0.0
+    # predictor direction: start along increasing lam
+    t = np.zeros(M + 1); t[-1] = 1.0
+    out = [(l, x.copy())]
+    for _ in range(nmax):
+        Jx, Jl = J(x, l); Ja = np.hstack([Jx, Jl[:, None]])
+        # tangent: null vector of Ja, oriented like the previous tangent
+        _, _, Vt = np.linalg.svd(np.vstack([Ja, np.zeros((1, M + 1))]))
+        tn = Vt[-1]; tn = tn if tn @ t >= 0 else -tn; t = tn
+        y = np.concatenate([x, [l / sc]]) + ds * t
+        for _ in range(30):
+            xx, ll = y[:-1], y[-1] * sc
+            Rv = R(xx, ll); Jx, Jl = J(xx, ll)
+            Ja = np.vstack([np.hstack([Jx, (Jl * sc)[:, None]]), t[None, :]])
+            rhs = np.concatenate([Rv, [t @ (y - np.concatenate([x, [l / sc]])) - ds]])
+            dy = np.linalg.solve(Ja, -rhs); y = y + dy
+            if np.abs(dy).max() < 1e-12:
+                break
+        x, l = y[:-1], y[-1] * sc
+        out.append((l, x.copy()))
+        if l > lam_max_ratio * sc or np.abs(x).max() > 8:
+            break
+    L = np.array([o[0] for o in out]); X = np.array([o[1] for o in out])
+    Xt = X + xb[None, :]
+    D = L * e0 + np.einsum("ni,ij,nj->n", Xt, E, Xt) - float(xb @ E @ xb)
+    return L, X, D

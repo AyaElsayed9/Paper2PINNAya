@@ -1999,3 +1999,22 @@ after the knee and 0.41 / - / 0.43 at higher load. Load at the same shortening, 
 case 2: -4.0 / -6.2 / -5.7 % (at 50 / 75 / 100 % of the Abaqus path); case 3: +0.4 / -3.3 / -4.4 %;
 case 4: -3.8 / -5.7 / -5.1 %. So the one-mode Koiter path at the monitored node is within 6.2 % of Riks up to
 1.8 N_cr and on the safe side (lower load). Next (Aya agreed): multi-mode Koiter for close modes (case 1).
+
+### 19 Nov 2026, 11:40 — multi-mode (coupled) Koiter (koiter.koiter_multi + multi_path)
+Modes within 5 % of N_cr coupled (Byskov-Hutchinson form: cubic c_ijk, quartic B_ijkl = Q + 1/2 r_ij'w_kl
+fully symmetrised, second-order fields Kg-orthogonal to all coupled modes, reduced path by arc-length).
+Checks: with M = 1 it reproduces the one-mode a, b, e2 exactly; for case 1 the one-mode b (-0.13 raw) = coupled
+B1111 minus the mode-2 coupling term 9 c_112^2 / (2 G_22 (N_2 - N_1)) exactly (c_112 = 1.74 is the only coupling).
+scripts/koiter_multi_paper1.py -> results/koiter/paper1_multi.json, paper1_multi_paths.png/.csv (monitor = mid-bay):
+| case | coupled modes | load vs Abaqus at 50 / 75 / 100 % of the Abaqus shortening: one mode | coupled |
+| 1 | 4 (within 3.9 %) | +0.5 / -0.7 / -7.4 % (one mode peaks at 16.19 and falls) | +0.5 / -0.7 / -4.7 % (no peak, keeps rising) |
+| 2 | 2 | -4.8 / -7.3 / -6.9 % | same (no coupling: c = 0) |
+| 3 | 2 | +0.4 / -3.3 / -4.4 % | same |
+| 4 | 2 | -2.9 / -4.5 / -3.8 % | same |
+(cases 2/4 differ by ~1 % from the 10:50 numbers: the sign of the eigenvector flipped between runs and a != 0
+makes the imperfection sign matter slightly.)
+Correction of the 15:30 (18 Nov) reading: case 1's negative one-mode b is an artefact of the near-tie (mode 2
+only 1.6 % higher is "slaved"); with the modes coupled, case 1 is stable and follows Abaqus to -4.7 % at its end.
+The small Abaqus drop at 17.2 N/mm is not reproduced (a mode change beyond initial post-buckling, or numerical).
+So all four Paper 1 cases are stable: local skin buckling with knock-down ~1. Imperfection-sensitive designs, if
+any, have to be found in the design space (screen next).
