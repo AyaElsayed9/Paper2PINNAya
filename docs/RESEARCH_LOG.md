@@ -2031,3 +2031,26 @@ needs local-global (or distortional) interaction, which this design space does n
 local, 16 Nov). Options for Aya: (a) extend the space (longer panels / larger beta, smaller stringers, +-45 beyond
 beta 6 where the GBT paper found a long-wave mode) to find interaction, (b) report, for stable designs, the
 imperfection effect on stiffness / deflection (e.g. load at which the skin deflection reaches its thickness).
+
+### 19 Nov 2026, 13:00 — where can local and global modes interact? (option (a), Aya agreed)
+Aya asked whether anything besides Koiter covers post-buckling: answered with (1) Koiter = fast screen, (2) full
+geometrically non-linear GBT with arc-length (Silvestre & Camotim 2003; Silva, Silvestre & Camotim for FRP),
+(3) Koiter-Newton (Liang, Abdalla, Gurdal 2013) = Koiter predictor + Newton corrector over the whole path; all
+elastic (no material failure / debonding).
+1. scripts/long_panel_scan.py (crossply, h 30, beta 3.5-10): mode 1 stays local up to L = 1435 mm; the run was
+   killed for memory at b_s 205, beta 10 (8 GB machine) -> results/koiter/long_scan.csv (7 designs).
+2. scripts/interaction_scan.py: local plateau (full model, beta 3) vs global load (model restricted to G + axial +
+   shear-warping modes at 3 and 6 b_s, Euler-with-shear fit) -> crossing beta* (results/koiter/interaction_scan.csv):
+   h 30 mm (current space): beta* 10-13 (L* 1.3-3.7 m); h 20: 6.9-9.1; h 15: 5.2-7.0 (L* 0.65-1.96 m).
+   So the current stringers (h fixed at 30) cannot interact at realistic lengths; stringer height has to become a
+   design variable.
+3. scripts/interaction_check.py, full model at the crossing (h 15, b_s 124.25): the scan's G-only estimate is too
+   high for quasiiso: a MIXED mode (about half global, half local/other) becomes critical already at beta 4.0-4.4
+   (L 497-547 mm): beta 4.0: N1 58.69 (L 0.49) vs local cluster 62.0; beta 4.4: 49.91 (G 0.47); beta 4.7-5.7: mixed
+   mode 44.9-33.4, pure global second (results/koiter/interaction_check.csv, _pass1.csv).
+   Coupled Koiter (lowest modes within 10 %, max 4) with imperfections +-0.1 / +-0.5 mm: no limit point up to
+   1.5 N_cr in any of these designs. Two limits of this check: (i) the coupled set is chosen by load only and may
+   miss the pure global mode that drives classical local-global interaction; (ii) koiter_multi runs out of memory
+   for crossply at L ~ 660 mm with 4 modes (two OOM kills) -> needs chunked field evaluation.
+Next: memory fix (chunk over x), choose coupled modes by type (global + local cluster), then the full path
+(Koiter-Newton or non-linear GBT) for the mixed-mode designs.
