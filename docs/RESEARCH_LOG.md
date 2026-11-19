@@ -2018,3 +2018,16 @@ only 1.6 % higher is "slaved"); with the modes coupled, case 1 is stable and fol
 The small Abaqus drop at 17.2 N/mm is not reproduced (a mode change beyond initial post-buckling, or numerical).
 So all four Paper 1 cases are stable: local skin buckling with knock-down ~1. Imperfection-sensitive designs, if
 any, have to be found in the design space (screen next).
+
+### 19 Nov 2026, 12:20 — stability screen of the Paper 2 design space (scripts/koiter_screen.py, 40 designs)
+5 test designs per expert (8 experts), coupled-mode Koiter (modes within 5 %), mode-shaped imperfections of
++-0.1 and +-0.5 mm (skin 1 mm thick), path followed to 1.5 N_cr. results/koiter/screen.csv, 7-27 s per design.
+Result: no design reaches a maximum load (0 limit points in 160 paths). One-mode b: crossply 0.29-0.56,
+quasiiso -0.08-0.33, zerorich 0.06-0.34, +-45 0.15-0.19 (lowest of the lay-ups but positive). The negative one-mode
+b (periodic quasiiso, modes 1-2 0.06 % apart) is again a near-tie artefact: coupled, it is stable.
+Reading: the whole current design space is local skin buckling with stable post-buckling -> imperfections soften
+the knee but give no knock-down of a limit load (within initial post-buckling). An imperfection-sensitive design
+needs local-global (or distortional) interaction, which this design space does not contain (all 320 test designs
+local, 16 Nov). Options for Aya: (a) extend the space (longer panels / larger beta, smaller stringers, +-45 beyond
+beta 6 where the GBT paper found a long-wave mode) to find interaction, (b) report, for stable designs, the
+imperfection effect on stiffness / deflection (e.g. load at which the skin deflection reaches its thickness).
