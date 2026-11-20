@@ -2079,3 +2079,26 @@ Reading: in the realistic space no design is imperfection-sensitive within initi
 buckling load ~1); the critical mode type does change (local <-> mixed global) inside the space, so mode-type
 prediction becomes testable. Not done: full non-linear path (Koiter-Newton / non-linear GBT) for the mixed-mode and
 the flagged design; Abaqus Riks for 2 designs; material failure along the path.
+
+### 20 Nov 2026, 13:30 — non-linear GBT (nlgbt.py) on Paper 1 case 2; Prof. Mittelstedt's comments (GBT paper)
+1. src/pinnbuck/nlgbt.py: full geometrically non-linear path of the same GBT energy as koiter.py, reduced basis
+   [pre-buckling, 8 modes, 15 second-order fields], Newton + pseudo-arc-length, basis enrichment with K^-1 (full
+   residual) until the energy-norm error estimate <= 2 %. Case 2 (cross-ply 205 / 1.67, imperfection 0.01 mm,
+   shortening at mid-bay): error 10 % -> 4.5 -> 2.8 -> 2.2 -> 1.6 % over 4 enrichment rounds (44 min).
+   Load vs Abaqus Riks at 25 / 50 / 75 / 100 % of the Abaqus shortening:
+     round 0 (basis 24, error up to 10 %): +0.2 / -3.0 / -2.3 / +1.9 %
+     round 4 (basis 47, error <= 1.6 %):   +0.2 / -4.7 / -8.7 / -10.3 %
+   Honest reading: the close match of round 0 was luck (basis too small); the converged GBT path is softer than
+   Abaqus after buckling, up to -10 % at 1.8 N_cr (safe side); one-mode Koiter at the same node gave -4 / -6 / -6 %.
+   The cause of the extra softness is not known yet (GBT kinematics, the von Karman-type strains vs Abaqus S4R
+   large rotations, or the exact monitor definition). results/koiter/nlgbt_case2_midbay.csv.
+   Runs started for the three flagged realistic designs (scripts/nl_designs.py, logs/run_nl_designs.sh, 0.5 mm).
+2. Prof. Mittelstedt's 17 comments (manuscript/revisions/cm_19112026/): none says a result is wrong; 11 clarity,
+   4 explanations, C64 (load distribution) and C22 (references) substantive.
+   C64 check (scripts/c64_uniform_strain.py, results/c64_uniform_strain.csv, 32 cells, solver unchanged, only the
+   section load intensities): uniform-end-strain loading (line load proportional to A11 of each wall) changes the
+   critical mean force per unit width by -0.3 to -0.5 % (Cross-ply, Unsym) and -1.8 to -4.3 % (Sym1, Sym2).
+   fix_cm1.py: 11 tracked edits under Aya's name (C31, C37, C41, C46, C50, C54, C61, C64, C65, C67, C71);
+   replies_cm1.py: 17 threaded replies under Aya's name; validated -> GBT_periodic-NK-CM-AME-20112026.docx.
+   Pending (drafted in replies_draft.md, need Aya's OK): C22 references sentence + reference list, C32 figure,
+   rewrites of C47, C49, C53, C58.
