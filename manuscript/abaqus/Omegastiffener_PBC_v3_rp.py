@@ -138,7 +138,12 @@ def apply_periodic(m, a, inst, W, L, bc, sides, tol=1e-3):
             if bc == "SS" and at_end and dof == 2:
                 continue      # SS: U2 = 0 is already prescribed on both corner nodes
             if bc == "SS" and at_end and dof == 3 and LOAD_MODE == "RP":
-                continue      # RP: both corner nodes already follow the same reference point in U3
+                # RP: the x = 0 corner is coupled to the end RP in U3 (RP rotations held, so its U3 equals
+                # the RP's U3); the x = -W corner is not coupled (it is eliminated here) and follows the RP
+                rp_set = "Set_RP0" if z < tol else "Set_RPL"
+                m.Equation(name="PBC_%d_%d" % (k, dof), terms=((1.0, "PBC_L%d" % k, 3), (-1.0, rp_set, 3)))
+                n_eq += 1
+                continue
             terms = [(1.0, "PBC_L%d" % k, dof), (-1.0, "PBC_R%d" % k, dof)]
             if free and dof in (1, 3):
                 terms.append((1.0, "PBC_DUMMY", dof))                 # u_L = u_R - jump
@@ -321,6 +326,11 @@ def run_case(bs_val, beta_val, layup_name, mat_type, seq_skin, seq_stiff, out_di
         y_tie = clearance + 0.5                         # stringer nodes below: tie-secondary (flanges), not coupled
         for zc, nm in ((0.0, "0"), (panel_len_input, "L")):
             lab_s = [n.label for n in i_skin.nodes if abs(n.coordinates[2] - zc) < tol_z]
+            if sides != "SYM":
+                # the x = -W corner node is the eliminated node of the periodic equations; a node may be
+                # eliminated only once, so it is not coupled here: apply_periodic ties its U3 to the RP
+                lab_s = [n.label for n in i_skin.nodes if abs(n.coordinates[2] - zc) < tol_z
+                         and abs(n.coordinates[0] + panel_width) > tol_z]
             lab_t = [n.label for n in i_stiff.nodes if abs(n.coordinates[2] - zc) < tol_z and n.coordinates[1] > y_tie]
             reg = a.SetFromNodeLabels(name="Set_End" + nm,
                                       nodeLabels=(("Inst_Skin", tuple(lab_s)), ("Inst_Stiff", tuple(lab_t))))

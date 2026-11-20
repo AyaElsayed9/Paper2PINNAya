@@ -2142,3 +2142,15 @@ qi_124_20_500 (the one Koiter-screen limit point, 0.1 mm only): with a 0.5 mm mo
 GBT path rises to 1.61 N1 with no limit point (basis error 6.2 % after 4 enrichment rounds, not fully converged).
 All three flagged realistic designs are stable to 1.6 N1 in the non-linear GBT; convergence is good for +-45 (1.3 %)
 and only moderate for the two quasiiso designs (5-6 %).  results/koiter/nl_*.npz, runs/experts/nl_designs.log.
+
+### 20 Nov 2026, 17:20 — Abaqus RP runs (C64) failed in the pre-processor; script fixed
+Aya's first run of Omegastiffener_PBC_v3_rp.py (Cross-ply 150/1.5 and Sym1 150/1.5, PANEL_LOAD=RP, PBC sides) stopped
+in pre.exe (.dat: "DEGREE OF FREEDOM 1 DOES NOT EXIST FOR NODE 3 / NODE 4 INSTANCE INST_SKIN ... ALREADY BEEN
+ELIMINATED", 3 fatal errors; no eigenvalue, so "Ncr=FAILED").  Nodes 3 and 4 are the x = -W skin corners at z = 0
+and z = L: they were in the U3 kinematic coupling AND the eliminated (first) term of the periodic equations.  An
+Abaqus node may be the eliminated node of only one constraint, so this was over-constrained by construction (my
+mistake in the script, not a modelling question).  Fix: the x = -W end corners are no longer coupled; their U3 is
+tied to the end RP by one equation each (U3_L - U3_RP = 0; the RP rotations are held, so this is the same kinematics
+as the coupling).  80 skin + 48 stringer nodes coupled per end.  Not yet re-run.  Also checked: the old 11 Nov
+line-load job (val_bs150_beta1p5_Crossmply_PBC) gives N_cr = 31.464 N/mm -> P_cr/W = 55.09 N/mm (GBT 31.24, -0.7 %).
+GBT predictions for the RP runs, written before the result (P_cr/W, flat ends): Cross-ply 55.43, Sym1 25.54 N/mm.
