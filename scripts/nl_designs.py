@@ -26,7 +26,7 @@ def main():
         S = KO.assemble(fc); lam, V = KO.buckle(S, 8)
         Phi, km = NL.basis(S, lam, V, M_modes=8, M_pairs=5)
         F = KO.Fields(S); u1 = S["Cm"] @ V[:, 0]; u1 = u1 / F.maxdisp(torch.as_tensor(u1))
-        out, R = NL.solve_path(S, Phi, xb * u1, 1.6 * lam[0], tol_err=0.02, rounds=4, ds_max=0.5)
+        out, R = NL.solve_path(S, Phi, xb * u1, 1.6 * lam[0], tol_err=0.02, rounds=4, ds_max=2.0)
         Phi = out["basis"]; i = midbay(S["sec"].X)
         dmid = np.array([node_shortening(S, Phi[:, k], fc.L)[i] for k in range(Phi.shape[1])])
         dmean = (Phi.T @ S["f"]) / S["Ptot"]

@@ -53,6 +53,11 @@ class Reduced:
         c4 = 0.5 * (self.W * torch.einsum("xpi,pij,xpj->xp", e, self.Am, e)).sum()
         return lin + c3 + c4
 
+    def grad(self, y):
+        yt = torch.as_tensor(y, dtype=DT).requires_grad_(True)
+        (g,) = torch.autograd.grad(self.energy(yt), yt)
+        return g.numpy()
+
     def grad_hess(self, y):
         yt = torch.as_tensor(y, dtype=DT)
         g = torch.autograd.functional.jacobian(self.energy, yt, create_graph=False)
@@ -141,9 +146,13 @@ def path(R: Reduced, lam_max, ds=0.05, nmax=400, tol=1e-9, check_every=10, verbo
     Ys, Ls, Res = [y.copy()], [0.0], []
     for step in range(nmax):
         yp = y + ds * t[:-1]; lp = lam + ds * t[-1] / sc_l
-        ok = False
-        for it in range(25):
-            g, H = R.grad_hess(yp)
+        ok = False; H = None
+        for it in range(30):
+            # modified Newton (20 Nov): the Hessian is rebuilt only at the first iteration and when convergence slows
+            if H is None or it in (6, 12, 18, 24):
+                g, H = R.grad_hess(yp)
+            else:
+                g = R.grad(yp)
             r = g - lp * f
             c = t[:-1] @ (yp - y) + t[-1] * (lp - lam) * sc_l - ds
             J = np.zeros((n + 1, n + 1)); J[:n, :n] = H; J[:n, n] = -f / sc_l; J[n, :n] = t[:-1]; J[n, n] = t[-1]
@@ -159,9 +168,9 @@ def path(R: Reduced, lam_max, ds=0.05, nmax=400, tol=1e-9, check_every=10, verbo
         tn = np.concatenate([yp - y, [(lp - lam) * sc_l]]); tn /= np.linalg.norm(tn)
         t = tn; y = yp; lam = lp
         Ys.append(y.copy()); Ls.append(lam)
-        if nit <= 4:
+        if nit <= 6:
             ds = min(ds * 1.4, ds_max)            # adaptive arc length
-        elif nit > 8:
+        elif nit > 14:
             ds *= 0.7
         if check_every and len(Ls) % check_every == 0:
             Res.append((len(Ls) - 1, R.full_residual(y, lam)[0]))

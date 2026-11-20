@@ -29,7 +29,8 @@ def draw_sec(ax, sec, X=None, color=None, lw=0.9, z=2, alpha=1.0, ls="-"):
     segs = P.seg_lines(sec, X)
     cols = [color or PART[sec.wpart[s["w"]]] for s in sec.S]
     lss = [(0, (2, 1.2)) if sec.wpart[s["w"]] == "link" and color is None else ls for s in sec.S]
-    lc = LineCollection(segs, colors=cols, linewidths=lw, zorder=z, alpha=alpha, linestyles=lss, capstyle="round")
+    lws = [lw * 1.6 if sec.wpart[s["w"]] == "link" and color is None else lw for s in sec.S]   # link walls visible (C31)
+    lc = LineCollection(segs, colors=cols, linewidths=lws, zorder=z, alpha=alpha, linestyles=lss, capstyle="round")
     ax.add_collection(lc)
     return lc
 
@@ -75,7 +76,8 @@ def fig01():
         a.plot(*zip(pr(X[n, 0], 0, 0), pr(X[n, 0], 0, Ldraw)), color="#c0392b", lw=1.3, zorder=6)
     xm, ym = pr(X[sL, 0], 0, 0.3 * Ldraw)
     a.text(xm - 11, ym, r"side edge $s_L$", ha="right", va="center", fontsize=7.5, color="#c0392b")
-    a.text(X[sR, 0] + 6, -13, r"side edge $s_R$", ha="left", va="center", fontsize=7.5, color="#c0392b")
+    xm2, ym2 = pr(X[sR, 0], 0, 0.0)
+    a.text(xm2 + 16, ym2 - 6, r"side edge $s_R$", ha="left", va="top", fontsize=7.5, color="#c0392b")
     # end load: arrows along the loaded edges (compression, pointing into the cell)
     for xx, sgn in ((0.0, 1.0), (Ldraw, -1.0)):
         for Xa in np.linspace(x0 + 12, x1 - 12, 11):
@@ -83,21 +85,27 @@ def fig01():
             a.annotate("", xy=p1, xytext=p0, arrowprops=dict(arrowstyle="-|>", lw=0.5, color=INK, mutation_scale=5), zorder=7)
     a.text(*pr(x0 - 4, 0, -38), r"$n_0$", ha="right", va="center", fontsize=8)
     a.text(*pr(x1 + 4, 0, Ldraw + 38), r"$n_0$", ha="left", va="center", fontsize=8)
-    # axes triad
+    # axes triad at the origin O: X = 0 (loaded end), Y = 0 (side edge s_R), Z = 0 (skin mid-plane)
+    #   (20 Nov 2026, Prof. Mittelstedt C32: the origin of the coordinate system is now shown)
     from matplotlib.patches import FancyArrowPatch
-    o = np.array([x0 - 30, 52.0])
-    for d_, lab in ((np.array([28.0, 0]), r"$Y$"), (np.array([0, 26.0]), r"$Z$"), (np.array([c, sn]) * 46, r"$X$")):
-        a.add_patch(FancyArrowPatch(tuple(o), tuple(o + d_), arrowstyle="-|>", mutation_scale=6, lw=0.6, color=INK, zorder=9))
-        a.text(*(o + d_ * 1.12 + np.array([1.5, 0])), lab, fontsize=8, ha="left", va="center")
+    o = np.array(pr(0.0, 0.0, 0.0))
+    for d_, lab in ((np.array([-30.0, 0]), r"$Y$"), (np.array([0, 26.0]), r"$Z$"), (np.array([c, sn]) * 46, r"$X$")):
+        a.add_patch(FancyArrowPatch(tuple(o), tuple(o + d_), arrowstyle="-|>", mutation_scale=6, lw=0.7, color=INK, zorder=9))
+        if lab == r"$Y$":
+            a.text(*(o + d_ + np.array([2.0, 5.0])), lab, fontsize=8, ha="center", va="bottom", zorder=9)
+        else:
+            a.text(*(o + d_ * 1.12 + np.array([1.5, 0])), lab, fontsize=8, ha="left", va="center", zorder=9)
+    a.plot(*o, "o", ms=2.6, color=INK, zorder=10)
+    a.text(o[0] + 1.0, o[1] - 6, r"$O$", fontsize=8, ha="center", va="top", zorder=10)
     # dimension of the cell length
-    p0, p1 = pr(x1 + 22, 0, 0), pr(x1 + 22, 0, Ldraw)
+    p0, p1 = pr(x1 + 48, 0, 0), pr(x1 + 48, 0, Ldraw)
     a.annotate("", xy=p1, xytext=p0, arrowprops=dict(arrowstyle="<|-|>", lw=0.5, mutation_scale=5, color=MUTED))
     a.text(0.5 * (p0[0] + p1[0]) + 10, 0.5 * (p0[1] + p1[1]) - 10, r"$L = \beta\, b_s$", fontsize=8, ha="left", va="top")
     p0, p1 = pr(x0, 0, -55), pr(x1, 0, -55)
     a.annotate("", xy=p1, xytext=p0, arrowprops=dict(arrowstyle="<|-|>", lw=0.5, mutation_scale=5, color=MUTED))
     a.text(0.5 * (p0[0] + p1[0]), p0[1] - 4, r"$W = 2b_s$", fontsize=8, ha="center", va="top")
     a.set_aspect("equal"); a.axis("off")
-    a.set_xlim(x0 - 75, x1 + c * Ldraw + 95); a.set_ylim(-62, sn * Ldraw + 40)
+    a.set_xlim(x0 - 75, x1 + c * Ldraw + 120); a.set_ylim(-62, sn * Ldraw + 40)
     panel_label(a, r"(a)", x=0.0, y=0.98)
 
     # (b) infinite panel and the cell ------------------------------------------------------
@@ -110,10 +118,13 @@ def fig01():
         b.axvline(xx, color="#c0392b", lw=0.6, ls=(0, (3, 2)), zorder=1)
     for xs in (x0 - W - 18, x1 + W + 18):
         b.text(xs, 12, r"$\cdots$", ha="center", va="center", fontsize=11)
-    st = [X[sec.walls[i][0], 0] for i, p in enumerate(sec.wpart) if p == "crown"]
-    b.annotate("", xy=(-75 - 150, 38), xytext=(-75, 38), arrowprops=dict(arrowstyle="<|-|>", lw=0.5, mutation_scale=5, color=MUTED))
-    b.text(-150, 40, r"$b_s$", ha="center", va="bottom", fontsize=8)
-    b.set_xlim(x0 - W - 40, x1 + W + 40); b.set_ylim(-6, 62); b.set_aspect("equal"); b.axis("off")
+    # stringer axes = mid-points of the crowns; the pitch b_s between them (C32)
+    ax_s = sorted(0.5 * (X[sec.walls[i][0], 0] + X[sec.walls[i][1], 0]) for i, p in enumerate(sec.wpart) if p == "crown")
+    for xs in ax_s:
+        b.plot([xs, xs], [-4, 46], color=MUTED, lw=0.5, ls=(0, (4, 2, 1, 2)), zorder=1)
+    b.annotate("", xy=(ax_s[0], 44), xytext=(ax_s[1], 44), arrowprops=dict(arrowstyle="<|-|>", lw=0.6, mutation_scale=5, color=INK))
+    b.text(0.5 * (ax_s[0] + ax_s[1]), 46, r"$b_s$", ha="center", va="bottom", fontsize=8)
+    b.set_xlim(x0 - W - 40, x1 + W + 40); b.set_ylim(-6, 58); b.set_aspect("equal"); b.axis("off")
     panel_label(b, r"(b)", x=0.0, y=0.98)
 
     # (c) GBT discretisation ---------------------------------------------------------------

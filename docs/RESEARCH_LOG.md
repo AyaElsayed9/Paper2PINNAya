@@ -2102,3 +2102,21 @@ the flagged design; Abaqus Riks for 2 designs; material failure along the path.
    replies_cm1.py: 17 threaded replies under Aya's name; validated -> GBT_periodic-NK-CM-AME-20112026.docx.
    Pending (drafted in replies_draft.md, need Aya's OK): C22 references sentence + reference list, C32 figure,
    rewrites of C47, C49, C53, C58.
+
+### 20 Nov 2026, 14:45 — C64 exact check, all comment edits (Aya: "do all the changes"), Figure 1
+* C64 exact: scripts/c64_flat_ends.py, results/c64_flat_ends.csv. Loaded ends kept plane (penalty on the end warping
+  outside a + bY + cZ; the end force on the axial mode; pre-buckling state and Kg recomputed; solver unchanged; penalty
+  x10 changes N_cr by 0.0004 %). Distribution effect only (buckling with the paper's end conditions), 8 cells
+  (4 lay-ups x b_s 150 / 285.5, beta 1.5): Cross-ply +0.95 / -0.68 %, Sym1 -3.22 / -1.72 %, Sym2 -2.35 / -3.36 %,
+  Unsym -1.65 / -0.29 % -> -3.4 to +1.0 %. With the plane end also in the buckling mode: -3.1 to +1.4 %.
+  The first, approximate check (line loads proportional to A11, 13:30 entry) gave -0.3 to -4.3 % and the wrong sign
+  for Cross-ply 150 mm -> replaced in the text and reply (Aya worried about answering with a wrong number).
+  An Abaqus confirmation (end edges coupled to an RP) is still offered, not done.
+* fix_cm2.py: C22 four references after [16] -> [17]-[20], 58 later citation groups renumbered +4 (tracked; citations
+  inside my own insertions changed in place), four reference paragraphs; Paper 1 named ("our previous study [22]").
+* fix_cm3.py: plain-language sentences for C47, C49, C53, C58 (no equation changed; shear amplitude symbol phi_j).
+* fix_cm4.py: C64 sentence with the exact numbers; 7 replies updated to what was done.
+* Figure 1 (manuscript/figures_paper.py fig01): origin O with the X, Y, Z axes, pitch b_s between the stringer axes,
+  link walls thicker; image replaced in the docx (same size).
+* Output: manuscript/revisions/cm_19112026/GBT_periodic-NK-CM-AME-20112026b.docx, validated (+4 paragraphs).
+* Non-linear GBT runs: the faster Newton (Hessian reused) made case 2 round 0 4x faster; qi_152_20_750 still running.
