@@ -2187,3 +2187,8 @@ run were not checked; the agreement with two independent references is the evide
 before the run (55.43, 25.54).  fix_cm4.py: C64 sentence now gives the flat-end numbers (+0.2..+4.6 % Cross-ply/Unsym,
 -8.7..-15.8 % Sym1/Sym2, GBT) plus the two Abaqus values, and states that all comparisons use the same equal line
 load; reply updated.  AME-20112026b rebuilt (validation passed).  Cause of the angle-ply effect still not proven.
+* 18:40 — .dat of the flat-end runs checked: only "BC on inactive dof 2 at 32 nodes" (the 32 tie-secondary flange end
+  nodes, which follow the skin); no errors, no numerical warnings.  Aya: say plainly that the load and the shell model
+  are those of [22] and El Yaakoubi-Mesbah & Mittelstedt [13]: text ("its distribution, equal line loads, is the same
+  as in our previous study [22] and in the study of El Yaakoubi-Mesbah and Mittelstedt [13].") and C64 reply updated
+  in fix_cm4.py; AME-20112026b rebuilt (validation passed).

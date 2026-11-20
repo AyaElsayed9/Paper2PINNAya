@@ -19,22 +19,28 @@ NEW = ("Loading the cell instead through flat, non-rotating loaded ends (a unifo
        "but by −8.7% to −15.8% for the angle-ply Sym1 and Sym2 lay-ups (GBT, bs = 150 and 285.5 mm, β = 1.5). Abaqus models "
        "with the same flat ends give 54.7 N/mm (Cross-ply) and 25.4 N/mm (Sym1) for bs = 150 mm and β = 1.5, against 55.4 and "
        "25.5 N/mm by GBT. All comparisons in this paper use the same equal line load in both methods.")
-ps = [p for p in b.iter(q('w:p')) if OLD in vis_text(p)]; assert len(ps) == 1
-# OLD lies entirely in my own insertion of fix_cm1: change the run text in place
-p = ps[0]; v = vis_text(p); pos = v.find(OLD); o = 0; hit = []
-for r, s in vis_runs(p):
-    if max(pos, o) < min(pos + len(OLD), o + len(s)):
-        hit.append((r, o))
-    o += len(s)
-assert all(r.getparent().tag == q('w:ins') and r.getparent().get(q('w:author')) == ME for r, _ in hit), "not own insertion"
-r0, o0 = hit[0]; tt = r0.find(q('w:t'))
-if len(hit) == 1:
-    a = pos - o0; tt.text = tt.text[:a] + NEW + tt.text[a + len(OLD):]
-else:                                    # spread over several of my runs: put NEW in the first, cut the rest
-    a = pos - o0; first_len = len(tt.text) - a; tt.text = tt.text[:a] + NEW; rem = len(OLD) - first_len
-    for r, oo in hit[1:]:
-        t2 = r.find(q('w:t')); k = min(rem, len(t2.text)); t2.text = t2.text[k:]; rem -= k
-assert NEW in vis_text(p)
+def own_replace(OLD, NEW):
+    ps = [p for p in b.iter(q('w:p')) if OLD in vis_text(p)]; assert len(ps) == 1, OLD
+    # OLD lies entirely in my own insertion of fix_cm1: change the run text in place
+    p = ps[0]; v = vis_text(p); pos = v.find(OLD); o = 0; hit = []
+    for r, s_ in vis_runs(p):
+        if max(pos, o) < min(pos + len(OLD), o + len(s_)):
+            hit.append((r, o))
+        o += len(s_)
+    assert all(r.getparent().tag == q('w:ins') and r.getparent().get(q('w:author')) == ME for r, _ in hit), "not own insertion"
+    r0, o0 = hit[0]; tt = r0.find(q('w:t'))
+    if len(hit) == 1:
+        a = pos - o0; tt.text = tt.text[:a] + NEW + tt.text[a + len(OLD):]
+    else:                                    # spread over several of my runs: put NEW in the first, cut the rest
+        a = pos - o0; first_len = len(tt.text) - a; tt.text = tt.text[:a] + NEW; rem = len(OLD) - first_len
+        for r, oo in hit[1:]:
+            t2 = r.find(q('w:t')); k = min(rem, len(t2.text)); t2.text = t2.text[k:]; rem -= k
+    assert NEW in vis_text(p)
+own_replace(OLD, NEW)
+# Aya, 20 Nov: say plainly that the load and the shell model are those of [22] and of El Yaakoubi-Mesbah & Mittelstedt [13]
+own_replace("its distribution (equal line loads, as in our previous study [22] and in [13]) is a choice.",
+            "its distribution, equal line loads, is the same as in our previous study [22] and in the study of "
+            "El Yaakoubi-Mesbah and Mittelstedt [13].")
 t.write('u/word/document.xml', xml_declaration=True, encoding='UTF-8', standalone=True)
 # replies
 c = etree.parse('u/word/comments.xml'); W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
@@ -53,7 +59,8 @@ R = {"Agreed. We will add": "Agreed. We added four references of other groups af
      "Agreed; the shear-mode terms will be": "The shear-mode terms have the same form as the conventional ones; the text now "
      "states exactly which terms replace which, and they are all contained in the general form that follows.",
      "Thank you. The magnitude is only a reference": "Thank you. The magnitude is only a reference (linear analysis, lambda = "
-     "Ncr); the equal line loads follow our previous study [22] and [13]. Following your remark, we also loaded the cell through "
+     "Ncr); the equal line loads and the Abaqus shell model are the same as in our previous study [22] and in "
+     "El Yaakoubi-Mesbah and Mittelstedt [13]. Following your remark, we also loaded the cell through "
      "flat, non-rotating ends (uniform end shortening), so that the end forces follow from the longitudinal strain and the wall "
      "stiffnesses. The critical mean force per unit width then changes by +0.2% to +4.6% for Cross-ply and Unsym, but by -8.7% "
      "to -15.8% for the angle-ply Sym1 and Sym2 lay-ups (GBT). Two Abaqus models with the same flat ends confirm the GBT values "
