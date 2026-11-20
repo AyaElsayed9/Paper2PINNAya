@@ -2165,3 +2165,15 @@ GBT equal load 54.70, GBT flat 55.43; Sym1 GBT equal 30.32, flat 25.54.  So the 
 50 % vs 57 %), so a 44 % drop is not physical; most likely a spurious soft mode from the RP model (end constraints)
 or a mode localised at the coupled ends.  NOT used for the paper.  Asked Aya for the MODE1_*_PBC_RP.csv mode shapes
 (fe_modes) and the two .dat files to find the cause.  The C64 reply stays on hold.
+
+### 20 Nov 2026, 18:00 — cause of the wrong RP eigenvalues found: U2 = 0 at the ends was dropped
+Mode-1 files (MODE1_*_PBC_RP.csv): in both cases the largest displacement is U2 = 1.0 AT the end nodes (z = 0 and
+z = 225), almost uniform along z (Cross-ply 0.87-1.0, Sym1 0.96-1.0), plus a uniform U1 = 0.014 / 0.048.  So the
+simply-supported condition U2 = 0 at the loaded ends was not active.  The .dat says so: "Boundary conditions are
+specified on inactive dof 2 at 288 nodes" (288 = 256 coupled + 32 tie-secondary end nodes) and "inactive dof 1 at
+1 node" (the U1 anchor on the coupled x = 0 corner).  With the U3-only kinematic coupling, Abaqus ignored these BCs
+on the coupled nodes (also behind the first pre-processor error on DOF 1).  I don't know the exact internal reason;
+the mode shape and the warning together are clear.  The 30.85 / 2.85 N/mm are therefore a panel with free ends in
+U2 and are discarded.  Fix: no coupling; one *EQUATION per end node, U3_node - U3_RP = 0 (128 per end incl. the
+x = -W corner via apply_periodic); RP0 only U3 = 0, RPL only the force.  Rerun asked; check: no "inactive dof"
+warnings and U2 = 0 at the ends in MODE1.

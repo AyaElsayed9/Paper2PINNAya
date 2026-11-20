@@ -8,9 +8,8 @@
 #
 #  v3_rp (20 Nov 2026, Prof. Mittelstedt's comment C64): environment variable PANEL_LOAD
 #     LINE (default) : as v2, 1 N/mm ShellEdgeLoad on every end edge
-#     RP             : SS only.  Every end node (skin, webs, crowns; not the tied flange nodes) is coupled in U3
-#                      to a reference point per end (kinematic coupling, U3 only), the RP rotations are held,
-#                      so each loaded end stays flat and moves as one: a uniform end shortening, the end forces
+#     RP             : SS only.  Every end node (skin, webs, crowns; not the tied flange nodes) is tied in U3
+#                      to a reference point per end (one *EQUATION per node: U3_node = U3_RP), so each loaded end stays flat and moves as one: a uniform end shortening, the end forces
 #                      distribute themselves by the wall stiffnesses.  RP at z = 0: U3 = 0; RP at z = L: force
 #                      W x 1 N (W = cell width), so the eigenvalue is directly the critical MEAN force per unit width
 #                      P_cr/W [N/mm].  Compare with the LINE run: P_cr/W = N_cr x (total end-edge length)/W.
@@ -138,8 +137,8 @@ def apply_periodic(m, a, inst, W, L, bc, sides, tol=1e-3):
             if bc == "SS" and at_end and dof == 2:
                 continue      # SS: U2 = 0 is already prescribed on both corner nodes
             if bc == "SS" and at_end and dof == 3 and LOAD_MODE == "RP":
-                # RP: the x = 0 corner is coupled to the end RP in U3 (RP rotations held, so its U3 equals
-                # the RP's U3); the x = -W corner is not coupled (it is eliminated here) and follows the RP
+                # RP: the x = 0 corner is tied to the end RP in U3 (its own equation); the x = -W corner is
+                # eliminated in the periodic equations, so its RP equation is written here
                 rp_set = "Set_RP0" if z < tol else "Set_RPL"
                 m.Equation(name="PBC_%d_%d" % (k, dof), terms=((1.0, "PBC_L%d" % k, 3), (-1.0, rp_set, 3)))
                 n_eq += 1
@@ -152,7 +151,7 @@ def apply_periodic(m, a, inst, W, L, bc, sides, tol=1e-3):
     if bc == "SS":
         # rigid-body anchors on the x = 0 corner node (independent node of the equations):
         # U1 (lateral translation; the symmetry BC did this before) and U3 (axial)
-        if LOAD_MODE == "RP":   # U3 is fixed through the coupling with the reference point at z = 0
+        if LOAD_MODE == "RP":   # U3 is fixed through the equations with the reference point at z = 0
             m.DisplacementBC(name="PBC_Anchor0", createStepName="Initial", region=a.sets["PBC_R0"], u1=SET)
         else:
             m.DisplacementBC(name="PBC_Anchor0", createStepName="Initial",
@@ -284,7 +283,7 @@ def run_case(bs_val, beta_val, layup_name, mat_type, seq_skin, seq_stiff, out_di
                   all_e.getByBoundingBox(xMin=-panel_width - pad, xMax=pad, yMin=-pad, yMax=ymax, zMin=panel_len_input - pad, zMax=panel_len_input + pad))
         m.DisplacementBC(name="BC_Ends_U2", createStepName="Initial", region=a.Set(edges=e_ends, name="Set_Ends"), u2=SET)
 
-        # ORIGINAL LINE LOAD: 1.0 per unit length (LINE); RP mode: load through coupled reference points (after meshing)
+        # ORIGINAL LINE LOAD: 1.0 per unit length (LINE); RP mode: load through reference points tied in U3 (after meshing)
         if LOAD_MODE != "RP":
             m.ShellEdgeLoad(name="Load_Comp", createStepName="Step_Buckle", region=a.Surface(side1Edges=e_ends, name="Surf_Ends"), magnitude=1.0, distributionType=UNIFORM, resultant=ON)
     else:
@@ -323,12 +322,12 @@ def run_case(bs_val, beta_val, layup_name, mat_type, seq_skin, seq_stiff, out_di
     if bc == "SS" and LOAD_MODE == "RP":                # flat loaded ends through reference points (after meshing)
         a.regenerate()
         tol_z = 1e-3
-        y_tie = clearance + 0.5                         # stringer nodes below: tie-secondary (flanges), not coupled
+        y_tie = clearance + 0.5                         # stringer nodes below: tie-secondary (flanges), not tied to the RP
         for zc, nm in ((0.0, "0"), (panel_len_input, "L")):
             lab_s = [n.label for n in i_skin.nodes if abs(n.coordinates[2] - zc) < tol_z]
             if sides != "SYM":
                 # the x = -W corner node is the eliminated node of the periodic equations; a node may be
-                # eliminated only once, so it is not coupled here: apply_periodic ties its U3 to the RP
+                # eliminated only once, so it is left out here: apply_periodic ties its U3 to the RP
                 lab_s = [n.label for n in i_skin.nodes if abs(n.coordinates[2] - zc) < tol_z
                          and abs(n.coordinates[0] + panel_width) > tol_z]
             lab_t = [n.label for n in i_stiff.nodes if abs(n.coordinates[2] - zc) < tol_z and n.coordinates[1] > y_tie]
@@ -336,16 +335,19 @@ def run_case(bs_val, beta_val, layup_name, mat_type, seq_skin, seq_stiff, out_di
                                       nodeLabels=(("Inst_Skin", tuple(lab_s)), ("Inst_Stiff", tuple(lab_t))))
             rp = a.ReferencePoint(point=(-panel_width / 2.0, stiff_h / 2.0, zc))
             rps = a.Set(referencePoints=(a.referencePoints[rp.id], ), name="Set_RP" + nm)
-            m.Coupling(name="Cpl_End" + nm, controlPoint=rps, surface=reg, influenceRadius=WHOLE_SURFACE,
-                       couplingType=KINEMATIC, localCsys=None, u1=OFF, u2=OFF, u3=ON, ur1=OFF, ur2=OFF, ur3=OFF)
+            # U3 of every end node = U3 of the RP, one *EQUATION per node (node = eliminated term).  A kinematic
+            # coupling (U3 only) was used first, but Abaqus then dropped the U2 = 0 BC of the coupled nodes
+            # ("BC on inactive dof 2 at 288 nodes"; the mode had U2 = 1 at the ends), so equations are used.
+            for ins_name, ins, labs in (("Inst_Skin", i_skin, lab_s), ("Inst_Stiff", i_stiff, lab_t)):
+                for lb in labs:
+                    sn = "RPE%s_%s%d" % (nm, ins_name[5:7], lb)
+                    a.Set(nodes=ins.nodes.sequenceFromLabels((lb, )), name=sn)
+                    m.Equation(name="EqRP%s_%s%d" % (nm, ins_name[5:7], lb), terms=((1.0, sn, 3), (-1.0, "Set_RP" + nm, 3)))
             if nm == "0":
-                m.DisplacementBC(name="BC_RP0", createStepName="Initial", region=rps,
-                                 u1=SET, u2=SET, u3=SET, ur1=SET, ur2=SET, ur3=SET)
+                m.DisplacementBC(name="BC_RP0", createStepName="Initial", region=rps, u3=SET)
             else:
-                m.DisplacementBC(name="BC_RPL", createStepName="Initial", region=rps,
-                                 u1=SET, u2=SET, ur1=SET, ur2=SET, ur3=SET)
                 m.ConcentratedForce(name="Load_RP", createStepName="Step_Buckle", region=rps, cf3=-panel_width)
-            print("  RP end z = %g: %d skin + %d stringer nodes coupled in U3" % (zc, len(lab_s), len(lab_t)))
+            print("  RP end z = %g: %d skin + %d stringer nodes tied in U3 (equations)" % (zc, len(lab_s), len(lab_t)))
 
     if sides != "SYM":                                  # periodic side edges (after meshing)
         apply_periodic(m, a, i_skin, panel_width, panel_len_input, bc, sides)
