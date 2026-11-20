@@ -2177,3 +2177,13 @@ the mode shape and the warning together are clear.  The 30.85 / 2.85 N/mm are th
 U2 and are discarded.  Fix: no coupling; one *EQUATION per end node, U3_node - U3_RP = 0 (128 per end incl. the
 x = -W corner via apply_periodic); RP0 only U3 = 0, RPL only the force.  Rerun asked; check: no "inactive dof"
 warnings and U2 = 0 at the ends in MODE1.
+
+### 20 Nov 2026, 18:20 — Abaqus RP (flat ends, per-node U3 equations) confirms GBT; C64 text and reply final
+P_cr/W [N/mm], flat non-rotating loaded ends:  Cross-ply 150/1.5: Abaqus 54.735 (m=3) vs GBT 55.43 (-1.3 %);
+Sym1 150/1.5: Abaqus 25.442 (m=1) vs GBT 25.54 (-0.4 %).  Abaqus alone, equal line load -> flat ends:
+Cross-ply 55.09 -> 54.74 (-0.6 %); Sym1 17.475 x 1.7508 = 30.60 -> 25.44 (-16.9 %) (GBT: +1.3 % / -15.8 %).
+So the strong flat-end effect for the angle-ply lay-ups is real and both methods agree.  (The .dat/MODE1 of this
+run were not checked; the agreement with two independent references is the evidence.)  Predictions were written
+before the run (55.43, 25.54).  fix_cm4.py: C64 sentence now gives the flat-end numbers (+0.2..+4.6 % Cross-ply/Unsym,
+-8.7..-15.8 % Sym1/Sym2, GBT) plus the two Abaqus values, and states that all comparisons use the same equal line
+load; reply updated.  AME-20112026b rebuilt (validation passed).  Cause of the angle-ply effect still not proven.

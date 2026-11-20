@@ -1,4 +1,4 @@
-"""fix_cm4 (20 Nov 2026): C64 with the exact check (scripts/c64_flat_ends.py: plane loaded ends, end force on the axial
+"""fix_cm4 (20 Nov 2026; C64 text = flat ends, confirmed by Abaqus RP runs): C64 with the exact check (scripts/c64_flat_ends.py: plane loaded ends, end force on the axial
 mode, distribution from the wall stiffnesses; 8 cells: -3.4 % to +1.0 %).  The first, approximate check (line loads
 proportional to A11) gave -0.3 to -4.3 % and the wrong sign for Cross-ply 150 mm; it is replaced.  Replies of
 C22, C32, C47, C49, C53, C58, C64 updated to what was done."""
@@ -13,9 +13,12 @@ ME = trk.AUTH
 OLD = ("A distribution following a uniform end strain, with the line load of every wall proportional to its axial membrane "
        "stiffness, changes the critical mean force per unit width by only 0.3–0.5% for the Cross-ply and Unsym lay-ups and by "
        "1.8–4.3% for the angle-ply Sym1 and Sym2 lay-ups (GBT, 32 cells).")
-NEW = ("Loading the cell instead through plane loaded ends (a rigid end plate, as when the end edges are coupled to a "
-       "reference point), so that the end forces distribute themselves according to the wall stiffnesses, changes the "
-       "critical mean force per unit width by −3.4% to +1.0% (GBT, all four lay-ups, bs = 150 and 285.5 mm, β = 1.5).")
+NEW = ("Loading the cell instead through flat, non-rotating loaded ends (a uniform end shortening, as when every end node "
+       "follows a reference point in the axial direction), so that the end forces follow from the longitudinal strain and the "
+       "wall stiffnesses, changes the critical mean force per unit width by +0.2% to +4.6% for the Cross-ply and Unsym lay-ups, "
+       "but by −8.7% to −15.8% for the angle-ply Sym1 and Sym2 lay-ups (GBT, bs = 150 and 285.5 mm, β = 1.5). Abaqus models "
+       "with the same flat ends give 54.7 N/mm (Cross-ply) and 25.4 N/mm (Sym1) for bs = 150 mm and β = 1.5, against 55.4 and "
+       "25.5 N/mm by GBT. All comparisons in this paper use the same equal line load in both methods.")
 ps = [p for p in b.iter(q('w:p')) if OLD in vis_text(p)]; assert len(ps) == 1
 # OLD lies entirely in my own insertion of fix_cm1: change the run text in place
 p = ps[0]; v = vis_text(p); pos = v.find(OLD); o = 0; hit = []
@@ -50,9 +53,12 @@ R = {"Agreed. We will add": "Agreed. We added four references of other groups af
      "Agreed; the shear-mode terms will be": "The shear-mode terms have the same form as the conventional ones; the text now "
      "states exactly which terms replace which, and they are all contained in the general form that follows.",
      "Thank you. The magnitude is only a reference": "Thank you. The magnitude is only a reference (linear analysis, lambda = "
-     "Ncr); the equal line loads follow our previous study [22] and [13]. We checked loading through plane loaded ends (rigid "
-     "end plate, as with the end edges coupled to a reference point), where the end forces follow the wall stiffnesses: the "
-     "critical mean force per unit width changes by -3.4% to +1.0% for all four lay-ups (GBT). This is now stated in the text."}
+     "Ncr); the equal line loads follow our previous study [22] and [13]. Following your remark, we also loaded the cell through "
+     "flat, non-rotating ends (uniform end shortening), so that the end forces follow from the longitudinal strain and the wall "
+     "stiffnesses. The critical mean force per unit width then changes by +0.2% to +4.6% for Cross-ply and Unsym, but by -8.7% "
+     "to -15.8% for the angle-ply Sym1 and Sym2 lay-ups (GBT). Two Abaqus models with the same flat ends confirm the GBT values "
+     "within 1.3% (Cross-ply 54.7 vs 55.4 N/mm, Sym1 25.4 vs 25.5 N/mm). This is now stated in the text. Since GBT and Abaqus "
+     "always use the same load, the comparisons in the paper are not affected."}
 n = 0
 for cm in c.getroot().findall("{%s}comment" % W):
     ts = list(cm.iter("{%s}t" % W)); full = "".join(x.text or "" for x in ts)
