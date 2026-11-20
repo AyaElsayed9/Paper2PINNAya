@@ -2154,3 +2154,14 @@ tied to the end RP by one equation each (U3_L - U3_RP = 0; the RP rotations are 
 as the coupling).  80 skin + 48 stringer nodes coupled per end.  Not yet re-run.  Also checked: the old 11 Nov
 line-load job (val_bs150_beta1p5_Crossmply_PBC) gives N_cr = 31.464 N/mm -> P_cr/W = 55.09 N/mm (GBT 31.24, -0.7 %).
 GBT predictions for the RP runs, written before the result (P_cr/W, flat ends): Cross-ply 55.43, Sym1 25.54 N/mm.
+
+### 20 Nov 2026, 17:40 — Abaqus RP runs (C64) ran, but the numbers do not make sense yet
+Fixed script ran (80 skin + 48 stringer nodes coupled per end, 370 equations).  Eigenvalue = P_cr/W [N/mm] (RP force
+= W x 1 N; checked in the .inp: *Cload Set_RPL, 3, -300).  Results: Cross-ply 150/1.5: 30.848 (m=1), next 31.535 (m=4),
+34.487, 60.50; Sym1 150/1.5: 2.8547 (m=1), 6.0385, 14.201, 18.463.  Compare (P_cr/W): Abaqus equal line load
+(11 Nov) Cross-ply 55.09 (factor 1.7508 re-checked from the .inp edge lengths: 525.25 mm loaded edge per end / 300);
+GBT equal load 54.70, GBT flat 55.43; Sym1 GBT equal 30.32, flat 25.54.  So the RP model is 44 % (Cross-ply) and
+~90 % (Sym1) below everything else.  For Cross-ply the flat-end load shares are close to the equal line load (skin
+50 % vs 57 %), so a 44 % drop is not physical; most likely a spurious soft mode from the RP model (end constraints)
+or a mode localised at the coupled ends.  NOT used for the paper.  Asked Aya for the MODE1_*_PBC_RP.csv mode shapes
+(fe_modes) and the two .dat files to find the cause.  The C64 reply stays on hold.
