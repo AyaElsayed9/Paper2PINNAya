@@ -2136,3 +2136,9 @@ beta 1.5; GBT predicts 55.43 and 25.54 N/mm) confirm or refute this.  Told Aya.
   italic) with DOIs (Buermann 10.1016/j.tws.2005.08.010, Vescovini & Bisagni 10.1017/S0001924000010332, both checked).
 * Non-linear GBT (0.5 mm mode-1 imperfection, path to 1.6 N1): qi_152_20_750 no limit point (basis error 5.2 %,
   not fully converged after 4 rounds); pm45_152_20_750 no limit point (error 1.3 %); qi_124_20_500 running.
+
+### 20 Nov 2026, 16:40 — non-linear GBT, third flagged design
+qi_124_20_500 (the one Koiter-screen limit point, 0.1 mm only): with a 0.5 mm mode-1 imperfection the full non-linear
+GBT path rises to 1.61 N1 with no limit point (basis error 6.2 % after 4 enrichment rounds, not fully converged).
+All three flagged realistic designs are stable to 1.6 N1 in the non-linear GBT; convergence is good for +-45 (1.3 %)
+and only moderate for the two quasiiso designs (5-6 %).  results/koiter/nl_*.npz, runs/experts/nl_designs.log.

@@ -1,0 +1,19 @@
+round 0: basis 24, steps 87, lam_end 55.028, max error 0.1425
+round 1: basis 30, steps 92, lam_end 55.294, max error 0.1089
+round 2: basis 36, steps 95, lam_end 54.873, max error 0.0682
+round 3: basis 41, steps 98, lam_end 55.133, max error 0.0640
+round 4: basis 46, steps 99, lam_end 55.097, max error 0.0515
+qi_152_20_750: N1 34.288, path to 55.097 (1.607 N1), limit point False, basis 46, max error 0.0515, 3249 s
+round 0: basis 24, steps 57, lam_end 14.117, max error 0.1549
+round 1: basis 30, steps 59, lam_end 14.082, max error 0.0765
+round 2: basis 35, steps 61, lam_end 13.968, max error 0.0409
+round 3: basis 37, steps 62, lam_end 14.000, max error 0.0232
+round 4: basis 38, steps 62, lam_end 13.940, max error 0.0134
+pm45_152_20_750: N1 8.707, path to 13.940 (1.601 N1), limit point False, basis 38, max error 0.0134, 1081 s
+round 0: basis 24, steps 128, lam_end 94.314, max error 0.2644
+round 1: basis 30, steps 132, lam_end 94.066, max error 0.1987
+round 2: basis 36, steps 135, lam_end 93.997, max error 0.0788
+round 3: basis 42, steps 138, lam_end 94.573, max error 0.0551
+round 4: basis 48, steps 141, lam_end 94.516, max error 0.0616
+qi_124_20_500: N1 58.733, path to 94.516 (1.609 N1), limit point False, basis 48, max error 0.0616, 2490 s
+NL_DESIGNS_DONE
