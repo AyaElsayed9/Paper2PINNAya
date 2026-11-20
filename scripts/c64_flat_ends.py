@@ -67,17 +67,18 @@ def main():
                 with family_context(s) as fc:
                     S = KO.assemble(fc); lam0, _ = KO.buckle(S, 2); W = 2 * bs; P = S["Ptot"]
                     res = {}
-                    for mode in ("plane",):
+                    for mode in ("plane", "flat"):
                         lam, share, viol = solve_variant(fc, S, mode); res[mode] = (lam, share, viol)
                     lam_k10 = solve_variant(fc, S, "plane", kappa_rel=1e5)[0] if (lay, bs) == ("Cross-ply", 150.0) else float("nan")
                     sh0 = None
                     S["release"]()
-                row = dict(layup=lay, bs=bs, beta=beta, Pcr_W_equal_load=float(lam0[0]) * P / W)
-                for mode in ("plane",):
+                row = dict(layup=lay, bs=bs, beta=beta, Pcr_W_equal_load=float(lam0[0]) * P / W, P_total_per_W=P / W)
+                for mode in ("plane", "flat"):
                     lam, share, lam_rig = res[mode]
                     row[f"diff_load_{mode}_pct"] = 100 * (lam / lam0[0] - 1)            # distribution effect only
                     row[f"diff_rigid_{mode}_pct"] = 100 * (lam_rig / lam0[0] - 1)       # + plane ends in the buckling mode
                     row[f"skin_share_{mode}"] = share["skin"]; row[f"web_share_{mode}"] = share["web"]
+                    row[f"Pcr_W_rigid_{mode}"] = lam_rig * P / W                        # = Abaqus RP eigenvalue (flat)
                 row["kappa_check_pct"] = 100 * (lam_k10 / res["plane"][0] - 1)
                 rows.append(row); print({k: (round(v, 4) if isinstance(v, float) else v) for k, v in row.items()}, flush=True)
     with open(ROOT / "results/c64_flat_ends.csv", "w", newline="") as fh:

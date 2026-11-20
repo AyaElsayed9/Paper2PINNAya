@@ -2120,3 +2120,19 @@ the flagged design; Abaqus Riks for 2 designs; material failure along the path.
   link walls thicker; image replaced in the docx (same size).
 * Output: manuscript/revisions/cm_19112026/GBT_periodic-NK-CM-AME-20112026b.docx, validated (+4 paragraphs).
 * Non-linear GBT runs: the faster Newton (Hessian reused) made case 2 round 0 4x faster; qi_152_20_750 still running.
+
+### 20 Nov 2026, 15:40 — C64: flat (non-rotating) ends differ strongly for the angle-ply lay-ups; Abaqus RP script
+scripts/c64_flat_ends.py now also 'flat' (end warping = constant only, i.e. the end may not rotate) - the literal
+"uniform end shortening" and what the Abaqus RP model (Omegastiffener_PBC_v3_rp.py, PANEL_LOAD=RP, U3 coupling, RP
+rotations held, force W x 1 N on the RP at z = L) does.  P_cr/W [N/mm], equal line load -> flat ends (constraint also
+in the buckling mode):  Cross-ply 150: 54.70 -> 55.43 (+1.3 %); 285.5: 9.83 -> 9.84 (+0.2 %); Sym1 150: 30.32 -> 25.54
+(-15.8 %); 285.5: 5.97 -> 5.40 (-9.6 %); Sym2 150: 36.97 -> 32.35 (-12.5 %); 285.5: 7.08 -> 6.47 (-8.7 %);
+Unsym 150: 56.48 -> 59.11 (+4.6 %); 285.5: 8.79 -> 9.13 (+3.9 %).  Plane ends that may rotate: -3.4 to +1.0 % (text).
+Likely cause (not proven): the 7-ply angle-ply stringer laminates are unbalanced (A16 != 0), so axial compression
+wants to warp the stringer; a flat end restrains this.  So the answer to C64 depends on the end condition; the text
+of AME-20112026b (plane ends, -3.4..+1.0 %) must NOT be sent before the Abaqus RP runs (Cross-ply 150 and Sym1 150,
+beta 1.5; GBT predicts 55.43 and 25.54 N/mm) confirm or refute this.  Told Aya.
+* AME-20112026b rebuilt (build_b.sh): new references formatted like the list (journal italic, year bold, volume
+  italic) with DOIs (Buermann 10.1016/j.tws.2005.08.010, Vescovini & Bisagni 10.1017/S0001924000010332, both checked).
+* Non-linear GBT (0.5 mm mode-1 imperfection, path to 1.6 N1): qi_152_20_750 no limit point (basis error 5.2 %,
+  not fully converged after 4 rounds); pm45_152_20_750 no limit point (error 1.3 %); qi_124_20_500 running.

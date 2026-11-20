@@ -100,18 +100,38 @@ replace(cx, c22[0], "An overview of these methods is given in [16].",
 refs = [p for p in ps[iref + 1:] if vis_text(p).strip()]
 r16 = refs[15]; assert vis_text(r16).startswith("El Yaakoubi") or True
 print("ref 16:", vis_text(r16)[:90]); print("ref 17 (old):", vis_text(refs[16])[:90])
-NEW = ["Bisagni, C.; Vescovini, R. Analytical formulation for local buckling and post-buckling analysis of stiffened "
-       "laminated panels. Thin-Walled Structures 2009, 47, 318–334. https://doi.org/10.1016/j.tws.2008.07.006",
-       "Stamatelos, D.G.; Labeas, G.N.; Tserpes, K.I. Analytical calculation of local buckling and post-buckling behavior "
-       "of isotropic and orthotropic stiffened panels. Thin-Walled Structures 2011, 49, 422–430. "
-       "https://doi.org/10.1016/j.tws.2010.11.008",
-       "Buermann, P.; Rolfes, R.; Tessmer, J.; Schagerl, M. A semi-analytical model for local post-buckling analysis of "
-       "stringer- and frame-stiffened cylindrical panels. Thin-Walled Structures 2006, 44, 102–114.",
-       "Vescovini, R.; Bisagni, C. A fast procedure for the design of composite stiffened panels. The Aeronautical "
-       "Journal 2015, 119, 185–201."]
+NEW = [  # (text, format) segments in the style of the list: journal italic, year bold, volume italic
+    [("Bisagni, C.; Vescovini, R. Analytical formulation for local buckling and post-buckling analysis of stiffened "
+      "laminated panels. ", None), ("Thin-Walled Structures", "i"), (" ", None), ("2009", "b"), (", ", None), ("47", "i"),
+     (", 318–334. https://doi.org/10.1016/j.tws.2008.07.006", None)],
+    [("Stamatelos, D.G.; Labeas, G.N.; Tserpes, K.I. Analytical calculation of local buckling and post-buckling behavior "
+      "of isotropic and orthotropic stiffened panels. ", None), ("Thin-Walled Structures", "i"), (" ", None), ("2011", "b"),
+     (", ", None), ("49", "i"), (", 422–430. https://doi.org/10.1016/j.tws.2010.11.008", None)],
+    [("Buermann, P.; Rolfes, R.; Tessmer, J.; Schagerl, M. A semi-analytical model for local post-buckling analysis of "
+      "stringer- and frame-stiffened cylindrical panels. ", None), ("Thin-Walled Structures", "i"), (" ", None), ("2006", "b"),
+     (", ", None), ("44", "i"), (", 102–114. https://doi.org/10.1016/j.tws.2005.08.010", None)],
+    [("Vescovini, R.; Bisagni, C. A fast procedure for the design of composite stiffened panels. ", None),
+     ("The Aeronautical Journal", "i"), (" ", None), ("2015", "b"), (", ", None), ("119", "i"),
+     (", 185–201. https://doi.org/10.1017/S0001924000010332", None)]]
+
+
+def fmt_run(text, f):
+    r = etree.Element(q('w:r'))
+    if f:
+        rp = etree.SubElement(r, q('w:rPr'))
+        etree.SubElement(rp, q('w:' + f)); etree.SubElement(rp, q('w:' + f + 'Cs'))
+    tt = etree.SubElement(r, q('w:t')); tt.text = text
+    tt.set('{http://www.w3.org/XML/1998/namespace}space', 'preserve')
+    return r
+
+
 prev = r16
-for txt in NEW:
-    prev = new_para_after(cx, prev, r16, txt)
+for segs in NEW:
+    prev = new_para_after(cx, prev, r16, None)
+    ins = cx.mark('ins')
+    for text, f in segs:
+        ins.append(fmt_run(text, f))
+    prev.append(ins)
 # Paper 1 named in the load-distribution sentence (inside the C64 insertion, now "[13,22]")
 p64 = [p for p in ps[:iref] if "(equal line loads, as in [13,18])" in vis_text(p)]
 assert len(p64) == 1
