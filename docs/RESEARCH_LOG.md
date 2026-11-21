@@ -2224,3 +2224,10 @@ CRediT, data-availability and generative-AI declarations). accept.py (accept all
 tws_build.py -> GBT_periodic_TWS.docx (29 pages in LibreOffice; abstract 215 words; Elsevier title page; "Fig.";
 references "[n] I. Surname, ..., Year. Title. Abbrev. J. Vol, pages. doi") and GBT_periodic_TWS_highlights.docx.
 Removing the MDPI section settings (bidi, line grid) took the LibreOffice page count from 49 to 29. "Scheme 1" kept.
+* 21 Nov, 15:50 — Aya asked whether the TWS guide was followed exactly. Honest status: the full guide page could not be
+  opened (ScienceDirect/elsevier.com refuse the fetch; the desktop browser is not available in this chat), so the
+  version was built from search excerpts of the guide; no TWS example or Word template was found (Elsevier offers
+  only the LaTeX class elsarticle; Word files just need a single-column layout). Added from the excerpts: every
+  image as a separate file (manuscript/tws/figures/Figure_n.png, Scheme_1.png; GBT_periodic_TWS_figures.zip).
+  Still open: competing-interest declaration as a separate Word file from Elsevier's tool (Aya), optional graphical
+  abstract, final check of the guide by Aya in her browser.
