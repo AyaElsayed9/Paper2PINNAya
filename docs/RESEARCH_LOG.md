@@ -2192,3 +2192,35 @@ load; reply updated.  AME-20112026b rebuilt (validation passed).  Cause of the a
   are those of [22] and El Yaakoubi-Mesbah & Mittelstedt [13]: text ("its distribution, equal line loads, is the same
   as in our previous study [22] and in the study of El Yaakoubi-Mesbah and Mittelstedt [13].") and C64 reply updated
   in fix_cm4.py; AME-20112026b rebuilt (validation passed).
+
+### 21 Nov 2026 — Prof. Mittelstedt's comments re-checked (why he commented); Thin-Walled Structures version
+Aya: the target journal is Thin-Walled Structures; replies must sound like her (polite, plain), the other groups'
+references must be merged with ours, and each comment must be checked for what we really missed.
+Findings per comment (manuscript/revisions/cm_19112026/):
+* C22: the four other-group papers were a separate block after ours -> fix_cm2b.py (replaces fix_cm2): paragraph
+  rewritten by topic, all references renumbered in the order of first citation (old 9-16 -> 15,11,12,16,13,14,17,20;
+  new 9,10,18,19; >=17 +4), reference block 9-20 replaced (tracked). Body citation order checked (sequential).
+* C31: he could not count 19 walls because the 4 link walls (0.94 mm) are invisible in Fig. 1c. Counts from the code
+  (b_s 150): walls skin 5 (7/10/13/10/7 segments), foot 4 (2 each, 9.45 mm), web 4 (6), crown 2 (5), link 4 (1);
+  18 natural nodes (16 junctions + 2 sides) + 74 intermediate = 92; 93 segments = 92 - 1 + 2 closed cells.
+  Fig. 1c now numbers the walls 1-19 and has a web-root detail (figures_paper.py fig01); text and caption updated.
+* C37: "hat function" (FE jargon) also appeared in Section 2.2.4 (missed before) -> plain definition in both places.
+* C58: he asked for the terms, not a description -> dots removed from Eq. (28); shear-mode geometric terms derived
+  from Eq. (4) with u = u_k phi_k,x + u_j varphi_j and written out (unnumbered display eq., OMML via pandoc, eq/),
+  tensors X^U_ab = int S_xx u_a u_b, X^T_ab = int S_ss u_a,s u_b,s, X^R_ab = int S_xs u_a,s u_b (consistent with Eq. 28).
+* C65: the MAC formula was already there; its meaning was missing -> one sentence (squared cosine, scale-free).
+* C67: how computed + honest note: warping difference 2.3e-11 is not round-off but the accuracy of the KKT solve
+  (Eq. 13); "periodic to round-off" -> "to numerical precision".
+* C71: checked Fig. 7f: modes 12 and 8 differ inside the stringers (skin under the hat down vs up, crowns), similar in
+  the bay between; same amplitude shape because one buckling mode has one half-wave pattern.
+* C41 grammar ("are set"); C47/C49/C53 plain-language additions kept (Bloch-Floquet now explained in words).
+fix_cm5.py (new edits), replies_final.py (17 replies rewritten in Aya's voice), build_c.sh ->
+GBT_periodic-NK-CM-AME-21112026.docx (validation passed, 800 -> 816 paragraphs). build_b.sh is superseded.
+Note: LibreOffice shows the new tracked equation as boxes (it does not draw math runs inside w:ins); Word supports
+this markup (MS-OI29500); the accepted file renders correctly.
+TWS version (manuscript/tws/): guide for authors checked (abstract <= 250 words, 3-5 highlights <= 85 chars as a
+separate file, 1-7 keywords, numbered references in citation order with LTWA abbreviations, competing-interest,
+CRediT, data-availability and generative-AI declarations). accept.py (accept all changes, drop comments) +
+tws_build.py -> GBT_periodic_TWS.docx (29 pages in LibreOffice; abstract 215 words; Elsevier title page; "Fig.";
+references "[n] I. Surname, ..., Year. Title. Abbrev. J. Vol, pages. doi") and GBT_periodic_TWS_highlights.docx.
+Removing the MDPI section settings (bidi, line grid) took the LibreOffice page count from 49 to 29. "Scheme 1" kept.

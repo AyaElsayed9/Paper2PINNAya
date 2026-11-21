@@ -1,0 +1,3 @@
+$$\begin{aligned}\delta V_{S} = \int_{L}\big( & X_{hj}^{U}\,\varphi_{j,x}\delta\varphi_{h,x} + X_{hj}^{T}\,\varphi_{j}\delta\varphi_{h} + X_{hj}^{R}\,\varphi_{j,x}\delta\varphi_{h} + X_{jh}^{R}\,\varphi_{j}\delta\varphi_{h,x} \\ & + X_{ij}^{U}\,\varphi_{j,x}\delta\phi_{i,xx} + X_{ij}^{T}\,\varphi_{j}\delta\phi_{i,x} + X_{ij}^{R}\,\varphi_{j,x}\delta\phi_{i,x} + X_{ji}^{R}\,\varphi_{j}\delta\phi_{i,xx} \\ & + X_{hk}^{U}\,\phi_{k,xx}\delta\varphi_{h,x} + X_{hk}^{T}\,\phi_{k,x}\delta\varphi_{h} + X_{kh}^{R}\,\phi_{k,x}\delta\varphi_{h,x} + X_{hk}^{R}\,\phi_{k,xx}\delta\varphi_{h}\big)\,dx,\end{aligned}$$
+
+$$X_{ab}^{U} = \int_{b}S_{xx}\,u_{a}u_{b}\,ds,\quad\quad X_{ab}^{T} = \int_{b}S_{ss}\,u_{a,s}u_{b,s}\,ds,\quad\quad X_{ab}^{R} = \int_{b}S_{xs}\,u_{a,s}u_{b}\,ds,$$

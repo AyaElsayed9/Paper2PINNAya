@@ -139,13 +139,13 @@ def fig01():
         d.plot(*X[n], "s", ms=5.5, mfc="w", mec="#c0392b", mew=1.0, zorder=6)
         d.text(X[n, 0], -5.5, lab, ha="center", va="top", fontsize=8, color="#c0392b")
     # local axes on the right crown
-    o = np.array([-150.0, 0.0]); t = np.array([1.0, 0.0]); nrm = np.array([0.0, 1.0])
+    o = np.array([-163.0, 0.0]); t = np.array([1.0, 0.0]); nrm = np.array([0.0, 1.0])
     from matplotlib.patches import FancyArrowPatch
     o = o + np.array([0.0, 0.0])
-    for d_ in (24 * t, 13 * nrm):
+    for d_ in (24 * t, 9 * nrm):
         d.add_patch(FancyArrowPatch(tuple(o), tuple(o + d_), arrowstyle="-|>", mutation_scale=6, lw=0.7, color=INK, zorder=9))
     d.text(*(o + 24 * t + np.array([0, 2.2])), r"$s,\ v$", fontsize=7.5, ha="center", va="bottom")
-    d.text(*(o + 13 * nrm + np.array([0, 0.8])), r"$z,\ w$", fontsize=7.5, ha="center", va="bottom")
+    d.text(*(o + 9 * nrm + np.array([1.5, 0.0])), r"$z,\ w$", fontsize=7.5, ha="left", va="center")
     d.plot(*o, "o", ms=3.5, mfc="w", mec=INK, mew=0.6, zorder=7); d.plot(*o, ".", ms=1.5, color=INK, zorder=8)
     d.text(o[0] - 3, o[1] + 1.5, r"$x,\ u$", fontsize=7.5, ha="right", va="bottom")
     hs = [Line2D([], [], color=PART[k], lw=1.6, ls=(0, (2, 1.2)) if k == "link" else "-") for k in PART] + \
@@ -153,6 +153,47 @@ def fig01():
           Line2D([], [], ls="", marker="o", ms=1.9, mfc="w", mec=INK, mew=0.45)]
     d.legend(hs, ["skin", "foot (skin + flange)", "web", "crown", "link wall (offset tie)", "natural node", "intermediate node"],
              ncol=7, loc="lower center", bbox_to_anchor=(0.5, -0.36), fontsize=6.8, handlelength=1.5, columnspacing=1.1, frameon=False)
+    # wall numbers (21 Nov 2026, C31: the 19 walls can be counted): skin 1-5, feet 6-9, webs 10-13, crowns 14-15,
+    # link walls 16-19, each group numbered from s_L to s_R
+    order = {"skin": 1, "foot": 6, "web": 10, "crown": 14, "link": 16}
+    mid = lambda i: 0.5 * (X[sec.walls[i][0]] + X[sec.walls[i][1]])
+    for part, k0 in order.items():
+        ids = sorted([i for i, p_ in enumerate(sec.wpart) if p_ == part], key=lambda i: mid(i)[0])
+        for k, i in enumerate(ids):
+            xm_, ym_ = mid(i); lab = str(k0 + k)
+            if part in ("skin", "foot"):
+                d.text(xm_, -3.2, lab, ha="center", va="top", fontsize=6.3, color=PART[part] if part == "foot" else INK)
+            elif part == "crown":
+                d.text(xm_, ym_ + 2.4, lab, ha="center", va="bottom", fontsize=6.3, color=PART[part])
+            elif part == "web":
+                sgn = -1.0 if X[sec.walls[i][0], 1] < X[sec.walls[i][1], 1] else 1.0   # left web rises to the right
+                d.text(xm_ + sgn * 5.0, ym_, lab, ha="center", va="center", fontsize=6.3, color=PART[part])
+            else:                                          # link: next to the web root
+                d.text(xm_ + (4.0 if k % 2 else -4.0), 3.6, lab, ha="center", va="bottom", fontsize=6.3, color=MUTED)
+    # zoom of one web root (not to scale): foot, link wall over the offset c, web
+    ins = d.inset_axes([0.40, 0.50, 0.20, 0.50])
+    iw = sorted([i for i, p_ in enumerate(sec.wpart) if p_ == "link"], key=lambda i: mid(i)[0])[1]
+    xr = X[sec.walls[iw][0], 0]; cc = float(np.ptp([X[sec.walls[iw][0], 1], X[sec.walls[iw][1], 1]]))
+    ifo = min((i for i, p_ in enumerate(sec.wpart) if p_ == "foot"), key=lambda i: abs(mid(i)[0] - xr))
+    fx = sorted([X[sec.walls[ifo][0], 0], X[sec.walls[ifo][1], 0]]); fs = 1.0 if fx[1] > xr + 1e-6 else -1.0
+    fw = fx[1] - fx[0]; H = cc                               # drawn heights in units of c
+    ins.plot([xr - fs * 16, xr], [0, 0], color=PART["skin"], lw=1.4)
+    ins.plot([xr, xr + fs * fw], [0, 0], color=PART["foot"], lw=2.0)
+    ins.plot([xr + fs * fw, xr + fs * 16], [0, 0], color=PART["skin"], lw=1.4)
+    ins.plot([xr, xr], [0, H], color=PART["link"], lw=1.8, ls=(0, (1.5, 1.0)))
+    ins.plot([xr, xr - fs * 4.0], [H, 2.3 * H], color=PART["web"], lw=1.4)
+    ins.plot([xr, xr], [0, H], "o", ms=2.6, mfc=INK, mec=INK, zorder=5)
+    ins.annotate("", xy=(xr + fs * 2.4, H), xytext=(xr + fs * 2.4, 0), arrowprops=dict(arrowstyle="<|-|>", lw=0.5, mutation_scale=4, color=INK))
+    ins.text(xr + fs * 3.3, 0.5 * H, r"$c$", fontsize=6.5, va="center", ha="left" if fs > 0 else "right")
+    ins.text(xr + fs * 0.5 * fw, -0.3 * H, "foot", fontsize=5.6, ha="center", va="top", color=PART["foot"])
+    ins.text(xr - fs * 1.0, 0.5 * H, "link", fontsize=5.6, ha="right" if fs > 0 else "left", va="center", color=MUTED)
+    ins.text(xr - fs * 3.6, 1.9 * H, "web", fontsize=5.6, ha="right" if fs > 0 else "left", va="center", color=PART["web"])
+    ins.text(xr - fs * 9, -0.3 * H, "skin", fontsize=5.6, ha="center", va="top", color=INK)
+    ins.text(xr + fs * (fw + 4.5), -0.3 * H, "skin", fontsize=5.6, ha="center", va="top", color=INK)
+    ins.set_xlim(xr - 17, xr + 17); ins.set_ylim(-0.95 * H, 2.45 * H); ins.set_xticks([]); ins.set_yticks([])
+    for sp in ins.spines.values():
+        sp.set_linewidth(0.4); sp.set_color(MUTED)
+    ins.set_title("web root (not to scale)", fontsize=5.8, pad=1.5)
     d.set_xlim(x0 - 8, x1 + 8); d.set_ylim(-9, 42); d.set_aspect("equal"); d.axis("off")
     panel_label(d, r"(c)", x=0.0, y=1.0)
     save(fig, "fig01_geometry")

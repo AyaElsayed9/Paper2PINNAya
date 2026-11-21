@@ -62,7 +62,7 @@ def edit(p, old, new):
 
 
 
-E = [
+E = [  # C58 (dots) moved to fix_cm5 (21 Nov: the terms are now written out)
  # C47
  ("In detail, with ", "A nodal field v is periodic when its two side nodes move identically, i.e. when Rv = 0. In detail, with "),
  ("are replaced by the largest periodic subspace", "are replaced by all their combinations whose side-edge differences "
@@ -74,13 +74,10 @@ E = [
   "as in closed thin-walled sections, and the warping is found by minimising the shear energy under this closure "
   "condition. The condition "),
  # C53
- ("with Bloch–Floquet theory [8]: a cell of width", "with Bloch–Floquet theory [8]. In an infinitely wide panel, a buckling "
+ ("with Bloch–Floquet theory [8]: a cell of width", "with Bloch–Floquet theory [8], the theory of waves in periodic structures. In an infinitely wide panel, a buckling "
   "mode repeats from bay to bay up to a phase shift; a cell of two pitches therefore contains the two extreme cases, modes "
   "that repeat in every bay and modes that alternate from bay to bay. Formally, a cell of width"),
  # C58
- ("where the dots stand for the shear-mode terms.", "where the dots stand for the shear-mode terms, which have the same form: "
-  "for a shear mode j, uj φj,x takes the place of uk ϕk,xx in ∂u/∂x and uj,s φj that of uk,s ϕk,x in ∂u/∂s, and the "
-  "products of conventional and shear terms give the couplings; all of them are contained in the general form below."),
 ]
 done = 0
 for old, new in E:
