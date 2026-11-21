@@ -2254,3 +2254,10 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   Bisagni 2015: semi-analytical analysis + genetic algorithms, fuselage panel with five omega stringers). No reference
   removed or added; numbering unchanged, citation order sequential (57). Introduction 1324 words, so no reference
   removed for length. C22 reply updated. Both files rebuilt (AME-21112026, TWS).
+* 21 Nov, 18:00 — Aya's own edited file (aya/GBT_periodic-NK-CM-AME-21112026_3_Aya.docx) is now the base: same
+  manuscript text as AME-21112026, replies shortened by her, reply to C41 removed (her choice). build_c.sh is
+  superseded from here on. fix_cm6_aya.py (tracked, on her file): Section 2.2.3 clearer — objective named "the shear
+  strain energy of the mode, summed over all segments", an "In words" sentence after Eq. (13) (smallest shear strains
+  under two conditions: no axial force, equal warping at both side edges), and the circulation explained in words.
+  -> GBT_periodic-NK-CM-AME-21112026_4.docx (validation passed). TWS version rebuilt from _4.
+  Noted for Aya: her reply to C47 reads "Prof. ." and C49 "I agree, The section".
