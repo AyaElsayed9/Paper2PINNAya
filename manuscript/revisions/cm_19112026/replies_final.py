@@ -9,9 +9,11 @@ W14 = "http://schemas.microsoft.com/office/word/2010/wordml"
 
 R = {
  22: "Thank you, this is a very good point. I added four papers from other groups (Bisagni and Vescovini; Stamatelos et al.; "
-     "Buermann et al.; Vescovini and Bisagni) and rewrote the paragraph by topic, so that the works of our group and of the "
-     "other groups are discussed together and not in separate blocks. The references are renumbered in the order in which "
-     "they are cited. If you know further works that should be cited here, I will gladly add them.",
+     "Buermann et al.; Vescovini and Bisagni) and rewrote the part by topic, so that the works of our group and of the "
+     "other groups are discussed together and not in separate blocks. I split it into two paragraphs (buckling, then "
+     "postbuckling and design) and gave each work a short description of what it does, so that it does not become a "
+     "list of numbers. No earlier reference was removed; the references are renumbered in the order in which they are "
+     "cited. If you know further works that should be cited here, I will gladly add them.",
  31: "Thank you, you are right, the count could not be followed from the figure: the four link walls are shorter than 1 mm "
      "and were not visible. I numbered all 19 walls in Fig. 1c and added a small detail of a web root. The text now lists "
      "them (5 skin walls, 4 feet, 4 webs, 2 crowns, 4 link walls) and explains the numbers: 18 natural nodes (the 16 wall "

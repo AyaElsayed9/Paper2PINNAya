@@ -1,5 +1,5 @@
 """fix_cm2b (21 Nov 2026, replaces fix_cm2; Aya: the other groups' references must be merged with ours, not added
-as a separate block).  C22: the literature paragraph is rewritten by topic, with the four checked references of
+as a separate block).  C22: the literature paragraph is rewritten by topic in two paragraphs (Navid, 4 Nov: explain each work, not only cite it), names of both our group and the other groups, with the four checked references of
 other groups (Bisagni & Vescovini TWS 2009; Stamatelos, Labeas & Tserpes TWS 2011; Buermann, Rolfes, Tessmer &
 Schagerl TWS 2006; Vescovini & Bisagni Aeronaut. J. 2015) cited where they belong; all references renumbered in the
 order of first citation (tracked), reference list block 9-20 replaced accordingly.  Also: the load-distribution
@@ -88,18 +88,28 @@ def expand(g):
 # C22 paragraph: rewritten by topic (new numbers directly)
 c22 = [p for p in ps[:iref] if "An overview of these methods is given in [16]." in vis_text(p)]
 assert len(c22) == 1; p22 = c22[0]
-NEW22 = ("Closed-form and semi-analytical models give fast buckling estimates for stiffened composite panels and are "
-         "therefore well suited to preliminary design. For blade-stringer-stiffened plates, closed-form buckling loads were "
-         "derived for a repeating unit with periodic boundary conditions [5] and with the interaction between stiffener and "
-         "plate [6], and Ritz-based and closed-form formulations, with the stiffeners represented as torsion bars or elastic "
-         "edge restraints, were developed for the local buckling and postbuckling of stiffened laminated panels [9,10]. For "
-         "omega stringers, closed-form and semi-analytical solutions are available for plates braced by omega stringers [3], "
-         "for local buckling [4], column buckling [7], shear buckling [11] and combined compression and shear [12], and the "
-         "effect of the stringer feet on local buckling was included in [13,14]. Postbuckling was studied for "
-         "hat-stringer-stiffened plates under transverse compression [15], for omega-stringer-stiffened panels [16,17] and for "
-         "stringer- and frame-stiffened cylindrical panels [18]. Such fast models are also the basis of design procedures for "
-         "omega-stiffened composite panels [19]; an overview of these methods is given in [20].")
-rewrite_paragraph(cx, p22, [NEW22])
+NEW22a = ("Closed-form and semi-analytical models give fast buckling estimates for stiffened composite panels and are "
+          "therefore well suited to preliminary design. Mittelstedt derived closed-form buckling loads of "
+          "blade-stringer-stiffened plates for a repeating unit with periodic boundary conditions [5] and extended them to "
+          "explicit local buckling solutions that include the interaction between stiffener and plate [6]. Bisagni and "
+          "Vescovini obtained analytical local skin buckling loads of isotropic and composite stiffened panels and studied "
+          "their postbuckling response with a semi-analytical Ritz formulation, implemented in a fast tool for preliminary "
+          "design [9]. Stamatelos et al. analyzed the skin segment between two stiffeners and replaced the rest of the panel "
+          "by transverse and rotational springs along its edges, so that a Ritz solution gives the local buckling and "
+          "postbuckling of isotropic and orthotropic panels [10]. For omega stringers, Mittelstedt and Beerhorst presented "
+          "closed-form buckling loads of compressively loaded plates braced by omega stringers [3]. Schilling, "
+          "Mittelstedt and co-workers developed closed-form approximate solutions for local buckling [4] and for the column buckling of "
+          "omega-stringer-stiffened panels with periodic boundary conditions [7], and extended them to shear buckling [11] "
+          "and to combined compression and shear [12]. El Yaakoubi-Mesbah and Mittelstedt included the effect of the "
+          "stringer feet in a closed-form [13] and a computational model [14] for local buckling.")
+NEW22b = ("Postbuckling has been treated with the same kind of models: for hat-stringer-stiffened plates under transverse "
+          "compression [15] and for omega-stringer-stiffened panels without [16] and with the effect of the stringer feet "
+          "[17]. For curved panels, Buermann et al. described the skin, the stringers and the frames of cylindrical panels "
+          "by Fourier series, without smearing the stiffeners, and traced the postbuckling path with the Riks method [18]. "
+          "Because such models are fast, they are also used in design optimization; Vescovini and Bisagni combined a "
+          "semi-analytical analysis with genetic algorithms for the minimum-weight design of a fuselage panel with five "
+          "omega stringers [19]. An overview of these methods is given in [20].")
+rewrite_paragraph(cx, p22, [NEW22a, NEW22b])
 # renumber every other citation group
 pat = re.compile(r'\[(\d+(?:\s*[–,-]\s*\d+)*)\]')
 n_groups = 0

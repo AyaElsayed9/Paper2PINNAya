@@ -2245,3 +2245,12 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   competing interests, so the DFG statement stays. Open: declarations-tool Word file and data statement in the
   submission system (Aya), optional graphical abstract, one unnumbered display equation (new, C58).
   fix_cm3: "minimising" -> "minimizing"; AME-21112026 rebuilt.
+* 21 Nov, 16:50 — C22 paragraph rewritten again (Aya; Navid had asked on 4 Nov for more explanation per reference,
+  "almost 40 references in 2 short paragraphs"): two paragraphs (buckling 230 words; postbuckling and design 90
+  words), each work with one phrase on what it does, author names balanced (Mittelstedt with co-authors 4x, other
+  groups 4x). The four new papers' descriptions checked against their abstracts (Bisagni & Vescovini 2009: analytical
+  local skin buckling + Ritz post-buckling, StiPAn tool; Stamatelos et al. 2011: skin segment with transverse and
+  rotational springs, pb-2 Ritz; Buermann et al. 2006: Fourier series, stiffeners not smeared, Riks; Vescovini &
+  Bisagni 2015: semi-analytical analysis + genetic algorithms, fuselage panel with five omega stringers). No reference
+  removed or added; numbering unchanged, citation order sequential (57). Introduction 1324 words, so no reference
+  removed for length. C22 reply updated. Both files rebuilt (AME-21112026, TWS).
