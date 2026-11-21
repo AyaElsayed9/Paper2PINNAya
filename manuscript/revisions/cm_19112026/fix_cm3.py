@@ -71,7 +71,7 @@ E = [  # C58 (dots) moved to fix_cm5 (21 Nov: the terms are now written out)
  ("The condition ", "In an open cross-section, the warping of every conventional mode follows from its in-plane displacements, "
   "because the membrane shear strain is set to zero. Joining the two side edges closes the contour: going once around it, "
   "the warping has to return to its starting value, so in general a constant shear flow around the closed contour remains, "
-  "as in closed thin-walled sections, and the warping is found by minimising the shear energy under this closure "
+  "as in closed thin-walled sections, and the warping is found by minimizing the shear energy under this closure "
   "condition. The condition "),
  # C53
  ("with Bloch–Floquet theory [8]: a cell of width", "with Bloch–Floquet theory [8], the theory of waves in periodic structures. In an infinitely wide panel, a buckling "

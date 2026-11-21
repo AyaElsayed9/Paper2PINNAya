@@ -155,9 +155,49 @@ for p in body.iter(q('w:p')):
         s0 = t.text or ''
         for m_ in reversed(list(re.finditer(r'Figs?\.(?=\s+\d)', s0))):
             before = (full[:o + m_.start()]).rstrip()
-            if before == '' or before.endswith(('.', ':', '?', '!')):
+            if before == '' or (before.endswith(('.', ':', '?', '!')) and not before.endswith(('e.g.', 'i.e.', 'cf.', 'Eq.', 'Eqs.', 'et al.'))):
                 rep = 'Figures' if m_.group(0) == 'Figs.' else 'Figure'
                 s0 = s0[:m_.start()] + rep + s0[m_.end():]
+        t.text = s0; o += len(s0)
+
+# ---------------------------------------------------------------- Scheme 1 -> Fig. 3, Fig. n -> n + 1 for n >= 3
+FIGRE = re.compile(r'(Figs?\.|Figures?)(\s+)(\d+)((?:[a-z](?:[–-][a-z])?)?)(\s+and\s+)?(\d+)?')
+def renum(s0):
+    def f(m_):
+        n = int(m_.group(3)); n2 = m_.group(6)
+        out = f"{m_.group(1)}{m_.group(2)}{n + 1 if n >= 3 else n}{m_.group(4)}"
+        if m_.group(5) and n2:
+            out += f"{m_.group(5)}{int(n2) + 1 if int(n2) >= 3 else int(n2)}"
+        elif m_.group(5):
+            out += m_.group(5)
+        return out
+    s1 = FIGRE.sub(f, s0)
+    return re.sub(r'Scheme(\s+)1', r'Fig.\g<1>3', s1)
+SPELL = {"colour": "color", "Colour": "Color", "normalised": "normalized", "minimising": "minimizing",
+         "discretisation": "discretization"}
+WP = '{http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing}docPr'
+for el in body.iter(q('w:t'), WP):
+    attr = 'descr' if el.tag == WP else None
+    s0 = el.get(attr) if attr else el.text
+    if not s0:
+        continue
+    s1 = renum(s0)
+    for k_, v_ in SPELL.items():
+        s1 = s1.replace(k_, v_)
+    if s1 != s0:
+        if attr: el.set(attr, s1)
+        else: el.text = s1
+# sentence start: "Fig. 3" written out again where a body sentence starts with it (after the renumbering)
+for p in body.iter(q('w:p')):
+    if style(p) != 'MDPI31text':
+        continue
+    ts = list(p.iter(q('w:t'))); o = 0; full = ''.join(t.text or '' for t in ts)
+    for t in ts:
+        s0 = t.text or ''
+        for m_ in reversed(list(re.finditer(r'Fig\.(?=\s+\d)', s0))):
+            before = full[:o + m_.start()].rstrip()
+            if before == '' or (before.endswith(('.', ':', '?', '!')) and not before.endswith(('e.g.', 'i.e.', 'cf.', 'Eq.', 'Eqs.', 'et al.'))):
+                s0 = s0[:m_.start()] + 'Figure' + s0[m_.end():]
         t.text = s0; o += len(s0)
 
 # ---------------------------------------------------------------- back matter (Elsevier declarations)
@@ -166,20 +206,22 @@ anchor = bm[0]
 BACK = [
  ("CRediT authorship contribution statement",
   "Aya Medhat Elsayed: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Writing – "
-  "original draft. Navid Kharghani: Conceptualization, Methodology, Validation, Writing – review & editing, Supervision. "
-  "Christian Mittelstedt: Writing – review & editing, Project administration, Funding acquisition."),
+  "original draft. Navid Kharghani: Conceptualization, Methodology, Validation, Writing – review and editing, Supervision. "
+  "Christian Mittelstedt: Writing – review and editing, Project administration, Funding acquisition."),
  ("Declaration of competing interest",
   "The authors declare the following financial interests which may be considered as potential competing interests: "
   "financial support of the German Research Council (DFG – Deutsche Forschungsgemeinschaft), project number 510739591."),
- ("Acknowledgements",
-  "This work was funded by the German Research Council (DFG – Deutsche Forschungsgemeinschaft), project number 510739591."),
  ("Data availability",
   "The raw/processed data required to reproduce these findings cannot be shared at this time as the data also forms part "
   "of an ongoing study."),
  ("Declaration of generative AI and AI-assisted technologies in the manuscript preparation process",
-  "During the preparation of this work the authors used Claude Opus 5.5 (Anthropic) in order to support the literature "
-  "research and to refine the language of the manuscript. After using this tool, the authors reviewed and edited the "
-  "content as needed and take full responsibility for the content of the published article.")]
+  "During the preparation of this work the authors used Claude Opus 5.5 (Anthropic) to support the literature research "
+  "and to refine the language of the manuscript. After using this tool, the authors reviewed and edited the content as "
+  "needed and take full responsibility for the content of the published article."),
+ ("Acknowledgements",
+  "Funding: This work was supported by the German Research Council (DFG – Deutsche Forschungsgemeinschaft) [project number "
+  "510739591]. The funding source had no involvement in the study design, in the collection, analysis and interpretation "
+  "of data, in the writing of the report or in the decision to submit the article for publication.")]
 for h, t in BACK:
     anchor.addprevious(para('MDPI21heading1', [run(h)]))
     anchor.addprevious(para('MDPI31text', [run(t)], first_line=0))
@@ -209,33 +251,28 @@ def authors(s):
 
 
 def convert(s):
+    """MDPI reference text -> the style of example [1] of the TWS guide (J. Sci. Commun. 163 (2020) 51-59. doi.)"""
     s = s.replace('\xa0', ' ').strip(); doi = ''
     m = re.search(r'\s*(https://doi\.org/\S+?)\.?$', s)
     if m:
         doi = m.group(1); s = s[:m.start()].rstrip()
-    m = re.match(r'^(.+?\.)\s(?=[A-Z0-9‘“])', s)          # authors end at the first ". " followed by a capital
-    # the author block: "Last, I.; Last, I.J." -> split at the first ". " after the last initial
     am = re.match(r'^((?:[^;]+?,\s(?:[A-Z]\.(?:-?[A-Z]\.)*)(?:;\s)?)+)\s', s)
     au = authors(am.group(1)); rest = s[am.end():]
     tail = (' ' + doi + '.') if doi else ''
-    # chapter in a book
-    m = re.match(r'^(.+?)\. In (.+?); (.+?): (.+?), (\d{4}); pp\. ([\d–-]+)\.?$', rest)
+    m = re.match(r'^(.+?)\. In (.+?); (.+?): (.+?), (\d{4}); pp\. ([\d–-]+)\.?$', rest)          # chapter
     if m:
-        return f"{au}, {m.group(5)}. {m.group(1)}, in: {m.group(2)}. {m.group(3)}, {m.group(4)}, pp. {m.group(6)}.{tail}"
-    # proceedings
-    m = re.match(r'^(.+?)\. In (Proceedings of .+?), (\d{4})\.?$', rest)
+        return f"{au}, {m.group(1)}, in: {m.group(2)}, {m.group(3)}, {m.group(4)}, {m.group(5)}, pp. {m.group(6)}.{tail}"
+    m = re.match(r'^(.+?)\. In (Proceedings of .+?), (\d{4})\.?$', rest)                         # proceedings
     if m:
-        return f"{au}, {m.group(3)}. {m.group(1)}, in: {m.group(2)}.{tail}"
-    # book
-    m = re.match(r'^(.+?); (.+?): (.+?), (\d{4})\.?(.*)$', rest)
+        return f"{au}, {m.group(1)}, in: {m.group(2)}, {m.group(3)}.{tail}"
+    m = re.match(r'^(.+?); (.+?): (.+?), (\d{4})\.?(.*)$', rest)                                   # book
     if m:
         extra = m.group(5).strip()
-        return f"{au}, {m.group(4)}. {m.group(1).rstrip('.')}. {m.group(2)}, {m.group(3)}.{(' ' + extra) if extra else ''}{tail}"
-    # journal article
-    m = re.match(r'^(.+?)\. (.+?) (\d{4}), (.+?), ([\w–-]+)\.?$', rest)
+        return f"{au}, {m.group(1) if m.group(1).endswith(' ed.') else m.group(1).rstrip('.')}, {m.group(2)}, {m.group(3)}, {m.group(4)}.{(' ' + extra) if extra else ''}{tail}"
+    m = re.match(r'^(.+?)\. (.+?) (\d{4}), (.+?), ([\w–-]+)\.?$', rest)                          # journal
     if m:
         j = ABBR.get(m.group(2), m.group(2))
-        return f"{au}, {m.group(3)}. {m.group(1)}. {j} {m.group(4)}, {m.group(5)}.{tail}"
+        return f"{au}, {m.group(1)}, {j} {m.group(4)} ({m.group(3)}) {m.group(5)}.{tail}"
     raise ValueError(s)
 
 
@@ -267,6 +304,13 @@ with zipfile.ZipFile(OUT, 'w', zipfile.ZIP_DEFLATED) as z:
             full = os.path.join(base, f); z.write(full, os.path.relpath(full, tmp))
 shutil.rmtree(tmp)
 print(f"ok: abstract {nw} words, {len(HL)} highlights, {nfig} figure references abbreviated, {len(refs)} references")
+FIGS = ['fig01_geometry', 'fig02_modes', 'scheme01_overview', 'fig03_prebuckling', 'fig04_ncr', 'fig05_accuracy',
+        'fig06_buckling_modes', 'fig07_participation', 'fig08_long_cells', 'fig09_long_modes', 'fig10_npitch',
+        'fig10_hierarchical']
+fd = os.path.join(os.path.dirname(os.path.abspath(OUT)), 'figures'); shutil.rmtree(fd, ignore_errors=True); os.makedirs(fd)
+src_fig = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'fig')
+for k, f in enumerate(FIGS, 1):
+    shutil.copy(os.path.join(src_fig, f + '.pdf'), os.path.join(fd, f'Figure_{k}.pdf'))
 hl_md = os.path.join(os.path.dirname(os.path.abspath(OUT)), 'highlights.md')
 open(hl_md, 'w').write('# Highlights\n\n' + ''.join(f'- {h}\n' for h in HL))
 import subprocess

@@ -2231,3 +2231,17 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   image as a separate file (manuscript/tws/figures/Figure_n.png, Scheme_1.png; GBT_periodic_TWS_figures.zip).
   Still open: competing-interest declaration as a separate Word file from Elsevier's tool (Aya), optional graphical
   abstract, final check of the guide by Aya in her browser.
+* 21 Nov, 16:10 — Aya sent the full TWS guide (docs/guides/TWS_guide_for_authors_2026-11-21.pdf). Checked point by
+  point and changed in tws_build.py: references in the style of the guide's example [1] ("..., Title, Abbr. J. Vol
+  (Year) pages. doi."; books "..., Title, ed., Publisher, City, Year."; chapters "in: Book, Publisher, City, Year,
+  pp."); the guide says any consistent style is accepted at submission. Scheme 1 -> Fig. 3 and Figs. 3-11 -> 4-12
+  (all images numbered as figures; captions, text and alt text). Back matter order: CRediT, competing interest, data
+  availability, generative-AI declaration (before the references), Acknowledgements directly before the references
+  with the standard "Funding: ... [project number ...]" sentence and the sponsor-role sentence (to be confirmed by
+  Aya/Navid). CRediT wording "Writing – review and editing". American spelling made consistent (colour, normalised,
+  minimising, discretisation). Figures as separate vector PDFs (fonts embedded) Figure_1..12.pdf, since bitmap line
+  drawings would need 1000 dpi. Verified: no underline/strikethrough, no vertical rules or shading in tables,
+  single column, abstract 215 words, 7 keywords, 5 highlights <= 85 characters. The guide lists grants as potential
+  competing interests, so the DFG statement stays. Open: declarations-tool Word file and data statement in the
+  submission system (Aya), optional graphical abstract, one unnumbered display equation (new, C58).
+  fix_cm3: "minimising" -> "minimizing"; AME-21112026 rebuilt.
