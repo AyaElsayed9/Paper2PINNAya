@@ -2262,3 +2262,21 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   -> GBT_periodic-NK-CM-AME-21112026_4.docx (validation passed). TWS version rebuilt from _4.
   Noted for Aya: her reply to C47 reads "Prof. ." and C49 "I agree, The section".
 * 22 Nov — C61 check for Aya: scripts/hermite_vs_bspline.py (results/hermite_vs_bspline.png): same test deflection on 5 elements; Hermite curvature jumps at element ends (e.g. +5.10 / +13.17 at x = 0.4), cubic spline curvature continuous (+10.50 both sides). Sentence in the paper (Hermite C1, cubic B-splines C2 at simple knots) confirmed; literature: B-splines are C^(p-k) at a knot of multiplicity k.
+
+## 2026-11-22 — C71: what really separates hierarchical modes 12 and 8
+- Question (Aya): is the real difference that the crown moves in mode 8 but not in mode 12?
+- Check (`scripts/c71_modes_12_8.py`, output `results/c71_modes_12_8.txt`; Unsym, b_s 150, beta 1.5, SS):
+  - In-plane shapes are almost exact mirror images (correlation -0.9988). The crown moves only a little
+    in both: 7 % (mode 12) and 10 % (mode 8) of the largest displacement. So "crown moves in 8 but not
+    in 12" is NOT supported.
+  - The real difference is transverse stretching of the webs (strain across the web height). For the same
+    largest displacement, mode 8 stretches the webs about 3 times more (root strain -1.46e-3 vs -0.50e-3);
+    the web membrane energy is 5.89 vs 0.76. Plate bending is almost the same (2.87 vs 2.56).
+    The split membrane + bending + coupling reproduces the solver's B quadratic form exactly
+    (3.437 and 7.373). The k^2 D term is also about 3 times larger in mode 8 (6.36 vs 2.13); it was not split by wall.
+  - In the critical mode the amplitudes have opposite signs: the shapes add (0.019 + 0.007 -> 0.026),
+    but the web stretching cancels (web membrane energy 2.7e-4 and 3.0e-4 -> 3.8e-6).
+    The buckled section is one shape with nearly unstretched webs; the decomposition needs both modes for it.
+  - The old reply wording ("between the stringers they look alike, inside they differ") is wrong:
+    they are opposite everywhere. A new reply and caption sentence were proposed to Aya
+    (to be applied on her next file).
