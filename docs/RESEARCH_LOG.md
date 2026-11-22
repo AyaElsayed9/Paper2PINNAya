@@ -2295,3 +2295,11 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
 - Validation: XSD + tracked-change check passed. LibreOffice still cannot draw the middle row of the inserted
   equation (28a) (math inside w:ins); Word shows it.
 - TWS version rebuilt from _5 (`manuscript/tws/build_tws.sh`).
+
+## 2026-11-22 — Fig. 7f now shows the web stretching (C71)
+- Aya agreed: the plain in-plane shapes cannot show what separates modes 12 and 8, so panel (f) of Fig. 7 now colors
+  every wall by its transverse stretching |eps_ss| per unit displacement (same scale for all four modes; color bar below).
+  Mode 8 has dark webs, mode 12 light webs; modes 18 and 20 stretch the skin. Same mode data, no number changed.
+- Caption (tracked) and the C71 reply updated to say this; American spelling "colored" to match the TWS text.
+- _5 rebuilt from Aya's _4 (fix_cm7_aya.py now also replaces media/image8.png and sets the new image height);
+  validation passed; TWS version and figure files rebuilt.

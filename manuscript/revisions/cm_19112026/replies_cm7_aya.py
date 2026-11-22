@@ -63,9 +63,9 @@ R = {
            "all conventional modes. The values of about 1e-15 are round-off errors of double precision; the warping value "
            "(2.3e-11) is larger because the warping comes from the numerical solution of Eq. (13).",
     "456": "Thank you, Professor, this is a fair point. Their in-plane shapes are indeed almost the same with opposite sign, "
-           "but they are not the same mode: mode 8 stretches the webs about three times more than mode 12. In the critical "
-           "mode their amplitudes have opposite signs (Fig. 7e), so the shapes add up while the web stretching cancels. "
-           "I added this to the caption of Fig. 7.",
+           "but they are not the same mode: mode 8 stretches the webs about three times more than mode 12. To make this "
+           "visible, I coloured the walls in Fig. 7f by this stretching. In the critical mode their amplitudes have opposite "
+           "signs (Fig. 7e), so the shapes add up while the web stretching cancels. I also added this to the caption.",
 }
 
 p = 'ua5/word/comments.xml'

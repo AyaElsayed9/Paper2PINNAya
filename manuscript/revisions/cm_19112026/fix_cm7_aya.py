@@ -75,13 +75,23 @@ p = one("modes 1 and 2 are rigid translations of the cross-section in Z and Y")
 replace(cx, p, ", i.e. the out-of-plane and in-plane bending of the panel along X;",
         "; since their amplitude varies along $X$, they describe the out-of-plane and in-plane bending of the panel;")
 
-# ---- Fig. 7 caption (C71)
+# ---- Fig. 7 caption (C71) and the new Fig. 7 (panel (f) coloured by the transverse stretching of the walls)
 p = one("Figure 7. Mode decomposition.")
 replace(cx, p, ", which are different cross-section deformations; their amplitude functions have the same number of "
                "half-waves, and their signs show how they combine in the critical mode.",
-        ". Modes 12 and 8 have almost the same in-plane shape with opposite sign, but mode 8 stretches the webs about "
-        "three times more; since their amplitudes have opposite signs, the shapes add up in the critical mode while the "
-        "web stretching cancels.")
+        ", colored by the transverse stretching |$\u03b5_ss$| of the walls. Modes 12 and 8 have almost the same in-plane "
+        "shape with opposite sign, but mode 8 stretches the webs about three times more (dark webs in (f)); since their "
+        "amplitudes have opposite signs, the shapes add up in the critical mode while the web stretching cancels.")
+import shutil
+from PIL import Image
+pf = p.getprevious()
+drw = etree.tostring(pf).decode(); assert 'r:embed="rId19"' in drw, "Fig. 7 drawing not found"
+shutil.copy('../../fig/fig07_participation.png', 'ua5/word/media/image8.png')
+wpx, hpx = Image.open('ua5/word/media/image8.png').size
+WP = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing'
+A_ = 'http://schemas.openxmlformats.org/drawingml/2006/main'
+for e in list(pf.iter('{%s}extent' % WP)) + list(pf.iter('{%s}ext' % A_)):
+    cxv = int(e.get('cx')); e.set('cy', str(round(cxv * hpx / wpx)))
 
 t.write('ua5/word/document.xml', xml_declaration=True, encoding='UTF-8', standalone=True)
 print("ok fix_cm7")

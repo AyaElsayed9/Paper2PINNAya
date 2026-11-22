@@ -682,18 +682,37 @@ def fig07():
     lg.get_frame().set(facecolor="white", edgecolor="none", alpha=1.0)
     panel_label(ae, r"(e) amplitude functions of the dominant modes")
     # (f) cross-section shapes of the dominant modes
+    # walls colored by the transverse stretching |eps_ss| of each segment (same scale for all modes, C71):
+    # modes 12 and 8 have almost the same shape, but mode 8 stretches the webs much more
     bot = outer[2].subgridspec(1, 4, wspace=0.05)
+    from matplotlib import cm as _cm
+
+    def _shape(k):
+        Uk = h["U"][:, k].reshape(-1, 2); Uk = Uk / np.hypot(*Uk.T).max()
+        Xd = h["X"] + 22 * Uk; segs, eps = [], []
+        for a, b, p_ in h["S"]:
+            if p_ == "link":
+                continue
+            d_ = h["X"][b] - h["X"][a]; l_ = np.hypot(*d_)
+            segs.append([Xd[a], Xd[b]]); eps.append(1e3 * abs((Uk[b] - Uk[a]) @ (d_ / l_) / l_))
+        return segs, np.array(eps)
+    shp = {k: _shape(k) for k in dom}
+    snorm = Normalize(0.0, 1.5); scm = plt.get_cmap("Blues")
     for j, k in enumerate(dom):
-        ax = fig.add_subplot(bot[j]); Uk = h["U"][:, k].reshape(-1, 2); Uk = Uk / np.hypot(*Uk.T).max()
-        Xd = h["X"] + 22 * Uk
+        ax = fig.add_subplot(bot[j]); segs1, eps = shp[k]
         segs0 = [[h["X"][a], h["X"][b]] for a, b, p_ in h["S"] if p_ != "link"]
-        segs1 = [[Xd[a], Xd[b]] for a, b, p_ in h["S"] if p_ != "link"]
-        ax.add_collection(LineCollection(segs0, colors="#c9d0d8", linewidths=0.5))
-        ax.add_collection(LineCollection(segs1, colors=cb_[j], linewidths=0.9))
+        ax.add_collection(LineCollection(segs0, colors="#d5dbe1", linewidths=0.5))
+        ax.add_collection(LineCollection(segs1, colors=scm(snorm(0.15 * 1.5 + 0.85 * np.minimum(eps, 1.5))), linewidths=1.3))
+        out[f"mode{k + 1}_eps_max"] = float(eps.max())
         ax.set_xlim(-305, 5); ax.set_ylim(-26, 56); ax.set_aspect("equal"); ax.axis("off")
         ax.set_title(rf"mode {k + 1}: $\rho_k = {rho[k]:.1f}\,\%$", fontsize=7, pad=1)
         out[f"mode{k + 1}"] = float(rho[k])
-    fig.text(0.125, outer[2].get_position(fig).y1 + 0.012, r"(f) in-plane shapes of the dominant hierarchical modes", fontsize=8)
+    yb = outer[2].get_position(fig).y1 + 0.012
+    fig.text(0.125, yb, r"(f) in-plane shapes of the dominant hierarchical modes, colored by the transverse stretching", fontsize=8)
+    cax = fig.add_axes([0.40, outer[2].get_position(fig).y0 + 0.004, 0.22, 0.009])
+    cbar = fig.colorbar(_cm.ScalarMappable(snorm, scm), cax=cax, orientation="horizontal")
+    cbar.set_ticks([0, 0.5, 1.0, 1.5]); cbar.ax.tick_params(labelsize=6, length=2, pad=1)
+    cbar.set_label(r"$|\varepsilon_{ss}|$ per unit displacement [$10^{-3}$]", fontsize=6.5, labelpad=1.5)
     save(fig, "fig07_participation")
     out["sum20"] = float(s20); out["S"] = float(sS); out["M"] = float(sM)
     return out
