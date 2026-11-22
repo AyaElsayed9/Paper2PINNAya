@@ -2261,3 +2261,4 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   under two conditions: no axial force, equal warping at both side edges), and the circulation explained in words.
   -> GBT_periodic-NK-CM-AME-21112026_4.docx (validation passed). TWS version rebuilt from _4.
   Noted for Aya: her reply to C47 reads "Prof. ." and C49 "I agree, The section".
+* 22 Nov — C61 check for Aya: scripts/hermite_vs_bspline.py (results/hermite_vs_bspline.png): same test deflection on 5 elements; Hermite curvature jumps at element ends (e.g. +5.10 / +13.17 at x = 0.4), cubic spline curvature continuous (+10.50 both sides). Sentence in the paper (Hermite C1, cubic B-splines C2 at simple knots) confirmed; literature: B-splines are C^(p-k) at a knot of multiplicity k.
