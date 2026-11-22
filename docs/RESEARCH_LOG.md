@@ -2280,3 +2280,18 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   - The old reply wording ("between the stringers they look alike, inside they differ") is wrong:
     they are opposite everywhere. A new reply and caption sentence were proposed to Aya
     (to be applied on her next file).
+
+## 2026-11-22 — Edits on Aya's file _4 (her edits kept) -> GBT_periodic-NK-CM-AME-21112026_5.docx
+- Base: Aya's own edited file (`manuscript/revisions/cm_19112026/aya/GBT_periodic-NK-CM-AME-21112026_4_Aya.docx`).
+  She had already removed "In words:" and "extreme" and fixed the missing space ("displacements. In").
+- `fix_cm7_aya.py` (tracked, author Aya): the two new shear-term equations (C58) are numbered (28a) and (28b) in the same
+  two-cell table layout as Eq. (28) (number column widened to fit "(28a)"); italic a, b; ";  The MAC" -> ". The MAC";
+  modes 1 and 2 (C61): "since their amplitude varies along X, they describe the out-of-plane and in-plane bending of the
+  panel"; Fig. 7 caption (C71): modes 12 and 8 have almost the same shape with opposite sign, mode 8 stretches the webs
+  about three times more, the shapes add and the web stretching cancels in the critical mode.
+- `replies_cm7_aya.py`: all 17 replies polished in Aya's voice (polite student, "Professor"), typos fixed
+  ("Prof. ." and "I agree, The"), C58/C61/C71 replies updated to the new edits, C71 reply kept short.
+- Not applied (still open, Aya/Navid to decide): the shorter C64 paragraph.
+- Validation: XSD + tracked-change check passed. LibreOffice still cannot draw the middle row of the inserted
+  equation (28a) (math inside w:ins); Word shows it.
+- TWS version rebuilt from _5 (`manuscript/tws/build_tws.sh`).
