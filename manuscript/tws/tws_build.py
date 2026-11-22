@@ -283,8 +283,12 @@ for st in sty.getroot().findall(q('w:style')):              # references left-al
         if jc is not None:
             jc.set(q('w:val'), 'left')
 assert len(refs) == 57, len(refs)
+ARPACK_DOI = "https://doi.org/10.1137/1.9780898719628"      # guide: include DOIs where available (checked 22 Nov 2026)
 for p in refs:
-    set_runs(p, [run(convert(text(p)))])
+    r_ = convert(text(p))
+    if 'ARPACK Users' in r_ and 'doi.org' not in r_:
+        r_ += ' ' + ARPACK_DOI + '.'
+    set_runs(p, [run(r_)])
 # list label "[n]" instead of "n."
 num = etree.parse(P('word', 'numbering.xml')); nr = num.getroot()
 st_ref = next(s for s in sty.getroot().findall(q('w:style')) if s.get(q('w:styleId')) == 'MDPI81references')
@@ -294,6 +298,22 @@ an = next(a for a in nr.findall(q('w:abstractNum')) if a.get(q('w:abstractNumId'
 lvl = an.find(q('w:lvl')); lvl.find(q('w:lvlText')).set(q('w:val'), '[%1]')
 num.write(P('word', 'numbering.xml'), xml_declaration=True, encoding='UTF-8', standalone=True)
 
+# guide (Math formulae): "Denote powers of e by exp" -> e^(...) becomes exp(...)
+n_exp = 0
+for ss in list(body.iter(q('m:sSup'))):
+    base = ss.find(q('m:e')); sup = ss.find(q('m:sup'))
+    if base is None or sup is None or ''.join(base.itertext()).strip() != 'e':
+        continue
+    mr = etree.Element(q('m:r')); rp = etree.SubElement(mr, q('m:rPr')); sy = etree.SubElement(rp, q('m:sty')); sy.set(q('m:val'), 'p')
+    wr = etree.SubElement(mr, q('w:rPr')); rf = etree.SubElement(wr, q('w:rFonts'))
+    rf.set(q('w:ascii'), 'Cambria Math'); rf.set(q('w:hAnsi'), 'Cambria Math')
+    mt_ = etree.SubElement(mr, q('m:t')); mt_.text = 'exp'
+    d = etree.Element(q('m:d')); de = etree.SubElement(d, q('m:e'))
+    for ch in list(sup):
+        if ch.tag != q('m:ctrlPr'):
+            de.append(ch)
+    ss.addprevious(mr); ss.addprevious(d); ss.getparent().remove(ss); n_exp += 1
+print('exp: replaced', n_exp, 'powers of e')
 doc.write(P('word', 'document.xml'), xml_declaration=True, encoding='UTF-8', standalone=True)
 sty.write(P('word', 'styles.xml'), xml_declaration=True, encoding='UTF-8', standalone=True)
 if os.path.exists(OUT):

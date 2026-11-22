@@ -2303,3 +2303,21 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
 - Caption (tracked) and the C71 reply updated to say this; American spelling "colored" to match the TWS text.
 - _5 rebuilt from Aya's _4 (fix_cm7_aya.py now also replaces media/image8.png and sets the new image height);
   validation passed; TWS version and figure files rebuilt.
+
+## 2026-11-22 — Final check of Aya's final file (_5_1) before sending; clean and TWS versions
+- Aya's final: `manuscript/revisions/cm_19112026/aya/GBT_periodic-NK-CM-AME-21112026_5_1_Aya_final.docx`.
+  Body text identical to _5 (accepted-text diff empty); only her own reply edits. Replies not touched.
+- Checks: XSD vs _5 passed (no new errors); all 34 comments anchored; 16 of 17 replies threaded (the Fig. 1 reply
+  was never linked to its comment, since replies_final; shows as a separate comment at the same place);
+  citations [1]-[57] in order, all cited; Figures 1-11, Scheme 1, Tables 1-8 cited in order; equations (1)-(41)
+  with (28a)/(28b) consecutive, no reference beyond (41); section references exist; no repeated words or missing spaces.
+- Noted for Aya (not changed): abstract "satisfies it exactly" (it = the periodic conditions, plural);
+  mixed British/American spelling in the JCS file; two small reply wordings.
+- Clean file: `GBT_periodic-NK-CM-AME-21112026_final_clean.docx` (all changes accepted, comments removed; 41 pages).
+- TWS: built from the final file; added per guide "denote powers of e by exp" (Bloch wave) and the ARPACK DOI
+  (verified); checked: single column, no underline/strike, three-line tables (no vertical rules/shading),
+  title page with affiliation, address, corresponding e-mail, abstract 215 words without references, 7 keywords,
+  5 highlights of 66-82 characters in a separate file, CRediT, competing interest, funding sentence with sponsor role,
+  data availability, gen-AI section (prescribed title) before references, Acknowledgements directly before references,
+  12 figure files (vector PDF, fonts embedded, embedded rasters 600 ppi), no comments or tracked changes; 29 pages.
+  Refs without DOI: Schardt 1989, Reddy 2004 (DOIs not verified), Vlasov 1959 (none).
