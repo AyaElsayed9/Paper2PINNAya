@@ -2321,3 +2321,6 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   data availability, gen-AI section (prescribed title) before references, Acknowledgements directly before references,
   12 figure files (vector PDF, fonts embedded, embedded rasters 600 ppi), no comments or tracked changes; 29 pages.
   Refs without DOI: Schardt 1989, Reddy 2004 (DOIs not verified), Vlasov 1959 (none).
+- Aya asked for the noted fixes -> `fix_cm8_final.py` -> `GBT_periodic-NK-CM-AME-21112026_5_2.docx`: abstract "them",
+  Fig. 2 caption "gray", alt texts American, two reply wordings (comma; "I agree, Professor, its meaning was not
+  explained."), Fig. 1 reply threaded. Validation passed. Clean file and TWS version rebuilt from _5_2.
