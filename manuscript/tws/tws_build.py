@@ -314,6 +314,14 @@ for ss in list(body.iter(q('m:sSup'))):
             de.append(ch)
     ss.addprevious(mr); ss.addprevious(d); ss.getparent().remove(ss); n_exp += 1
 print('exp: replaced', n_exp, 'powers of e')
+# direct paragraph indents that still carry the MDPI side column (2608 twips), e.g. the bulleted list of mode families
+n_ind = 0
+for ind in body.iter(q('w:ind')):
+    for k_ in (q('w:left'), q('w:start')):
+        v_ = ind.get(k_)
+        if v_ is not None and int(v_) >= 2608:
+            ind.set(k_, str(int(v_) - 2608)); n_ind += 1
+print('indents: moved', n_ind, 'paragraphs back to the text margin')
 doc.write(P('word', 'document.xml'), xml_declaration=True, encoding='UTF-8', standalone=True)
 sty.write(P('word', 'styles.xml'), xml_declaration=True, encoding='UTF-8', standalone=True)
 if os.path.exists(OUT):

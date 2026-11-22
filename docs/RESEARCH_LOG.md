@@ -2324,3 +2324,6 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
 - Aya asked for the noted fixes -> `fix_cm8_final.py` -> `GBT_periodic-NK-CM-AME-21112026_5_2.docx`: abstract "them",
   Fig. 2 caption "gray", alt texts American, two reply wordings (comma; "I agree, Professor, its meaning was not
   explained."), Fig. 1 reply threaded. Validation passed. Clean file and TWS version rebuilt from _5_2.
+- TWS layout fix (Aya noticed): the bulleted list of mode families (Section 2.1.3) still had the MDPI side-column
+  indent (left 3033 twips) and stood in the middle of the page; tws_build.py now moves direct indents >= 2608 back
+  by 2608 (6 paragraphs, the only ones). Highlights unchanged (Aya's decision).
