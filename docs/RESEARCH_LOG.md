@@ -2379,3 +2379,13 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   operators of the design (4.5 s), not by the steps. GP needs 80+ labels to meet 5 % and gives no guarantee.
   -> The contribution supported by the data is the certified reduced-basis GBT check with its error estimate; the
   network adds little in the 2-input experts. Story decision needed from Aya (and Navid).
+
+## 2026-11-23 — Story decision (Aya), paper outline, GAMM 2027 abstract
+- Aya: Paper 1 was accepted without showing that the network beats anything (its framework took 3.31 h vs 1.64 h
+  all-Abaqus), so Paper 2 does not need to prove superiority; report the results as they are, avoid claims the
+  data contradict. Story = Aya's 5-point plan (GBT physics, GBT oracle, certified check instead of -15/+3 %,
+  lay-ups, speed), GP as comparison.
+- Outline, tables and figures (journal-neutral, journal still open): Claude Doc "Paper 2 – outline, tables and
+  figures (draft, journal-neutral)" https://claude.ai/artifact/EYLaXK7AGepSjFvEXV67Ky
+- GAMM & DMV 2027 (Ulm, 8-12 March 2027) abstract draft: docs/conferences/GAMM2027_abstract.txt (385 words; all
+  numbers from the logged results).
