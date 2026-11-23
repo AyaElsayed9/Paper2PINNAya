@@ -2355,3 +2355,27 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   bound is to the nearest eigenvalue (with the upper-bound property of the check it is used as the error of N_cr);
   M is the energy metric, not exactly K. The indicator comes from the check, so any start (also a copied neighbour)
   has it; the network's part is a good start without labels.
+
+## 2026-11-23 — Step 2: cost study for a 5 % target (Aya: "make it 5 %")
+- `scripts/cost_study.py` (+ `logs/run_cost_study.sh`, `scripts/cost_study_summary.py`, `scripts/time_ops_fine.py`),
+  results/cost_study/: 8 experts x 40 unseen designs; the certified check (fine pre-buckling) from 5 starts (random,
+  nn10, nn120, net_L0, net_L120), stopped when the label-free estimate eta <= 5 % (if never: full GBT); GP with
+  10/20/40/80/120 labels, with and without a +-2 std trigger to full GBT; full GBT for every design.
+  Online operator time of the check measured: 4.5 s (fine pre) vs full GBT 9.4 s on the same 16 designs.
+  Training time from the logs: physics-only 1.8-2.9 h, hybrid 1.7-2.0 h per expert (sum of the run segments).
+- Pooled result (320 designs; calls = full GBT solves; offline = labels + operators + training, all 8 experts):
+    full GBT          320 calls, 0 h offline, 10.7 s per design, exact
+    GP 10 / 20 / 40   80 / 160 / 320 calls, max error 18.3 / 14.9 / 7.7 % (target missed), no guarantee
+    GP 80 / 120       640 / 960 calls, 1.9 / 2.9 h offline, instant, max 4.8 / 3.7 % (target met), no guarantee
+    check, random     0 calls, 0 h offline, 7.9 s per design, mean 0.38 % / max 1.18 %, 9.7 steps, guaranteed
+    check, nn10       80 calls, 0.2 h, 7.3 s, 0.32 / 1.20 %, 6.7 steps
+    check, nn120      960 calls, 2.9 h, 7.4 s, 0.30 / 1.66 %, 5.6 steps
+    check, net_L0     0 calls, 18.5 h (training), 7.4 s, 0.45 / 2.51 %, 7.6 steps; break-even vs full GBT ~2400 designs/expert
+    check, net_L120   960 calls, 19.1 h, 7.3 s, 0.36 / 1.83 %, 7.0 steps; break-even ~2500 designs/expert
+- Honest reading: for the 5 % target the physics check ALONE (random start, no labels, no network) already meets the
+  target on every design with a label-free guarantee, at 74 % of the full-GBT time. The network start saves about
+  2 steps (~0.5 s per design) and costs ~2 h training per expert, so it pays back only after ~2400 designs per
+  expert; the copied-neighbour start (nn10, nn120) saves as much or more. The online time is dominated by the
+  operators of the design (4.5 s), not by the steps. GP needs 80+ labels to meet 5 % and gives no guarantee.
+  -> The contribution supported by the data is the certified reduced-basis GBT check with its error estimate; the
+  network adds little in the 2-input experts. Story decision needed from Aya (and Navid).
