@@ -2327,3 +2327,31 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
 - TWS layout fix (Aya noticed): the bulleted list of mode families (Section 2.1.3) still had the MDPI side-column
   indent (left 3033 twips) and stood in the middle of the page; tws_build.py now moves direct indents >= 2608 back
   by 2608 (6 paragraphs, the only ones). Highlights unchanged (Aya's decision).
+
+## 2026-11-23 — Back to Paper 2: story "network vs GP", step 1 = label-free physics error indicator
+- Aya (23 Nov): stop the imperfection path; strengthen the tool; show network and GP, argue that the GP is a black
+  box (no physics check) while the network gives modes that can be checked. Honest caveat told to Aya: a GP number +
+  modes copied from the nearest labelled design + the same check is as good as the network start (nn120 0.11 % vs net
+  0.19 % at 12 steps); the network's real edge is modes learnt from physics with 0 labels. Plan: (1) physics error
+  indicator, (2) GBT-call study, (3) label study on a second lay-up, (4) writing.
+- Step 1 (`scripts/error_indicator.py`, `scripts/error_indicator_summary.py`, `logs/run_error_indicator.sh`,
+  results/error_indicator/): 8 experts x 40 unseen designs x networks physics_L0 and hybrid_L120 (crossply / symmetry
+  also L10, L20, L40) = 760 runs, from the stored test operators; LOBPCG as in all checks, with the relative residual
+  eta = ||G x - mu K x||_{M^-1} / mu of the best vector after 0, 1, 3, 5, 12 steps (M = energy metric ~ K).
+  GP (same labels, b_s and beta) with its predictive std. Truth (full GBT) only for scoring.
+  Results (pooled, 760 runs):
+    step 0 / 1 / 3 / 5 / 12: true error median 17.3 / 7.8 / 2.1 / 0.92 / 0.18 %; eta median 51 / 30 / 14 / 7.3 / 1.8 %;
+    eta >= true error in 100 % of the cases at every step (3800 pairs; expected from the residual bound for the
+    symmetric pencil, here with M ~ K); eta / error median 2.9 / 4.1 / 6.9 / 8.2 / 11 (safe but conservative);
+    Spearman 0.51 / 0.74 / 0.84 / 0.88 / 0.73. eta^2 is closer (median ratio 0.6-1.3) but NOT safe (10 % at 5 steps).
+    eta^2/relgap safe at 5 steps (100 %) but 5-90x too large; dropped.
+    Adaptive stop "until eta <= 10 % / 5 % / 3 %": 6.3 / 10.3 / 11.5 steps, true error mean 0.79 / 0.28 / 0.24 %,
+    max 4.89 / 2.18 / 1.49 %, always below the stated eta.
+    Same quality for L0 and L120 (5 steps: eta/err 7.6 vs 10.2, Spearman 0.87 vs 0.88): the indicator does not need labels.
+  GP std as indicator: Spearman with its own |error| only 0.06-0.47; +-2 std covers 95-98 % with 120 labels but only
+  60-62 % with 10-20 labels (crossply / symmetry); it is instant, the physics estimate needs the operators (~5 s).
+  Limits (honest): eta sees only the iteration error inside the design's Ritz space, not the space error vs full GBT
+  (0.05-0.27 %, B0 study) -> at 12 steps eta^2 under-estimates; eta itself stays safe but is 4-11x conservative; the
+  bound is to the nearest eigenvalue (with the upper-bound property of the check it is used as the error of N_cr);
+  M is the energy metric, not exactly K. The indicator comes from the check, so any start (also a copied neighbour)
+  has it; the network's part is a good start without labels.
