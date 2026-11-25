@@ -2397,3 +2397,9 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   5 % cost table, limits, set-up. All numbers from `scripts/report_gamm_data.py` -> results/report_gamm/report_data.json.
 - Honest points kept in the report: only the head is instant; random start also meets 5 %; with few labels the GP
   beats the network head; the estimate covers only the iteration error.
+- 25 Nov (later): Aya did not like the results-only report ("show all the work, how we started, proceeded and
+  concluded; this will be the paper draft; not dense"). Same doc rewritten as "Paper 2 draft – ... what we tried and
+  what we found": summary, research-path table (9 stages: question / tried / result / decision), sections 1-12 each
+  as question, tries (kept or not), result, decision, with the earlier charts and diagram reused; side studies
+  (constant width, Koiter / non-linear GBT screens) and limits. All numbers from this log.
+- GAMM abstract: limit 500 words plain text (submission page; the dates page says 400), ours 385; talk, Joint Annual Meeting.
