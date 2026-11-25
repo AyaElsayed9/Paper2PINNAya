@@ -33,6 +33,32 @@ def save(fig, name):
     fig.savefig(H / f"{name}.pdf", bbox_inches="tight", pad_inches=0.02); plt.close(fig)
 
 
+# ---- timeline of the whole work (dates from the uploads, git history and docs/RESEARCH_LOG.md) ----
+import datetime as dt
+d0 = dt.date(2026, 9, 20)
+dd = lambda m, d: (dt.date(2026, m, d) - d0).days
+rows = [("GBT code: members and omega panel, Abaqus checks", [(dd(9, 23), dd(10, 12))], GBT),
+        ("Periodic conditions in GBT, Abaqus validation", [(dd(10, 13), dd(10, 21))], GBT),
+        ("Reduced space and physics-informed networks", [(dd(10, 22), dd(11, 17))], NET),
+        ("Certified check and cost study", [(dd(11, 10), dd(11, 23))], CHK),
+        ("GBT paper: writing and revisions", [(dd(10, 28), dd(11, 1)), (dd(11, 4), dd(11, 25))], MUTED),
+        ("Side studies (cell width, post-buckling)", [(dd(11, 16), dd(11, 23))], MUTED)]
+fig, (t0, ax) = plt.subplots(2, 1, figsize=(FULL, 112 * MM), gridspec_kw=dict(height_ratios=[0.78, 1.25], hspace=0.42))
+for i, (lab, segs, c) in enumerate(rows):
+    y = len(rows) - 1 - i
+    for s, e in segs:
+        t0.barh(y, e - s + 1, left=s, height=0.55, color=c, alpha=0.75, lw=0)
+    t0.text(segs[0][0] - 1, y, lab, ha="right", va="center", fontsize=6.6)
+t0.axvline(dd(10, 22), color=INK, lw=0.6, ls=(0, (2, 2)))
+t0.text(dd(10, 22) + 0.6, len(rows) - 0.35, "solver V32 frozen (22 Oct)", fontsize=6.3, va="bottom")
+t0.axvspan(dd(10, 22), dd(11, 25), color=NET, alpha=0.05, lw=0)
+t0.set_xlim(-22, dd(11, 27)); t0.set_ylim(-0.6, len(rows) - 0.1); t0.set_yticks([])
+tk = [(9, 23), (10, 1), (10, 15), (10, 22), (11, 1), (11, 15), (11, 23)]
+t0.set_xticks([dd(m, d) for m, d in tk]); t0.set_xticklabels([f"{d} {'Sep' if m == 9 else 'Oct' if m == 10 else 'Nov'}" for m, d in tk])
+for sp in ("left", "right", "top"): t0.spines[sp].set_visible(False)
+t0.tick_params(axis="x", top=False); t0.tick_params(axis="y", left=False, right=False)
+t0.text(-22, len(rows) + 0.25, "(a)", fontsize=8)
+
 # ---- history of the error (from the research log) -------------------------------------------
 day = lambda m, d: d - 21 if m == "Oct" else d + 10
 inst = [("Oct", 22, 15, 140, "physics only, Adam\n(training panels)"), ("Oct", 25, 10, 16, "GBT as teacher"),
@@ -41,7 +67,6 @@ inst = [("Oct", 22, 15, 140, "physics only, Adam\n(training panels)"), ("Oct", 2
         ("Nov", 9, 0.24, 1.18, "8 experts, 120 labels"), ("Nov", 17, 4.68, 11.93, "8 experts, 0 labels")]
 chk = [("Oct", 26, 0.22, None), ("Nov", 4, 0.20, None), ("Nov", 6, 0.21, None), ("Nov", 10, 0.11, 0.33),
        ("Nov", 17, 0.14, 0.48), ("Nov", 23, 0.45, None)]
-fig, ax = plt.subplots(figsize=(FULL, 62 * MM))
 ax.set_yscale("log"); ax.set_ylim(0.08, 250); ax.set_xlim(0, 34); grid(ax)
 ax.axhline(5, color=INK, lw=0.6, ls=(0, (4, 3))); ax.text(0.4, 5.6, r"5\,\% target", fontsize=6.5, color=INK)
 xs = [day(m, d) for m, d, v, h, _ in inst if h is None]; ys = [v for m, d, v, h, _ in inst if h is None]
@@ -71,6 +96,7 @@ ax.yaxis.set_major_formatter(pct); ax.set_ylabel("mean error vs full GBT")
 h1 = plt.Line2D([], [], color=NET, marker="o", ls="", ms=4, label="instant network answer")
 h2 = plt.Line2D([], [], color=CHK, marker="s", ls="", ms=3.6, label="after the GBT check")
 ax.legend(handles=[h1, h2], loc="upper right", ncol=2)
+ax.text(-0.075, 1.04, "(b)", transform=ax.transAxes, fontsize=8)
 save(fig, "fig_history")
 
 # ---- experts and labels -----------------------------------------------------------------------

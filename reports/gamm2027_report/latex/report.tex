@@ -28,6 +28,7 @@
 \titlespacing*{\section}{0pt}{16pt}{6pt}
 \titlespacing*{\subsection}{0pt}{11pt}{4pt}
 \setlength{\parskip}{3pt}
+\widowpenalty=10000 \clubpenalty=10000
 \setlist{itemsep=1pt,topsep=3pt}
 \renewcommand{\arraystretch}{1.15}
 
@@ -50,7 +51,7 @@
 
 \vspace{4pt}
 \begin{abstract}
-\noindent This report describes the work on the second paper of my project, from the first physics-only network on 22 October to the cost study of 23 November 2026, including the attempts that did not work. I replaced the plate physics and the Abaqus oracle of Paper~1 by our periodic Generalized Beam Theory (GBT) code, built a shared reduced space in which every design has the same coordinates, and trained lay-up-specific physics-informed networks on the GBT energy. The network's modes start a block eigen-iteration whose relative residual gives a label-free error estimate. With 120 labels, the instant answer of the network is within 0.24--1.18\pc{} of full GBT on 320 unseen designs. The error estimate was never below the true error in 3800 checks, and a 5\pc{} target is met on every design without labels. Compared with simple alternatives, the network itself adds less than I expected; the main contribution is the certified GBT check.
+\noindent This report describes the work on the second paper of my project, from the first version of my own Generalized Beam Theory (GBT) code on 23 September to the cost study of 23 November 2026, including the attempts that did not work. I wrote and validated the GBT code against Abaqus, added periodic boundary conditions to it, and used it to replace the plate physics and the Abaqus oracle of Paper~1. On top of it I built a shared reduced space in which every design has the same coordinates and trained lay-up-specific physics-informed networks on the GBT energy. The network's modes start a block eigen-iteration whose relative residual gives a label-free error estimate. With 120 labels, the instant answer of the network is within 0.24--1.18\pc{} of full GBT on 320 unseen designs. The error estimate was never below the true error in 3800 checks, and a 5\pc{} target is met on every design without labels. Compared with simple alternatives, the network itself adds less than I expected; the main contribution is the certified GBT check.
 \end{abstract}
 
 \section{Starting point and aim}
@@ -105,17 +106,38 @@ Reference & full GBT solution of every test design \\
 
 \section{How the work developed}
 
-Figure~\ref{fig:history} summarises the five weeks. The instant answer of the network moved between 140\pc{} and 0.24\pc{}, while the answer after the GBT check stayed below 0.5\pc{} on average in every test. The following subsections tell the story behind the points.
+Figure~\ref{fig:history}a shows the two months of work. The first month went into the GBT code itself; the network and the check followed once the code was frozen. Figure~\ref{fig:history}b shows how the error developed in the second part: the instant answer of the network moved between 140\pc{} and 0.24\pc{}, while the answer after the GBT check stayed below 0.5\pc{} on average in every test. The following subsections tell the story behind the bars and points.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{fig_history.pdf}
-\caption{Mean error against full GBT of every test, in the order in which it was run. All values are for unseen designs, except the first bar, which is the error on the 8--32 training panels themselves. Bars show the spread over designs or lay-ups.}
+\caption{(a) Phases of the work from 23 September to 25 November 2026; the shaded part is the period shown in (b). (b) Mean error against full GBT of every network test, in the order in which it was run. All values are for unseen designs, except the first bar, which is the error on the 8--32 training panels themselves. Bars show the spread over designs or lay-ups.}
 \label{fig:history}
 \end{figure}
 
+\subsection{Building my own GBT code}
+The physics engine of Paper~2 is a GBT code that I wrote myself before any network was trained. I started on 23 September 2026 with a worked example, the shear-deformable GBT buckling analysis of a CFRP channel column following Silvestre and Camotim \cite{sc13}, together with the extension of GBT to stiffened sections by Taig and Ranzi \cite{tr} and the Abaqus model of the omega-stiffened panel from Paper~1. Within the first days I prepared Abaqus parametric studies of C, Z, T, I and rectangular hollow sections to test the code on simple members, and I moved the formulation to the notation of Silvestre and Camotim \cite{sc}. Step by step, the code grew into two solvers: the GBT solver, with transverse-extension, Mindlin and nodal-rotation modes and cubic B-spline amplitude functions, and a Mindlin spline finite strip as an independent fast reference. In mid-October I built the periodic boundary conditions into the cross-section analysis and validated them against new periodic Abaqus models. Table~\ref{tab:val} summarises the validation.
+
+\begin{table}[h]
+\centering\small
+\caption{Validation of my GBT code against Abaqus (deviation of the critical load).}
+\label{tab:val}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Structure & Cases & Mean / max deviation \\
+\midrule
+Members: C, Z, L, T, I and rectangular hollow sections & 144 & 1.07\pc{} mean \\
+Omega panel, symmetry side conditions & 60 & 0.58\pc{} mean \\
+Omega periodic cell, simply supported ends & 30 & 0.57 / 1.25\pc \\
+Omega periodic cell, clamped ends (added 30 Oct) & 30 & 0.64 / 1.52\pc \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+On 22 October I froze this version of the code (V32) as the reference of Paper~2. From then on I allowed only bug fixes and new optional outputs that leave every validated value unchanged, each listed in a change log and checked by regression tests. The periodic part of the code became the GBT paper \cite{gbt}, which I wrote between 28 October and 1 November and revised with my co-authors until 25 November, in parallel with the work described below.
+
 \subsection{GBT as the physics and the reference}
-The first question was whether GBT removes the physics error of Paper~1. I ran the full GBT code at the 22 Abaqus points of Paper~1 (cross-ply, symmetry side, simply supported ends) and compared with the Abaqus values of its Table~2. GBT deviates from Abaqus by 0.54\pc{} on average and by less than 1\pc{} everywhere, including the tight pitch where the RBS model failed (Table~\ref{tab:abq}). It also finds the Abaqus half-wave number at all 22 points, whereas Paper~1 found it at 20. From this point on GBT served as both the physics and the reference, and Abaqus was not used again.
+The next question was whether GBT removes the physics error of Paper~1. I ran the full GBT code at the 22 Abaqus points of Paper~1 (cross-ply, symmetry side, simply supported ends) and compared with the Abaqus values of its Table~2. GBT deviates from Abaqus by 0.54\pc{} on average and by less than 1\pc{} everywhere, including the tight pitch where the RBS model failed (Table~\ref{tab:abq}). It also finds the Abaqus half-wave number at all 22 points, whereas Paper~1 found it at 20. From this point on GBT served as both the physics and the reference, and Abaqus was not used again.
 
 \begin{table}[h]
 \centering\small
@@ -235,6 +257,8 @@ The next steps are to choose the journal, to write the paper from this report, a
 \begin{thebibliography}{9}\small
 \bibitem{p1} A.\,M. Elsayed, N. Kharghani, S. El Yaakoubi-Mesbah, C. Mittelstedt, A hybrid physics-informed neural network framework for local buckling prediction of stiffened composite panels with epistemic uncertainty quantification, \emph{Composite Structures} 399 (2026) 120959.
 \bibitem{gbt} A.\,M. Elsayed, N. Kharghani, C. Mittelstedt, Periodic boundary conditions in generalized beam theory for the buckling analysis of omega-stringer-stiffened composite panels, manuscript under review (2026).
+\bibitem{sc13} N. Silvestre, D. Camotim, Shear deformable generalized beam theory for the analysis of thin-walled composite members, \emph{Journal of Engineering Mechanics} 139 (2013) 1010--1024.
+\bibitem{tr} G. Taig, G. Ranzi, Generalised beam theory (GBT) for stiffened sections, \emph{International Journal of Steel Structures} 14 (2014) 381--397.
 \bibitem{sc} N. Silvestre, D. Camotim, First-order generalised beam theory for arbitrary orthotropic materials, \emph{Thin-Walled Structures} 40 (2002) 755--789.
 \bibitem{lobpcg} A.\,V. Knyazev, Toward the optimal preconditioned eigensolver: locally optimal block preconditioned conjugate gradient method, \emph{SIAM Journal on Scientific Computing} 23 (2001) 517--541.
 \end{thebibliography}

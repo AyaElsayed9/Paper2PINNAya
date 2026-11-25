@@ -2441,3 +2441,11 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   (7 pages: abstract, starting point and aim, tool, how the work developed (6 subsections), results, scope, conclusions,
   4 references). No person named as decision maker. Same numbers as the audited version. The HTML page (artifact
   2k6kxWXJ2YabGcJBW96zsp) is the older layout.
+- 25 Nov (afternoon): Aya: the report must show that the work started long before 22 Oct (the frozen solver).
+  Added Section 3.1 "Building my own GBT code" and Fig. 3a (timeline 23 Sep - 25 Nov). Sources: dates of her uploads
+  in this project (23 Sep: Abaqus omega script, Taig & Ranzi 2014, shear-deformable GBT worked example after
+  Silvestre & Camotim 2013; 26 Sep: Abaqus parametric scripts C/Z/T/I/RHS; 27 Sep: Silvestre-Camotim notation;
+  13-18 Oct: periodic Abaqus validation files), the V32 header (members 144 cases 1.07 %, omega symmetry 60 cases
+  0.58 %, periodic SS 30 cases 0.57 %), the GBT paper (periodic CC 30 cases 0.64 %, added 30 Oct), git history
+  (V32 frozen 22 Oct; manuscript 28 Oct - 1 Nov; revisions to 25 Nov). Report now 8 pages. cm-super installed for
+  the matplotlib LaTeX figures (new container).
