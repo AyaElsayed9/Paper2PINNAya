@@ -1,0 +1,242 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage[scaled=0.9]{helvet}
+\usepackage{amsmath}
+\usepackage[a4paper,margin=24mm,top=22mm,bottom=26mm]{geometry}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[font=small,labelfont=bf,labelsep=period]{caption}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{ink}{HTML}{1B2733}
+\definecolor{gbt}{HTML}{2A78D6}
+\definecolor{net}{HTML}{EB6834}
+\definecolor{chk}{HTML}{1BAF7A}
+\definecolor{muted}{HTML}{5B6675}
+
+\titleformat{\section}{\normalfont\Large\bfseries\color{ink}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{ink}}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{16pt}{6pt}
+\titlespacing*{\subsection}{0pt}{11pt}{4pt}
+\setlength{\parskip}{3pt}
+\setlist{itemsep=1pt,topsep=3pt}
+\renewcommand{\arraystretch}{1.15}
+
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[L]{\footnotesize\color{muted}A.\,M.~Elsayed \,--\, Paper 2 progress report}
+\fancyfoot[R]{\footnotesize\color{muted}\thepage}
+
+\newcommand{\pc}{\,\%}
+\newcommand{\Ncr}{N_{\mathrm{cr}}}
+
+\begin{document}
+
+\begin{center}
+{\small\color{muted}Progress report on Paper 2 \quad|\quad 25 November 2026}\\[10pt]
+{\LARGE\bfseries\color{ink} Physics-informed neural networks with a certified\\[2pt] GBT check for the buckling of stiffened composite panels\par}
+\vspace{10pt}
+{\large Aya Medhat Elsayed}\\[2pt]{\small\color{muted}Institute for Lightweight Engineering and Structural Mechanics (LSM), TU Darmstadt}
+\end{center}
+
+\vspace{4pt}
+\begin{abstract}
+\noindent This report describes the work on the second paper of my project, from the first physics-only network on 22 October to the cost study of 23 November 2026, including the attempts that did not work. I replaced the plate physics and the Abaqus oracle of Paper~1 by our periodic Generalized Beam Theory (GBT) code, built a shared reduced space in which every design has the same coordinates, and trained lay-up-specific physics-informed networks on the GBT energy. The network's modes start a block eigen-iteration whose relative residual gives a label-free error estimate. With 120 labels, the instant answer of the network is within 0.24--1.18\pc{} of full GBT on 320 unseen designs. The error estimate was never below the true error in 3800 checks, and a 5\pc{} target is met on every design without labels. Compared with simple alternatives, the network itself adds less than I expected; the main contribution is the certified GBT check.
+\end{abstract}
+
+\section{Starting point and aim}
+
+In Paper~1 \cite{p1} I predicted the local buckling of omega-stringer panels with a hybrid physics-informed neural network (PINN). Two small one-dimensional networks described the skin and the foot strips with one sine wave along the panel, the plate energy used the reduced bending stiffness (RBS) approximation, and each panel was trained on its own. Suspicious answers, flagged when the load left a window of $-15\pc{}/{+3}\pc{}$ around the previous panel, were checked with Abaqus, and an MLP on the stringer pitch $b_s$ and the aspect ratio $\beta$ gave fast answers for one cross-ply lay-up.
+
+The paper worked, but it left four weak points: the RBS error reached 10.8\pc{} against Abaqus at the tight pitch $b_s = 124.25$\,mm; Abaqus as oracle is expensive and lies outside the framework; the window depends on the order in which panels are asked; and the tool covered one lay-up only. For Paper~2 I therefore set five goals: (1)~GBT as the physics, (2)~the GBT code instead of Abaqus, (3)~a reasonable check instead of the window, (4)~the lay-up as part of the tool, and (5)~a fast tool. Two rules were fixed from the start: the network must remain a PINN, with labels only as support, and every answer may depend only on the design itself.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.78\textwidth]{panel_mode.png}
+\caption{Periodic omega-stringer cell and its critical buckling mode from our GBT code (``Unsym'' cell of the GBT paper \cite{gbt}, $b_s=150$\,mm, $\beta=1.5$, simply supported ends, $\Ncr=32.26$\,N/mm). Modes of this kind are what the network has to predict.}
+\label{fig:panel}
+\end{figure}
+
+\section{The tool in brief}
+
+Figure~\ref{fig:tool} shows the tool as it stands now. The physics comes from the shear-deformable periodic GBT formulation of our GBT paper \cite{gbt,sc}: the whole cross-section with laminated walls, the true stringer offset, and periodic conditions built into the cross-section analysis. Every design is described in one shared reduced space, a POD basis of 241 cross-section modes times a dictionary of longitudinal functions, so that the stiffness matrix $\mathbf K$ and the geometric matrix $\mathbf G$ of any design have the same size and meaning. A small network for each lay-up and side condition maps $(b_s,\beta)$ to eight candidate modes and an instant value of $\Ncr$. The modes then start a block LOBPCG iteration \cite{lobpcg} in the reduced space of the design; each iterate is an upper bound of the critical load of the reduced model, and the iteration stops when the relative residual $\eta=\lVert\mathbf G\mathbf x-\mu\mathbf K\mathbf x\rVert_{\mathbf M^{-1}}/\mu$ falls below a chosen tolerance.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[font=\sffamily\small, node distance=6mm,
+  bx/.style={draw=#1!55, fill=#1!8, rounded corners=2pt, align=center, text width=29mm, minimum height=17mm, inner sep=4pt},
+  ar/.style={-{Stealth[length=2.2mm]}, draw=muted, line width=0.6pt}]
+\node[bx=gbt] (d) {\textbf{Design}\\[1pt] $b_s$, $\beta$, lay-up,\\ side condition};
+\node[bx=net, right=of d] (n) {\textbf{Lay-up PINN}\\[1pt] 8 candidate modes,\\ instant $\Ncr$};
+\node[bx=gbt, right=of n] (o) {\textbf{GBT operators}\\[1pt] $\mathbf K$, $\mathbf G$ in the\\ shared reduced space};
+\node[bx=chk, right=of o] (c) {\textbf{Certified check}\\[1pt] LOBPCG until\\ $\eta\le$ tolerance};
+\draw[ar] (d)--(n); \draw[ar] (n)--(o); \draw[ar] (o)--(c);
+\node[below=2mm of n, font=\sffamily\footnotesize, text=muted] {fast, not certified};
+\node[below=2mm of c, font=\sffamily\footnotesize, text=muted] {upper bound $+$ error estimate};
+\end{tikzpicture}
+\caption{The tool: the network gives an instant answer and starting modes; the GBT check turns them into a certified load.}
+\label{fig:tool}
+\end{figure}
+
+\begin{table}[t]
+\centering\small
+\caption{Set-up of the study.}
+\label{tab:setup}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Panel & omega-stringer panel, periodic cell, simply supported loaded ends \\
+Design inputs & $b_s = 124.25$--$285.5$\,mm, $\beta = a/b_s = 0.75$--$3.5$ \\
+Lay-ups (skin) & cross-ply $[0/90/0/90]_s$, quasi-isotropic $[45/{-45}/0/90]_s$, $0^\circ$-rich $[45/0/{-45}/0]_s$, $\pm45^\circ$ $[45/{-45}/{-45}/45]_s$ \\
+Side conditions & symmetry line (half pitch) and periodic cell (two pitches) \\
+Data per expert & 152 training and validation designs (up to 120 with labels), 40 unseen test designs \\
+Reference & full GBT solution of every test design \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{How the work developed}
+
+Figure~\ref{fig:history} summarises the five weeks. The instant answer of the network moved between 140\pc{} and 0.24\pc{}, while the answer after the GBT check stayed below 0.5\pc{} on average in every test. The following subsections tell the story behind the points.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_history.pdf}
+\caption{Mean error against full GBT of every test, in the order in which it was run. All values are for unseen designs, except the first bar, which is the error on the 8--32 training panels themselves. Bars show the spread over designs or lay-ups.}
+\label{fig:history}
+\end{figure}
+
+\subsection{GBT as the physics and the reference}
+The first question was whether GBT removes the physics error of Paper~1. I ran the full GBT code at the 22 Abaqus points of Paper~1 (cross-ply, symmetry side, simply supported ends) and compared with the Abaqus values of its Table~2. GBT deviates from Abaqus by 0.54\pc{} on average and by less than 1\pc{} everywhere, including the tight pitch where the RBS model failed (Table~\ref{tab:abq}). It also finds the Abaqus half-wave number at all 22 points, whereas Paper~1 found it at 20. From this point on GBT served as both the physics and the reference, and Abaqus was not used again.
+
+\begin{table}[h]
+\centering\small
+\caption{Error against Abaqus at the 22 points of Paper~1, mean / maximum.}
+\label{tab:abq}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Points & Paper 1 PINN & GBT \\
+\midrule
+All 22 & 2.53 / 10.80\pc & \textbf{0.54 / 0.97\pc} \\
+Tight pitch, $b_s=124.25$\,mm (4 points) & 8.08 / 10.80\pc & \textbf{0.89 / 0.97\pc} \\
+Other 18 points & 1.29 / 3.54\pc & \textbf{0.46 / 0.95\pc} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{One set of coordinates for every design}
+A network needs the same coordinates for every design, but GBT builds new modes on a new mesh for each one. My first idea, the modes of one quasi-isotropic reference panel, failed badly: on other lay-ups the load was 20--130\pc{} too high, because the order of the modes changes with the laminate. An energy-weighted POD of the three lowest full-GBT modes of 64 panels on a fixed node layout worked; its 241 modes reproduce full GBT within 0.01--0.02\pc.
+
+Along the length the problem was harder. The load enters through the eccentric foot, so the pre-buckling forces near the ends reach five times their mid-length value and many modes are concentrated there. A single wave with an envelope gave 1--13\pc{} error and one shape per wavenumber 4--55\pc. A Fourier series was accurate (within 0.1\pc) but needs 16--24 terms; a dictionary of fixed wavelengths plus end splines gave 0.05--0.27\pc{} and was the one I kept. One observation from this stage will go into the paper: a GBT mode that is 98\pc{} one sine wave in shape can still be wrong by a factor of 60 in energy, because the remaining 2\pc{} carry the stiff membrane and end-zone part. This is why the one-wave description of Paper~1 is not enough here.
+
+\subsection{A physics-only network that would not train}
+I then tried to train a network on the GBT energy alone, by minimising the Rayleigh quotient of its predicted modes. For one panel this worked within a minute (0.2\pc), but for 8--32 panels the error was still 15--140\pc{} after 2000 Adam steps. Neural eigen-iteration targets, a wavenumber preconditioner and L-BFGS were all slow (for example 7.8\pc{} after 300 L-BFGS iterations). Using GBT modes as a teacher in a supervised network gave 10--16\pc{} on unseen designs, worse than a Gaussian process (9.3\pc).
+
+The reason turned out to be numerical, not physical: in mode coordinates the condition number of $\mathbf K$ was between $10^{9}$ and $10^{19}$. Three changes solved it. First, I moved to energy-whitened coordinates, in which the strain energy is close to the squared length of the vector; an eigen-iteration then needs 7--13 steps instead of about 150, and fitting one design improved from 4.6\pc{} to 0.40\pc. Second, I replaced the linear output layer, which cannot generalise because the modes of an unseen design lie 15--24\pc{} (in energy) outside the span of 45 other designs, by a decoder that builds each longitudinal function's cross-section vector from the design inputs. Third, I trained with natural-gradient steps: one physics eigen-step for every design, then a fit of the network to it. On 32 unseen designs the instant answer reached 3.65\pc{} (9.77\pc{} maximum) and the check 0.22\pc. The number, however, was biased high in 27 of 32 designs, because the network learns the Rayleigh quotient of its own imperfect modes, which always lies above the true load.
+
+\subsection{Physics, data or both}
+To decide whether GBT labels should enter the loss, I trained three networks with identical settings: physics only, labels only, and both (Table~\ref{tab:loss}). Labels removed the bias of the number, but the physics loss gave by far the best mode shapes, while labels alone overfitted the shapes (11.8\pc{} on training against 18.9\pc{} on unseen designs in the first run). The spread of an ensemble of the three numbers did not predict their error (correlation 0.02), as already seen in Paper~1, so an ensemble could not serve as the check. I kept the hybrid loss: it remains a PINN, its labels come from GBT and are cheap, and the check started from it was the best in the first run.
+
+\begin{table}[h]
+\centering\small
+\caption{Physics, data or both: clean retraining on 32 unseen designs.}
+\label{tab:loss}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & Physics only & Data only & Hybrid \\
+\midrule
+Instant number, mean / max & 4.48 / 11.89\pc & 1.21 / 4.79\pc & 1.42 / 4.35\pc \\
+Bias of the number & $+4.47$\pc & $+0.05$\pc & $+0.55$\pc \\
+Rayleigh quotient of the predicted modes & \textbf{11.95\pc} & 22.8\pc & 20.1\pc \\
+Check after 12 steps, mean / max & 0.22 / 1.07\pc & 0.14 / 0.82\pc & 0.20 / 0.98\pc \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{One network for every lay-up, and why I split it}
+Next I tried to cover the whole design space of Paper~1 for any lay-up with a single network, with the lay-up as input (38 inputs). The pilot with 223 training designs reached 7.75\pc{} on unseen designs while fitting the training designs within 1.2\pc; with 1000 labelled designs it stalled at about 4.7\pc. To see whether the network was the problem, I trained an MLP ensemble, a Gaussian process and gradient boosting on the same 1000 labels: they reached 5.0--6.7\pc{} on average, no better. On realistic, industrial lay-ups alone, however, the Gaussian process reached 0.77\pc. The difficulty therefore lies in random ply-by-ply lay-ups, which are hard for any model, not in the network. Even on these hard designs the 12-step check reached 0.21\pc.
+
+I decided to train one expert network per lay-up and side condition, eight small PINNs with the inputs $b_s$ and $\beta$, and in addition one network for all industrial lay-ups (38 inputs, 518 labels). No unseen lay-up is claimed.
+
+\subsection{What the network really adds}
+Once the experts were trained, I compared their modes as starting vectors with simple alternatives that need no network (Figure~\ref{fig:check}a). The network saves two to three iterations against a random start, but a copy of the modes of the nearest labelled design saves as many. A correction network on top of the copied modes, stretched neighbour modes and a combination of neighbour and network modes did not do better. The network's modes are closer in shape to GBT than copied ones (MAC 0.39--0.40 against 0.29), but a single predicted mode mixes the lowest modes, which are often only 2--5\pc{} apart, so the network alone finds the right half-wave number in only 39--44\pc{} of the designs; after 12 check steps it is right in 318 of 320. Since one iteration costs about 0.17\,s and the fixed cost of a check is about 5\,s, even a perfect start could save at most about 1.5\,s. At this point I stopped improving the predicted modes and put the effort into the check.
+
+\section{Results}
+
+\subsection{The eight experts}
+Figure~\ref{fig:experts}a shows the mean errors of the eight experts on 40 unseen designs each. Without labels the instant answer is 4.7--11.9\pc{} off and too high in 319 of 320 designs; with 120 labels it is 0.24--1.18\pc{} off (maximum 0.87--4.92\pc). After 12 check steps the error is 0.11--0.48\pc{}, practically the same with and without labels, because the check uses the mode shapes, which come from the physics. The industrial-lay-up network reached 1.35\pc{} instantly and 0.14\pc{} after the check on 45 unseen designs. The label study in Figure~\ref{fig:experts}b shows that labels are what makes the instant number usable, and that with few labels a Gaussian process predicts the number better than the network.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_experts.pdf}
+\caption{(a) Mean error of the eight experts on 40 unseen designs each (sym.: symmetry side, per.: periodic cell). (b) Label study for the cross-ply expert, symmetry side.}
+\label{fig:experts}
+\end{figure}
+
+\subsection{The certified check and its error estimate}
+For the check I first computed the pre-buckling state on a four times coarser mesh. This cut the time to 36--53\pc{} of a full GBT solution, but for industrial lay-ups the load dropped by up to 0.11\pc{} below full GBT, so it was no longer an upper bound; I went back to the exact pre-buckling state, which costs 63\pc{} (5 steps) to 76\pc{} (12 steps) of a full solution and was never below it. Cheaper parts (coarser meshes, pre-buckling in the reduced space, single precision) saved at most about 0.3\,s, and a Kato--Temple lower bound was still 14\pc{} wide after five steps while costing more than the check itself.
+
+The relative residual $\eta$ was the error estimate that worked (Figure~\ref{fig:check}b). Over 760 checks and five iteration counts it was never below the true error (3800 of 3800 cases); it is conservative by a factor of 3--11 in the median, and its rank correlation with the true error reaches 0.88. Its limit is that it measures the iteration error inside the reduced space, not the fixed error of that space against full GBT, which I measured once as 0.05--0.27\pc.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_check.pdf}
+\caption{(a) Median error against the iteration of the check for different starting vectors, 320 unseen designs. (b) Error estimate against the true error after five iterations, 640 checks; the shaded region, where the estimate would be too small, is empty.}
+\label{fig:check}
+\end{figure}
+
+\subsection{Cost of a 5\,\% target}
+Following the count of Abaqus calls in Paper~1, I asked what it costs to give every one of the 320 unseen designs an answer within 5\pc{} of full GBT (Table~\ref{tab:cost}). The check stops when $\eta\le5\pc$; a design that never gets there would receive a full GBT solution, which was never needed. The check meets the target on every design without any labels, already from a random start, in 7.3--7.9\,s per design instead of 10.7\,s. A Gaussian process needed 80 labels per lay-up (40 were not enough) and gives neither a guarantee nor the mode shapes. The network start saves about two iterations, or about 0.5\,s per design, so its training of about two hours per expert pays off only after about 2400 designs; most of the time of a check (about 4.5\,s) goes into building the matrices of the design.
+
+\begin{table}[h]
+\centering\small
+\caption{Cost of a 5\pc{} target on 320 unseen designs (totals over the eight experts; offline time includes labels, operators and, for the network, training).}
+\label{tab:cost}
+\begin{tabular}{@{}lrrrrc@{}}
+\toprule
+Method & GBT solves & Offline & Per design & Error, mean / max & Upper bound \\
+\midrule
+Full GBT for every design & 320 & -- & 10.7\,s & 0 / 0\pc & exact \\
+GP, 40 labels per lay-up & 320 & 1.0\,h & $<1$\,ms & 0.75 / 7.68\pc & no \\
+GP, 80 labels per lay-up & 640 & 1.9\,h & $<1$\,ms & 0.57 / 4.76\pc & no \\
+GP, 120 labels per lay-up & 960 & 2.9\,h & $<1$\,ms & 0.40 / 3.65\pc & no \\
+Check, random start & 0 & -- & 7.9\,s & 0.38 / 1.18\pc & yes \\
+Check, nearest of 10 labelled & 80 & 0.2\,h & 7.3\,s & 0.32 / 1.20\pc & yes \\
+Check, nearest of 120 labelled & 960 & 2.9\,h & 7.4\,s & 0.30 / 1.66\pc & yes \\
+Check, network, 0 labels & 0 & 18.5\,h & 7.4\,s & 0.45 / 2.51\pc & yes \\
+Check, network, 120 labels & 960 & 19.1\,h & 7.3\,s & 0.36 / 1.83\pc & yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Scope and limitations}
+Two side questions came up and both limit what the paper can claim. The periodic condition keeps the cell width constant, so the skin cannot expand sideways. Without this constraint $\Ncr$ would be higher by 2.8--4.0\pc{} for the cross-ply cell and by 21--160\pc{} for the other lay-ups ($\beta=1.5$). I kept the constant width, as in the validated GBT code and the Abaqus models of both papers, which is conservative, and it will be stated clearly. I also added Koiter's initial post-buckling analysis to the GBT code and checked it against the Riks cases of Paper~1; screens of 40 designs of the expert space and 96 realistic designs with mode-shaped imperfections of 0.1--1.0\,mm found no imperfection-sensitive design, so this part will not be in the paper.
+
+Further limits: the check takes 63--76\pc{} of a full GBT solution, mostly for building the matrices; the error estimate covers only the iteration error; the study is restricted to simply supported ends, $\beta\ge0.75$, four lay-ups and the industrial set.
+
+\section{Conclusions and next steps}
+\begin{enumerate}[leftmargin=*]
+\item GBT as the physics removes the RBS error of Paper~1 (0.54\pc{} against 2.53\pc{} at its Abaqus points) and makes Abaqus unnecessary.
+\item A shared reduced space gives every design the same coordinates within 0.05--0.27\pc{} of full GBT; this is what makes one network per lay-up possible.
+\item A PINN trains on the GBT energy only once the conditioning is fixed. Without labels it learns the mode shapes but not an unbiased number; 120 GBT labels make the instant number accurate to 0.24--1.18\pc.
+\item The certified check replaces the $-15\pc/{+3}\pc$ window: it is an upper bound in the reduced space, independent of the order of the designs, and its label-free error estimate was never below the true error. It meets a 5\pc{} target on all 320 unseen designs without labels.
+\item Compared honestly with simple alternatives, the network's start saves only a few iterations, and with few labels a Gaussian process predicts the number better. The main contribution is therefore the GBT engine with the certified check; the network adds the instant answer and the mode shapes.
+\end{enumerate}
+The next steps are to choose the journal, to write the paper from this report, and, if time allows, to repeat the label study for a second lay-up and to speed up the assembly of the design matrices.
+
+\begin{thebibliography}{9}\small
+\bibitem{p1} A.\,M. Elsayed, N. Kharghani, S. El Yaakoubi-Mesbah, C. Mittelstedt, A hybrid physics-informed neural network framework for local buckling prediction of stiffened composite panels with epistemic uncertainty quantification, \emph{Composite Structures} 399 (2026) 120959.
+\bibitem{gbt} A.\,M. Elsayed, N. Kharghani, C. Mittelstedt, Periodic boundary conditions in generalized beam theory for the buckling analysis of omega-stringer-stiffened composite panels, manuscript under review (2026).
+\bibitem{sc} N. Silvestre, D. Camotim, First-order generalised beam theory for arbitrary orthotropic materials, \emph{Thin-Walled Structures} 40 (2002) 755--789.
+\bibitem{lobpcg} A.\,V. Knyazev, Toward the optimal preconditioned eigensolver: locally optimal block preconditioned conjugate gradient method, \emph{SIAM Journal on Scientific Computing} 23 (2001) 517--541.
+\end{thebibliography}
+
+\end{document}

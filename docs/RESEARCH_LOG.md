@@ -2433,3 +2433,11 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   numbers as after the audit; no new results. PDF 21 A4 pages with page footer. Artifact republished.
 - GAMM rules re-read (Aya pasted them): plain text, English, max. 500 words, one section + keywords, one presentation
   as first author; ConfTool order: new account, then abstract, then registration. Abstract (397 words) complies.
+- 25 Nov (later): Aya: "pages still bad; use I; do not name who decided; fewer pages; natural report like I wrote it,
+  the story of the trials". Looked at research-progress-report guidance (a progress report reads like an expanded
+  conference paper; overview of stages, a flow chart). Rewritten as a LaTeX report in first person:
+  reports/gamm2027_report/latex/report.tex (+ make_figs.py, figures in the GBT-paper style, mathpazo, all values
+  read from results/report_gamm/report_data.json; history points from this log) -> Paper2_progress_report_Elsayed.pdf
+  (7 pages: abstract, starting point and aim, tool, how the work developed (6 subsections), results, scope, conclusions,
+  4 references). No person named as decision maker. Same numbers as the audited version. The HTML page (artifact
+  2k6kxWXJ2YabGcJBW96zsp) is the older layout.
