@@ -2389,3 +2389,11 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   figures (draft, journal-neutral)" https://claude.ai/artifact/EYLaXK7AGepSjFvEXV67Ky
 - GAMM & DMV 2027 (Ulm, 8-12 March 2027) abstract draft: docs/conferences/GAMM2027_abstract.txt (385 words; all
   numbers from the logged results).
+
+## 2026-11-25 — GAMM results report
+- Claude Doc "Physics-informed buckling prediction with a certified GBT check – results"
+  https://claude.ai/artifact/CLPwGxAJspnNtgEMNNvRiD : summary, tool diagram, GBT vs Abaqus, 8-expert table,
+  convergence chart (cost-study traces), error-estimate scatter (640 checks), labels chart (cross-ply / symmetry),
+  5 % cost table, limits, set-up. All numbers from `scripts/report_gamm_data.py` -> results/report_gamm/report_data.json.
+- Honest points kept in the report: only the head is instant; random start also meets 5 %; with few labels the GP
+  beats the network head; the estimate covers only the iteration error.
