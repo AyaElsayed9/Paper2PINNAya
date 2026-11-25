@@ -2449,3 +2449,12 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   0.58 %, periodic SS 30 cases 0.57 %), the GBT paper (periodic CC 30 cases 0.64 %, added 30 Oct), git history
   (V32 frozen 22 Oct; manuscript 28 Oct - 1 Nov; revisions to 25 Nov). Report now 8 pages. cm-super installed for
   the matplotlib LaTeX figures (new container).
+- 25 Nov (afternoon, later): Aya: no section about writing the GBT code; only the machine-learning journey, but
+  complete. Section 3.1 on the code and the code rows of Fig. 3a removed. Section 3 rewritten from this log as the
+  full ML journey in first person, 22 Oct - 17 Nov: shared coordinates; first physics-only network (15-140 %);
+  GBT as teacher with ensemble + conformal intervals (25 Oct, dropped); conditioning fix with the 26 Oct
+  generalisation table; Paper 1 data term on suspicious designs (27 Oct, no transfer); test against Paper 1 and
+  bias analysis (3 Nov); physics/data/hybrid, first and clean runs, head/mode weight split (3-4 Nov); wider design
+  space, dictionary/end-layer findings, pilot, 1000 labels, plain data models (4-7 Nov); experts and industrial
+  network, GP baseline (7-9 Nov); network vs baselines and the stopped mode-shape step (9-17 Nov). Results add
+  the check profile and the three residual estimates. Fig. 3a now shows only ML phases. 9 pages.

@@ -37,27 +37,27 @@ def save(fig, name):
 import datetime as dt
 d0 = dt.date(2026, 9, 20)
 dd = lambda m, d: (dt.date(2026, m, d) - d0).days
-rows = [("GBT code: members and omega panel, Abaqus checks", [(dd(9, 23), dd(10, 12))], GBT),
-        ("Periodic conditions in GBT, Abaqus validation", [(dd(10, 13), dd(10, 21))], GBT),
-        ("Reduced space and physics-informed networks", [(dd(10, 22), dd(11, 17))], NET),
-        ("Certified check and cost study", [(dd(11, 10), dd(11, 23))], CHK),
-        ("GBT paper: writing and revisions", [(dd(10, 28), dd(11, 1)), (dd(11, 4), dd(11, 25))], MUTED),
-        ("Side studies (cell width, post-buckling)", [(dd(11, 16), dd(11, 23))], MUTED)]
-fig, (t0, ax) = plt.subplots(2, 1, figsize=(FULL, 112 * MM), gridspec_kw=dict(height_ratios=[0.78, 1.25], hspace=0.42))
+rows = [("Shared space, first network, GBT as teacher", [(dd(10, 22), dd(10, 25))], NET),
+        ("Conditioning fixed, Paper 1 data term", [(dd(10, 26), dd(10, 27))], NET),
+        ("Physics, data or hybrid; clean training", [(dd(11, 3), dd(11, 4))], NET),
+        ("Wider design space, 1000 labels, data models", [(dd(11, 4), dd(11, 7))], NET),
+        ("Lay-up experts and industrial network", [(dd(11, 7), dd(11, 9))], NET),
+        ("Network against simple baselines", [(dd(11, 9), dd(11, 10)), (dd(11, 16), dd(11, 17))], NET),
+        ("Physics-only experts (0 labels)", [(dd(11, 16), dd(11, 17))], NET),
+        ("Certified check: speed, bounds, error estimate", [(dd(11, 10), dd(11, 10)), (dd(11, 17), dd(11, 17)), (dd(11, 23), dd(11, 23))], CHK),
+        (r"Cost of a 5\,\% target", [(dd(11, 23), dd(11, 23))], CHK)]
+fig, (t0, ax) = plt.subplots(2, 1, figsize=(FULL, 122 * MM), gridspec_kw=dict(height_ratios=[1.0, 1.2], hspace=0.38))
 for i, (lab, segs, c) in enumerate(rows):
     y = len(rows) - 1 - i
     for s, e in segs:
         t0.barh(y, e - s + 1, left=s, height=0.55, color=c, alpha=0.75, lw=0)
     t0.text(segs[0][0] - 1, y, lab, ha="right", va="center", fontsize=6.6)
-t0.axvline(dd(10, 22), color=INK, lw=0.6, ls=(0, (2, 2)))
-t0.text(dd(10, 22) + 0.6, len(rows) - 0.35, "solver V32 frozen (22 Oct)", fontsize=6.3, va="bottom")
-t0.axvspan(dd(10, 22), dd(11, 25), color=NET, alpha=0.05, lw=0)
-t0.set_xlim(-22, dd(11, 27)); t0.set_ylim(-0.6, len(rows) - 0.1); t0.set_yticks([])
-tk = [(9, 23), (10, 1), (10, 15), (10, 22), (11, 1), (11, 15), (11, 23)]
+t0.set_xlim(dd(10, 22) - 26, dd(11, 25)); t0.set_ylim(-0.6, len(rows) - 0.1); t0.set_yticks([])
+tk = [(10, 22), (10, 29), (11, 5), (11, 12), (11, 19)]
 t0.set_xticks([dd(m, d) for m, d in tk]); t0.set_xticklabels([f"{d} {'Sep' if m == 9 else 'Oct' if m == 10 else 'Nov'}" for m, d in tk])
 for sp in ("left", "right", "top"): t0.spines[sp].set_visible(False)
 t0.tick_params(axis="x", top=False); t0.tick_params(axis="y", left=False, right=False)
-t0.text(-22, len(rows) + 0.25, "(a)", fontsize=8)
+t0.text(dd(10, 22) - 26, len(rows) + 0.1, "(a)", fontsize=8)
 
 # ---- history of the error (from the research log) -------------------------------------------
 day = lambda m, d: d - 21 if m == "Oct" else d + 10
