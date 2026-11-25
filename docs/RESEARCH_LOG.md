@@ -2426,3 +2426,10 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
 - Abstract corrected (397 words, under both limits): upper bound of the reduced model (within 0.3 % of full GBT in
   our tests), "up to 120 labels" instead of "a few", network modes save about two iterations, as many as the nearest
   labelled design, 5 % also met from a random start (7-8 s), GP needed 80 labels per lay-up (40 not enough).
+- 25 Nov (later): report reorganised as a technical report (Aya: "more organised, contents page, light professional
+  illustrations, light tables, standard fonts"): cover, contents with page numbers (two-pass PDF), list of figures and
+  tables, 14 numbered sections + appendix (one stage per section: question, tries with kept/dropped, result,
+  decision), 6 numbered figures, 13 numbered tables, light tints, Arial/Georgia only (custom fonts removed). Same
+  numbers as after the audit; no new results. PDF 21 A4 pages with page footer. Artifact republished.
+- GAMM rules re-read (Aya pasted them): plain text, English, max. 500 words, one section + keywords, one presentation
+  as first author; ConfTool order: new account, then abstract, then registration. Abstract (397 words) complies.

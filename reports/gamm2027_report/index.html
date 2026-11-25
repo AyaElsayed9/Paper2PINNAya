@@ -5,388 +5,430 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Paper 2 results report</title>
 <style>
-/* VOICE  work: a research report for co-authors, edited to be scanned, honest about what failed
-   IDEA   a plate from the GBT paper itself: the buckled panel, red/blue mode colours, slate edges, leader-line callouts
-   PICTURE hero = GBT critical mode of the periodic cell with callouts; then the error history at true time scale
-   COLOUR white, slate ink #172230, mode blue #2166ac (GBT), ochre #b8740f (network), green #1b7a5a (check), mode red #b2182b (dropped)
-   TYPE   Barlow Semi Condensed 600 for headings and figure text (engineering-drawing lettering) + Literata for reading
-   LAYOUT laptop: plate picture left 3/5, title column right 2/5, history chart full width below; phone: title, picture, figures, chart */
-@font-face{font-family:"Literata";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/literata-latin-400-normal.woff2) format("woff2")}
-@font-face{font-family:"Literata";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/literata-greek-400-normal.woff2) format("woff2");unicode-range:U+0370-03FF}
-@font-face{font-family:"Literata";font-weight:400;font-style:italic;font-display:swap;src:url(fonts/literata-latin-400-italic.woff2) format("woff2")}
-@font-face{font-family:"Literata";font-weight:600;font-style:normal;font-display:swap;src:url(fonts/literata-latin-600-normal.woff2) format("woff2")}
-@font-face{font-family:"Barlow SC";font-weight:500;font-display:swap;src:url(fonts/barlow-semi-condensed-latin-500-normal.woff2) format("woff2")}
-@font-face{font-family:"Barlow SC";font-weight:600;font-display:swap;src:url(fonts/barlow-semi-condensed-latin-600-normal.woff2) format("woff2")}
-:root{color-scheme:light;--bg:#fff;--ink:#172230;--mute:#56606d;--rule:#d9dee4;--wash:#f2f4f7;--gbt:#2166ac;--net:#b8740f;--chk:#1b7a5a;--red:#b2182b;--hd:"Barlow SC","Arial Narrow",Arial,sans-serif;--tx:"Literata",Georgia,"Times New Roman",serif}
+/* VOICE  work: a research report and paper draft for co-authors; calm, organised, honest about what failed
+   IDEA   a technical report as printed by a university institute: cover, contents, numbered sections, numbered tables and figures
+   PICTURE cover = GBT buckling mode of the periodic cell; Figure 1 = the tool as a light flow diagram; Figure 2 = research history
+   COLOUR white, ink #1f2a37, light tints: GBT blue #3a76b5 / #eaf1f9, network amber #c3801c / #fbf2e2, check green #2f8a68 / #e7f4ee, dropped #b8463a / #fbecea
+   TYPE   standard fonts only: Arial/Helvetica for headings, tables and figures; Georgia for body text
+   LAYOUT one centred document column (max 920px); cover and contents first; each numbered section starts a new page in the PDF */
+:root{color-scheme:light;--bg:#fff;--ink:#1f2a37;--mute:#5b6675;--rule:#e3e7ec;--head:#f4f6f9;--gbt:#3a76b5;--gbtL:#eaf1f9;--net:#c3801c;--netL:#fbf2e2;--chk:#2f8a68;--chkL:#e7f4ee;--red:#b8463a;--redL:#fbecea;--sans:Arial,"Helvetica Neue",Helvetica,sans-serif;--serif:Georgia,"Times New Roman",serif}
 *{box-sizing:border-box;min-width:0}
-html{scroll-padding-top:64px}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 var(--tx);overflow-x:clip}
-h1,h2,h3,h4,.hd{font-family:var(--hd);font-weight:600;letter-spacing:-.01em;line-height:1.08;text-wrap:balance;margin:0}
-h1{font-size:clamp(34px,4.2vw,50px)}
-h2{font-size:clamp(26px,3vw,34px);margin-bottom:14px}
-h3{font-size:21px;margin:26px 0 8px}
-p{margin:0 0 14px}
-b,strong{font-weight:600}
-.wrap{max-width:1200px;margin:0 auto;padding:0 max(4vw,16px)}
-.band{padding-block:clamp(28px,4vw,56px)}
+html{scroll-padding-top:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.65 var(--serif);overflow-x:clip}
+h1,h2,h3,h4{font-family:var(--sans);font-weight:700;line-height:1.2;margin:0;text-wrap:balance}
+h1{font-size:clamp(28px,4vw,38px);letter-spacing:-.01em}
+h2{font-size:clamp(22px,2.6vw,27px);margin:0 0 6px}
+h3{font-size:17px;margin:22px 0 6px;color:var(--ink)}
+p{margin:0 0 12px}
+b,strong{font-weight:700}
+sub{font-size:.72em}
+a{color:var(--gbt)}
+.doc{max-width:920px;margin:0 auto;padding:0 max(4vw,16px)}
 .muted{color:var(--mute)}
-.small{font-size:14.5px;line-height:1.5}
-/* hero plate */
-.plate{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:18px clamp(20px,3vw,48px);align-items:center;padding-top:clamp(20px,3vw,40px)}
-.pic{position:relative}
-.pic img{display:block;width:100%;height:auto}
-.pic svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.pic svg text{font:500 25px var(--hd);fill:var(--ink);paint-order:stroke;stroke:#fff;stroke-width:7px}
-.pic figcaption{margin-top:8px}
-.kicker{font:500 16px var(--hd);color:var(--mute);margin-bottom:12px}
-.lede{font-size:18px;margin-top:16px}
-.figs{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 28px;margin:8px 0 26px;border-top:2px solid var(--ink);padding-top:14px}
-.figs div{font-size:14px;line-height:1.4;color:var(--mute)}
-.figs b{display:block;font:600 30px/1.05 var(--hd);color:var(--ink);white-space:nowrap;margin-bottom:3px}
-.figs b.g{color:var(--gbt)}.figs b.n{color:var(--net)}.figs b.c{color:var(--chk)}
-/* nav */
-nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,#fff 94%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule)}
-nav .wrap{display:flex;gap:4px 18px;overflow-x:auto;white-space:nowrap;padding-block:10px;font:500 15px var(--hd)}
-nav a{flex:none;color:var(--ink);text-decoration:none;padding:4px 0;border-bottom:2px solid transparent}
-nav a:hover,nav a:focus-visible{border-bottom-color:var(--gbt);outline:none}
-@media(max-width:900px){nav{position:static}}
-.pts{display:none;margin:0 0 0 1.2em;padding:0;columns:2 18em;gap:28px}
-@media(max-width:899px){.pts{display:block}}
+.small{font-size:14px;line-height:1.5}
+.sans{font-family:var(--sans)}
+/* cover */
+.cover{padding:clamp(28px,5vw,64px) 0 28px;border-bottom:1px solid var(--rule)}
+.cover .meta{font:14px/1.5 var(--sans);color:var(--mute);margin-bottom:18px}
+.cover .sub{font:17px/1.5 var(--sans);color:var(--mute);margin:12px 0 22px;max-width:46em}
+.cover figure{margin:8px 0 0}
+.cover img{display:block;width:100%;max-width:760px;height:auto;margin:0 auto}
+.cover figcaption{margin-top:8px}
+.byline{display:flex;flex-wrap:wrap;gap:6px 28px;font:14.5px/1.5 var(--sans);margin-top:20px;padding-top:14px;border-top:1px solid var(--rule)}
+.byline span b{display:block;font-size:12.5px;color:var(--mute);font-weight:400}
+/* contents */
+.toc{padding:28px 0;border-bottom:1px solid var(--rule)}
+.toc ol{list-style:none;margin:10px 0 0;padding:0;font:15.5px/1.4 var(--sans)}
+.toc li{display:flex;align-items:baseline;gap:8px;padding:5px 0;border-bottom:1px dotted #cfd5dc}
+.toc li.sub1{font-size:12.5px;line-height:1.3;padding:3px 0}
+.toc h3{font-size:15px}
+.toc a{color:var(--ink);text-decoration:none;flex:1}
+.toc a:hover,.toc a:focus-visible{color:var(--gbt);text-decoration:underline;outline:none}
+.toc .no{width:2em;flex:none;color:var(--gbt);font-weight:700}
+.toc .pg{flex:none;color:var(--mute);font-variant-numeric:tabular-nums;display:none}
+/* sections */
+section.s{padding:30px 0 10px;border-bottom:1px solid var(--rule)}
+.sh{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+.sh .no{font:700 clamp(22px,2.6vw,27px) var(--sans);color:var(--c,var(--gbt));flex:none}
+.sh .dt{font:13.5px var(--sans);color:var(--mute);margin-left:auto;white-space:nowrap;padding-left:10px}
+.lead{font:16px/1.5 var(--sans);color:var(--mute);margin:2px 0 14px}
+.c-g{--c:var(--gbt);--cL:var(--gbtL)}.c-n{--c:var(--net);--cL:var(--netL)}.c-c{--c:var(--chk);--cL:var(--chkL)}
+.box{background:var(--cL,var(--gbtL));border-left:3px solid var(--c,var(--gbt));padding:10px 14px;margin:14px 0;border-radius:0 4px 4px 0}
+.box b.k{font-family:var(--sans);margin-right:6px}
+.qa{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:2px 14px;margin:6px 0 10px}
+.qa dt{font:700 13.5px/1.9 var(--sans);color:var(--mute)}
+.qa dd{margin:0}
+/* key figures */
+.kf{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}
+.kf div{background:var(--cL);border-radius:6px;padding:12px 14px;font:13.5px/1.4 var(--sans);color:var(--mute)}
+.kf b{display:block;font:700 23px/1.15 var(--sans);color:var(--c);margin-bottom:4px;white-space:nowrap}
+@media(max-width:720px){.kf{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* tool flow */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:12px 0 4px;font:13.5px/1.35 var(--sans)}
+.flow .st{flex:1 1 150px;background:var(--cL);border:1px solid color-mix(in srgb,var(--c) 35%,#fff);border-radius:6px;padding:10px 12px}
+.flow .st b{display:block;font-size:14px;color:var(--c);margin-bottom:3px}
+.flow .ar{flex:none;align-self:center;color:#9aa4b0;font-size:20px}
+@media(max-width:640px){.flow{flex-direction:column}.flow .ar{transform:rotate(90deg);align-self:center}}
+/* tables */
+.tw{overflow-x:auto;margin:8px 0 6px}
+table{border-collapse:collapse;width:100%;font:14px/1.45 var(--sans)}
+caption{caption-side:top;text-align:left;font:700 13.5px/1.4 var(--sans);color:var(--ink);padding:0 0 6px}
+caption span{font-weight:400;color:var(--mute)}
+th{background:var(--head);font-weight:700;text-align:left;padding:7px 10px;border-bottom:1px solid #d5dbe2;vertical-align:bottom;color:#34404e}
+td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font:700 12px/1 var(--sans);padding:4px 7px;border-radius:10px;white-space:nowrap}
+.tag.y{background:var(--chkL);color:var(--chk)}.tag.x{background:var(--redL);color:var(--red)}.tag.e{background:var(--netL);color:#946110}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding:6px 0;border-bottom:1px solid var(--rule)}.stack td{display:flex;justify-content:space-between;gap:12px;border:0;padding:3px 0;text-align:right}.stack td::before{content:attr(data-l);font-weight:700;color:var(--mute);text-align:left}}
 /* figures */
+figure.f{margin:14px 0 18px}
+figure.f figcaption{font:13.5px/1.45 var(--sans);color:var(--mute);margin-top:6px}
+figure.f figcaption b{color:var(--ink)}
 .fig{position:relative}
 .fig>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-svg text{font-family:var(--hd);font-size:14px;fill:var(--ink)}
+svg text{font-family:var(--sans);font-size:12.5px;fill:var(--ink)}
 svg .m{fill:var(--mute)}
-svg .lab{paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round}
-.figbox{margin:18px 0 26px}
-.figbox h4{font-size:19px;margin-bottom:4px}
-.key{display:flex;flex-wrap:wrap;gap:6px 18px;font:500 14.5px var(--hd);color:var(--mute);margin:6px 0 4px}
-.key i{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:6px}
-.key i.ln{width:22px;height:3px;border-radius:2px;vertical-align:4px}
+svg .lab{paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+.key{display:flex;flex-wrap:wrap;gap:4px 16px;font:13px var(--sans);color:var(--mute);margin:2px 0 4px}
+.key i{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:-1px;margin-right:5px}
+.key i.ln{width:20px;height:2px;border-radius:1px;vertical-align:3px}
 .key i.sq{border-radius:2px}
 .key i.ring{background:#fff;border:2px solid var(--net)}
-/* stages */
-.stage{display:grid;grid-template-columns:150px minmax(0,1fr);gap:0 36px;padding-block:clamp(26px,3.5vw,44px);border-top:1px solid var(--rule)}
-.rail{position:relative;border-left:5px solid var(--c,var(--gbt));padding-left:14px;align-self:start;position:sticky;top:70px}
-.rail .no{font:600 52px/1 var(--hd);color:var(--c,var(--gbt))}
-.rail .nm{font:600 17px/1.2 var(--hd);margin-top:4px}
-.rail .dt{font:500 14.5px var(--hd);color:var(--mute);margin-top:4px}
-.s-g{--c:var(--gbt)}.s-n{--c:var(--net)}.s-c{--c:var(--chk)}
-.stage p,.stage ol,.stage ul{max-width:76ch}
-.q{font:500 19px/1.4 var(--hd);color:var(--mute);margin-bottom:10px}
-.ba{display:grid;grid-template-columns:repeat(auto-fit,minmax(13em,1fr));gap:12px 28px;border-top:2px solid var(--net);border-bottom:1px solid var(--rule);padding:12px 0;margin:18px 0}
-.ba span{display:block;font:500 14.5px var(--hd);color:var(--mute)}
-.ba b{font:600 26px/1.15 var(--hd);color:var(--net);white-space:nowrap}.ba i{font-style:normal;font-size:16px;color:var(--mute);font-weight:500;margin:0 4px}
-.decision{border-left:4px solid var(--c,var(--gbt));background:var(--wash);padding:12px 16px;margin:18px 0 4px}
-.decision b:first-child{font-family:var(--hd);font-size:17px;margin-right:6px}
-@media(max-width:760px){.stage{grid-template-columns:minmax(0,1fr)}.rail{position:static;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}.rail .no{font-size:40px}.rail .nm{font-size:20px}}
-/* tables */
-.scroll{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.45;margin:6px 0 10px}
-th{font:600 14.5px/1.3 var(--hd);text-align:left;border-bottom:2px solid var(--ink);padding:6px 10px 6px 0;vertical-align:bottom}
-td{border-bottom:1px solid var(--rule);padding:8px 10px 8px 0;vertical-align:top}
-td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
-.tag{display:inline-block;font:600 13.5px/1 var(--hd);padding:4px 8px;border-radius:3px;white-space:nowrap}
-.tag.y{background:#e2f1ea;color:var(--chk)}.tag.x{background:#f8e3e5;color:var(--red)}.tag.e{background:#f6ecd9;color:#8a5608}
-@media(max-width:600px){table{font-size:13.5px}th,td{padding:6px 6px 6px 0}.stack thead{display:none}.stack tr{display:grid;padding-block:8px;border-bottom:1px solid var(--rule)}.stack td{display:flex;justify-content:space-between;gap:12px;border:0;padding:3px 0;text-align:right}.stack td::before{content:attr(data-l);font:600 13px var(--hd);color:var(--mute);text-align:left}}
-/* plan scorecard */
-.plan{list-style:none;padding:0;margin:14px 0;display:grid;gap:0}
-.plan li{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:4px 14px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--rule)}
-.plan .n{font:600 22px var(--hd);color:var(--gbt)}
-.plan .st{font:600 15px/1.3 var(--hd);text-align:right;max-width:19em}.plan .st.y{color:var(--chk)}.plan .st.e{color:#8a5608}
-@media(max-width:600px){.plan li{grid-template-columns:2em minmax(0,1fr)}.plan .st{grid-column:2;text-align:left}}
-/* cost rows */
-.bar{height:14px;background:var(--c,var(--chk));border-radius:2px;min-width:2px}
-.barcell{display:flex;align-items:center;gap:8px;min-width:140px}
-#cost td:first-child{min-width:12em}
+.pts{display:none;margin:4px 0 0 1.2em;padding:0;font:13.5px/1.5 var(--sans);color:var(--mute)}
+@media(max-width:899px){.pts{display:block}}
+/* plan */
+.plan{list-style:none;padding:0;margin:8px 0;font:15px/1.4 var(--sans)}
+.plan li{display:grid;grid-template-columns:1.8em minmax(0,1fr);gap:4px 12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--rule)}
+.plan .n{font-weight:700;color:var(--gbt)}
+.plan .st{grid-column:2;font-weight:700;font-size:13px}.plan .y{color:var(--chk)}.plan .e{color:#946110}
+
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 32px}
+@media(max-width:760px){.two{grid-template-columns:minmax(0,1fr)}}
+/* expectation vs reality */
+.ev{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+.ev>div{border:1px solid var(--rule);border-radius:6px;padding:12px 14px;font:14px/1.45 var(--sans)}
+.ev>div:first-child{background:#fafbfc}.ev>div:last-child{background:var(--chkL);border-color:#cfe6dc}
+.ev h4{font-size:15px;margin-bottom:2px}
+.ev .fig{height:120px;margin:6px 0}
+.ev ul{margin:0;padding-left:18px}
+@media(max-width:600px){.ev{grid-template-columns:minmax(0,1fr)}}
+.barcell{display:flex;align-items:center;gap:8px;min-width:120px}
+.bar{height:10px;background:var(--c);border-radius:2px;opacity:.75}
 .barcell span{white-space:nowrap;font-variant-numeric:tabular-nums}
-/* meme */
-.meme{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border:2px solid var(--ink);margin:20px 0 8px}
-.meme>div{padding:18px 20px 16px}
-.meme>div+div{border-left:2px solid var(--ink)}
-.meme h4{font-size:26px;margin-bottom:2px}
-.meme .fig{height:190px;margin:10px 0}
-.meme ul{margin:0;padding-left:20px;font-size:15.5px}
-@media(max-width:640px){.meme{grid-template-columns:minmax(0,1fr)}.meme>div+div{border-left:0;border-top:2px solid var(--ink)}}
-.two{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px clamp(24px,4vw,56px)}
-@media(max-width:860px){.two{grid-template-columns:minmax(0,1fr)}}
-ol.concl{padding-left:22px}ol.concl li{margin-bottom:10px}
-footer{border-top:2px solid var(--ink);margin-top:20px}
-a{color:var(--gbt)}
-@media(max-width:860px){.plate{grid-template-columns:minmax(0,1fr)}.plate .txt{order:-1}.figs{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:560px){.pic svg{display:none}.figs b{font-size:26px}}
-@media print{@page{size:A4;margin:14mm 13mm}body{font-size:10.5pt}nav{display:none}.rail{position:static}.figbox,.meme,tr,.decision,.ba,.plan li{break-inside:avoid}.stage{padding-block:18px}.band{padding-block:16px}.wrap{padding:0}h2,h3,h4,.q,.rail,.key{break-after:avoid}#history,#s1,#s6,#s8,#s9{break-before:page}table{font-size:9.5pt}.barcell{min-width:90px}}
+#cost td:first-child{min-width:11em}
+ol.concl{padding-left:22px}ol.concl li{margin-bottom:8px}
+footer{padding:20px 0 40px}
+@media print{
+ @page{size:A4;margin:16mm 15mm 18mm}
+ body{font-size:10.5pt}
+ .doc{padding:0;max-width:none}
+ .cover{min-height:250mm;border:0;display:flex;flex-direction:column;justify-content:center;break-after:page}
+ .toc{border:0;break-after:page}
+ .toc .pg{display:block}
+ .toc .two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ section.s{break-before:page;border:0;padding-top:0}
+ .box,figure.f,tr,.kf,.flow,.ev,.plan li{break-inside:avoid}
+ h2,h3,.sh,.lead,caption,.key{break-after:avoid}
+ table{font-size:9pt}
+ .tw{overflow:visible}
+ #cost td:first-child{min-width:12em}
+ .barcell{min-width:0}
+ .pts{display:none}
+}
 </style>
 </head>
 <body>
+<main class="doc">
 
-<header class="wrap plate">
-  <figure class="pic" style="margin:0">
+<header class="cover">
+  <div class="meta">Paper 2, draft and results report &nbsp;|&nbsp; prepared for the GAMM &amp; DMV 2027 abstract &nbsp;|&nbsp; 25 November 2026</div>
+  <h1>Physics-informed neural networks with a certified GBT check for the buckling of stiffened composite panels</h1>
+  <p class="sub">What we tried, what we found and what we concluded, from the first physics-only network (22 Oct) to the cost study for a 5 % target (23 Nov 2026).</p>
+  <figure>
     <img src="img/panel_mode.png" width="982" height="490" alt="Omega-stringer panel cell in 3D with the critical buckling mode of the skin coloured red and blue">
-    <svg viewBox="0 0 982 490" aria-hidden="true">
-      <g stroke="#172230" stroke-width="2" fill="none"><path d="M176 130 L112 70"/><path d="M462 236 L640 392"/><path d="M58 292 L40 400"/></g>
-      <g fill="#172230"><circle cx="176" cy="130" r="5"/><circle cx="462" cy="236" r="5"/><circle cx="58" cy="292" r="5"/></g>
-      <text x="8" y="58">omega stringer</text>
-      <text x="560" y="428">half-wave of the critical mode</text>
-      <text x="8" y="432">skin</text>
-    </svg>
-    <figcaption class="small muted">Critical buckling mode of the periodic cell from our GBT code: "Unsym" cell of the GBT paper, b<sub>s</sub> = 150 mm, β = 1.5, simply supported ends, N<sub>cr</sub> = 32.26 N/mm (Fig. 7a of that paper; an illustration, not one of the Paper 2 test designs). Skin and omega stringers with laminated webs, feet and crown. Modes like this are what the network has to predict.</figcaption>
+    <figcaption class="small muted sans">Critical buckling mode of a periodic omega-stringer cell from our GBT code ("Unsym" cell of the GBT paper, b<sub>s</sub> = 150 mm, β = 1.5, simply supported ends, N<sub>cr</sub> = 32.26 N/mm; Fig. 7a of that paper). Illustration only, not one of the Paper 2 test designs.</figcaption>
   </figure>
-  <div class="txt">
-    <div class="kicker">Paper 2 draft and results for the GAMM 2027 abstract, 25 Nov 2026</div>
-    <h1>A physics-informed network with a certified GBT check for buckling of stiffened composite panels</h1>
-    <p class="lede">The GBT code replaces both the plate physics and Abaqus of Paper 1. The network gives an instant answer and good starting modes; the GBT check turns any start into a load with a label-free error estimate. The check, not the network, is the main contribution.</p>
-</div>
-  <div class="figs">
-      <div><b class="g">0.54 %</b>GBT vs Abaqus at Paper 1's 22 points (Paper 1: 2.53 %)</div>
-      <div><b class="n">0.24–1.18 %</b>instant network answer, 120 labels, 320 unseen designs</div>
-      <div><b class="c">3800 / 3800</b>checks where the error estimate was not below the true error</div>
-      <div><b class="c">0 labels</b>to meet a 5 % target on every design, 7.4–7.9 s vs 10.7 s for full GBT</div>
-    </div>
+  <div class="byline"><span><b>Author</b>Aya Medhat Elsayed</span><span><b>Status</b>draft for co-authors, not for circulation</span><span><b>Data</b>all numbers from the logged results in the project repository</span></div>
 </header>
 
-<nav aria-label="Sections"><div class="wrap">
-  <a href="#history">History</a><a href="#start">Starting point</a><a href="#s1">1 Physics</a><a href="#s2">2 Reduced space</a><a href="#s3">3 Training</a><a href="#s4">4 Loss</a><a href="#s5">5 Design space</a><a href="#s6">6 Experts</a><a href="#s7">7 Network value</a><a href="#s8">8 Check</a><a href="#s9">9 Cost</a><a href="#scope">Side studies</a><a href="#end">Conclusions</a><a href="#setup">Set-up</a>
-</div></nav>
+<nav class="toc" aria-label="Contents">
+  <h2>Contents</h2>
+  <ol>
+    <li><span class="no">1</span><a href="#sec1">Summary</a><span class="pg" data-for="sec1"></span></li>
+    <li><span class="no">2</span><a href="#sec2">Starting point: Paper 1 and the plan for Paper 2</a><span class="pg" data-for="sec2"></span></li>
+    <li><span class="no">3</span><a href="#sec3">Research path at a glance</a><span class="pg" data-for="sec3"></span></li>
+    <li><span class="no">4</span><a href="#sec4">Physics engine: periodic GBT</a><span class="pg" data-for="sec4"></span></li>
+    <li><span class="no">5</span><a href="#sec5">One reduced space for all designs</a><span class="pg" data-for="sec5"></span></li>
+    <li><span class="no">6</span><a href="#sec6">Training a physics-only network</a><span class="pg" data-for="sec6"></span></li>
+    <li><span class="no">7</span><a href="#sec7">Physics, data or both</a><span class="pg" data-for="sec7"></span></li>
+    <li><span class="no">8</span><a href="#sec8">A wider design space: lay-up experts</a><span class="pg" data-for="sec8"></span></li>
+    <li><span class="no">9</span><a href="#sec9">Results of the eight experts</a><span class="pg" data-for="sec9"></span></li>
+    <li><span class="no">10</span><a href="#sec10">What does the network add?</a><span class="pg" data-for="sec10"></span></li>
+    <li><span class="no">11</span><a href="#sec11">The certified check</a><span class="pg" data-for="sec11"></span></li>
+    <li><span class="no">12</span><a href="#sec12">Cost of a 5 % accuracy target</a><span class="pg" data-for="sec12"></span></li>
+    <li><span class="no">13</span><a href="#sec13">Side studies that set the scope</a><span class="pg" data-for="sec13"></span></li>
+    <li><span class="no">14</span><a href="#sec14">Conclusions, limits and next steps</a><span class="pg" data-for="sec14"></span></li>
+    <li><span class="no">A</span><a href="#secA">Set-up of the study</a><span class="pg" data-for="secA"></span></li>
+  </ol>
+  <div class="two" style="margin-top:22px"><div><h3 style="margin-top:0">Figures</h3><ol><li class="sub1"><a href="#sec1">Figure 1. The tool</a><span class="pg" data-find="Figure 1."></span></li><li class="sub1"><a href="#sec3">Figure 2. Mean error vs full GBT of every test as it happened</a><span class="pg" data-find="Figure 2."></span></li><li class="sub1"><a href="#sec9">Figure 3. Mean error vs full GBT, 40 unseen designs per expert</a><span class="pg" data-find="Figure 3."></span></li><li class="sub1"><a href="#sec9">Figure 4. Label study: error vs number of GBT labels</a><span class="pg" data-find="Figure 4."></span></li><li class="sub1"><a href="#sec10">Figure 5. Median error vs iteration of the check, 320 unseen designs</a><span class="pg" data-find="Figure 5."></span></li><li class="sub1"><a href="#sec11">Figure 6. Error estimate vs true error, 640 checks</a><span class="pg" data-find="Figure 6."></span></li></ol></div><div><h3 style="margin-top:0">Tables</h3><ol><li class="sub1"><a href="#sec3">Table 1. Each stage answered one question; its result decided the next step</a><span class="pg" data-find="Table 1."></span></li><li class="sub1"><a href="#sec4">Table 2. Error vs Abaqus at the 22 points of Paper 1, mean / max</a><span class="pg" data-find="Table 2."></span></li><li class="sub1"><a href="#sec5">Table 3. Cross-section direction</a><span class="pg" data-find="Table 3."></span></li><li class="sub1"><a href="#sec5">Table 4. Length direction, error vs full GBT</a><span class="pg" data-find="Table 4."></span></li><li class="sub1"><a href="#sec6">Table 5. First attempts</a><span class="pg" data-find="Table 5."></span></li><li class="sub1"><a href="#sec7">Table 6. Clean retraining, 4 Nov, 32 unseen designs</a><span class="pg" data-find="Table 6."></span></li><li class="sub1"><a href="#sec8">Table 7. One network for all lay-ups</a><span class="pg" data-find="Table 7."></span></li><li class="sub1"><a href="#sec10">Table 8. Other starts we tried</a><span class="pg" data-find="Table 8."></span></li><li class="sub1"><a href="#sec10">Table 9. The predicted mode as information, 320 unseen designs</a><span class="pg" data-find="Table 9."></span></li><li class="sub1"><a href="#sec11">Table 10. What we tried for the check</a><span class="pg" data-find="Table 10."></span></li><li class="sub1"><a href="#sec12">Table 11. Cost and accuracy of each way to reach the 5 % target</a><span class="pg" data-find="Table 11."></span></li><li class="sub1"><a href="#sec13">Table 12. Change of the critical load if the cell width were free</a><span class="pg" data-find="Table 12."></span></li><li class="sub1"><a href="#secA">Table A1. Set-up</a><span class="pg" data-find="Table A1."></span></li></ol></div></div>
+</nav>
 
-<section class="wrap band" id="history">
-  <h2>Five weeks of work: the instant answer moved between 140 % and 0.24 %, the checked answer stayed below 0.5 %</h2>
-  <p class="muted small" style="max-width:70ch">Mean error vs full GBT, on a log scale, for each test as it happened (22 Oct to 23 Nov 2026), on unseen designs except the first bar (15–140 %), which is the error on the 8–32 training panels themselves. Bars show the spread over designs or over lay-ups. The lanes below the chart are the nine stages of the work at the same time scale.</p>
-  <div class="key"><span><i style="background:var(--net)"></i>instant network answer</span><span><i class="sq" style="background:var(--chk)"></i>after the GBT check</span><span><i class="ln" style="background:var(--red)"></i>5 % target</span></div>
-  <div class="fig" id="fig-hist" style="height:600px"></div>
-  <ol class="pts small"><li>22 Oct, physics only with Adam: 15–140 % on the training panels</li><li>25 Oct, GBT as teacher: 10–16 %</li><li>26 Oct, conditioning fixed: 3.65 %, check 0.22 %</li><li>4 Nov, hybrid loss: 1.42 %, check 0.20 %</li><li>6–7 Nov, all lay-ups: 7.75 % (check 0.21 %), then 4.7 % with 1000 labels</li><li>9–10 Nov, 8 experts with 120 labels: 0.24–1.18 %; check 0.11–0.33 %</li><li>17 Nov, 8 experts with 0 labels: 4.68–11.93 %; check 0.14–0.48 %</li><li>23 Nov, 5 % target met on all 320 designs with 0 labels, mean 0.45 %</li></ol>
+<section class="s c-g" id="sec1">
+  <div class="sh"><span class="no">1</span><h2>Summary</h2></div>
+  <p>Paper 2 replaces the two weak points of Paper 1, the reduced-bending-stiffness (RBS) plate physics and the Abaqus oracle, by our validated periodic Generalized Beam Theory (GBT) code. Around it we built a physics-informed network and a certified check of every answer. The network gives an instant answer and starting modes; the GBT check turns any start into a load with a label-free error estimate. The data show that the check, not the network, is the main contribution.</p>
+  <div class="kf">
+    <div class="c-g"><b>0.54 %</b>GBT vs Abaqus at Paper 1's 22 points (Paper 1 PINN: 2.53 %)</div>
+    <div class="c-n"><b>0.24–1.18 %</b>instant network answer with 120 labels, 320 unseen designs</div>
+    <div class="c-c"><b>3800 / 3800</b>checks where the error estimate was not below the true error</div>
+    <div class="c-c"><b>0 labels</b>to meet a 5 % target on every design, 7.4–7.9 s vs 10.7 s for full GBT</div>
+  </div>
+  <figure class="f">
+    <div class="flow">
+      <div class="st c-g"><b>Design</b>stringer pitch b<sub>s</sub>, aspect ratio β, lay-up and side condition</div><span class="ar" aria-hidden="true">→</span>
+      <div class="st c-n"><b>Lay-up expert PINN</b>8 candidate buckling modes and an instant N<sub>cr</sub></div><span class="ar" aria-hidden="true">→</span>
+      <div class="st c-g"><b>GBT operators</b>stiffness K and geometric matrix G of the design in the shared reduced space</div><span class="ar" aria-hidden="true">→</span>
+      <div class="st c-c"><b>Certified check</b>block eigen-iteration (LOBPCG) from the network modes, stopped when the error estimate is below the tolerance</div>
+    </div>
+    <figcaption><b>Figure 1.</b> The tool. The instant N<sub>cr</sub> of the network is fast but uncertified; the check returns a load that is an upper bound in the reduced space, with a label-free error estimate.</figcaption>
+  </figure>
 </section>
 
-<section class="wrap band" id="start" style="border-top:1px solid var(--rule)">
-  <h2>We started from Paper 1 and Aya's five-point plan</h2>
-  <div class="two"><div><p>Paper 1 (Compos. Struct. 399 (2026) 120959) predicted local buckling of omega-stringer panels with a hybrid PINN. Two small 1D networks described the skin and foot strips with one sine wave along the panel; the plate energy used the reduced bending stiffness (RBS) approximation; each panel was trained on its own; Abaqus checked suspicious answers, flagged by a neighbour window of −15 %/+3 %; an MLP on b<sub>s</sub> and β gave fast answers for one cross-ply lay-up.</p>
-  <p><b>Its limits:</b> RBS errors up to 10.8 % vs Abaqus at the tight pitch b<sub>s</sub> = 124.25 mm; Abaqus as oracle is expensive and outside the framework; the window depends on the order in which panels are asked; one lay-up only and one training per panel.</p>
-  <p class="small muted">Two rules were fixed from the start: the network must stay a PINN (physics loss, labels only as support), and every answer may depend only on the design itself.</p></div>
-  <div><h3 style="margin-top:0">The plan (3 Nov) and where it stands today</h3>
-  <ol class="plan">
-    <li><span class="n">1</span><span>Use GBT as the physics</span><span class="st y">done</span></li>
-    <li><span class="n">2</span><span>Use the GBT code instead of Abaqus</span><span class="st y">done</span></li>
-    <li><span class="n">3</span><span>Replace the −15 %/+3 % window by a reasonable check</span><span class="st y">done, certified</span></li>
-    <li><span class="n">4</span><span>Make the lay-up part of the tool</span><span class="st e">partly: 8 lay-up experts plus one industrial network; no unseen lay-up</span></li>
-    <li><span class="n">5</span><span>Make it fast</span><span class="st e">partly: 7.4 s vs 10.7 s; the instant answer needs labels</span></li>
-  </ol></div></div>
-</section>
-
-<section class="wrap stage s-g" id="s1">
-  <div class="rail"><div class="no">1</div><div class="nm">Physics engine</div><div class="dt">3 Nov</div></div>
-  <div>
-    <h2>GBT removes Paper 1's physics error</h2>
-    <p class="q">Does replacing the RBS plate energy by GBT remove Paper 1's physics error?</p>
-    <p>We used the shear-deformable periodic GBT code of our GBT paper: the whole cross-section (skin, feet, webs, crown), laminated walls with their full stiffness, the true stringer offset, and periodic conditions built into the cross-section analysis, validated against Abaqus for 60 periodic cases. The code was frozen; only bug fixes that keep all validated values were allowed. Test: full GBT at the 22 Abaqus points of Paper 1 (cross-ply, symmetry side, simply supported ends), Abaqus values from Paper 1, Table 2.</p>
-    <div class="figbox"><h4>Mean error vs Abaqus, Paper 1 PINN and GBT</h4><div class="key"><span><i style="background:#9aa3ad"></i>Paper 1 PINN</span><span><i style="background:var(--gbt)"></i>GBT</span></div><div class="fig" id="fig-abq" style="height:170px"></div>
-    <p class="small muted">Maximum errors: all 22 points 10.80 % vs 0.97 %; tight pitch 10.80 % vs 0.97 %; other 18 points 3.54 % vs 0.95 %.</p></div>
-    <div class="decision"><b>Decision.</b>GBT is the physics and the reference for everything that follows; Abaqus is not used in Paper 2. GBT also finds the Abaqus half-wave number at all 22 points (Paper 1: 20).</div>
+<section class="s c-g" id="sec2">
+  <div class="sh"><span class="no">2</span><h2>Starting point: Paper 1 and the plan for Paper 2</h2></div>
+  <div class="two">
+    <div>
+      <p>Paper 1 (Compos. Struct. 399 (2026) 120959) predicted local buckling of omega-stringer panels with a hybrid PINN. Two small 1D networks described the skin and foot strips with one sine wave along the panel; the plate energy used the RBS approximation; each panel was trained on its own; Abaqus checked suspicious answers, flagged by a neighbour window of −15 %/+3 %; an MLP on b<sub>s</sub> and β gave fast answers for one cross-ply lay-up.</p>
+      <p><b>Its limits.</b> RBS errors up to 10.8 % vs Abaqus at the tight pitch b<sub>s</sub> = 124.25 mm; Abaqus as oracle is expensive and outside the framework; the window depends on the order in which panels are asked; one lay-up only, one training per panel.</p>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Aya's plan (3 Nov) and where it stands</h3>
+      <ol class="plan">
+        <li><span class="n">1</span><span>Use GBT as the physics</span><span class="st y">done</span></li>
+        <li><span class="n">2</span><span>Use the GBT code instead of Abaqus</span><span class="st y">done</span></li>
+        <li><span class="n">3</span><span>Replace the −15 %/+3 % window by a reasonable check</span><span class="st y">done, certified</span></li>
+        <li><span class="n">4</span><span>Make the lay-up part of the tool</span><span class="st e">partly: 8 lay-up experts and one industrial network; no unseen lay-up</span></li>
+        <li><span class="n">5</span><span>Make it fast</span><span class="st e">partly: 7.4 s vs 10.7 s; the instant answer needs labels</span></li>
+      </ol>
+      <p class="small muted">Two rules were fixed from the start: the network must stay a PINN (physics loss, labels only as support), and every answer may depend only on the design itself.</p>
+    </div>
   </div>
 </section>
 
-<section class="wrap stage s-g" id="s2">
-  <div class="rail"><div class="no">2</div><div class="nm">Reduced space</div><div class="dt">22 Oct – 5 Nov</div></div>
-  <div>
-    <h2>All designs share one set of coordinates, within 0.27 % of full GBT</h2>
-    <p class="q">A network needs the same coordinates for every design, but GBT builds new cross-section modes on a new mesh for each design. Can all designs share one set without losing accuracy?</p>
-    <h3>Cross-section direction</h3>
-    <div class="scroll"><table class="stack"><thead><tr><th>Try</th><th>Result</th><th>Kept?</th></tr></thead><tbody>
-      <tr><td data-l="Try">Modes of one reference panel (quasi-isotropic)</td><td data-l="Result">+20 to +130 % error on other lay-ups: the mode order changes with the laminate</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-      <tr><td data-l="Try">Energy-weighted POD of the 3 lowest full-GBT modes of 64 panels on a fixed node layout</td><td data-l="Result">241 modes; 0.02 % (symmetry) and 0.01 % (periodic) vs full GBT</td><td data-l="Kept?"><span class="tag y">kept</span></td></tr>
-    </tbody></table></div>
-    <h3>Length direction</h3>
-    <p>The load enters through the eccentric foot, so near the ends the pre-buckling forces reach 5× the mid-length value and many modes are concentrated there.</p>
-    <div class="scroll"><table class="stack"><thead><tr><th>Description along the panel</th><th class="num">Error vs full GBT</th><th>Kept?</th></tr></thead><tbody>
-      <tr><td data-l="Description">One wave with an envelope (Kantorovich)</td><td class="num" data-l="Error">1–13 %</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-      <tr><td data-l="Description">One shape per wavenumber (signature curve)</td><td class="num" data-l="Error">4–55 %</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-      <tr><td data-l="Description">Fourier series, 16–24 terms</td><td class="num" data-l="Error">≤ 0.1 %</td><td data-l="Kept?"><span class="tag e">not chosen</span></td></tr>
-      <tr><td data-l="Description">Dictionary: fixed wavelengths + end splines</td><td class="num" data-l="Error">0.05–0.27 %</td><td data-l="Kept?"><span class="tag y">kept</span></td></tr>
-    </tbody></table></div>
-    <p>For the wider design space of stage 5 the dictionary was refined twice (11 half-waves of 25–1006 mm; 24 end splines over 2.5 b<sub>s</sub>). One finding kept for the paper: a GBT mode that is 98 % one sine wave in shape can still be wrong by a factor 60 in energy, because the last 2 % carry the stiff membrane and end-zone part. This is why a one-wave ansatz, as in Paper 1, is not enough here.</p>
-    <div class="decision"><b>Decision.</b>Shared POD basis × longitudinal dictionary. Each design's stiffness K and geometric matrix G are built in this space (checked to 1e-13).</div>
-  </div>
+<section class="s c-g" id="sec3">
+  <div class="sh"><span class="no">3</span><h2>Research path at a glance</h2><span class="dt">22 Oct – 23 Nov 2026</span></div>
+  <p class="lead">The instant answer moved between 140 % and 0.24 %; after the GBT check the mean error stayed below 0.5 % in every test.</p>
+  <figure class="f">
+    <div class="key"><span><i style="background:var(--net)"></i>instant network answer</span><span><i class="sq" style="background:var(--chk)"></i>after the GBT check</span><span><i class="ln" style="background:var(--red)"></i>5 % target</span></div>
+    <div class="fig" id="fig-hist" style="height:540px"></div>
+    <ol class="pts"><li>22 Oct, physics only with Adam: 15–140 % on the training panels</li><li>25 Oct, GBT as teacher: 10–16 %</li><li>26 Oct, conditioning fixed: 3.65 %, check 0.22 %</li><li>4 Nov, hybrid loss: 1.42 %, check 0.20 %</li><li>6–7 Nov, all lay-ups: 7.75 % (check 0.21 %), then 4.7 % with 1000 labels</li><li>9–10 Nov, 8 experts with 120 labels: 0.24–1.18 %; check 0.11–0.33 %</li><li>17 Nov, 8 experts with 0 labels: 4.68–11.93 %; check 0.14–0.48 %</li><li>23 Nov, 5 % target met on all 320 designs with 0 labels, mean 0.45 %</li></ol>
+    <figcaption><b>Figure 2.</b> Mean error vs full GBT of every test as it happened (log scale), on unseen designs except the first bar, which is the error on the 8–32 training panels. Bars: spread over designs or lay-ups. Lanes: the nine stages (Sections 4–12) at the same time scale.</figcaption>
+  </figure>
+  <div class="tw"><table class="stack"><caption>Table 1. <span>Each stage answered one question; its result decided the next step.</span></caption>
+    <thead><tr><th>Stage</th><th>Question</th><th>Result</th><th>Decision</th></tr></thead><tbody>
+    <tr><td data-l="Stage"><b>4</b> Physics engine</td><td data-l="Question">Does GBT remove Paper 1's physics error?</td><td data-l="Result">0.54 % vs 2.53 % mean</td><td data-l="Decision">GBT is physics and reference</td></tr>
+    <tr><td data-l="Stage"><b>5</b> Reduced space</td><td data-l="Question">Can all designs share one set of coordinates?</td><td data-l="Result">POD 0.01–0.02 %; dictionary 0.05–0.27 %</td><td data-l="Decision">shared POD basis × dictionary</td></tr>
+    <tr><td data-l="Stage"><b>6</b> Training</td><td data-l="Question">Can a network learn modes from the GBT energy?</td><td data-l="Result">15–140 %, then 3.65 % after fixing the conditioning</td><td data-l="Decision">whitening, decoder, natural gradient</td></tr>
+    <tr><td data-l="Stage"><b>7</b> Loss</td><td data-l="Question">Physics, data or both?</td><td data-l="Result">physics: best shapes, biased number</td><td data-l="Decision">hybrid loss</td></tr>
+    <tr><td data-l="Stage"><b>8</b> Design space</td><td data-l="Question">One network for all lay-ups?</td><td data-l="Result">all models stall near 5 %</td><td data-l="Decision">8 lay-up experts</td></tr>
+    <tr><td data-l="Stage"><b>9</b> Experts</td><td data-l="Question">How good, with and without labels?</td><td data-l="Result">0.24–1.18 % (120 labels); check 0.11–0.48 %</td><td data-l="Decision">labels for the number, physics for shapes</td></tr>
+    <tr><td data-l="Stage"><b>10</b> Network value</td><td data-l="Question">Better start than simple alternatives?</td><td data-l="Result">saves 2–3 iterations; a copied neighbour as good</td><td data-l="Decision">focus on the check</td></tr>
+    <tr><td data-l="Stage"><b>11</b> Check</td><td data-l="Question">Safe, fast, knows its own error?</td><td data-l="Result">estimate safe in 3800/3800</td><td data-l="Decision">certified check with stopping rule</td></tr>
+    <tr><td data-l="Stage"><b>12</b> Cost</td><td data-l="Question">What does a 5 % target cost?</td><td data-l="Result">0 labels for the check; GP needs 80</td><td data-l="Decision">check = main contribution</td></tr>
+  </tbody></table></div>
 </section>
 
-<section class="wrap stage s-n" id="s3">
-  <div class="rail"><div class="no">3</div><div class="nm">Training</div><div class="dt">22 – 26 Oct</div></div>
-  <div>
-    <h2>The physics-only network failed until the conditioning was fixed</h2>
-    <p class="q">Can a network learn buckling modes and N<sub>cr</sub> from the GBT energy alone, by minimising the Rayleigh quotient of its predicted modes?</p>
-    <div class="scroll"><table class="stack"><thead><tr><th>Try</th><th>Result</th><th>Kept?</th></tr></thead><tbody>
-      <tr><td data-l="Try">Rayleigh–Ritz loss, Adam</td><td data-l="Result">One panel: 0.2 % in 1 min; 8–32 panels: still 15–140 % after 2000 steps</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-      <tr><td data-l="Try">Neural eigen-iteration targets, wavenumber preconditioner, L-BFGS</td><td data-l="Result">All slow (e.g. 7.8 % after 300 L-BFGS iterations)</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-      <tr><td data-l="Try">GBT modes as teacher (supervised network, 25 Oct)</td><td data-l="Result">10–16 % on unseen designs; GP 9.3 %; energy on unlabelled designs did not help</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-    </tbody></table></div>
-    <p><b>Diagnosis (26 Oct).</b> The obstacle was numerical conditioning, not the physics: the condition number of K in mode coordinates was 1e9 to 1e19. Three changes fixed it:</p>
-    <ol>
-      <li><b>Energy whitening.</b> Coordinates in which the strain energy is close to the squared length of the vector. An eigen-iteration then needs 7–13 steps instead of about 150; fitting one design improved from 4.6 % to 0.40 %.</li>
-      <li><b>Function decoder.</b> A linear output layer cannot generalise: the modes of an unseen design lie 15–24 % (in energy) outside the span of the modes of 45 other designs. The decoder builds each longitudinal function's cross-section vector from the design inputs.</li>
-      <li><b>Natural-gradient training.</b> Each outer step does one physics eigen-step for every design, then fits the network to it.</li>
-    </ol>
-    <div class="ba"><div><span>eigen-iteration steps</span><b>~150 <i>to</i> 7–13</b></div><div><span>fit of one design</span><b>4.6 % <i>to</i> 0.40 %</b></div><div><span>many designs: training panels, then unseen</span><b>15–140 % <i>to</i> 3.65 %</b></div></div>
-    <p><b>Result.</b> Periodic cell, simply supported, 320 training → 32 unseen designs: instant answer 3.65 % mean (9.77 % max), and 0.22 % after a 12-step check. But the number was biased high (27 of 32 designs above GBT): the network learns the Rayleigh quotient of its own imperfect modes, which is always above the true load. Next question: should GBT labels be added to the loss?</p>
-  </div>
+<section class="s c-g" id="sec4">
+  <div class="sh"><span class="no">4</span><h2>Physics engine: periodic GBT</h2><span class="dt">3 Nov</span></div>
+  <p class="lead">Question: does replacing the RBS plate energy by GBT remove Paper 1's physics error?</p>
+  <p>We used the shear-deformable periodic GBT code of our GBT paper: the whole cross-section (skin, feet, webs, crown), laminated walls with their full stiffness, the true stringer offset, and periodic conditions built into the cross-section analysis, validated against Abaqus for 60 periodic cases. The code was frozen; only bug fixes that keep all validated values were allowed. Test: full GBT at the 22 Abaqus points of Paper 1 (cross-ply, symmetry side, simply supported ends), Abaqus values from Paper 1, Table 2.</p>
+  <div class="tw"><table><caption>Table 2. <span>Error vs Abaqus at the 22 points of Paper 1, mean / max.</span></caption>
+    <thead><tr><th>Points</th><th class="num">Paper 1 PINN</th><th class="num">GBT</th></tr></thead><tbody>
+    <tr><td>All 22</td><td class="num">2.53 / 10.80 %</td><td class="num"><b>0.54 / 0.97 %</b></td></tr>
+    <tr><td>Tight pitch b<sub>s</sub> = 124.25 mm (4 points)</td><td class="num">8.08 / 10.80 %</td><td class="num"><b>0.89 / 0.97 %</b></td></tr>
+    <tr><td>Other 18</td><td class="num">1.29 / 3.54 %</td><td class="num"><b>0.46 / 0.95 %</b></td></tr>
+  </tbody></table></div>
+  <div class="box"><b class="k">Decision.</b>GBT is the physics and the reference for everything that follows; Abaqus is not used in Paper 2. GBT also finds the Abaqus half-wave number at all 22 points (Paper 1: 20).</div>
 </section>
 
-<section class="wrap stage s-n" id="s4">
-  <div class="rail"><div class="no">4</div><div class="nm">Loss</div><div class="dt">3 – 4 Nov</div></div>
-  <div>
-    <h2>Labels fix the bias of the number, physics gives the best shapes</h2>
-    <p class="q">Which loss: GBT energy only, GBT labels only, or both (hybrid, as in Paper 1)?</p>
-    <p>Three networks with identical settings, 320 training → 32 unseen designs (3 Nov), repeated with clean training on 4 Nov: 32 validation designs held out, learning-rate decay, weight averaging, weights chosen on validation, test designs not looked at.</p>
-    <div class="scroll"><table><thead><tr><th>Clean retraining (4 Nov)</th><th class="num">Physics only</th><th class="num">Data only</th><th class="num">Hybrid</th></tr></thead><tbody>
-      <tr><td>Instant number, mean / max</td><td class="num">4.48 / 11.89 %</td><td class="num">1.21 / 4.79 %</td><td class="num">1.42 / 4.35 %</td></tr>
-      <tr><td>Bias of the number</td><td class="num">+4.47 % (31 of 32 above)</td><td class="num">+0.05 %</td><td class="num">+0.55 %</td></tr>
-      <tr><td>Rayleigh quotient of predicted modes (shape quality)</td><td class="num"><b>11.95 %</b></td><td class="num">22.8 %</td><td class="num">20.1 %</td></tr>
-      <tr><td>Check after 12 steps, mean / max</td><td class="num">0.22 / 1.07 %</td><td class="num">0.14 / 0.82 %</td><td class="num">0.20 / 0.98 %</td></tr>
-    </tbody></table></div>
-    <ul>
-      <li>Labels remove the high bias of the number.</li>
-      <li>The physics loss gives the best mode shapes; data alone overfits the shapes (training 11.8 % vs unseen 18.9 % in the first test).</li>
-      <li>The spread of an ensemble of the three numbers did not predict their error (correlation 0.02), as in Paper 1; so an ensemble cannot be the check.</li>
-    </ul>
-    <div class="decision"><b>Decision.</b>Hybrid loss: it stays a PINN (Aya's rule), labels come from GBT and are cheap, and the check started from it was the best in the first test (0.13 % after 12 steps). Data-only is kept as a baseline, physics-only as the label-free case.</div>
-  </div>
+<section class="s c-g" id="sec5">
+  <div class="sh"><span class="no">5</span><h2>One reduced space for all designs</h2><span class="dt">22 Oct – 5 Nov</span></div>
+  <p class="lead">Question: a network needs the same coordinates for every design, but GBT builds new modes on a new mesh for each design. Can all designs share one set without losing accuracy?</p>
+  <div class="tw"><table class="stack"><caption>Table 3. <span>Cross-section direction.</span></caption>
+    <thead><tr><th>Try</th><th>Result</th><th>Kept?</th></tr></thead><tbody>
+    <tr><td data-l="Try">Modes of one reference panel (quasi-isotropic)</td><td data-l="Result">+20 to +130 % on other lay-ups: the mode order changes with the laminate</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+    <tr><td data-l="Try">Energy-weighted POD of the 3 lowest full-GBT modes of 64 panels on a fixed node layout</td><td data-l="Result">241 modes; 0.02 % (symmetry) and 0.01 % (periodic) vs full GBT</td><td data-l="Kept?"><span class="tag y">kept</span></td></tr>
+  </tbody></table></div>
+  <p>Along the length, the load enters through the eccentric foot, so near the ends the pre-buckling forces reach 5× the mid-length value and many modes are concentrated there.</p>
+  <div class="tw"><table class="stack"><caption>Table 4. <span>Length direction, error vs full GBT.</span></caption>
+    <thead><tr><th>Description along the panel</th><th class="num">Error</th><th>Kept?</th></tr></thead><tbody>
+    <tr><td data-l="Description">One wave with an envelope (Kantorovich)</td><td class="num" data-l="Error">1–13 %</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+    <tr><td data-l="Description">One shape per wavenumber (signature curve)</td><td class="num" data-l="Error">4–55 %</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+    <tr><td data-l="Description">Fourier series, 16–24 terms</td><td class="num" data-l="Error">≤ 0.1 %</td><td data-l="Kept?"><span class="tag e">not chosen</span></td></tr>
+    <tr><td data-l="Description">Dictionary: fixed wavelengths + end splines</td><td class="num" data-l="Error">0.05–0.27 %</td><td data-l="Kept?"><span class="tag y">kept</span></td></tr>
+  </tbody></table></div>
+  <p>For the wider design space of Section 8 the dictionary was refined twice (11 half-waves of 25–1006 mm; 24 end splines over 2.5 b<sub>s</sub>). One finding kept for the paper: a GBT mode that is 98 % one sine wave in shape can still be wrong by a factor 60 in energy, because the last 2 % carry the stiff membrane and end-zone part. This is why a one-wave ansatz, as in Paper 1, is not enough here.</p>
+  <div class="box"><b class="k">Decision.</b>Shared POD basis × longitudinal dictionary. Each design's stiffness K and geometric matrix G are built in this space (checked to 1e-13).</div>
 </section>
 
-<section class="wrap stage s-n" id="s5">
-  <div class="rail"><div class="no">5</div><div class="nm">Design space</div><div class="dt">5 – 8 Nov</div></div>
-  <div>
-    <h2>One network for every lay-up stalled near 5 %, so we split it into experts</h2>
-    <p class="q">Can one network cover Paper 1's design space (b<sub>s</sub> 124.25–285.5 mm, β up to 3.5, symmetry and periodic sides) for any lay-up, with the lay-up as input (38 inputs)?</p>
-    <div class="scroll"><table class="stack"><thead><tr><th>Try (5–7 Nov)</th><th>Result on unseen designs</th></tr></thead><tbody>
-      <tr><td data-l="Try">Hybrid network, 223 training designs (pilot)</td><td data-l="Result">7.75 % mean, 29.8 % max; training 1.2 %: overfitting</td></tr>
-      <tr><td data-l="Try">Same with 1000 labelled designs</td><td data-l="Result">stalls at about 4.7 %; training 1.3 %</td></tr>
-      <tr><td data-l="Try">Plain data models on the same 1000 labels: MLP ensemble, GP, gradient boosting (is the network the problem?)</td><td data-l="Result">5.0–6.7 % mean, about 28 % max: no better than the network</td></tr>
-      <tr><td data-l="Try">Same data models on realistic (industrial) lay-ups only</td><td data-l="Result">GP 0.77 % mean, 4.2 % max</td></tr>
-    </tbody></table></div>
-    <p>The stall is not a weakness of the network: random ply-by-ply lay-ups (unbalanced, few 0° plies) are hard for any model, while lay-ups that follow design rules are learnt well. Even so, the 12-step check reached 0.21 % on the same hard designs.</p>
-    <div class="decision"><b>Decision (Aya, 7–8 Nov).</b>One expert network per lay-up and side condition: 4 standard lay-ups (cross-ply of Paper 1, quasi-isotropic, 0°-rich, ±45°) × 2 side conditions = 8 small PINNs with inputs b<sub>s</sub> and β. In addition, one network for all industrial lay-ups (38 inputs, 518 labels). No unseen lay-up is claimed.</div>
-  </div>
+<section class="s c-n" id="sec6">
+  <div class="sh"><span class="no">6</span><h2>Training a physics-only network</h2><span class="dt">22 – 26 Oct</span></div>
+  <p class="lead">Question: can a network learn buckling modes and N<sub>cr</sub> from the GBT energy alone, by minimising the Rayleigh quotient of its predicted modes?</p>
+  <div class="tw"><table class="stack"><caption>Table 5. <span>First attempts.</span></caption>
+    <thead><tr><th>Try</th><th>Result</th><th>Kept?</th></tr></thead><tbody>
+    <tr><td data-l="Try">Rayleigh–Ritz loss, Adam</td><td data-l="Result">One panel: 0.2 % in 1 min; 8–32 panels: still 15–140 % after 2000 steps</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+    <tr><td data-l="Try">Neural eigen-iteration targets, wavenumber preconditioner, L-BFGS</td><td data-l="Result">All slow (e.g. 7.8 % after 300 L-BFGS iterations)</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+    <tr><td data-l="Try">GBT modes as teacher (supervised network, 25 Oct)</td><td data-l="Result">10–16 % on unseen designs; GP 9.3 %; energy on unlabelled designs did not help</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+  </tbody></table></div>
+  <p><b>Diagnosis (26 Oct).</b> The obstacle was numerical conditioning, not the physics: the condition number of K in mode coordinates was 1e9 to 1e19. Three changes fixed it:</p>
+  <ol>
+    <li><b>Energy whitening:</b> coordinates in which the strain energy is close to the squared length of the vector. An eigen-iteration then needs 7–13 steps instead of about 150; fitting one design improved from 4.6 % to 0.40 %.</li>
+    <li><b>Function decoder:</b> a linear output layer cannot generalise, because the modes of an unseen design lie 15–24 % (in energy) outside the span of the modes of 45 other designs. The decoder builds each longitudinal function's cross-section vector from the design inputs.</li>
+    <li><b>Natural-gradient training:</b> each outer step does one physics eigen-step for every design, then fits the network to it.</li>
+  </ol>
+  <div class="box"><b class="k">Result.</b>Periodic cell, simply supported, 320 training → 32 unseen designs: instant answer 3.65 % mean (9.77 % max) and 0.22 % after a 12-step check. But the number was biased high (27 of 32 designs above GBT): the network learns the Rayleigh quotient of its own imperfect modes, which is always above the true load. Next question: should GBT labels be added to the loss?</div>
 </section>
 
-<section class="wrap stage s-n" id="s6">
-  <div class="rail"><div class="no">6</div><div class="nm">Eight experts</div><div class="dt">7 – 17 Nov</div></div>
-  <div>
-    <h2>With 120 labels the instant answer is within 1.2 %; the check is the same with or without labels</h2>
-    <p class="q">How accurate are the experts, with 120 labels and with none?</p>
-    <div class="figbox"><h4>Mean error vs full GBT, 40 unseen designs per expert (log scale)</h4>
-      <div class="key"><span><i class="ring"></i>instant, 0 labels</span><span><i style="background:var(--net)"></i>instant, 120 labels</span><span><i class="sq" style="background:var(--chk)"></i>check, 12 steps (0 labels / 120 labels)</span></div>
-      <div class="fig" id="fig-exp" style="height:380px"></div>
-      <p class="small muted">Maximum errors, instant with 0 labels: 16.06–24.72 %; instant with 120 labels: 0.87–4.92 %; check: 0.38–1.49 %. The industrial-lay-up network (38 inputs, 518 labels, 45 unseen designs) reached 1.35 % mean (8.40 % max) instantly and 0.14 % (0.74 %) after 12 check steps.</p></div>
-    <div class="figbox"><h4>Label study (cross-ply, symmetry): a GP is the better number predictor when labels are few</h4>
-      <div class="key"><span><i class="ln" style="background:var(--net)"></i>network, instant</span><span><i class="ln" style="background:#7d8792"></i>Gaussian process</span><span><i class="ln" style="background:var(--chk)"></i>network start + 12-step check</span></div>
-      <div class="fig" id="fig-lab" style="height:300px"></div></div>
-    <p>Labels are what makes the instant number usable; with few labels the GP is the better number predictor. The mode shapes, which the check uses, come from the physics: the check is the same with 0 or 120 labels.</p>
-  </div>
+<section class="s c-n" id="sec7">
+  <div class="sh"><span class="no">7</span><h2>Physics, data or both</h2><span class="dt">3 – 4 Nov</span></div>
+  <p class="lead">Question: which loss, GBT energy only, GBT labels only, or both (hybrid, as in Paper 1)?</p>
+  <p>Three networks with identical settings, 320 training → 32 unseen designs (3 Nov), repeated with clean training on 4 Nov: 32 validation designs held out, learning-rate decay, weight averaging, weights chosen on validation, test designs not looked at.</p>
+  <div class="tw"><table><caption>Table 6. <span>Clean retraining, 4 Nov, 32 unseen designs.</span></caption>
+    <thead><tr><th></th><th class="num">Physics only</th><th class="num">Data only</th><th class="num">Hybrid</th></tr></thead><tbody>
+    <tr><td>Instant number, mean / max</td><td class="num">4.48 / 11.89 %</td><td class="num">1.21 / 4.79 %</td><td class="num">1.42 / 4.35 %</td></tr>
+    <tr><td>Bias of the number</td><td class="num">+4.47 % (31 of 32 above)</td><td class="num">+0.05 %</td><td class="num">+0.55 %</td></tr>
+    <tr><td>Rayleigh quotient of predicted modes (shape quality)</td><td class="num"><b>11.95 %</b></td><td class="num">22.8 %</td><td class="num">20.1 %</td></tr>
+    <tr><td>Check after 12 steps, mean / max</td><td class="num">0.22 / 1.07 %</td><td class="num">0.14 / 0.82 %</td><td class="num">0.20 / 0.98 %</td></tr>
+  </tbody></table></div>
+  <ul>
+    <li>Labels remove the high bias of the number.</li>
+    <li>The physics loss gives the best mode shapes; data alone overfits the shapes (training 11.8 % vs unseen 18.9 % in the first test).</li>
+    <li>The spread of an ensemble of the three numbers did not predict their error (correlation 0.02), as in Paper 1; so an ensemble cannot be the check.</li>
+  </ul>
+  <div class="box"><b class="k">Decision.</b>Hybrid loss: it stays a PINN (Aya's rule), labels come from GBT and are cheap, and the check started from it was the best in the first test (0.13 % after 12 steps). Data-only is kept as a baseline, physics-only as the label-free case.</div>
 </section>
 
-<section class="wrap stage s-n" id="s7">
-  <div class="rail"><div class="no">7</div><div class="nm">Value of the network</div><div class="dt">9 – 17 Nov</div></div>
-  <div>
-    <h2>As a start for the check, the network saves only 2–3 iterations</h2>
-    <p class="q">The check starts from the network's predicted modes. Is that start better than simple alternatives that need no network?</p>
-    <div class="figbox"><h4>Median error vs iteration of the check, 320 unseen designs</h4>
-      <div class="key"><span><i class="ln" style="background:#9aa3ad"></i>random start</span><span><i class="ln" style="background:#56606d"></i>copy of nearest labelled design</span><span><i class="ln" style="background:var(--net)"></i>network</span><span>dotted: 10 or 0 labels, solid: 120 labels</span></div>
-      <div class="fig" id="fig-conv" style="height:320px"></div></div>
-    <h3>Other starts we tried (9–17 Nov)</h3>
-    <div class="scroll"><table class="stack"><thead><tr><th>Try</th><th>Result</th><th>Kept?</th></tr></thead><tbody>
-      <tr><td data-l="Try">Copy of the nearest labelled design + a physics-trained correction network</td><td data-l="Result">Equal to the copy with 120 labels, slightly worse with 10</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-      <tr><td data-l="Try">Neighbour modes stretched to the new length (harmonic coordinates)</td><td data-l="Result">Same as the copy on average; numerically unstable in 1–3 designs</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-      <tr><td data-l="Try">Neighbour modes and network modes together</td><td data-l="Result">Worse than the neighbour alone</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-      <tr><td data-l="Try">Industrial network (38 inputs) vs its nearest labelled design</td><td data-l="Result">Network better in 22 of 45 designs at 5 steps, 16 of 45 at 12</td><td data-l="Kept?"><span class="tag e">equal</span></td></tr>
-    </tbody></table></div>
-    <h3>The predicted mode as information (320 unseen designs)</h3>
-    <div class="scroll"><table><thead><tr><th>Predictor</th><th class="num">MAC with GBT mode 1</th><th class="num">Half-wave number exact</th></tr></thead><tbody>
-      <tr><td>Network, 0 labels</td><td class="num">0.39</td><td class="num">39 %</td></tr>
-      <tr><td>Network, 120 labels</td><td class="num">0.40</td><td class="num">44 %</td></tr>
-      <tr><td>Copy of the nearest of 120 labelled designs</td><td class="num">0.29</td><td class="num">57 %</td></tr>
-      <tr><td>Check after 12 steps (network start)</td><td class="num">–</td><td class="num">99.4 % (318 of 320)</td></tr>
-    </tbody></table></div>
-    <p>The network's modes are closer to GBT in shape than copied ones, but a single predicted mode mixes the lowest modes (often only 2–5 % apart), so the network alone does not get the half-wave number; the check does. One iteration costs about 0.17 s and the fixed cost of a check is about 5 s, so even a perfect start would save at most about 1.5 s.</p>
-    <div class="decision"><b>Decision (16 Nov).</b>Stop improving the predicted modes (2 h of tests instead of a week); put the effort into the check.</div>
-  </div>
+<section class="s c-n" id="sec8">
+  <div class="sh"><span class="no">8</span><h2>A wider design space: lay-up experts</h2><span class="dt">5 – 8 Nov</span></div>
+  <p class="lead">Question: can one network cover Paper 1's design space (b<sub>s</sub> 124.25–285.5 mm, β up to 3.5, symmetry and periodic sides) for any lay-up, with the lay-up as input (38 inputs)?</p>
+  <div class="tw"><table class="stack"><caption>Table 7. <span>One network for all lay-ups (5–7 Nov), results on unseen designs.</span></caption>
+    <thead><tr><th>Try</th><th>Result</th></tr></thead><tbody>
+    <tr><td data-l="Try">Hybrid network, 223 training designs (pilot)</td><td data-l="Result">7.75 % mean, 29.8 % max; training 1.2 %: overfitting</td></tr>
+    <tr><td data-l="Try">Same with 1000 labelled designs</td><td data-l="Result">stalls at about 4.7 %; training 1.3 %</td></tr>
+    <tr><td data-l="Try">Plain data models on the same 1000 labels: MLP ensemble, GP, gradient boosting</td><td data-l="Result">5.0–6.7 % mean, about 28 % max: no better than the network</td></tr>
+    <tr><td data-l="Try">Same data models on realistic (industrial) lay-ups only</td><td data-l="Result">GP 0.77 % mean, 4.2 % max</td></tr>
+  </tbody></table></div>
+  <p>The stall is not a weakness of the network: random ply-by-ply lay-ups (unbalanced, few 0° plies) are hard for any model, while lay-ups that follow design rules are learnt well. Even so, the 12-step check reached 0.21 % on the same hard designs.</p>
+  <div class="box"><b class="k">Decision (Aya, 7–8 Nov).</b>One expert network per lay-up and side condition: 4 standard lay-ups (cross-ply of Paper 1, quasi-isotropic, 0°-rich, ±45°) × 2 side conditions = 8 small PINNs with inputs b<sub>s</sub> and β. In addition, one network for all industrial lay-ups (38 inputs, 518 labels). No unseen lay-up is claimed.</div>
 </section>
 
-<section class="wrap band" style="border-top:1px solid var(--rule)">
-  <h2>Expectation vs reality</h2>
-  <p class="muted" style="max-width:70ch">Stages 3 to 7 in one picture, based on our own results; the network still makes the paper, it just stopped being the hero.</p>
-  <div class="meme">
-    <div><h4>What we hoped at the start</h4><div class="muted small">The network does it all</div><div class="fig" id="fig-exp1"></div>
-      <ul><li>instant N<sub>cr</sub> from physics alone, no labels</li><li>accurate mode shapes</li><li>one network for every lay-up</li></ul></div>
-    <div><h4>What the data said (23 Nov)</h4><div class="muted small">The GBT check does the heavy lifting</div><div class="fig" id="fig-exp2"></div>
-      <ul><li>instant N<sub>cr</sub>: needs 120 labels; one expert per lay-up</li><li>shapes: a good start, 2–3 iterations saved</li><li>check: 0 labels, error estimate, 5 % met on all 320 designs</li></ul></div>
-  </div>
+<section class="s c-n" id="sec9">
+  <div class="sh"><span class="no">9</span><h2>Results of the eight experts</h2><span class="dt">7 – 17 Nov</span></div>
+  <p class="lead">Question: how accurate are the experts, with 120 labels and with none?</p>
+  <figure class="f">
+    <div class="key"><span><i class="ring"></i>instant, 0 labels</span><span><i style="background:var(--net)"></i>instant, 120 labels</span><span><i class="sq" style="background:var(--chk)"></i>check, 12 steps (0 and 120 labels)</span></div>
+    <div class="fig" id="fig-exp" style="height:330px"></div>
+    <figcaption><b>Figure 3.</b> Mean error vs full GBT, 40 unseen designs per expert (log scale). Maximum errors: instant with 0 labels 16.06–24.72 %; instant with 120 labels 0.87–4.92 %; check 0.38–1.49 %. The industrial-lay-up network (38 inputs, 518 labels, 45 unseen designs) reached 1.35 % mean (8.40 % max) instantly and 0.14 % (0.74 %) after 12 check steps.</figcaption>
+  </figure>
+  <figure class="f">
+    <div class="key"><span><i class="ln" style="background:var(--net)"></i>network, instant</span><span><i class="ln" style="background:#8a94a1"></i>Gaussian process</span><span><i class="ln" style="background:var(--chk)"></i>network start + 12-step check</span></div>
+    <div class="fig" id="fig-lab" style="height:260px"></div>
+    <figcaption><b>Figure 4.</b> Label study, cross-ply, symmetry side, 40 unseen designs: mean error vs number of GBT labels.</figcaption>
+  </figure>
+  <div class="box"><b class="k">Finding.</b>Labels are what make the instant number usable; with few labels the GP is the better number predictor. The mode shapes, which the check uses, come from the physics: the check is the same with 0 or 120 labels.</div>
 </section>
 
-<section class="wrap stage s-c" id="s8">
-  <div class="rail"><div class="no">8</div><div class="nm">Certified check</div><div class="dt">10 – 23 Nov</div></div>
-  <div>
-    <h2>The check gives an upper bound in the reduced space, and its error estimate was never too small</h2>
-    <p class="q">The check replaces Paper 1's −15 %/+3 % window. Can it be safe, reasonably fast, and tell its own error?</p>
-    <p><b>How it works.</b> For a new design, the GBT stiffness and geometric matrices are built in the shared reduced space; a block eigen-iteration (LOBPCG, 8 vectors) starts from the network's modes. Every iterate gives a load above the true one in that space (an upper bound).</p>
-    <div class="scroll"><table class="stack"><thead><tr><th>Try (10–23 Nov)</th><th>Result</th><th>Kept?</th></tr></thead><tbody>
-      <tr><td data-l="Try">Pre-buckling state on a 4× coarser mesh</td><td data-l="Result">Check at 36–53 % of the full-GBT time, but the load dropped by up to 0.11 % for industrial lay-ups, so no longer always an upper bound</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-      <tr><td data-l="Try">Exact pre-buckling state</td><td data-l="Result">63 % (5 steps) to 76 % (12 steps) of the full-GBT time; never below full GBT</td><td data-l="Kept?"><span class="tag y">kept</span></td></tr>
-      <tr><td data-l="Try">Cheaper parts: coarser meshes, pre-buckling in the reduced space, single precision</td><td data-l="Result">At most about 0.3 s saved</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-      <tr><td data-l="Try">Kato–Temple lower bound (two-sided bracket)</td><td data-l="Result">14 % wide after 5 steps, 2.9 % after 12; costs more than the check itself</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
-      <tr><td data-l="Try">Relative residual of the current mode as error estimate</td><td data-l="Result">Never below the true error; 3–11× conservative</td><td data-l="Kept?"><span class="tag y">kept</span></td></tr>
-    </tbody></table></div>
-    <div class="figbox"><h4>Error estimate vs true error after 5 iterations, 640 checks: every point lies above the line</h4>
-      <div class="key"><span><i style="background:var(--chk)"></i>one check of one design</span><span><i class="ln" style="background:var(--red)"></i>estimate = true error</span></div>
-      <div class="fig" id="fig-eta" style="height:360px"></div>
-      <p class="small muted">Over all iterations: 3800 of 3800 checks safe; rank correlation with the true error up to 0.88.</p></div>
-    <div class="decision"><b>Decision.</b>The check runs until the residual estimate falls below a chosen tolerance. It needs no labels and no reference solution. Its limit: it covers the iteration error inside the reduced space, not the fixed error of that space vs full GBT (0.05–0.27 %, measured once).</div>
+<section class="s c-n" id="sec10">
+  <div class="sh"><span class="no">10</span><h2>What does the network add?</h2><span class="dt">9 – 17 Nov</span></div>
+  <p class="lead">Question: the check starts from the network's predicted modes. Is that start better than simple alternatives that need no network?</p>
+  <figure class="f">
+    <div class="key"><span><i class="ln" style="background:#a3acb7"></i>random start</span><span><i class="ln" style="background:#5b6675"></i>copy of nearest labelled design</span><span><i class="ln" style="background:var(--net)"></i>network</span><span>dotted: 10 or 0 labels; solid: 120 labels</span></div>
+    <div class="fig" id="fig-conv" style="height:280px"></div>
+    <figcaption><b>Figure 5.</b> Median error vs iteration of the check, 320 unseen designs (8 experts × 40).</figcaption>
+  </figure>
+  <div class="tw"><table class="stack"><caption>Table 8. <span>Other starts we tried (9–17 Nov).</span></caption>
+    <thead><tr><th>Try</th><th>Result</th><th>Kept?</th></tr></thead><tbody>
+    <tr><td data-l="Try">Copy of the nearest labelled design + a physics-trained correction network</td><td data-l="Result">Equal to the copy with 120 labels, slightly worse with 10</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+    <tr><td data-l="Try">Neighbour modes stretched to the new length (harmonic coordinates)</td><td data-l="Result">Same as the copy on average; numerically unstable in 1–3 designs</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+    <tr><td data-l="Try">Neighbour modes and network modes together</td><td data-l="Result">Worse than the neighbour alone</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+    <tr><td data-l="Try">Industrial network (38 inputs) vs its nearest labelled design</td><td data-l="Result">Network better in 22 of 45 designs at 5 steps, 16 of 45 at 12</td><td data-l="Kept?"><span class="tag e">equal</span></td></tr>
+  </tbody></table></div>
+  <div class="tw"><table><caption>Table 9. <span>The predicted mode as information, 320 unseen designs.</span></caption>
+    <thead><tr><th>Predictor</th><th class="num">MAC with GBT mode 1</th><th class="num">Half-wave number exact</th></tr></thead><tbody>
+    <tr><td>Network, 0 labels</td><td class="num">0.39</td><td class="num">39 %</td></tr>
+    <tr><td>Network, 120 labels</td><td class="num">0.40</td><td class="num">44 %</td></tr>
+    <tr><td>Copy of the nearest of 120 labelled designs</td><td class="num">0.29</td><td class="num">57 %</td></tr>
+    <tr><td>Check after 12 steps (network start)</td><td class="num">–</td><td class="num">99.4 % (318 of 320)</td></tr>
+  </tbody></table></div>
+  <p>The network's modes are closer to GBT in shape than copied ones, but a single predicted mode mixes the lowest modes (often only 2–5 % apart), so the network alone does not get the half-wave number; the check does. One iteration costs about 0.17 s and the fixed cost of a check is about 5 s, so even a perfect start would save at most about 1.5 s.</p>
+  <div class="ev">
+    <div><h4>What we hoped at the start</h4><div class="fig" id="fig-ev1"></div><ul><li>instant N<sub>cr</sub> from physics alone, no labels</li><li>accurate mode shapes</li><li>one network for every lay-up</li></ul></div>
+    <div><h4>What the data showed (23 Nov)</h4><div class="fig" id="fig-ev2"></div><ul><li>instant N<sub>cr</sub>: needs 120 labels; one expert per lay-up</li><li>modes: a useful start, 2–3 iterations saved</li><li>check: 0 labels, error estimate, 5 % met on all 320 designs</li></ul></div>
   </div>
+  <div class="box"><b class="k">Decision (16 Nov).</b>Stop improving the predicted modes (2 h of tests instead of a week); put the effort into the check.</div>
 </section>
 
-<section class="wrap stage s-c" id="s9">
-  <div class="rail"><div class="no">9</div><div class="nm">Cost of 5 %</div><div class="dt">23 Nov</div></div>
-  <div>
-    <h2>A 5 % target is met on every design with 0 labels; a GP needs 80 labels per lay-up and gives no guarantee</h2>
-    <p class="q">As in Paper 1's count of Abaqus calls: what does it cost to give every design an answer within 5 % of full GBT?</p>
-    <p>320 unseen designs (8 lay-up/side combinations × 40). The check stops when its estimate is at most 5 %; if it never gets there, the design gets a full GBT solution. Totals over all 8 combinations; full-GBT solves include labels.</p>
-    <div class="scroll"><table class="stack" id="cost"><thead><tr><th>Method</th><th class="num">Full-GBT solves</th><th class="num">Offline time</th><th>Time per design</th><th class="num">Error, mean / max</th><th>Upper bound</th></tr></thead><tbody></tbody></table></div>
-    <p>The certified check meets 5 % on every design without labels and with a guarantee, already from a random start. The "upper bound" column means: the answer is never below the critical load of the reduced model. The GP needs 80 labels per lay-up and gives no guarantee or mode shape. The network start saves about 2 iterations (about 0.5 s per design), so its training pays off only after about 2400 designs per expert; most of each check (about 4.5 s) is building the design's matrices.</p>
-  </div>
+<section class="s c-c" id="sec11">
+  <div class="sh"><span class="no">11</span><h2>The certified check</h2><span class="dt">10 – 23 Nov</span></div>
+  <p class="lead">Question: the check replaces Paper 1's −15 %/+3 % window. Can it be safe, reasonably fast, and tell its own error?</p>
+  <p><b>How it works.</b> For a new design, the GBT stiffness and geometric matrices are built in the shared reduced space; a block eigen-iteration (LOBPCG, 8 vectors) starts from the network's modes. Every iterate gives a load above the true one in that space (an upper bound).</p>
+  <div class="tw"><table class="stack"><caption>Table 10. <span>What we tried for the check (10–23 Nov).</span></caption>
+    <thead><tr><th>Try</th><th>Result</th><th>Kept?</th></tr></thead><tbody>
+    <tr><td data-l="Try">Pre-buckling state on a 4× coarser mesh</td><td data-l="Result">Check at 36–53 % of the full-GBT time, but the load dropped by up to 0.11 % for industrial lay-ups, so no longer always an upper bound</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+    <tr><td data-l="Try">Exact pre-buckling state</td><td data-l="Result">63 % (5 steps) to 76 % (12 steps) of the full-GBT time; never below full GBT</td><td data-l="Kept?"><span class="tag y">kept</span></td></tr>
+    <tr><td data-l="Try">Cheaper parts: coarser meshes, pre-buckling in the reduced space, single precision</td><td data-l="Result">At most about 0.3 s saved</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+    <tr><td data-l="Try">Kato–Temple lower bound (two-sided bracket)</td><td data-l="Result">14 % wide after 5 steps, 2.9 % after 12; costs more than the check itself</td><td data-l="Kept?"><span class="tag x">dropped</span></td></tr>
+    <tr><td data-l="Try">Relative residual of the current mode as error estimate</td><td data-l="Result">Never below the true error; 3–11× conservative (median)</td><td data-l="Kept?"><span class="tag y">kept</span></td></tr>
+  </tbody></table></div>
+  <figure class="f">
+    <div class="key"><span><i style="background:var(--chk)"></i>one check of one design</span><span><i class="ln" style="background:var(--red)"></i>estimate = true error</span></div>
+    <div class="fig" id="fig-eta" style="height:320px"></div>
+    <figcaption><b>Figure 6.</b> Error estimate vs true error after 5 iterations, 640 checks: every point lies above the line. Over all iterations 3800 of 3800 checks were safe; rank correlation with the true error up to 0.88.</figcaption>
+  </figure>
+  <div class="box"><b class="k">Decision.</b>The check runs until the residual estimate falls below a chosen tolerance. It needs no labels and no reference solution. Its limit: it covers the iteration error inside the reduced space, not the fixed error of that space vs full GBT (0.05–0.27 %, measured once).</div>
 </section>
 
-<section class="wrap stage s-g" id="scope">
-  <div class="rail"><div class="no">+</div><div class="nm">Studies that set the scope</div><div class="dt">9 – 23 Nov</div></div>
-  <div>
-    <h2>Two side studies limit what the paper claims</h2>
-    <h3>Constant cell width (16 Nov)</h3>
-    <p>The periodic condition keeps the cell width constant, so the skin cannot expand sideways (found while checking the formulation, 9 Nov). Full GBT with and without this transverse compression, periodic, β = 1.5:</p>
-    <div class="scroll"><table><thead><tr><th>Lay-up</th><th class="num">b<sub>s</sub> 150 mm: change of N<sub>cr</sub> if free</th><th class="num">b<sub>s</sub> 285.5 mm</th></tr></thead><tbody>
-      <tr><td>Cross-ply</td><td class="num">+2.8 %</td><td class="num">+4.0 %</td></tr>
-      <tr><td>Quasi-isotropic</td><td class="num">+31.7 %</td><td class="num">+24.9 %</td></tr>
-      <tr><td>0°-rich</td><td class="num">+21.4 %</td><td class="num">+25.1 %</td></tr>
-      <tr><td>±45°</td><td class="num">+160 %</td><td class="num">+100 %</td></tr>
-    </tbody></table></div>
-    <p>Decision (Aya): keep the constant width, as in the validated GBT code and the Abaqus models of both papers (conservative); state it clearly in the paper.</p>
-    <h3>Post-buckling and imperfections (18–21 Nov)</h3>
-    <p>Koiter's initial post-buckling analysis was added to the GBT code and checked against Paper 1's Abaqus Riks cases. Screens of 40 designs of the expert space and 96 realistic designs (L 500–750 mm, stringer height 20–35 mm) with mode-shaped imperfections of 0.1–1.0 mm found no imperfection-sensitive design; a non-linear GBT path for the three closest designs stayed stable up to 1.6 times the buckling load. Decision (Aya, 23 Nov): not part of this paper.</p>
-  </div>
+<section class="s c-c" id="sec12">
+  <div class="sh"><span class="no">12</span><h2>Cost of a 5 % accuracy target</h2><span class="dt">23 Nov</span></div>
+  <p class="lead">Question: as in Paper 1's count of Abaqus calls, what does it cost to give every design an answer within 5 % of full GBT?</p>
+  <p>320 unseen designs (8 lay-up/side combinations × 40). The check stops when its estimate is at most 5 %; if it never gets there, the design gets a full GBT solution. Totals over all 8 combinations; full-GBT solves include labels.</p>
+  <div class="tw"><table class="stack" id="cost"><caption>Table 11. <span>Cost and accuracy of each way to reach the 5 % target. Offline time: labels, operators and, for the network rows, training.</span></caption><thead><tr><th>Method</th><th class="num">Full-GBT solves</th><th class="num">Offline time</th><th>Time per design</th><th class="num">Error, mean / max</th><th>Upper bound</th></tr></thead><tbody></tbody></table></div>
+  <div class="box"><b class="k">Finding.</b>The certified check meets 5 % on every design without labels and with a guarantee, already from a random start ("upper bound" means never below the critical load of the reduced model). The GP needs 80 labels per lay-up and gives no guarantee or mode shape. The network start saves about 2 iterations (about 0.5 s per design), so its training pays off only after about 2400 designs per expert; most of each check (about 4.5 s) is building the design's matrices.</div>
 </section>
 
-<section class="wrap band" id="end" style="border-top:2px solid var(--ink)">
-  <h2>What we conclude</h2>
-  <div class="two"><ol class="concl">
+<section class="s c-g" id="sec13">
+  <div class="sh"><span class="no">13</span><h2>Side studies that set the scope</h2><span class="dt">9 – 23 Nov</span></div>
+  <h3>13.1 Constant cell width (16 Nov)</h3>
+  <p>The periodic condition keeps the cell width constant, so the skin cannot expand sideways (found while checking the formulation, 9 Nov). Full GBT with and without this transverse compression, periodic, β = 1.5:</p>
+  <div class="tw"><table><caption>Table 12. <span>Change of N<sub>cr</sub> if the cell width were free.</span></caption><thead><tr><th>Lay-up</th><th class="num">b<sub>s</sub> = 150 mm</th><th class="num">b<sub>s</sub> = 285.5 mm</th></tr></thead><tbody>
+    <tr><td>Cross-ply</td><td class="num">+2.8 %</td><td class="num">+4.0 %</td></tr>
+    <tr><td>Quasi-isotropic</td><td class="num">+31.7 %</td><td class="num">+24.9 %</td></tr>
+    <tr><td>0°-rich</td><td class="num">+21.4 %</td><td class="num">+25.1 %</td></tr>
+    <tr><td>±45°</td><td class="num">+160 %</td><td class="num">+100 %</td></tr>
+  </tbody></table></div>
+  <p>Decision (Aya): keep the constant width, as in the validated GBT code and the Abaqus models of both papers (conservative); state it clearly in the paper.</p>
+  <h3>13.2 Post-buckling and imperfections (18–21 Nov)</h3>
+  <p>Koiter's initial post-buckling analysis was added to the GBT code and checked against Paper 1's Abaqus Riks cases. Screens of 40 designs of the expert space and 96 realistic designs (L 500–750 mm, stringer height 20–35 mm) with mode-shaped imperfections of 0.1–1.0 mm found no imperfection-sensitive design; a non-linear GBT path for the three closest designs stayed stable up to 1.6 times the buckling load. Decision (Aya, 23 Nov): not part of this paper.</p>
+</section>
+
+<section class="s c-g" id="sec14">
+  <div class="sh"><span class="no">14</span><h2>Conclusions, limits and next steps</h2></div>
+  <h3>14.1 Conclusions</h3>
+  <ol class="concl">
     <li>GBT as the physics removes Paper 1's RBS error (0.54 % vs 2.53 % at Paper 1's Abaqus points) and makes Abaqus unnecessary.</li>
     <li>A shared reduced space (POD basis × longitudinal dictionary) gives every design the same coordinates within 0.05–0.27 % of full GBT; this is what makes one network per lay-up possible.</li>
     <li>A PINN trains on the GBT energy only after the conditioning is fixed (energy whitening, function decoder, natural-gradient steps). Without labels it learns the mode shapes but not an unbiased number; 120 GBT labels make the instant number accurate (0.24–1.18 %).</li>
-    <li>The certified check replaces the −15 %/+3 % window: an upper bound, independent of the order of designs, with a label-free error estimate that was never below the true error. It meets a 5 % target on all 320 unseen designs without labels.</li>
+    <li>The certified check replaces the −15 %/+3 % window: an upper bound in the reduced space, independent of the order of designs, with a label-free error estimate that was never below the true error. It meets a 5 % target on all 320 unseen designs without labels.</li>
     <li>Compared honestly with simple alternatives, the network's start saves only a few iterations, and with few labels a GP predicts the number better. The main contribution is therefore the GBT engine with the certified check; the network adds the instant answer and the mode shapes.</li>
   </ol>
-  <div><h3 style="margin-top:0">Limits</h3>
+  <h3>14.2 Limits</h3>
   <p>The check takes 63–76 % of a full-GBT solution, mostly for building the design's matrices; the error estimate covers only the iteration error; constant cell width; simply supported ends; β ≥ 0.75; four lay-ups plus the industrial set, no unseen lay-up.</p>
-  <h3>Next steps</h3>
-  <p>Choose the journal; write the paper from this draft; optional: label study on a second lay-up; faster assembly of the design's matrices.</p></div></div>
+  <h3>14.3 Next steps</h3>
+  <p>Choose the journal; write the paper from this draft; optional: label study on a second lay-up; faster assembly of the design's matrices.</p>
 </section>
 
-<section class="wrap band" id="setup" style="border-top:1px solid var(--rule)">
-  <h2>Set-up</h2>
-  <div class="scroll"><table class="stack"><thead><tr><th style="width:24%">Item</th><th>Value</th></tr></thead><tbody>
+<section class="s c-g" id="secA">
+  <div class="sh"><span class="no">A</span><h2>Set-up of the study</h2></div>
+  <div class="tw"><table class="stack"><caption>Table A1. <span>Set-up.</span></caption><thead><tr><th style="width:24%">Item</th><th>Value</th></tr></thead><tbody>
     <tr><td data-l="Item">Panel</td><td data-l="Value">omega-stringer panel, periodic cell, simply supported loaded ends</td></tr>
     <tr><td data-l="Item">Design inputs</td><td data-l="Value">stringer pitch b<sub>s</sub> = 124.25–285.5 mm, aspect ratio β = a/b<sub>s</sub> = 0.75–3.5</td></tr>
     <tr><td data-l="Item">Lay-ups (skin / stringer)</td><td data-l="Value">cross-ply [0/90/0/90]s / [0/90/0/90/0/90/0]; quasi-isotropic [45/−45/0/90]s / [45/−45/0/90/0/−45/45]; 0°-rich [45/0/−45/0]s / [45/0/−45/0/−45/0/45]; ±45° [45/−45/−45/45]s / [45/−45/45/−45/45/−45/45]</td></tr>
@@ -397,106 +439,95 @@ a{color:var(--gbt)}
     <tr><td data-l="Item">Check</td><td data-l="Value">LOBPCG with 8 vectors, energy-metric preconditioner, exact pre-buckling state, stopped by the residual estimate</td></tr>
     <tr><td data-l="Item">Truth for scoring</td><td data-l="Value">full GBT solution of each test design</td></tr>
   </tbody></table></div>
-  <footer class="small muted"><p style="margin-top:12px">All numbers come from the logged results in the project repository (results/, docs/RESEARCH_LOG.md); times were measured on one 2-core machine. Draft for the co-authors, not for circulation. Prepared by Aya Medhat Elsayed; text refinement and research support by Claude.</p></footer>
+  <footer class="small muted sans"><p>All numbers come from the logged results in the project repository (results/, docs/RESEARCH_LOG.md); times were measured on one 2-core machine. Text refinement and research support by Claude.</p></footer>
 </section>
+</main>
 
 <script>const ETA=[[9.2139,0.887],[5.9002,0.4457],[10.7413,1.5854],[10.5391,1.4373],[12.2693,5.5027],[9.8207,1.1013],[15.5408,2.997],[9.5892,0.7129],[6.6404,0.7459],[12.8761,2.9947],[5.8749,0.7401],[18.0209,4.8313],[13.5288,3.9377],[5.5311,0.3749],[9.6538,2.4132],[6.2119,0.4456],[14.8866,2.8708],[9.8528,1.2293],[8.7177,1.137],[11.9213,1.7373],[12.8244,2.6994],[4.5779,0.3033],[10.487,1.6481],[5.7351,0.5497],[9.7362,2.2748],[10.7896,1.4363],[10.4439,1.248],[14.4757,1.658],[10.528,1.8503],[6.224,0.6628],[11.4843,1.7881],[9.7206,1.3789],[10.2862,1.4573],[9.4929,1.0549],[10.1476,1.831],[8.5984,0.9381],[13.6008,5.0879],[4.6273,0.3214],[11.687,3.2221],[6.3199,1.6808],[8.8098,0.9201],[6.8092,0.5834],[11.4045,1.3786],[12.0359,1.904],[11.1379,4.5723],[5.8553,0.9761],[15.5387,3.0819],[7.7891,0.5607],[7.8188,0.9678],[13.9941,3.3994],[7.4307,0.9608],[22.0617,6.4521],[15.6802,4.3001],[6.0688,0.4889],[11.2316,2.5242],[7.5159,0.5479],[12.7657,2.4645],[8.57,1.174],[9.1375,1.2448],[12.9067,2.0777],[13.3862,2.6083],[5.5542,0.4224],[12.5918,1.6783],[5.68,0.5951],[10.6083,2.3809],[10.4294,1.3017],[9.4974,1.0479],[17.307,3.3308],[9.4282,2.0384],[6.1713,0.7112],[11.7144,1.8481],[10.2888,1.5208],[10.1088,1.4321],[10.5655,1.1878],[10.6854,1.8781],[9.4364,1.0798],[15.1163,5.4959],[5.2815,0.3913],[13.4632,3.48],[6.5211,1.7169],[9.0582,1.0086],[5.0187,0.2819],[8.4416,0.6741],[8.3684,0.7646],[7.0125,4.6921],[3.9316,0.2675],[14.8986,2.1255],[4.5908,0.1806],[6.112,0.413],[9.0042,0.7799],[3.9475,0.2679],[19.1434,4.2738],[12.8706,2.367],[4.6607,0.2033],[11.7975,2.6652],[5.5604,0.2935],[13.1833,2.1089],[8.0672,0.4793],[5.5683,0.2953],[9.6903,0.8466],[14.0716,2.6473],[4.009,0.1652],[11.1243,1.3678],[3.1196,0.1409],[8.4675,0.5033],[8.126,0.536],[7.2229,0.4203],[12.1633,1.1426],[9.9233,2.0377],[4.0787,0.2249],[10.0045,0.9183],[4.9804,0.3055],[7.7068,0.5866],[7.1206,0.5091],[9.2632,0.8051],[9.711,0.6773],[14.2112,3.5906],[4.1666,0.1644],[12.2081,2.2704],[4.4932,0.2079],[7.7455,0.6982],[5.5826,0.3489],[7.7252,0.7269],[9.9977,1.3018],[15.1175,4.9123],[4.3895,0.4708],[16.3747,2.4392],[4.8256,0.1962],[5.0359,0.3011],[11.9296,1.3635],[4.6722,0.3247],[21.3461,5.0358],[14.6939,2.2353],[4.8472,0.243],[9.6686,1.2187],[5.3183,0.3075],[13.8806,2.0886],[9.2217,0.7332],[7.5711,0.4512],[10.5289,0.9426],[11.754,2.0525],[4.3844,0.213],[9.4645,0.9883],[2.8849,0.1363],[8.5233,0.5468],[8.2668,0.5687],[6.6142,0.5244],[14.4507,2.2153],[8.8796,1.4424],[4.9863,0.3653],[10.6809,1.0882],[6.7985,0.5203],[7.1785,0.5938],[8.548,0.7907],[9.8048,0.8506],[9.6411,0.6887],[15.1544,3.7369],[4.1736,0.1644],[9.6115,1.5055],[3.202,0.1514],[4.4785,0.9588],[5.8535,0.6241],[6.972,1.1531],[6.0951,0.7434],[3.1147,0.6426],[3.9366,0.4312],[7.131,1.19],[5.7928,0.6422],[9.9413,1.6308],[6.5918,1.5256],[9.8021,2.0796],[14.608,1.8792],[5.8528,0.876],[5.0944,0.4979],[6.8816,1.7787],[4.3019,0.4529],[6.9616,1.4516],[7.9453,0.9783],[6.4651,0.776],[7.8831,1.7766],[5.9438,0.8926],[4.8426,0.4856],[7.2843,1.9112],[6.1569,0.6313],[7.4464,1.6587],[7.833,1.3888],[5.6144,1.2236],[7.3441,0.7158],[3.7867,1.3297],[4.1104,0.519],[5.8873,1.4945],[8.5526,2.6942],[5.5747,1.9941],[5.2939,0.4514],[5.1044,1.7034],[7.5306,1.4683],[6.1235,1.4147],[5.4054,0.4883],[6.1189,1.9913],[6.1159,0.7139],[5.9962,1.1717],[8.5778,1.0338],[9.9185,2.371],[9.4778,1.247],[4.935,0.861],[4.384,0.5248],[8.9452,1.2896],[5.4085,0.5517],[7.3111,3.0114],[9.8027,2.0522],[4.7228,2.1849],[20.9275,7.6884],[7.6661,1.5523],[5.3343,0.56],[11.4797,2.1868],[5.544,0.6495],[11.3967,3.8349],[7.4543,1.01],[5.5162,0.6449],[8.4193,2.3726],[5.3492,1.8147],[5.1896,0.5047],[5.8721,3.1567],[5.8148,0.6249],[7.4143,1.0458],[7.9335,1.4512],[11.8334,2.055],[9.0579,1.1833],[6.5486,2.0425],[5.4608,0.6582],[6.6088,1.7246],[10.5767,3.2009],[8.1923,3.2352],[7.4251,0.7337],[5.5686,1.7357],[9.9428,2.1779],[6.7262,1.9589],[4.715,0.4564],[10.5199,2.7233],[7.5327,0.9142],[4.7736,0.595],[4.6427,0.2615],[5.7911,1.025],[4.9713,0.35],[3.6922,0.4143],[2.5147,0.2158],[8.4029,0.9247],[6.267,0.4236],[7.7403,0.8066],[5.1022,0.3374],[7.0824,0.6179],[16.0403,2.1367],[4.8252,0.5635],[4.6549,0.246],[9.0241,1.488],[3.466,0.2802],[6.3634,0.6074],[4.9558,0.3032],[5.0403,0.3186],[5.2129,0.655],[5.8497,1.6497],[3.3634,0.1605],[7.0384,1.7266],[2.1962,0.2006],[5.4644,0.4201],[7.3546,0.5731],[7.1879,0.6358],[6.9274,0.6255],[3.6184,0.8473],[3.278,0.1891],[6.5669,0.7823],[4.7936,0.2998],[6.23,0.8405],[3.9736,0.2333],[6.316,0.6409],[6.7195,0.6196],[4.6925,0.6039],[4.68,0.2565],[7.6603,1.1354],[2.2675,0.228],[5.7458,0.6871],[7.5234,0.5693],[7.606,1.317],[9.2185,0.8912],[4.1002,0.5594],[2.6754,0.2623],[11.1239,1.4554],[5.1984,0.316],[12.4002,2.0364],[8.0251,0.7194],[12.5361,1.4346],[23.5977,7.1253],[7.5906,0.9319],[5.6612,0.3519],[9.5745,1.9747],[4.0373,0.3784],[14.5261,3.0971],[6.9708,0.5291],[5.7251,0.3527],[8.2392,1.2857],[5.0302,1.9555],[4.2314,0.2425],[8.6927,2.1614],[2.3678,0.2011],[5.82,0.3204],[10.2057,0.9229],[7.8014,0.8693],[9.4059,1.1267],[4.4194,1.2785],[4.6912,0.2912],[9.2212,1.3149],[8.8559,0.7569],[4.6747,2.1027],[5.9979,0.4475],[8.215,1.0656],[10.4271,1.5984],[5.4105,1.0368],[4.5221,0.2589],[9.7621,1.6398],[2.7725,0.3012],[9.9473,2.1884],[5.7968,0.5455],[8.1936,1.1907],[10.4915,2.1581],[8.6416,4.7244],[4.8669,0.4514],[8.9553,1.1826],[10.5878,2.044],[9.7986,1.8853],[6.7513,1.4126],[9.65,1.4169],[16.1238,4.0738],[10.0295,1.4171],[7.2238,1.1931],[11.354,3.0326],[5.416,0.4954],[14.3292,2.398],[6.4498,0.8401],[6.8128,1.198],[9.3019,1.2876],[9.6515,3.9117],[5.8786,0.4291],[9.9508,2.396],[6.591,0.7189],[11.7745,2.8824],[8.985,2.1609],[12.5054,1.9838],[8.534,0.8363],[7.1898,3.8557],[5.647,1.4623],[8.7497,1.2799],[12.5926,3.7611],[8.8517,2.4768],[5.149,0.3963],[8.5102,1.6365],[7.7714,1.5175],[10.8279,3.3931],[7.2807,0.9664],[10.8608,3.2249],[7.1177,0.7678],[15.9386,5.011],[9.2949,0.9715],[10.5885,2.2307],[10.5376,2.4375],[16.0477,6.4726],[5.5578,0.5798],[11.6397,1.5707],[8.2891,1.1405],[14.1973,2.8714],[8.7779,1.9461],[12.0511,3.8788],[20.8729,9.4634],[14.0579,2.3443],[7.5431,1.2903],[11.0173,3.0739],[6.3546,0.6363],[11.3655,2.6956],[8.098,1.0818],[6.8823,1.2338],[15.0429,3.5715],[15.4101,6.6388],[6.6224,0.5661],[14.5521,5.4892],[7.3259,0.7901],[11.1324,2.9827],[11.1112,2.5285],[9.0936,2.4623],[9.551,1.1994],[17.3539,4.4363],[6.845,1.683],[9.574,2.6691],[14.5778,3.7657],[13.4863,2.7456],[6.9714,0.6474],[11.3339,2.9562],[12.9378,2.8369],[15.0842,6.062],[7.172,1.0128],[12.52,3.3979],[8.2557,0.935],[6.7645,0.5962],[4.0218,0.2347],[6.5768,0.5429],[4.0984,0.2509],[11.4872,2.464],[2.5241,0.2325],[7.2466,0.5007],[3.8739,0.1836],[8.7949,0.7608],[4.3681,0.2883],[6.6608,0.4059],[12.8912,1.89],[6.0962,0.5893],[3.6592,0.1615],[7.8997,1.0807],[3.8418,0.2841],[6.9289,0.6134],[5.6565,0.3919],[3.3023,0.1704],[5.711,0.4634],[10.8946,1.8241],[3.5138,0.1686],[9.5383,1.5745],[2.2297,0.1883],[7.9968,0.563],[5.4737,0.3121],[6.1761,0.4819],[7.6822,0.7588],[9.5337,1.1595],[3.0816,0.189],[5.6848,0.3823],[4.1345,0.228],[6.1717,0.4559],[3.6931,0.2319],[5.069,0.2992],[5.2081,0.3617],[7.4941,1.0223],[3.1291,0.1405],[7.442,1.1426],[2.9724,0.2596],[12.0662,2.7937],[6.0675,0.4751],[9.4644,1.2547],[7.2884,0.5674],[18.1461,3.7501],[2.5413,0.2556],[9.6401,0.8794],[5.5583,0.318],[6.9992,0.9932],[5.6727,0.4324],[9.5547,0.7891],[18.2282,3.9318],[9.8905,1.9228],[4.737,0.2703],[8.2011,0.9304],[3.9425,0.3359],[9.6312,0.9167],[6.5226,0.5169],[4.5375,0.2835],[9.6598,0.9972],[17.9351,3.7986],[4.4069,0.2523],[12.2231,2.7368],[2.4704,0.1995],[11.8417,1.1777],[8.9931,0.6664],[6.2903,0.4946],[8.777,0.9466],[13.5348,1.8174],[4.5602,0.2919],[12.3867,1.4263],[6.1137,0.4707],[9.181,1.0117],[5.1318,0.3462],[10.7177,1.064],[8.827,0.7145],[13.4389,3.5327],[4.0242,0.2147],[8.7971,1.1418],[2.9232,0.2816],[2.648,0.1361],[3.2918,0.1961],[4.1769,0.4478],[3.0997,0.1812],[6.4685,0.3937],[2.4906,0.2574],[4.2354,0.361],[2.3021,0.1624],[3.7532,0.3031],[10.9824,1.0318],[4.2283,0.3527],[14.406,1.6305],[5.5545,0.2823],[2.3487,0.1566],[6.4216,0.9001],[2.8249,0.2553],[2.7585,0.2068],[6.0252,0.5178],[3.3688,0.1899],[9.4386,0.7491],[6.0177,0.3217],[2.3539,0.1554],[5.5053,0.5668],[2.1994,0.2292],[5.1076,0.3485],[7.1532,0.9833],[4.8037,0.4988],[6.4774,0.5509],[3.4458,0.1794],[3.8372,0.2185],[4.0139,0.312],[6.6121,0.3531],[8.5141,1.0398],[3.2226,0.2079],[5.746,0.5564],[5.0361,0.5115],[8.5111,0.6802],[2.1838,0.1566],[9.6818,2.0992],[5.3964,0.4194],[3.7144,0.3929],[3.7117,0.5473],[3.6055,0.6072],[3.8677,0.4456],[12.0025,1.8745],[2.7992,0.4157],[4.8078,0.7507],[2.978,0.446],[3.1674,0.4839],[9.5468,1.343],[3.5673,0.5019],[18.5141,3.3105],[8.7838,0.8358],[2.7696,0.4878],[5.9456,1.0922],[3.3365,0.4734],[2.7657,0.4238],[5.0074,0.6584],[4.4509,0.5071],[9.8056,1.3401],[12.869,1.5856],[2.7364,0.411],[5.4901,0.8652],[2.778,0.444],[5.2454,0.5737],[6.9445,1.4058],[4.2519,0.6603],[6.7586,0.9318],[6.6479,0.6598],[3.4846,0.4775],[4.2606,0.6436],[6.5576,0.6292],[8.3318,1.4301],[3.1379,0.4938],[5.1411,0.7976],[5.0365,0.6876],[11.3113,1.7659],[2.4856,0.4429],[8.3088,1.9476],[5.5043,0.6717],[3.4299,0.1973],[2.2697,0.1371],[5.8506,0.5706],[3.5691,0.1944],[11.7441,1.1181],[2.2575,0.2162],[5.0324,0.5208],[2.2683,0.1388],[2.5292,0.2321],[4.4329,0.2451],[3.1871,0.3044],[12.0774,1.1796],[5.8023,0.3378],[2.1247,0.1424],[11.0606,2.1689],[2.8733,0.2369],[2.8731,0.2262],[4.9861,0.3436],[2.0388,0.1621],[4.741,0.2108],[13.7143,1.3248],[1.6589,0.0931],[6.3364,0.6481],[1.3692,0.1342],[2.3449,0.1627],[2.9655,0.1846],[2.9322,0.3587],[7.3881,0.5597],[3.6789,0.1951],[2.5203,0.1063],[5.9558,0.538],[2.9855,0.1402],[2.9035,0.1555],[3.0623,0.1524],[3.154,0.2711],[4.7186,0.2401],[6.4358,0.4108],[1.6112,0.1282],[7.7273,1.0944],[1.731,0.203],[5.0076,0.3985],[3.6599,0.4004],[5.8506,0.6675],[4.8691,0.4488],[14.9678,2.8239],[2.2755,0.2811],[6.662,0.8108],[1.8782,0.2508],[1.6157,0.2796],[4.7995,0.5403],[2.2337,0.3145],[20.3167,2.6481],[7.6406,0.6145],[3.3371,0.3671],[11.6023,1.9674],[3.0469,0.3664],[3.3175,0.3242],[5.0387,0.5058],[2.4172,0.328],[7.558,0.6453],[18.3605,2.5302],[2.2797,0.2417],[8.1076,1.0969],[1.4527,0.2192],[2.146,0.2617],[5.0533,0.5889],[2.9855,0.4277],[8.2775,1.0413],[6.7373,0.5651],[3.315,0.2721],[5.8546,0.6436],[3.2755,0.3039],[3.974,0.3265],[3.8803,0.3947],[3.5229,0.4308],[6.2121,0.5291],[13.5709,1.2979],[2.4793,0.2978],[8.1501,1.192],[2.0914,0.3055]];</script>
 <script>
 {
-const C={ink:'#172230',mute:'#56606d',rule:'#d9dee4',gbt:'#2166ac',net:'#b8740f',chk:'#1b7a5a',red:'#b2182b',grey:'#9aa3ad',dark:'#56606d'};
+const C={ink:'#1f2a37',mute:'#5b6675',rule:'#e3e7ec',gbt:'#3a76b5',net:'#c3801c',chk:'#2f8a68',red:'#b8463a',grey:'#a3acb7',dark:'#5b6675',gp:'#8a94a1'};
 const lg=(d0,d1,r0,r1)=>v=>r0+(Math.log10(Math.min(Math.max(v,d0),d1))-Math.log10(d0))/(Math.log10(d1)-Math.log10(d0))*(r1-r0);
 const ln=(d0,d1,r0,r1)=>v=>r0+(v-d0)/(d1-d0)*(r1-r0);
 const T=(x,y,s,a='start',cl='')=>`<text x="${x}" y="${y}" text-anchor="${a}" class="${cl}">${s}</text>`;
 const fmt=v=>v>=10?String(Math.round(v)):v>=1?(+v.toFixed(1)).toString():(+v.toFixed(2)).toString();
-const yGrid=(y,ticks,x0,x1)=>ticks.map(t=>`<line x1="${x0}" x2="${x1}" y1="${y(t)}" y2="${y(t)}" stroke="${C.rule}"/>`+T(x0-8,y(t)+5,fmt(t)+' %','end','m')).join('');
+const P=' %';
+const yGrid=(y,ticks,x0,x1)=>ticks.map(t=>`<line x1="${x0}" x2="${x1}" y1="${y(t)}" y2="${y(t)}" stroke="${C.rule}"/>`+T(x0-8,y(t)+4,fmt(t)+P,'end','m')).join('');
 const figs=[];
 const mount=(id,fn)=>{const el=document.getElementById(id);if(!el)return;const s=document.createElementNS('http://www.w3.org/2000/svg','svg');el.appendChild(s);const draw=()=>{const W=el.clientWidth,H=el.clientHeight;if(W>0)s.innerHTML=fn(W,H)};figs.push(draw);const ro=new ResizeObserver(draw);ro.observe(el)};
-
-/* history: date in days after 21 Oct */
-const day=s=>{const [m,d]=s.split(' ');return (m==='Oct'?d-21:d-0+10)};
+const day=s=>{const [m,d]=s.split(' ');return m==='Oct'?d-21:d-0+10};
 const inst=[
- {d:'Oct 22',lo:15,hi:140,t:'physics only, Adam (training panels)',dx:10,dy:4},
- {d:'Oct 25',lo:10,hi:16,t:'GBT as teacher',dx:10,dy:22},
- {d:'Oct 26',v:3.65,t:'conditioning fixed',dx:10,dy:-8},
- {d:'Nov 4',v:1.42,t:'hybrid loss',dx:10,dy:-8},
- {d:'Nov 6',v:7.75,t:'all lay-ups, pilot',dx:-10,dy:-10,a:'end'},
- {d:'Nov 7',v:4.7,t:'1000 labels',dx:10,dy:20},
- {d:'Nov 9',lo:0.24,hi:1.18,t:'8 experts, 120 labels',dx:10,dy:-12},
- {d:'Nov 17',lo:4.68,hi:11.93,t:'8 experts, 0 labels',dx:10,dy:4}];
-const chk=[{d:'Oct 26',v:0.22},{d:'Nov 4',v:0.20},{d:'Nov 6',v:0.21},{d:'Nov 10',lo:0.11,hi:0.33,t:'check, 8 experts, 120 labels',dx:12,dy:-8},{d:'Nov 17',lo:0.14,hi:0.48,t:'check, 0 labels',dx:12,dy:6},{d:'Nov 23',v:0.45,t:'5 % target met, 0 labels, mean 0.45 %',dx:-12,dy:-14,a:'end'}];
-const lanes=[['1 Physics engine','Nov 3','Nov 3','gbt'],['2 Reduced space','Oct 22','Nov 5','gbt'],['3 Training','Oct 22','Oct 26','net'],['4 Loss','Nov 3','Nov 4','net'],['5 Design space','Nov 5','Nov 8','net'],['6 Eight experts','Nov 7','Nov 17','net'],['7 Value of the network','Nov 9','Nov 17','net'],['8 Certified check','Nov 10','Nov 23','chk'],['9 Cost of 5 %','Nov 23','Nov 23','chk']];
+ {d:'Oct 22',lo:15,hi:140,t:'physics only, Adam (training panels)',dx:9,dy:4},
+ {d:'Oct 25',lo:10,hi:16,t:'GBT as teacher',dx:9,dy:20},
+ {d:'Oct 26',v:3.65,t:'conditioning fixed',dx:9,dy:-8},
+ {d:'Nov 4',v:1.42,t:'hybrid loss',dx:9,dy:-8},
+ {d:'Nov 6',v:7.75,t:'all lay-ups, pilot',dx:-9,dy:-9,a:'end'},
+ {d:'Nov 7',v:4.7,t:'1000 labels',dx:9,dy:18},
+ {d:'Nov 9',lo:0.24,hi:1.18,t:'8 experts, 120 labels',dx:-9,dy:4,a:'end'},
+ {d:'Nov 17',lo:4.68,hi:11.93,t:'8 experts, 0 labels',dx:9,dy:4}];
+const chk=[{d:'Oct 26',v:0.22},{d:'Nov 4',v:0.20},{d:'Nov 6',v:0.21},{d:'Nov 10',lo:0.11,hi:0.33,t:'check, 120 labels',dx:10,dy:4},{d:'Nov 17',lo:0.14,hi:0.48,t:'check, 0 labels',dx:10,dy:6},{d:'Nov 23',v:0.45,t:'5 % met, 0 labels, mean 0.45 %',dx:-10,dy:-14,a:'end'}];
+const lanes=[['4 Physics engine','Nov 3','Nov 3','gbt'],['5 Reduced space','Oct 22','Nov 5','gbt'],['6 Training','Oct 22','Oct 26','net'],['7 Loss','Nov 3','Nov 4','net'],['8 Design space','Nov 5','Nov 8','net'],['9 Eight experts','Nov 7','Nov 17','net'],['10 Value of the network','Nov 9','Nov 17','net'],['11 Certified check','Nov 10','Nov 23','chk'],['12 Cost of 5 %','Nov 23','Nov 23','chk']];
 mount('fig-hist',(W,H)=>{
- const small=W<900,l=small?46:60,r=small?12:24,t=14,ph=small?260:300,x=ln(0,34,l,W-r),y=lg(0.1,200,t+ph,t);
+ const small=W<600,l=small?44:56,r=small?10:18,t=12,ph=small?240:270,x=ln(0,34,l,W-r),y=lg(0.1,200,t+ph,t);
  let o=yGrid(y,[0.1,1,10,100],l,W-r);
- o+=`<line x1="${l}" x2="${W-r}" y1="${y(5)}" y2="${y(5)}" stroke="${C.red}" stroke-width="1.5" stroke-dasharray="6 4"/>`+T(l+6,y(5)-6,'5 % target','start','lab');
- const ticks=[['Oct 22',1],['Oct 29',8],['Nov 5',15],['Nov 12',22],['Nov 19',29]];
- o+=ticks.map(([s,v])=>`<line x1="${x(v)}" x2="${x(v)}" y1="${t+ph}" y2="${t+ph+5}" stroke="${C.mute}"/>`+T(x(v),t+ph+22,s,'middle','m')).join('');
- o+=`<line x1="${l}" x2="${W-r}" y1="${t+ph}" y2="${t+ph}" stroke="${C.mute}"/>`;
- const lab=(p,X,Y,col)=>small||!p.t?'':`<text x="${X+p.dx}" y="${Y+p.dy}" text-anchor="${p.a||'start'}" class="lab" style="fill:${col}">${p.t}</text>`;
- o+=`<path d="${inst.filter(p=>p.v).map((p,i)=>(i?'L':'M')+x(day(p.d))+' '+y(p.v)).join('')}" fill="none" stroke="${C.net}" stroke-opacity=".35" stroke-width="1.5"/>`;
- for(const p of inst){const X=x(day(p.d));if(p.v){o+=`<circle cx="${X}" cy="${y(p.v)}" r="6" fill="${C.net}" stroke="#fff" stroke-width="2"/>`+lab(p,X,y(p.v)+4,C.ink)}else{o+=`<line x1="${X}" x2="${X}" y1="${y(p.lo)}" y2="${y(p.hi)}" stroke="${C.net}" stroke-width="8" stroke-linecap="round"/>`+lab(p,X,(y(p.lo)+y(p.hi))/2,C.ink)}}
- for(const p of chk){const X=x(day(p.d));if(p.v){o+=`<rect x="${X-6}" y="${y(p.v)-6}" width="12" height="12" rx="2" fill="${C.chk}" stroke="#fff" stroke-width="2"/>`+lab(p,X,y(p.v),C.chk)}else{o+=`<line x1="${X}" x2="${X}" y1="${y(p.lo)}" y2="${y(p.hi)}" stroke="${C.chk}" stroke-width="8" stroke-linecap="round"/>`+lab(p,X,(y(p.lo)+y(p.hi))/2,C.chk)}}
- if(!small)o+=`<text x="${x(day('Nov 6'))+14}" y="${y(30)}" class="lab m">a setback: random lay-ups are hard for any model</text>`;
- const lt=t+ph+44,lh=Math.max(20,Math.min(26,(H-lt-4)/lanes.length));
- lanes.forEach(([n,a,b,c],i)=>{const x0=x(day(a)),x1=Math.max(x(day(b)+1),x0+8),yy=lt+i*lh;o+=`<rect x="${x0}" y="${yy}" width="${x1-x0}" height="${lh-8}" rx="3" fill="${C[c]}"/>`;const right=x1+8+n.length*7<W-r;o+=T(right?x1+8:x0-8,yy+lh-12,n,right?'start':'end')});
- return o});
-
-mount('fig-abq',(W,H)=>{
- const rows=[['All 22 points',2.53,0.54],['Tight pitch, 4 points',8.08,0.89],['Other 18 points',1.29,0.46]];
- const l=W<520?130:190,r=60,x=ln(0,9,l,W-r),rh=(H-30)/rows.length;let o='';
- [0,2,4,6,8].forEach(v=>o+=`<line x1="${x(v)}" x2="${x(v)}" y1="0" y2="${H-26}" stroke="${C.rule}"/>`+T(x(v),H-8,v+' %','middle','m'));
- rows.forEach(([n,a,b],i)=>{const yy=i*rh+rh/2;o+=T(0,yy+5,n)+`<line x1="${x(b)}" x2="${x(a)}" y1="${yy}" y2="${yy}" stroke="${C.rule}" stroke-width="4"/><circle cx="${x(a)}" cy="${yy}" r="7" fill="${C.grey}"/><circle cx="${x(b)}" cy="${yy}" r="7" fill="${C.gbt}"/>`+T(x(a)+12,yy+5,a.toFixed(2)+' %','start','m')+T(x(b)-12,yy+5,b.toFixed(2)+' %','end','lab')});
+ o+=`<line x1="${l}" x2="${W-r}" y1="${y(5)}" y2="${y(5)}" stroke="${C.red}" stroke-width="1.2" stroke-dasharray="5 4"/>`+T(l+6,y(5)-6,'5'+P+' target','start','lab');
+ [['Oct 22',1],['Oct 29',8],['Nov 5',15],['Nov 12',22],['Nov 19',29]].forEach(([s,v])=>o+=`<line x1="${x(v)}" x2="${x(v)}" y1="${t+ph}" y2="${t+ph+4}" stroke="${C.mute}"/>`+T(x(v),t+ph+19,s,'middle','m'));
+ o+=`<line x1="${l}" x2="${W-r}" y1="${t+ph}" y2="${t+ph}" stroke="#b9c1ca"/>`;
+ const lab=(p,X,Y,col)=>small||!p.t?'':`<text x="${X+p.dx}" y="${Y+p.dy}" text-anchor="${p.a||'start'}" class="lab" style="fill:${col}">${p.t.replace(/ %/g,P)}</text>`;
+ o+=`<path d="${inst.filter(p=>p.v).map((p,i)=>(i?'L':'M')+x(day(p.d))+' '+y(p.v)).join('')}" fill="none" stroke="${C.net}" stroke-opacity=".3" stroke-width="1.2"/>`;
+ for(const p of inst){const X=x(day(p.d));if(p.v)o+=`<circle cx="${X}" cy="${y(p.v)}" r="5" fill="${C.net}" fill-opacity=".85" stroke="#fff" stroke-width="1.5"/>`+lab(p,X,y(p.v)+4,C.ink);else o+=`<line x1="${X}" x2="${X}" y1="${y(p.lo)}" y2="${y(p.hi)}" stroke="${C.net}" stroke-opacity=".8" stroke-width="6" stroke-linecap="round"/>`+lab(p,X,(y(p.lo)+y(p.hi))/2,C.ink)}
+ for(const p of chk){const X=x(day(p.d));if(p.v)o+=`<rect x="${X-5}" y="${y(p.v)-5}" width="10" height="10" rx="2" fill="${C.chk}" fill-opacity=".85" stroke="#fff" stroke-width="1.5"/>`+lab(p,X,y(p.v),C.chk);else o+=`<line x1="${X}" x2="${X}" y1="${y(p.lo)}" y2="${y(p.hi)}" stroke="${C.chk}" stroke-opacity=".8" stroke-width="6" stroke-linecap="round"/>`+lab(p,X,(y(p.lo)+y(p.hi))/2,C.chk)}
+ const lt=t+ph+38,lh=Math.max(18,Math.min(23,(H-lt-4)/lanes.length));
+ lanes.forEach(([n,a,b,c],i)=>{const x0=x(day(a)),x1=Math.max(x(day(b)+1),x0+8),yy=lt+i*lh;o+=`<rect x="${x0}" y="${yy}" width="${x1-x0}" height="${lh-8}" rx="3" fill="${C[c]}" fill-opacity=".55"/>`;const nm=n.replace(/ %/g,P),right=x1+8+n.length*6.6<W-r;o+=T(right?x1+8:x0-8,yy+lh-11,nm,right?'start':'end')});
  return o});
 
 const ex=[['Cross-ply','symmetry',11.93,0.28,1.14,0.26],['Cross-ply','periodic',11.52,0.14,1.18,0.11],['Quasi-isotropic','symmetry',6.71,0.43,0.55,0.28],['Quasi-isotropic','periodic',6.70,0.20,0.56,0.13],['0°-rich','symmetry',10.91,0.48,0.75,0.33],['0°-rich','periodic',8.57,0.14,0.67,0.11],['±45°','symmetry',4.68,0.30,0.24,0.14],['±45°','periodic',5.80,0.25,0.29,0.14]];
 mount('fig-exp',(W,H)=>{
- const small=W<560,l=small?120:200,r=20,x=lg(0.08,20,l,W-r),rh=(H-30)/ex.length;let o='';
- [0.1,0.3,1,3,10].forEach(v=>o+=`<line x1="${x(v)}" x2="${x(v)}" y1="0" y2="${H-26}" stroke="${C.rule}"/>`+T(x(v),H-8,fmt(v)+' %','middle','m'));
- ex.forEach(([a,b,i0,c0,i1,c1],i)=>{const yy=i*rh+rh/2;o+=T(0,yy+5,small?a:a+', '+b)+(small?T(0,yy+21,b,'start','m'):'');
-  o+=`<line x1="${x(i1)}" x2="${x(i0)}" y1="${yy}" y2="${yy}" stroke="${C.net}" stroke-opacity=".35" stroke-width="3"/><line x1="${x(Math.min(c0,c1))}" x2="${x(Math.max(c0,c1))}" y1="${yy}" y2="${yy}" stroke="${C.chk}" stroke-width="3"/>`;
-  o+=`<rect x="${x(c0)-5}" y="${yy-5}" width="10" height="10" rx="1.5" fill="${C.chk}"><title>check 0 labels ${c0} %</title></rect><rect x="${x(c1)-5}" y="${yy-5}" width="10" height="10" rx="1.5" fill="${C.chk}"><title>check 120 labels ${c1} %</title></rect><circle cx="${x(i0)}" cy="${yy}" r="6" fill="#fff" stroke="${C.net}" stroke-width="2.5"><title>instant 0 labels ${i0} %</title></circle><circle cx="${x(i1)}" cy="${yy}" r="6.5" fill="${C.net}"><title>instant 120 labels ${i1} %</title></circle>`;
-  if(i===0&&!small)o+=T(x(i0)+12,yy+5,i0+' %','start','m')+T(x(i1),yy-12,i1+' %','middle','m')});
+ const small=W<560,l=small?112:180,r=16,x=lg(0.08,20,l,W-r),rh=(H-28)/ex.length;let o='';
+ [0.1,0.3,1,3,10].forEach(v=>o+=`<line x1="${x(v)}" x2="${x(v)}" y1="0" y2="${H-24}" stroke="${C.rule}"/>`+T(x(v),H-6,fmt(v)+P,'middle','m'));
+ ex.forEach(([a,b,i0,c0,i1,c1],i)=>{const yy=i*rh+rh/2;o+=T(0,yy+4,small?a:a+', '+b)+(small?T(0,yy+18,b,'start','m'):'');
+  o+=`<line x1="${x(i1)}" x2="${x(i0)}" y1="${yy}" y2="${yy}" stroke="${C.net}" stroke-opacity=".3" stroke-width="2"/><line x1="${x(Math.min(c0,c1))}" x2="${x(Math.max(c0,c1))}" y1="${yy}" y2="${yy}" stroke="${C.chk}" stroke-opacity=".6" stroke-width="2"/>`;
+  o+=`<rect x="${x(c0)-4.5}" y="${yy-4.5}" width="9" height="9" rx="1.5" fill="${C.chk}" fill-opacity=".85"><title>check, 0 labels: ${c0} %</title></rect><rect x="${x(c1)-4.5}" y="${yy-4.5}" width="9" height="9" rx="1.5" fill="${C.chk}" fill-opacity=".85"><title>check, 120 labels: ${c1} %</title></rect><circle cx="${x(i0)}" cy="${yy}" r="5" fill="#fff" stroke="${C.net}" stroke-width="2"><title>instant, 0 labels: ${i0} %</title></circle><circle cx="${x(i1)}" cy="${yy}" r="5.5" fill="${C.net}" fill-opacity=".85"><title>instant, 120 labels: ${i1} %</title></circle>`;
+  if(i===0&&!small)o+=T(x(i0)+10,yy+4,i0+P,'start','m')+T(x(i1),yy-10,i1+P,'middle','m')});
  return o});
 
-const LB=[0,10,20,40,120],net=[11.93,10.45,9.34,6.95,1.14],gp=[null,3.32,2.29,1.68,0.48],ck=[0.28,0.28,0.27,0.26,0.26];
+const LB=[0,10,20,40,120],NET=[11.93,10.45,9.34,6.95,1.14],GP=[null,3.32,2.29,1.68,0.48],CK=[0.28,0.28,0.27,0.26,0.26];
 mount('fig-lab',(W,H)=>{
- const l=58,r=W<520?60:120,t=10,b=46,x=i=>l+i*(W-l-r)/(LB.length-1),y=lg(0.1,20,H-b,t);let o=yGrid(y,[0.1,0.3,1,3,10],l,W-r);
- o+=LB.map((v,i)=>T(x(i),H-26,v,'middle','m')).join('')+T((l+W-r)/2,H-4,'GBT labels used for training','middle','m');
- const path=(a,c,w,da='')=>{const p=a.map((v,i)=>v==null?null:[x(i),y(v)]).filter(Boolean);return `<path d="${p.map((q,i)=>(i?'L':'M')+q).join('')}" fill="none" stroke="${c}" stroke-width="${w}" ${da}/>`+p.map(q=>`<circle cx="${q[0]}" cy="${q[1]}" r="4.5" fill="${c}"/>`).join('')};
- o+=path(gp,'#7d8792',2.5,'stroke-dasharray="7 4"')+path(net,C.net,3)+path(ck,C.chk,3);
- const e=x(4)+10;o+=T(e,y(1.14)-2,'network 1.14 %','start','lab')+T(e,y(0.48)+12,'GP 0.48 %','start','lab')+T(e,y(0.26)+5,'check 0.26 %','start','lab');
+ const l=56,r=W<520?90:110,t=8,b=42,x=i=>l+i*(W-l-r)/(LB.length-1),y=lg(0.1,20,H-b,t);let o=yGrid(y,[0.1,0.3,1,3,10],l,W-r);
+ o+=LB.map((v,i)=>T(x(i),H-24,v,'middle','m')).join('')+T((l+W-r)/2,H-4,'GBT labels used for training','middle','m');
+ const path=(a,c,w,da='')=>{const p=a.map((v,i)=>v==null?null:[x(i),y(v)]).filter(Boolean);return `<path d="${p.map((q,i)=>(i?'L':'M')+q).join('')}" fill="none" stroke="${c}" stroke-width="${w}" ${da}/>`+p.map(q=>`<circle cx="${q[0]}" cy="${q[1]}" r="3.5" fill="${c}"/>`).join('')};
+ o+=path(GP,C.gp,2,'stroke-dasharray="6 4"')+path(NET,C.net,2.2)+path(CK,C.chk,2.2);
+ const e=x(4)+9;o+=T(e,y(1.14)-2,'network 1.14'+P,'start','lab')+T(e,y(0.48)+11,'GP 0.48'+P,'start','lab')+T(e,y(0.26)+4,'check 0.26'+P,'start','lab');
  return o});
 
 const CV={random:[20189.441,47.622,16.726,7.601,4.285,2.302,1.496,0.924,0.615,0.446,0.344,0.272,0.237],nn10:[39.841,9.668,3.386,1.721,0.951,0.56,0.368,0.275,0.218,0.19,0.162,0.148,0.139],nn120:[17.159,5.876,2.027,0.929,0.479,0.296,0.213,0.17,0.136,0.122,0.117,0.114,0.113],L0:[16.481,8.017,3.993,2.304,1.414,0.954,0.642,0.454,0.357,0.304,0.266,0.248,0.232],L120:[16.978,6.267,2.775,1.553,0.94,0.625,0.425,0.319,0.242,0.206,0.175,0.161,0.158]};
 mount('fig-conv',(W,H)=>{
- const l=70,r=16,t=10,b=34,x=ln(0,12,l,W-r),y=lg(0.1,100,H-b,t);let o=yGrid(y,[0.1,1,10,100],l,W-r);
- o+=[0,2,4,6,8,10,12].map(v=>T(x(v),H-12,v,'middle','m')).join('')+T(l-8,H-12,'iteration','end','m');
- o+=`<line x1="${l}" x2="${W-r}" y1="${y(5)}" y2="${y(5)}" stroke="${C.red}" stroke-width="1.5" stroke-dasharray="6 4"/>`+T(W-r,y(5)-6,'5 %','end','lab');
- const S=[['random',C.grey,2,'stroke-dasharray="7 4"'],['nn10',C.dark,1.5,'stroke-dasharray="3 3"'],['nn120',C.dark,2,''],['L0',C.net,2,'stroke-dasharray="3 3"'],['L120',C.net,3,'']];
+ const l=64,r=14,t=8,b=30,x=ln(0,12,l,W-r),y=lg(0.1,100,H-b,t);let o=yGrid(y,[0.1,1,10,100],l,W-r);
+ o+=[0,2,4,6,8,10,12].map(v=>T(x(v),H-10,v,'middle','m')).join('')+T(l-8,H-10,'iteration','end','m');
+ o+=`<line x1="${l}" x2="${W-r}" y1="${y(5)}" y2="${y(5)}" stroke="${C.red}" stroke-width="1.2" stroke-dasharray="5 4"/>`+T(W-r,y(5)-5,'5'+P,'end','lab');
+ const S=[['random',C.grey,1.8,'stroke-dasharray="6 4"'],['nn10',C.dark,1.3,'stroke-dasharray="2 3"'],['nn120',C.dark,1.8,''],['L0',C.net,1.8,'stroke-dasharray="2 3"'],['L120',C.net,2.4,'']];
  for(const [k,c,w,da] of S)o+=`<path d="${CV[k].map((v,i)=>(i?'L':'M')+x(i)+' '+y(v)).join('')}" fill="none" stroke="${c}" stroke-width="${w}" ${da} stroke-linejoin="round"/>`;
- o+=T(x(1)+8,y(80),'random start: 20 189 % at iteration 0','start','lab m')+T(x(1)+8,y(47.6)+18,'47.6 % after one step','start','lab m');
- o+=T(l+12,y(0.32),'after 4 steps: network (120 labels) 0.94 %,','start','lab')+T(l+12,y(0.32)+18,'random start 4.3 %','start','lab m');
+ o+=T(x(1)+8,y(80),'random start: 20 189'+P+' at iteration 0','start','lab m')+T(x(1)+8,y(47.6)+16,'47.6'+P+' after one step','start','lab m');
+ o+=T(l+10,y(0.32),'after 4 steps: network (120 labels) 0.94'+P+',','start','lab')+T(l+10,y(0.32)+16,'random start 4.3'+P,'start','lab m');
  return o});
 
 mount('fig-eta',(W,H)=>{
- const l=64,r=16,t=10,b=40,x=lg(0.05,20,l,W-r),y=lg(0.5,50,H-b,t);let o='';
- const tk=[0.1,0.3,1,3,10];
- tk.forEach(v=>o+=`<line x1="${x(v)}" x2="${x(v)}" y1="${t}" y2="${H-b}" stroke="${C.rule}"/>`+T(x(v),H-b+18,fmt(v),'middle','m'));
- [1,3,10,30].forEach(v=>o+=`<line x1="${l}" x2="${W-r}" y1="${y(v)}" y2="${y(v)}" stroke="${C.rule}"/>`+T(l-8,y(v)+5,fmt(v),'end','m'));
- o+=T((l+W-r)/2,H-4,'true error after 5 iterations [%]','middle','m')+`<text transform="translate(14 ${(t+H-b)/2}) rotate(-90)" text-anchor="middle" class="m">estimate [%]</text>`;
- o+=`<path d="M${x(0.5)} ${y(0.5)} L${x(20)} ${y(20)} L${x(20)} ${H-b} L${x(0.5)} ${H-b}Z" fill="${C.red}" fill-opacity=".07"/><line x1="${x(0.5)}" y1="${y(0.5)}" x2="${x(20)}" y2="${y(20)}" stroke="${C.red}" stroke-width="1.5"/>`;
- o+=ETA.map(p=>`<circle cx="${x(p[1]).toFixed(1)}" cy="${y(p[0]).toFixed(1)}" r="2.6" fill="${C.chk}" fill-opacity=".45"/>`).join('');
- o+=T(x(6),y(1.1),'estimate below the true error:','middle','lab')+T(x(6),y(1.1)+18,'0 of 640 checks','middle','lab')+T(x(0.07),y(40),'smallest ratio estimate / true error: 1.5','start','lab m');
+ const l=60,r=14,t=8,b=38,x=lg(0.05,20,l,W-r),y=lg(0.5,50,H-b,t);let o='';
+ [0.1,0.3,1,3,10].forEach(v=>o+=`<line x1="${x(v)}" x2="${x(v)}" y1="${t}" y2="${H-b}" stroke="${C.rule}"/>`+T(x(v),H-b+16,fmt(v),'middle','m'));
+ [1,3,10,30].forEach(v=>o+=`<line x1="${l}" x2="${W-r}" y1="${y(v)}" y2="${y(v)}" stroke="${C.rule}"/>`+T(l-8,y(v)+4,fmt(v),'end','m'));
+ o+=T((l+W-r)/2,H-4,'true error after 5 iterations [%]','middle','m')+`<text transform="translate(13 ${(t+H-b)/2}) rotate(-90)" text-anchor="middle" class="m">estimate [%]</text>`;
+ o+=`<path d="M${x(0.5)} ${y(0.5)} L${x(20)} ${y(20)} L${x(20)} ${H-b} L${x(0.5)} ${H-b}Z" fill="${C.red}" fill-opacity=".05"/><line x1="${x(0.5)}" y1="${y(0.5)}" x2="${x(20)}" y2="${y(20)}" stroke="${C.red}" stroke-width="1.2"/>`;
+ o+=ETA.map(p=>`<circle cx="${x(p[1]).toFixed(1)}" cy="${y(p[0]).toFixed(1)}" r="2.3" fill="${C.chk}" fill-opacity=".4"/>`).join('');
+ o+=T(x(6),y(1.1),'estimate below the true error:','middle','lab')+T(x(6),y(1.1)+16,'0 of 640 checks','middle','lab')+T(x(0.07),y(40),'smallest ratio estimate / true error: 1.5','start','lab m');
  return o});
 
-const cost=[['Full GBT for every design',320,'–',10.7,'0 / 0 %','exact',C.gbt],['GP, 10 labels per lay-up',80,'0.2 h',0.001,'1.88 / 18.30 %','no','#7d8792'],['GP, 20 labels per lay-up',160,'0.5 h',0.001,'1.24 / 14.90 %','no','#7d8792'],['GP, 40 labels per lay-up',320,'1.0 h',0.001,'0.75 / 7.68 %','no','#7d8792'],['GP, 80 labels per lay-up',640,'1.9 h',0.001,'0.57 / 4.76 %','no','#7d8792'],['GP, 120 labels per lay-up',960,'2.9 h',0.001,'0.40 / 3.65 %','no','#7d8792'],['Check from a random start',0,'–',7.9,'0.38 / 1.18 %','yes',C.chk],['Check from the nearest of 10 labelled designs',80,'0.2 h',7.3,'0.32 / 1.20 %','yes',C.chk],['Check from the nearest of 120 labelled designs',960,'2.9 h',7.4,'0.30 / 1.66 %','yes',C.chk],['Check from the network, 0 labels',0,'18.5 h (training, operators)',7.4,'0.45 / 2.51 %','yes',C.net],['Check from the network, 120 labels',960,'19.1 h (training, operators, labels)',7.3,'0.36 / 1.83 %','yes',C.net]];
-document.querySelector('#cost tbody').innerHTML=cost.map(([m,n,off,s,e,g,c])=>`<tr><td data-l="Method">${m}</td><td class="num" data-l="Full-GBT solves">${n}</td><td class="num" data-l="Offline time">${off}</td><td data-l="Time per design"><div class="barcell"><div class="bar" style="width:${Math.max(s/10.7*110,2)}px;--c:${c}"></div><span>${s<0.01?'&lt; 1 ms':s+' s'}</span></div></td><td class="num" data-l="Error, mean / max">${e}</td><td data-l="Upper bound"><span class="tag ${g==='no'?'x':'y'}">${g}</span></td></tr>`).join('');
+const cost=[['Full GBT for every design',320,'–',10.7,'0 / 0 %','exact','gbt'],['GP, 10 labels per lay-up',80,'0.2 h',0.001,'1.88 / 18.30 %','no','gp'],['GP, 20 labels per lay-up',160,'0.5 h',0.001,'1.24 / 14.90 %','no','gp'],['GP, 40 labels per lay-up',320,'1.0 h',0.001,'0.75 / 7.68 %','no','gp'],['GP, 80 labels per lay-up',640,'1.9 h',0.001,'0.57 / 4.76 %','no','gp'],['GP, 120 labels per lay-up',960,'2.9 h',0.001,'0.40 / 3.65 %','no','gp'],['Check from a random start',0,'–',7.9,'0.38 / 1.18 %','yes','chk'],['Check from the nearest of 10 labelled designs',80,'0.2 h',7.3,'0.32 / 1.20 %','yes','chk'],['Check from the nearest of 120 labelled designs',960,'2.9 h',7.4,'0.30 / 1.66 %','yes','chk'],['Check from the network, 0 labels',0,'18.5 h',7.4,'0.45 / 2.51 %','yes','net'],['Check from the network, 120 labels',960,'19.1 h',7.3,'0.36 / 1.83 %','yes','net']];
+document.querySelector('#cost tbody').innerHTML=cost.map(([m,n,off,s,e,g,c])=>`<tr><td data-l="Method">${m}</td><td class="num" data-l="Full-GBT solves">${n}</td><td class="num" data-l="Offline time">${off.replace(/ h/,' h')}</td><td data-l="Time per design"><div class="barcell"><div class="bar" style="width:${Math.max(s/10.7*6,0.15).toFixed(2)}em;--c:${C[c]}"></div><span>${s<0.01?'&lt; 1 ms':s+' s'}</span></div></td><td class="num" data-l="Error, mean / max">${e.replace(/ %/g,P)}</td><td data-l="Upper bound"><span class="tag ${g==='no'?'x':'y'}">${g}</span></td></tr>`).join('');
 
-/* expectation vs reality: network = node graph, check = stamp */
-const nodes=(cx,cy,s)=>{let o='';const L=[[-1.2,[-.9,-.3,.3,.9]],[0,[-1.2,-.6,0,.6,1.2]],[1.2,[-.5,.5]]];const P=L.map(([lx,ys])=>ys.map(yv=>[cx+lx*s,cy+yv*s]));for(let i=0;i<2;i++)for(const a of P[i])for(const b of P[i+1])o+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${C.net}" stroke-opacity=".45" stroke-width="${Math.max(1,s/40)}"/>`;P.flat().forEach(p=>o+=`<circle cx="${p[0]}" cy="${p[1]}" r="${Math.max(3,s/7)}" fill="${C.net}"/>`);return o};
-const stamp=(cx,cy,R)=>`<g transform="rotate(-8 ${cx} ${cy})"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${C.chk}" stroke-width="${Math.max(2,R/12)}"/><circle cx="${cx}" cy="${cy}" r="${R*.8}" fill="none" stroke="${C.chk}" stroke-width="1.5"/><text x="${cx}" y="${cy-R*.12}" text-anchor="middle" style="fill:${C.chk};font-weight:600;font-size:${Math.max(10,R*.32)}px">GBT</text><text x="${cx}" y="${cy+R*.28}" text-anchor="middle" style="fill:${C.chk};font-weight:600;font-size:${Math.max(8,R*.2)}px">checked</text></g>`;
-mount('fig-exp1',(W,H)=>nodes(W*0.42,H/2,Math.min(W,H)*0.33)+stamp(W*0.86,H*0.8,Math.min(W,H)*0.09)+T(W*0.86,H*0.8-Math.min(W,H)*0.15,'the check','middle','m'));
-mount('fig-exp2',(W,H)=>nodes(W*0.15,H*0.78,Math.min(W,H)*0.07)+T(W*0.15,H*0.78-Math.min(W,H)*0.14,'the network','middle','m')+stamp(W*0.58,H/2,Math.min(W,H)*0.42));
+const nodes=(cx,cy,s,op)=>{let o='';const L=[[-1.2,[-.9,-.3,.3,.9]],[0,[-1.2,-.6,0,.6,1.2]],[1.2,[-.5,.5]]];const Q=L.map(([lx,ys])=>ys.map(v=>[cx+lx*s,cy+v*s]));for(let i=0;i<2;i++)for(const a of Q[i])for(const b of Q[i+1])o+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${C.net}" stroke-opacity=".3" stroke-width="1"/>`;Q.flat().forEach(p=>o+=`<circle cx="${p[0]}" cy="${p[1]}" r="${Math.max(2.5,s/8)}" fill="${C.net}" fill-opacity="${op}"/>`);return o};
+const stamp=(cx,cy,R)=>`<circle cx="${cx}" cy="${cy}" r="${R}" fill="#fff" stroke="${C.chk}" stroke-width="${Math.max(1.5,R/14)}"/><path d="M${cx-R*.38} ${cy+R*.02} L${cx-R*.08} ${cy+R*.32} L${cx+R*.42} ${cy-R*.3}" fill="none" stroke="${C.chk}" stroke-width="${Math.max(2,R/7)}" stroke-linecap="round" stroke-linejoin="round"/>`;
+mount('fig-ev1',(W,H)=>nodes(W*0.42,H/2,Math.min(W,H)*0.32,.8)+stamp(W*0.86,H*0.72,Math.min(W,H)*0.1)+T(W*0.86,H*0.72-Math.min(W,H)*0.17,'check','middle','m'));
+mount('fig-ev2',(W,H)=>nodes(W*0.18,H*0.62,Math.min(W,H)*0.12,.8)+T(W*0.18,H*0.62-Math.min(W,H)*0.24,'network','middle','m')+stamp(W*0.62,H*0.42,Math.min(W,H)*0.32)+T(W*0.62,H*0.42+Math.min(W,H)*0.32+15,'GBT check','middle','m'));
 window.addEventListener('beforeprint',()=>figs.forEach(f=>f()));
 }
 </script>
