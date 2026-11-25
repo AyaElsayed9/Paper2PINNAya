@@ -2413,3 +2413,16 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   honestly "partly"). Fonts Literata + Barlow Semi Condensed (fontsource, self-hosted). No new runs, no number changed.
 - GAMM abstract: docs/conferences/GAMM2027_submission_paste.txt = each ConfTool field separately (title, section S25,
   keywords, abstract body). It is typed into ConfTool as plain text; no PDF, no highlights (not asked by GAMM).
+- 25 Nov, audit of the report and the abstract against the result files and this log (Aya: "did u create anything not
+  from the data?"). Every number re-traced (cost table recomputed from results/cost_study/summary_tol5.csv; head bias
+  from results/error_indicator/*.csv: physics-only head above GBT in 319 of 320 designs, mean +8.35 %; estimate/true
+  ratio at 5 steps >= 1.49). No invented result, but these were wrong or overstated and are now corrected:
+  history chart dates (Adam try 22 Oct, not 24; conditioning fix 26 Oct, not 27; pilot check 0.21 % on 6 Nov, not 7);
+  the first bar (15-140 %) is the error on the 8-32 training panels, not on unseen designs (labelled now); the
+  0-label check range (0.14-0.48 %) is from 17 Nov, the 10 Nov range is 120 labels only (0.11-0.33 %); stage 3 dates
+  22-26 Oct; hero picture labelled as the "Unsym" cell of the GBT paper (illustration, not a Paper 2 design);
+  "expectation" meme no longer dated 26 Oct and no "no solver at run time" (we never claimed that); "upper bound"
+  now "in the reduced space"; cost table now has all rows (GP 10 and 120, check from nearest of 120).
+- Abstract corrected (397 words, under both limits): upper bound of the reduced model (within 0.3 % of full GBT in
+  our tests), "up to 120 labels" instead of "a few", network modes save about two iterations, as many as the nearest
+  labelled design, 5 % also met from a random start (7-8 s), GP needed 80 labels per lay-up (40 not enough).

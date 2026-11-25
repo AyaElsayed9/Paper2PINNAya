@@ -130,7 +130,7 @@ a{color:var(--gbt)}
       <text x="560" y="428">half-wave of the critical mode</text>
       <text x="8" y="432">skin</text>
     </svg>
-    <figcaption class="small muted">Critical buckling mode of the periodic panel cell from our GBT code, simply supported ends, N<sub>cr</sub> = 32.26 N/mm. Fig. 7a of the GBT paper. One periodic cell: skin, omega stringers (laminated webs, feet, crown). This mode is what the network has to predict.</figcaption>
+    <figcaption class="small muted">Critical buckling mode of the periodic cell from our GBT code: "Unsym" cell of the GBT paper, b<sub>s</sub> = 150 mm, β = 1.5, simply supported ends, N<sub>cr</sub> = 32.26 N/mm (Fig. 7a of that paper; an illustration, not one of the Paper 2 test designs). Skin and omega stringers with laminated webs, feet and crown. Modes like this are what the network has to predict.</figcaption>
   </figure>
   <div class="txt">
     <div class="kicker">Paper 2 draft and results for the GAMM 2027 abstract, 25 Nov 2026</div>
@@ -141,7 +141,7 @@ a{color:var(--gbt)}
       <div><b class="g">0.54 %</b>GBT vs Abaqus at Paper 1's 22 points (Paper 1: 2.53 %)</div>
       <div><b class="n">0.24–1.18 %</b>instant network answer, 120 labels, 320 unseen designs</div>
       <div><b class="c">3800 / 3800</b>checks where the error estimate was not below the true error</div>
-      <div><b class="c">0 labels</b>to meet a 5 % target on every design, 7.4 s vs 10.7 s</div>
+      <div><b class="c">0 labels</b>to meet a 5 % target on every design, 7.4–7.9 s vs 10.7 s for full GBT</div>
     </div>
 </header>
 
@@ -150,11 +150,11 @@ a{color:var(--gbt)}
 </div></nav>
 
 <section class="wrap band" id="history">
-  <h2>Five weeks of work: the instant answer swung from 0.24 to 140 %, the checked answer stayed below 0.5 %</h2>
-  <p class="muted small" style="max-width:70ch">Mean error vs full GBT on unseen designs, on a log scale, for each test as it happened (22 Oct to 23 Nov 2026). Bars show the spread over designs or over lay-ups. The lanes below the chart are the nine stages of the work at the same time scale.</p>
+  <h2>Five weeks of work: the instant answer moved between 140 % and 0.24 %, the checked answer stayed below 0.5 %</h2>
+  <p class="muted small" style="max-width:70ch">Mean error vs full GBT, on a log scale, for each test as it happened (22 Oct to 23 Nov 2026), on unseen designs except the first bar (15–140 %), which is the error on the 8–32 training panels themselves. Bars show the spread over designs or over lay-ups. The lanes below the chart are the nine stages of the work at the same time scale.</p>
   <div class="key"><span><i style="background:var(--net)"></i>instant network answer</span><span><i class="sq" style="background:var(--chk)"></i>after the GBT check</span><span><i class="ln" style="background:var(--red)"></i>5 % target</span></div>
   <div class="fig" id="fig-hist" style="height:600px"></div>
-  <ol class="pts small"><li>24 Oct, physics only with Adam: 15–140 %</li><li>25 Oct, GBT as teacher: 10–16 %</li><li>27 Oct, conditioning fixed: 3.65 %, check 0.22 %</li><li>4 Nov, hybrid loss: 1.42 %, check 0.20 %</li><li>6–7 Nov, all lay-ups: 7.75 %, then 4.7 % with 1000 labels; check 0.21 %</li><li>9–10 Nov, 8 experts with 120 labels: 0.24–1.18 %; check 0.11–0.48 % with 0 or 120 labels</li><li>17 Nov, 8 experts with 0 labels: 4.68–11.93 %</li><li>23 Nov, 5 % target met on all 320 designs with 0 labels, mean 0.45 %</li></ol>
+  <ol class="pts small"><li>22 Oct, physics only with Adam: 15–140 % on the training panels</li><li>25 Oct, GBT as teacher: 10–16 %</li><li>26 Oct, conditioning fixed: 3.65 %, check 0.22 %</li><li>4 Nov, hybrid loss: 1.42 %, check 0.20 %</li><li>6–7 Nov, all lay-ups: 7.75 % (check 0.21 %), then 4.7 % with 1000 labels</li><li>9–10 Nov, 8 experts with 120 labels: 0.24–1.18 %; check 0.11–0.33 %</li><li>17 Nov, 8 experts with 0 labels: 4.68–11.93 %; check 0.14–0.48 %</li><li>23 Nov, 5 % target met on all 320 designs with 0 labels, mean 0.45 %</li></ol>
 </section>
 
 <section class="wrap band" id="start" style="border-top:1px solid var(--rule)">
@@ -208,7 +208,7 @@ a{color:var(--gbt)}
 </section>
 
 <section class="wrap stage s-n" id="s3">
-  <div class="rail"><div class="no">3</div><div class="nm">Training</div><div class="dt">22 – 27 Oct</div></div>
+  <div class="rail"><div class="no">3</div><div class="nm">Training</div><div class="dt">22 – 26 Oct</div></div>
   <div>
     <h2>The physics-only network failed until the conditioning was fixed</h2>
     <p class="q">Can a network learn buckling modes and N<sub>cr</sub> from the GBT energy alone, by minimising the Rayleigh quotient of its predicted modes?</p>
@@ -223,7 +223,7 @@ a{color:var(--gbt)}
       <li><b>Function decoder.</b> A linear output layer cannot generalise: the modes of an unseen design lie 15–24 % (in energy) outside the span of the modes of 45 other designs. The decoder builds each longitudinal function's cross-section vector from the design inputs.</li>
       <li><b>Natural-gradient training.</b> Each outer step does one physics eigen-step for every design, then fits the network to it.</li>
     </ol>
-    <div class="ba"><div><span>eigen-iteration steps</span><b>~150 <i>to</i> 7–13</b></div><div><span>fit of one design</span><b>4.6 % <i>to</i> 0.40 %</b></div><div><span>unseen designs, instant answer</span><b>15–140 % <i>to</i> 3.65 %</b></div></div>
+    <div class="ba"><div><span>eigen-iteration steps</span><b>~150 <i>to</i> 7–13</b></div><div><span>fit of one design</span><b>4.6 % <i>to</i> 0.40 %</b></div><div><span>many designs: training panels, then unseen</span><b>15–140 % <i>to</i> 3.65 %</b></div></div>
     <p><b>Result.</b> Periodic cell, simply supported, 320 training → 32 unseen designs: instant answer 3.65 % mean (9.77 % max), and 0.22 % after a 12-step check. But the number was biased high (27 of 32 designs above GBT): the network learns the Rayleigh quotient of its own imperfect modes, which is always above the true load. Next question: should GBT labels be added to the loss?</p>
   </div>
 </section>
@@ -310,19 +310,19 @@ a{color:var(--gbt)}
 
 <section class="wrap band" style="border-top:1px solid var(--rule)">
   <h2>Expectation vs reality</h2>
-  <p class="muted" style="max-width:70ch">Stages 3 to 7 in one picture. Drawn from our own numbers; the network still makes the paper, it just stopped being the hero.</p>
+  <p class="muted" style="max-width:70ch">Stages 3 to 7 in one picture, based on our own results; the network still makes the paper, it just stopped being the hero.</p>
   <div class="meme">
-    <div><h4>What we expected (26 Oct)</h4><div class="muted small">The network does it all</div><div class="fig" id="fig-exp1"></div>
-      <ul><li>instant N<sub>cr</sub> for any design</li><li>exact mode shapes</li><li>no labels, no solver at run time</li></ul></div>
+    <div><h4>What we hoped at the start</h4><div class="muted small">The network does it all</div><div class="fig" id="fig-exp1"></div>
+      <ul><li>instant N<sub>cr</sub> from physics alone, no labels</li><li>accurate mode shapes</li><li>one network for every lay-up</li></ul></div>
     <div><h4>What the data said (23 Nov)</h4><div class="muted small">The GBT check does the heavy lifting</div><div class="fig" id="fig-exp2"></div>
-      <ul><li>instant N<sub>cr</sub>: needs 120 labels</li><li>shapes: a good start, 2–3 iterations saved</li><li>check: 0 labels, error estimate, 5 % met on all 320 designs</li></ul></div>
+      <ul><li>instant N<sub>cr</sub>: needs 120 labels; one expert per lay-up</li><li>shapes: a good start, 2–3 iterations saved</li><li>check: 0 labels, error estimate, 5 % met on all 320 designs</li></ul></div>
   </div>
 </section>
 
 <section class="wrap stage s-c" id="s8">
   <div class="rail"><div class="no">8</div><div class="nm">Certified check</div><div class="dt">10 – 23 Nov</div></div>
   <div>
-    <h2>The check is an upper bound and its error estimate was never too small</h2>
+    <h2>The check gives an upper bound in the reduced space, and its error estimate was never too small</h2>
     <p class="q">The check replaces Paper 1's −15 %/+3 % window. Can it be safe, reasonably fast, and tell its own error?</p>
     <p><b>How it works.</b> For a new design, the GBT stiffness and geometric matrices are built in the shared reduced space; a block eigen-iteration (LOBPCG, 8 vectors) starts from the network's modes. Every iterate gives a load above the true one in that space (an upper bound).</p>
     <div class="scroll"><table class="stack"><thead><tr><th>Try (10–23 Nov)</th><th>Result</th><th>Kept?</th></tr></thead><tbody>
@@ -347,7 +347,7 @@ a{color:var(--gbt)}
     <p class="q">As in Paper 1's count of Abaqus calls: what does it cost to give every design an answer within 5 % of full GBT?</p>
     <p>320 unseen designs (8 lay-up/side combinations × 40). The check stops when its estimate is at most 5 %; if it never gets there, the design gets a full GBT solution. Totals over all 8 combinations; full-GBT solves include labels.</p>
     <div class="scroll"><table class="stack" id="cost"><thead><tr><th>Method</th><th class="num">Full-GBT solves</th><th class="num">Offline time</th><th>Time per design</th><th class="num">Error, mean / max</th><th>Upper bound</th></tr></thead><tbody></tbody></table></div>
-    <p>The certified check meets 5 % on every design without labels and with a guarantee. The GP needs 80 labels per lay-up and gives no guarantee or mode shape. The network start saves about 2 iterations (about 0.5 s per design), so its training pays off only after about 2400 designs per expert; most of each check (about 4.5 s) is building the design's matrices.</p>
+    <p>The certified check meets 5 % on every design without labels and with a guarantee, already from a random start. The "upper bound" column means: the answer is never below the critical load of the reduced model. The GP needs 80 labels per lay-up and gives no guarantee or mode shape. The network start saves about 2 iterations (about 0.5 s per design), so its training pays off only after about 2400 designs per expert; most of each check (about 4.5 s) is building the design's matrices.</p>
   </div>
 </section>
 
@@ -415,16 +415,16 @@ const mount=(id,fn)=>{const el=document.getElementById(id);if(!el)return;const s
 /* history: date in days after 21 Oct */
 const day=s=>{const [m,d]=s.split(' ');return (m==='Oct'?d-21:d-0+10)};
 const inst=[
- {d:'Oct 24',lo:15,hi:140,t:'physics only, Adam',dx:10,dy:4},
+ {d:'Oct 22',lo:15,hi:140,t:'physics only, Adam (training panels)',dx:10,dy:4},
  {d:'Oct 25',lo:10,hi:16,t:'GBT as teacher',dx:10,dy:22},
- {d:'Oct 27',v:3.65,t:'conditioning fixed',dx:10,dy:-8},
+ {d:'Oct 26',v:3.65,t:'conditioning fixed',dx:10,dy:-8},
  {d:'Nov 4',v:1.42,t:'hybrid loss',dx:10,dy:-8},
  {d:'Nov 6',v:7.75,t:'all lay-ups, pilot',dx:-10,dy:-10,a:'end'},
  {d:'Nov 7',v:4.7,t:'1000 labels',dx:10,dy:20},
  {d:'Nov 9',lo:0.24,hi:1.18,t:'8 experts, 120 labels',dx:10,dy:-12},
  {d:'Nov 17',lo:4.68,hi:11.93,t:'8 experts, 0 labels',dx:10,dy:4}];
-const chk=[{d:'Oct 27',v:0.22},{d:'Nov 4',v:0.20},{d:'Nov 7',v:0.21},{d:'Nov 10',lo:0.11,hi:0.48,t:'check, 8 experts, 0 or 120 labels',dx:12,dy:-8},{d:'Nov 23',v:0.45,t:'5 % target met, 0 labels, mean 0.45 %',dx:-12,dy:-14,a:'end'}];
-const lanes=[['1 Physics engine','Nov 3','Nov 3','gbt'],['2 Reduced space','Oct 22','Nov 5','gbt'],['3 Training','Oct 22','Oct 27','net'],['4 Loss','Nov 3','Nov 4','net'],['5 Design space','Nov 5','Nov 8','net'],['6 Eight experts','Nov 7','Nov 17','net'],['7 Value of the network','Nov 9','Nov 17','net'],['8 Certified check','Nov 10','Nov 23','chk'],['9 Cost of 5 %','Nov 23','Nov 23','chk']];
+const chk=[{d:'Oct 26',v:0.22},{d:'Nov 4',v:0.20},{d:'Nov 6',v:0.21},{d:'Nov 10',lo:0.11,hi:0.33,t:'check, 8 experts, 120 labels',dx:12,dy:-8},{d:'Nov 17',lo:0.14,hi:0.48,t:'check, 0 labels',dx:12,dy:6},{d:'Nov 23',v:0.45,t:'5 % target met, 0 labels, mean 0.45 %',dx:-12,dy:-14,a:'end'}];
+const lanes=[['1 Physics engine','Nov 3','Nov 3','gbt'],['2 Reduced space','Oct 22','Nov 5','gbt'],['3 Training','Oct 22','Oct 26','net'],['4 Loss','Nov 3','Nov 4','net'],['5 Design space','Nov 5','Nov 8','net'],['6 Eight experts','Nov 7','Nov 17','net'],['7 Value of the network','Nov 9','Nov 17','net'],['8 Certified check','Nov 10','Nov 23','chk'],['9 Cost of 5 %','Nov 23','Nov 23','chk']];
 mount('fig-hist',(W,H)=>{
  const small=W<900,l=small?46:60,r=small?12:24,t=14,ph=small?260:300,x=ln(0,34,l,W-r),y=lg(0.1,200,t+ph,t);
  let o=yGrid(y,[0.1,1,10,100],l,W-r);
@@ -475,7 +475,7 @@ mount('fig-conv',(W,H)=>{
  const S=[['random',C.grey,2,'stroke-dasharray="7 4"'],['nn10',C.dark,1.5,'stroke-dasharray="3 3"'],['nn120',C.dark,2,''],['L0',C.net,2,'stroke-dasharray="3 3"'],['L120',C.net,3,'']];
  for(const [k,c,w,da] of S)o+=`<path d="${CV[k].map((v,i)=>(i?'L':'M')+x(i)+' '+y(v)).join('')}" fill="none" stroke="${c}" stroke-width="${w}" ${da} stroke-linejoin="round"/>`;
  o+=T(x(1)+8,y(80),'random start: 20 189 % at iteration 0','start','lab m')+T(x(1)+8,y(47.6)+18,'47.6 % after one step','start','lab m');
- o+=T(l+12,y(0.32),'after 4 steps: network start 0.94 %,','start','lab')+T(l+12,y(0.32)+18,'random start 4.3 %','start','lab m');
+ o+=T(l+12,y(0.32),'after 4 steps: network (120 labels) 0.94 %,','start','lab')+T(l+12,y(0.32)+18,'random start 4.3 %','start','lab m');
  return o});
 
 mount('fig-eta',(W,H)=>{
@@ -489,7 +489,7 @@ mount('fig-eta',(W,H)=>{
  o+=T(x(6),y(1.1),'estimate below the true error:','middle','lab')+T(x(6),y(1.1)+18,'0 of 640 checks','middle','lab')+T(x(0.07),y(40),'smallest ratio estimate / true error: 1.5','start','lab m');
  return o});
 
-const cost=[['Full GBT for every design',320,'–',10.7,'0 / 0 %','exact',C.gbt],['GP, 20 labels per lay-up',160,'0.5 h',0.001,'1.24 / 14.90 %','no','#7d8792'],['GP, 40 labels per lay-up',320,'1.0 h',0.001,'0.75 / 7.68 %','no','#7d8792'],['GP, 80 labels per lay-up',640,'1.9 h',0.001,'0.57 / 4.76 %','no','#7d8792'],['Check from a random start',0,'–',7.9,'0.38 / 1.18 %','yes',C.chk],['Check from the nearest of 10 labelled designs',80,'0.2 h',7.3,'0.32 / 1.20 %','yes',C.chk],['Check from the network, 0 labels',0,'18.5 h (training, operators)',7.4,'0.45 / 2.51 %','yes',C.net],['Check from the network, 120 labels',960,'19.1 h (training, operators, labels)',7.3,'0.36 / 1.83 %','yes',C.net]];
+const cost=[['Full GBT for every design',320,'–',10.7,'0 / 0 %','exact',C.gbt],['GP, 10 labels per lay-up',80,'0.2 h',0.001,'1.88 / 18.30 %','no','#7d8792'],['GP, 20 labels per lay-up',160,'0.5 h',0.001,'1.24 / 14.90 %','no','#7d8792'],['GP, 40 labels per lay-up',320,'1.0 h',0.001,'0.75 / 7.68 %','no','#7d8792'],['GP, 80 labels per lay-up',640,'1.9 h',0.001,'0.57 / 4.76 %','no','#7d8792'],['GP, 120 labels per lay-up',960,'2.9 h',0.001,'0.40 / 3.65 %','no','#7d8792'],['Check from a random start',0,'–',7.9,'0.38 / 1.18 %','yes',C.chk],['Check from the nearest of 10 labelled designs',80,'0.2 h',7.3,'0.32 / 1.20 %','yes',C.chk],['Check from the nearest of 120 labelled designs',960,'2.9 h',7.4,'0.30 / 1.66 %','yes',C.chk],['Check from the network, 0 labels',0,'18.5 h (training, operators)',7.4,'0.45 / 2.51 %','yes',C.net],['Check from the network, 120 labels',960,'19.1 h (training, operators, labels)',7.3,'0.36 / 1.83 %','yes',C.net]];
 document.querySelector('#cost tbody').innerHTML=cost.map(([m,n,off,s,e,g,c])=>`<tr><td data-l="Method">${m}</td><td class="num" data-l="Full-GBT solves">${n}</td><td class="num" data-l="Offline time">${off}</td><td data-l="Time per design"><div class="barcell"><div class="bar" style="width:${Math.max(s/10.7*110,2)}px;--c:${c}"></div><span>${s<0.01?'&lt; 1 ms':s+' s'}</span></div></td><td class="num" data-l="Error, mean / max">${e}</td><td data-l="Upper bound"><span class="tag ${g==='no'?'x':'y'}">${g}</span></td></tr>`).join('');
 
 /* expectation vs reality: network = node graph, check = stamp */
