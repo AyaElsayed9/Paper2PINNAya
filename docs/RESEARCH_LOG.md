@@ -2403,3 +2403,13 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   as question, tries (kept or not), result, decision, with the earlier charts and diagram reused; side studies
   (constant width, Koiter / non-linear GBT screens) and limits. All numbers from this log.
 - GAMM abstract: limit 500 words plain text (submission page; the dates page says 400), ours 385; talk, Joint Annual Meeting.
+- 25 Nov (later): Aya: the doc still looked "boring, AI-like, low quality". (1) Doc: coloured cells (stage column by
+  track, kept/dropped cells) + original "Expectation vs reality" widget. (2) New designed report page, built from the
+  same numbers: reports/gamm2027_report/ (index.html + PDF, 16 A4 pages), published as artifact
+  https://claude.ai/artifact/2k6kxWXJ2YabGcJBW96zsp . Hero = GBT critical mode of the periodic cell (Fig. 7a of the
+  GBT paper, cropped, with callouts); "history" chart = mean error of every test at true time scale (22 Oct - 23 Nov)
+  with the 9 stages as lanes; GBT vs Abaqus dumbbell; 8-expert dot chart; label study; convergence (cost-study
+  medians); estimate-vs-true scatter (640 checks, smallest ratio 1.5); 5 % cost table; plan scorecard (points 4 and 5
+  honestly "partly"). Fonts Literata + Barlow Semi Condensed (fontsource, self-hosted). No new runs, no number changed.
+- GAMM abstract: docs/conferences/GAMM2027_submission_paste.txt = each ConfTool field separately (title, section S25,
+  keywords, abstract body). It is typed into ConfTool as plain text; no PDF, no highlights (not asked by GAMM).
