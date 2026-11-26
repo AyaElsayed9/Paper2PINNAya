@@ -2556,3 +2556,10 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   condition) and "for each case, we train two networks on 152 designs ...: one with physics only, and one that also
   uses full GBT solutions of 120 of the 152 designs". Trimmed to stay under 500: "(POD)" dropped, "still" dropped,
   "We tested 320 unseen designs." (lay-ups and sides now stated before), "within 4.92 %" (= the maximum).
+* 26 Nov, 18:30 (Aya: "full GBT is used after 40 iterations. what and why 40"): checked. 40 = MAX_STEPS in
+  scripts/cost_study.py, set by me as the length of the recorded trace (long enough to read 5 / 3 / 2 % tolerances);
+  it was not derived and is nowhere justified in the log. Data (results/cost_study/*_SS_v2.csv, 5 starts x 320):
+  no trace reached 40; the longest needed 30 iterations (to 2 %); at 5 % at most 15 (network starts) / 18 (random).
+  Cost view: one iteration ~0.2 s, fixed part of a check ~5.8 s (7.36 s - 7.6 x 0.2 s), full GBT 10.7 s -> beyond
+  ~25 iterations the check costs more than full GBT. So 40 is a loose safety cap that never acted, not an optimum.
+  Abstract unchanged until Aya decides.
