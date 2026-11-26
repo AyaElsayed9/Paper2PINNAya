@@ -2574,3 +2574,7 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
 * 26 Nov, 19:00 (Aya: "ok"): "In 3800 comparisons ... true error" -> "After 0 to 12 iterations, the error estimate was
   never smaller than the actual error against full GBT (3800 comparisons)"; "7.4 s per design on average". 500 words
   or fewer. Open for Aya: the 40-iteration sentence; the short description of Paper 1's model.
+* 26 Nov, 19:25 (Aya: abstract as PDF for Prof. Mittelstedt and Dr. Kharghani to approve): one-page PDF
+  `docs/conferences/GAMM2027_abstract_Elsayed.pdf` (source abstract_pdf/, text taken from GAMM2027_abstract.txt,
+  500 words), authors as in the GBT paper (Elsayed presenting, Kharghani, Mittelstedt; LSM, TU Darmstadt), section,
+  keywords and deadline in the footer, marked "Draft for approval".
