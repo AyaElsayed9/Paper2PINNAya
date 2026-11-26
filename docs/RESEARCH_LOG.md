@@ -2494,3 +2494,10 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   0.67 % (0 labels) / 1.19 % (120 labels) vs 10.80 % for Paper 1 (its Table 2); instant answer with 120 labels max
   4.9 % (largest of the eight experts, 4.92 %); single network for all lay-ups "maximum errors above 20 %"
   (validation max 20.9-24.5 % with 1000 labels; data models 27-29.7 % on test). 498 words.
+- 26 Nov (afternoon): Aya: abstract must tell the story for a reader who knows neither paper (mechanism, steps,
+  network details). Rewritten from scratch: problem; earlier PINN; what GBT is; three steps (common unknowns:
+  241 POD shapes x fixed length functions, 0.3 %; network: inputs b_s, beta, outputs load + 8 modes, encoder 4 x 256,
+  function decoder, trained on 152 designs with the Rayleigh quotient, up to 120 GBT results, energy scaling and one
+  GBT step per round; check: LOBPCG, upper bound, residual estimate, tolerance); results as maxima (one network
+  > 20 %, instant 4.9 %, 3800 checks, 5 % target with 0 labels 7-8 s vs 11 s, GP 80 labels, Abaqus points 1.19 %
+  vs 10.80 %). GBT vs Abaqus quoted as "within 1.6 % in 60 periodic cases" (max 1.52 %, GBT paper). 499 words.
