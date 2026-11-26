@@ -1,4 +1,4 @@
-GAMM & DMV 2027, Ulm (8-12 March 2027) - abstract draft, 23 Nov 2026, checked 25 Nov (487 words; limit 400 per the dates page, 500 per the submission page; deadline 1 Dec 2026, preliminary)
+GAMM & DMV 2027, Ulm (8-12 March 2027) - abstract draft, 23 Nov 2026, checked 25 Nov (494 words; limit 400 per the dates page, 500 per the submission page; deadline 1 Dec 2026, preliminary)
 
 Title: Physics-informed neural networks with a certified Generalized Beam Theory check for the buckling of stiffened composite panels
 Section: S25 Machine Learning and Data Science in Applied Mathematics and Mechanics (alternative: S04 Structural Mechanics)
@@ -6,7 +6,7 @@ Keywords: physics-informed neural networks; Generalized Beam Theory; buckling; s
 
 Stiffened composite panels are designed against buckling, and a design study needs the buckling load of many panel variants. Finite element models give this load accurately but slowly. Data-driven models are fast, but they need many finite element results for training and cannot tell how wrong a single prediction is.
 
-In earlier work, we predicted the local buckling of omega-stringer panels with a hybrid physics-informed neural network (PINN). Its physics was a simplified plate model, and suspicious predictions were checked with Abaqus. Here we replace both by our periodic Generalized Beam Theory (GBT) code. At the Abaqus points of the earlier study, GBT differs from Abaqus by 0.54 % on average, compared with 2.53 % for the earlier PINN.
+In earlier work, we predicted the local buckling of omega-stringer panels with a hybrid physics-informed neural network (PINN). Its physics was a simplified plate model, and suspicious predictions were checked with Abaqus. Here, our periodic Generalized Beam Theory (GBT) code replaces both: it gives the physics and it does the checking. At the Abaqus points of the earlier study, GBT differs from Abaqus by 0.54 % on average, compared with 2.53 % for the earlier PINN.
 
 To let one network handle many designs, we build the buckling modes of every design from the same pieces: a fixed set of cross-section shapes and a fixed set of functions along the length. The network takes the stringer pitch and the panel aspect ratio and predicts the buckling load and eight candidate buckling modes. It learns by minimizing the GBT energy ratio (Rayleigh quotient) of its predicted modes. At first the network did not train, because the problem was badly conditioned. Unknowns scaled by the strain energy and a natural-gradient training step solved this. We then compared three losses: physics only, GBT results only, and both. Physics alone gave the best mode shapes, but its load was too high; adding GBT results removed this bias. A single network for all lay-ups stopped improving at about 5 % error, and so did standard data-driven models. We therefore trained one small network for each lay-up.
 
