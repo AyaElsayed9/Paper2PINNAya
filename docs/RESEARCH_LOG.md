@@ -2460,4 +2460,4 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   the check profile and the three residual estimates. Fig. 3a now shows only ML phases. 9 pages.
 - 26 Nov: Aya: abstract too hard to read. Rewritten in plain language with more on the machine learning (shared
   building blocks, Rayleigh-quotient training, conditioning fix, physics/data/hybrid, one network vs lay-up
-  experts, physics-only modes, honest comparison). 485 words (submission page limit 500). Same audited numbers.
+  experts, physics-only modes, honest comparison). 487 words (submission page limit 500). Same audited numbers.
