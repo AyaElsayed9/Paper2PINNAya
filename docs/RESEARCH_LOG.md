@@ -2582,3 +2582,10 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   without both. Word count: 493 words; my count of 500 also counted the 7 "%" signs (written with a space, "1.52 %")
   as words. Text unchanged.
 * 26 Nov, 19:40 (Aya): "Presentation: oral" removed from the abstract PDF footer.
+* 26 Nov, 19:45 (Aya: "check this opinion" on an outside language review, then "yes"): taken: "critical loads",
+  "replacing both", "differs ... across 60", "Across 1064", "for 120 of these designs", "upper bound on";
+  clarified: "After 0, 1, 3, 5 and 12 iterations" (only these 5 counts were compared; the review's "0-12" and our
+  "0 to 12" both suggested every count) and "From the physics-only networks, the checked results were within
+  2.51 %" (it is the checked result, not the raw network). Not taken: "uncertain predictions" (Paper 1 used a
+  -15/+3 % window, not an uncertainty measure); "%" without space. Note for Aya: "certified" in the title rests on
+  the upper bound (rigorous in the basis); the error estimate is empirical. 492 words (499 with "%" signs). PDF rebuilt.
