@@ -2489,3 +2489,8 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   22 Table-2 points, computed) is correct; report Sec. 1 said "reached 10.8 %" (incomplete) -> now 10.30 % mean /
   14.54 % max in the beta sweep and 10.80 % in the independent test; report Table 3 caption says the means are
   computed from Paper 1 Table 2. PAPER1_SUMMARY updated. Report recompiled (9 pages).
+- 26 Nov: GBT paper (final _5_2 and TWS) checked for Paper-1 error numbers: none quoted (it only says Paper 1 used
+  the reduced bending stiffness). Abstract switched to maxima (Aya): new PINN + check vs Abaqus at the 22 points max
+  0.67 % (0 labels) / 1.19 % (120 labels) vs 10.80 % for Paper 1 (its Table 2); instant answer with 120 labels max
+  4.9 % (largest of the eight experts, 4.92 %); single network for all lay-ups "maximum errors above 20 %"
+  (validation max 20.9-24.5 % with 1000 labels; data models 27-29.7 % on test). 498 words.
