@@ -3,7 +3,7 @@ Deadline: 1 December 2026. Plain text, English, max. 500 words (the dates page m
 Each box below goes into its own ConfTool field. Only the ABSTRACT box goes into the abstract field.
 
 ===== TITLE =====
-Physics-informed neural networks with a certified Generalized Beam Theory check for the buckling of stiffened composite panels
+Physics-informed neural networks with a residual-based Generalized Beam Theory check for the buckling of stiffened composite panels
 
 ===== AUTHORS AND AFFILIATIONS =====
 (fill in yourself in ConfTool: you as presenting author, then your co-authors and affiliations)

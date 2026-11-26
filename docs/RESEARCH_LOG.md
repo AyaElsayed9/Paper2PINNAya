@@ -2589,3 +2589,11 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   2.51 %" (it is the checked result, not the raw network). Not taken: "uncertain predictions" (Paper 1 used a
   -15/+3 % window, not an uncertainty measure); "%" without space. Note for Aya: "certified" in the title rests on
   the upper bound (rigorous in the basis); the error estimate is empirical. 492 words (499 with "%" signs). PDF rebuilt.
+* 26 Nov, 20:05 (Aya: "why is it called certified?", then "change"): "certified" claimed more than shown. Proven is
+  only the Rayleigh-Ritz upper bound on the reduced-basis critical load; the error estimate eta is empirical (3800
+  comparisons, no proof), and the bound is not relative to full GBT (basis error up to 0.49 %; one Paper-1 point
+  -0.005 % below full GBT). In reduced-basis methods "certified" means a proven error bound, so the word is dropped.
+  Abstract title now "Physics-informed neural networks with a residual-based Generalized Beam Theory check for the
+  buckling of stiffened composite panels" (txt, paste file, PDF). Report: title, abstract, Fig. 2 boxes and caption
+  ("an upper bound with an error estimate"), Sec. 4.x heading, conclusions and the history figure label changed to
+  "residual-based check" / "GBT check"; no "certif" left in report.tex. Figures regenerated, report 9 pages.

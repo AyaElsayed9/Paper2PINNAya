@@ -44,7 +44,7 @@ rows = [("Shared space, first network, GBT as teacher", [(dd(10, 22), dd(10, 25)
         ("Lay-up experts and industrial network", [(dd(11, 7), dd(11, 9))], NET),
         ("Network against simple baselines", [(dd(11, 9), dd(11, 10)), (dd(11, 16), dd(11, 17))], NET),
         ("Physics-only experts (0 labels)", [(dd(11, 16), dd(11, 17))], NET),
-        ("Certified check: speed, bounds, error estimate", [(dd(11, 10), dd(11, 10)), (dd(11, 17), dd(11, 17)), (dd(11, 23), dd(11, 23))], CHK),
+        ("GBT check: speed, bounds, error estimate", [(dd(11, 10), dd(11, 10)), (dd(11, 17), dd(11, 17)), (dd(11, 23), dd(11, 23))], CHK),
         (r"Cost of a 5\,\% target", [(dd(11, 23), dd(11, 23))], CHK)]
 fig, (t0, ax) = plt.subplots(2, 1, figsize=(FULL, 122 * MM), gridspec_kw=dict(height_ratios=[1.0, 1.2], hspace=0.38))
 for i, (lab, segs, c) in enumerate(rows):

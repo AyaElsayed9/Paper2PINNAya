@@ -44,14 +44,14 @@
 
 \begin{center}
 {\small\color{muted}Progress report on Paper 2 \quad|\quad 25 November 2026}\\[10pt]
-{\LARGE\bfseries\color{ink} Physics-informed neural networks with a certified\\[2pt] GBT check for the buckling of stiffened composite panels\par}
+{\LARGE\bfseries\color{ink} Physics-informed neural networks with a residual-based\\[2pt] GBT check for the buckling of stiffened composite panels\par}
 \vspace{10pt}
 {\large Aya Medhat Elsayed}\\[2pt]{\small\color{muted}Institute for Lightweight Engineering and Structural Mechanics (LSM), TU Darmstadt}
 \end{center}
 
 \vspace{4pt}
 \begin{abstract}
-\noindent This report follows the machine-learning work on the second paper of my project, from the first physics-informed network on 22 October to the cost study of 23 November 2026, including every attempt that did not work. The physics is our periodic Generalized Beam Theory (GBT) code, which replaces the plate model and the Abaqus oracle of Paper~1. I built a shared reduced space in which every design has the same coordinates, found that a physics-only network trains only after its numerical conditioning is fixed, compared physics, data and hybrid losses, tried one network for all lay-ups and split it into lay-up experts, and finally compared the network honestly with simple alternatives. The network's modes start a block eigen-iteration whose relative residual gives a label-free error estimate. With 120 labels, the instant answer of the network is 0.24--1.18\pc{} from full GBT on average and at most 4.92\pc{} on 320 unseen designs; the error estimate was never below the true error in 3800 checks, and a 5\pc{} target is met on every design without labels. The network adds less than I expected; the main contribution is the certified GBT check.
+\noindent This report follows the machine-learning work on the second paper of my project, from the first physics-informed network on 22 October to the cost study of 23 November 2026, including every attempt that did not work. The physics is our periodic Generalized Beam Theory (GBT) code, which replaces the plate model and the Abaqus oracle of Paper~1. I built a shared reduced space in which every design has the same coordinates, found that a physics-only network trains only after its numerical conditioning is fixed, compared physics, data and hybrid losses, tried one network for all lay-ups and split it into lay-up experts, and finally compared the network honestly with simple alternatives. The network's modes start a block eigen-iteration whose relative residual gives a label-free error estimate. With 120 labels, the instant answer of the network is 0.24--1.18\pc{} from full GBT on average and at most 4.92\pc{} on 320 unseen designs; the error estimate was never below the true error in 3800 checks, and a 5\pc{} target is met on every design without labels. The network adds less than I expected; the main contribution is the residual-based GBT check.
 \end{abstract}
 
 \section{Starting point and aim}
@@ -79,12 +79,12 @@ Figure~\ref{fig:tool} shows the tool as it stands now. The physics is the shear-
 \node[bx=gbt] (d) {\textbf{Design}\\[1pt] $b_s$, $\beta$, lay-up,\\ side condition};
 \node[bx=net, right=of d] (n) {\textbf{Lay-up PINN}\\[1pt] 8 candidate modes,\\ instant $\Ncr$};
 \node[bx=gbt, right=of n] (o) {\textbf{GBT operators}\\[1pt] $\mathbf K$, $\mathbf G$ in the\\ shared reduced space};
-\node[bx=chk, right=of o] (c) {\textbf{Certified check}\\[1pt] LOBPCG until\\ $\eta\le$ tolerance};
+\node[bx=chk, right=of o] (c) {\textbf{GBT check}\\[1pt] LOBPCG until\\ $\eta\le$ tolerance};
 \draw[ar] (d)--(n); \draw[ar] (n)--(o); \draw[ar] (o)--(c);
-\node[below=2mm of n, font=\sffamily\footnotesize, text=muted] {fast, not certified};
+\node[below=2mm of n, font=\sffamily\footnotesize, text=muted] {fast, no error estimate};
 \node[below=2mm of c, font=\sffamily\footnotesize, text=muted] {upper bound $+$ error estimate};
 \end{tikzpicture}
-\caption{The tool: the network gives an instant answer and starting modes; the GBT check turns them into a certified load.}
+\caption{The tool: the network gives an instant answer and starting modes; the GBT check turns them into an upper bound with an error estimate.}
 \label{fig:tool}
 \end{figure}
 
@@ -220,7 +220,7 @@ Figure~\ref{fig:experts}a shows the mean errors of the eight experts on 40 unsee
 \label{fig:experts}
 \end{figure}
 
-\subsection{The certified check and its error estimate}
+\subsection{The residual-based check and its error estimate}
 With the network's role clear, the effort went into the check. Profiling showed where its time goes: most of it is the pre-buckling state of the new design (2.4--9.7\,s), not the iteration. Solving the pre-buckling state in the shared basis was slower, not faster. A four times coarser pre-buckling mesh cut the check to 36--53\pc{} of a full GBT solution, but for industrial lay-ups the load dropped by up to 0.11\pc{} below full GBT, so it was no longer an upper bound; I went back to the exact pre-buckling state, which costs 63\pc{} (5 steps) to 76\pc{} (12 steps) of a full solution and was never below it. Cheaper parts (coarser meshes, single precision) saved at most about 0.3\,s, and a Kato--Temple lower bound was still 14\pc{} wide after five steps while costing more than the check itself.
 
 For the error estimate I compared three candidates built from the residual. The squared residual was close to the true error but not safe (too small in 10\pc{} of the cases after five steps); the squared residual divided by the gap to the next eigenvalue was safe but 5--90 times too large. The plain relative residual $\eta$ worked (Figure~\ref{fig:check}b): over 760 checks and five iteration counts it was never below the true error (3800 of 3800 cases), it is conservative by a factor of 3--11 in the median, and its rank correlation with the true error reaches 0.88, equally with and without labels. The standard deviation of a Gaussian process, in comparison, correlated with its own error only weakly (0.06--0.47), and for the cross-ply expert its $\pm2\sigma$ band covered only 60--62\pc{} of the designs with 10--20 labels. The limit of $\eta$ is that it measures the iteration error inside the reduced space, not the fixed error of that space against full GBT (at most 0.49\pc, 0.06\pc{} on average, over 1064 designs).
@@ -264,8 +264,8 @@ The periodic condition keeps the cell width constant, as in the validated GBT co
 \item GBT as the physics removes the RBS error of Paper~1 (0.54\pc{} against 2.53\pc{} at its Abaqus points) and makes Abaqus unnecessary.
 \item A shared reduced space gives every design the same coordinates, with a critical load at most 0.49\pc{} (0.06\pc{} on average) from full GBT over 1064 designs; this is what makes a network over many designs possible.
 \item A PINN trains on the GBT energy only once the conditioning is fixed. Without labels it learns the mode shapes but not an unbiased number; 120 GBT labels make the instant number accurate to 0.24--1.18\pc{} on average and 4.92\pc{} at most. One network for arbitrary lay-ups stalls near 5\pc, as do plain data models; lay-up experts solve this.
-\item The certified check replaces the $-15\pc/{+3}\pc$ window: it is an upper bound in the reduced space, independent of the order of the designs, and its label-free error estimate was never below the true error. It meets a 5\pc{} target on all 320 unseen designs without labels.
-\item Compared honestly with simple alternatives, the network's start saves only a few iterations, and with few labels a Gaussian process predicts the number better. The main contribution is therefore the GBT engine with the certified check; the network adds the instant answer and the mode shapes.
+\item The residual-based check replaces the $-15\pc/{+3}\pc$ window: it is an upper bound in the reduced space, independent of the order of the designs, and its label-free error estimate was never below the true error. It meets a 5\pc{} target on all 320 unseen designs without labels.
+\item Compared honestly with simple alternatives, the network's start saves only a few iterations, and with few labels a Gaussian process predicts the number better. The main contribution is therefore the GBT engine with the residual-based check; the network adds the instant answer and the mode shapes.
 \end{enumerate}
 The next steps are to choose the journal and write the paper from this report. Two ideas are left open: repeating the label study for a second lay-up, and, since the pre-buckling state is the expensive part of the check, learning its end-zone part with a network instead of solving it.
 
