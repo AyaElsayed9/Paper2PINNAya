@@ -2551,3 +2551,8 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   every test shown in the figure" (the 26 Oct clamped test had 0.54 %). (4) maxima added: GBT vs Abaqus 1.52 %,
   industrial network 8.40 % / 0.74 %; data models "about 28 %" -> 27.0-29.7 %; MAC "against 0.29" -> 0.23-0.29;
   "own 80 lowest modes" -> "own 80 modes, 1.6 % on average"; Table 2 caption "mean error". Report recompiled, 9 pages.
+* 26 Nov, 18:15 (Aya: "yes", to stating the two networks): abstract now says "separate PINNs for each of four lay-ups
+  and two lateral boundary conditions" (8 cases; before it said "one PINN for each lay-up", which hid the side
+  condition) and "for each case, we train two networks on 152 designs ...: one with physics only, and one that also
+  uses full GBT solutions of 120 of the 152 designs". Trimmed to stay under 500: "(POD)" dropped, "still" dropped,
+  "We tested 320 unseen designs." (lay-ups and sides now stated before), "within 4.92 %" (= the maximum).
