@@ -2514,4 +2514,4 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   iterations. Same facts and maxima as before. 498 words.
 - 26 Nov (evening): abstract balanced (Aya: technical version too heavy, earlier one too casual): standard technical
   terms (reduced basis, POD, Rayleigh quotient, LOBPCG, upper bound, residual error estimate) in plain sentences,
-  passive present for the method, past for results; condition-number figure dropped for length. 497 words (ambiguous "It stops" fixed).
+  passive present for the method, past for results; condition-number figure dropped for length. 499 words (ambiguous "It stops" fixed).
