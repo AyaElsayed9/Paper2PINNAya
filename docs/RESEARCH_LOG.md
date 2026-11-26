@@ -2458,3 +2458,6 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   space, dictionary/end-layer findings, pilot, 1000 labels, plain data models (4-7 Nov); experts and industrial
   network, GP baseline (7-9 Nov); network vs baselines and the stopped mode-shape step (9-17 Nov). Results add
   the check profile and the three residual estimates. Fig. 3a now shows only ML phases. 9 pages.
+- 26 Nov: Aya: abstract too hard to read. Rewritten in plain language with more on the machine learning (shared
+  building blocks, Rayleigh-quotient training, conditioning fix, physics/data/hybrid, one network vs lay-up
+  experts, physics-only modes, honest comparison). 485 words (submission page limit 500). Same audited numbers.
