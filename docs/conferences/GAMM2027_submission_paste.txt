@@ -1,5 +1,5 @@
 GAMM & DMV 2027 (Ulm, 8-12 March 2027) - what to type into ConfTool
-Deadline: 1 December 2026. Plain text, English, max. 500 words (the dates page mentions 400; the submission page says 500) (abstract below: 500 words).
+Deadline: 1 December 2026. Plain text, English, max. 500 words (the dates page mentions 400; the submission page says 500) (abstract below: 493 words, or 500 if each "%" sign is counted as a word).
 Each box below goes into its own ConfTool field. Only the ABSTRACT box goes into the abstract field.
 
 ===== TITLE =====

@@ -2578,3 +2578,6 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   `docs/conferences/GAMM2027_abstract_Elsayed.pdf` (source abstract_pdf/, text taken from GAMM2027_abstract.txt,
   500 words), authors as in the GBT paper (Elsayed presenting, Kharghani, Mittelstedt; LSM, TU Darmstadt), section,
   keywords and deadline in the footer, marked "Draft for approval".
+* 26 Nov, 19:35 (Aya: no "draft for approval", no underline under her name; she counted 493 words): PDF rebuilt
+  without both. Word count: 493 words; my count of 500 also counted the 7 "%" signs (written with a space, "1.52 %")
+  as words. Text unchanged.
