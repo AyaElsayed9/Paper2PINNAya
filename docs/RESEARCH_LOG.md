@@ -2597,3 +2597,7 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   buckling of stiffened composite panels" (txt, paste file, PDF). Report: title, abstract, Fig. 2 boxes and caption
   ("an upper bound with an error estimate"), Sec. 4.x heading, conclusions and the history figure label changed to
   "residual-based check" / "GBT check"; no "certif" left in report.tex. Figures regenerated, report 9 pages.
+* 26 Nov, 20:10 (Aya: the plain title "is better"): title now "Physics-informed neural networks with a Generalized
+  Beam Theory check for the buckling of stiffened composite panels" (abstract txt, paste file, PDF); report title
+  "... with a GBT check for the buckling of stiffened composite panels", date 26 November. Report body keeps
+  "residual-based check".
