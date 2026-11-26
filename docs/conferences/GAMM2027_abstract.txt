@@ -1,10 +1,10 @@
-GAMM & DMV 2027, Ulm (8-12 March 2027) - abstract draft, 23 Nov 2026, checked 25 Nov (501 words; limit 400 per the dates page, 500 per the submission page; deadline 1 Dec 2026, preliminary)
+GAMM & DMV 2027, Ulm (8-12 March 2027) - abstract draft, 23 Nov 2026, checked 25 Nov (498 words; limit 400 per the dates page, 500 per the submission page; deadline 1 Dec 2026, preliminary)
 
 Title: Physics-informed neural networks with a certified Generalized Beam Theory check for the buckling of stiffened composite panels
 Section: S25 Machine Learning and Data Science in Applied Mathematics and Mechanics (alternative: S04 Structural Mechanics)
 Keywords: physics-informed neural networks; Generalized Beam Theory; buckling; stiffened composite panels; a posteriori error estimate; reduced-order model
 
-Composite panels stiffened by omega-shaped stringers are common in aircraft, and their design is often governed by local buckling of the skin between the stringers. A design study therefore needs the critical buckling load of many panel variants. Shell finite element models are accurate but expensive, and purely data-driven models need many training results and cannot tell how wrong a prediction is. In an earlier study, we used a physics-informed neural network (PINN) whose physics was a simplified plate model and whose doubtful predictions were recomputed with Abaqus.
+Composite panels stiffened by omega-shaped stringers are common in aircraft, and their design is often governed by local buckling of the skin between the stringers. Design studies therefore need the buckling load of many variants. Shell finite element models are accurate but expensive, and purely data-driven models need many training results and cannot tell how wrong a prediction is. In an earlier study, we used a physics-informed neural network (PINN) whose physics was a simplified plate model and whose doubtful predictions were recomputed with Abaqus.
 
 Here we present a new PINN in which both roles are taken by Generalized Beam Theory (GBT). GBT describes the deformation of the whole stringer cross-section by a few cross-section modes, each multiplied by a function along the panel length. Our GBT formulation models one periodic cell of the panel with laminated walls and agrees with Abaqus within 1.6 % in 60 periodic test cases.
 

@@ -1,5 +1,5 @@
 GAMM & DMV 2027 (Ulm, 8-12 March 2027) - what to type into ConfTool
-Deadline: 1 December 2026. Plain text, English, max. 500 words (the dates page mentions 400; the submission page says 500) (abstract below: 501 words).
+Deadline: 1 December 2026. Plain text, English, max. 500 words (the dates page mentions 400; the submission page says 500) (abstract below: 498 words).
 Each box below goes into its own ConfTool field. Only the ABSTRACT box goes into the abstract field.
 
 ===== TITLE =====
@@ -18,7 +18,7 @@ physics-informed neural networks; Generalized Beam Theory; buckling; stiffened c
 Oral (short communication)
 
 ===== ABSTRACT =====
-Composite panels stiffened by omega-shaped stringers are common in aircraft, and their design is often governed by local buckling of the skin between the stringers. A design study therefore needs the critical buckling load of many panel variants. Shell finite element models are accurate but expensive, and purely data-driven models need many training results and cannot tell how wrong a prediction is. In an earlier study, we used a physics-informed neural network (PINN) whose physics was a simplified plate model and whose doubtful predictions were recomputed with Abaqus.
+Composite panels stiffened by omega-shaped stringers are common in aircraft, and their design is often governed by local buckling of the skin between the stringers. Design studies therefore need the buckling load of many variants. Shell finite element models are accurate but expensive, and purely data-driven models need many training results and cannot tell how wrong a prediction is. In an earlier study, we used a physics-informed neural network (PINN) whose physics was a simplified plate model and whose doubtful predictions were recomputed with Abaqus.
 
 Here we present a new PINN in which both roles are taken by Generalized Beam Theory (GBT). GBT describes the deformation of the whole stringer cross-section by a few cross-section modes, each multiplied by a function along the panel length. Our GBT formulation models one periodic cell of the panel with laminated walls and agrees with Abaqus within 1.6 % in 60 periodic test cases.
 

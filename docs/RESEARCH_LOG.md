@@ -2500,4 +2500,4 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   function decoder, trained on 152 designs with the Rayleigh quotient, up to 120 GBT results, energy scaling and one
   GBT step per round; check: LOBPCG, upper bound, residual estimate, tolerance); results as maxima (one network
   > 20 %, instant 4.9 %, 3800 checks, 5 % target with 0 labels 7-8 s vs 11 s, GP 80 labels, Abaqus points 1.19 %
-  vs 10.80 %). GBT vs Abaqus quoted as "within 1.6 % in 60 periodic cases" (max 1.52 %, GBT paper). 499 words.
+  vs 10.80 %). GBT vs Abaqus quoted as "within 1.6 % in 60 periodic cases" (max 1.52 %, GBT paper). 498 words.
