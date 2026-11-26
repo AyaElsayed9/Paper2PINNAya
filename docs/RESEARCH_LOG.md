@@ -2501,3 +2501,9 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   GBT step per round; check: LOBPCG, upper bound, residual estimate, tolerance); results as maxima (one network
   > 20 %, instant 4.9 %, 3800 checks, 5 % target with 0 labels 7-8 s vs 11 s, GP 80 labels, Abaqus points 1.19 %
   vs 10.80 %). GBT vs Abaqus quoted as "within 1.6 % in 60 periodic cases" (max 1.52 %, GBT paper). 498 words.
+- 26 Nov (evening): abstract rewritten again (Aya: grammar inconsistent; why 241; explain the check and when full
+  GBT is used, how often). "We" + present tense for the method, past tense for results; number 241 removed (shapes
+  "obtained once from the GBT modes of 64 sample panels"); check described with its stopping rule and fallback
+  (full GBT if eta > tolerance after 40 steps). From results/cost_study/*_SS_v2.csv: at 5 % tolerance no fallback in
+  any of the 320 designs for any start; network starts 3-15 steps (mean 7.0-7.6), random 5-18 (mean 9.7); largest
+  true error 2.51 % (0 labels) / 1.83 % (120 labels), always above full GBT (min +0.13 %). 500 words.
