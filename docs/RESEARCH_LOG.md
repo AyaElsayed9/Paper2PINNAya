@@ -2466,3 +2466,20 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
 - 26 Nov: abstract states that Abaqus is replaced by the GBT code and that the new PINN is built entirely on GBT
   (energy for learning, training/test results, check of every prediction); first and last sentences shortened.
   498 words.
+- 26 Nov: NEW RUN (Aya: compare like with like in the abstract). scripts/pinn_at_paper1_points.py ->
+  results_p1/pinn_p1.jsonl, logs/pinn_p1.log: the cross-ply / symmetry expert (physics_L0 and hybrid_L120) and its
+  certified check at the 22 Abaqus points of Paper 1 (Abaqus and Paper-1 PINN values from Paper 1, Table 2, same list
+  as gbt_at_paper1_points.py). Operators built for each point (v2, d2, full GBT on the same operator). Error vs Abaqus,
+  mean / max (all 22; tight pitch 4; other 18):
+    Paper 1 PINN            2.53 / 10.80   (8.08 / 10.80; 1.29 / 3.54)
+    GBT (this operator)     0.53 / 0.97    (0.89 / 0.97; 0.46 / 0.95)   [0.54 in the 3 Nov run, rounding]
+    physics_L0 head        14.26 / 36.59   (23.83 / 36.59; 12.14 / 19.93)
+    physics_L0 check eta<=5 %  0.33 / 0.67 (0.37 / 0.55; 0.32 / 0.67), 7-17 steps
+    hybrid_L120 head        1.78 / 6.44    (1.56 / 2.27; 1.83 / 6.44)
+    hybrid_L120 check eta<=5 % 0.38 / 1.19 (0.62 / 1.19; 0.33 / 0.64), 6-13 steps
+  Honest notes: (1) the check answer is 0.25-0.9 % ABOVE full GBT (upper bound of the reduced model, not converged
+  at eta <= 5 %), and GBT is 0.1-1.0 % BELOW Abaqus, so part of the small check-vs-Abaqus error is cancellation;
+  against full GBT the check is 0.47 / 0.87 % (L0) and 0.52 / 2.18 % (L120). (2) point (124.25, 0.72) is just below
+  the expert range beta >= 0.75 (extrapolation). (3) The physics-only head is far off (+14 %), as on the test sets.
+- Abstract: the GBT-vs-Abaqus sentence replaced by the new-PINN-with-check result (0.33-0.38 % vs 2.53 %), moved to
+  the results paragraph; small trims. 499 words.
