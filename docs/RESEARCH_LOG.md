@@ -2463,3 +2463,6 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   experts, physics-only modes, honest comparison). 487 words (submission page limit 500). Same audited numbers.
 - 26 Nov: abstract sentence on what GBT replaces made explicit (Aya asked): GBT replaces both the plate physics and
   the Abaqus check. 494 words.
+- 26 Nov: abstract states that Abaqus is replaced by the GBT code and that the new PINN is built entirely on GBT
+  (energy for learning, training/test results, check of every prediction); first and last sentences shortened.
+  499 words.
