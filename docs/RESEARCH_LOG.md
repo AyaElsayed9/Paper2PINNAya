@@ -2507,3 +2507,8 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   (full GBT if eta > tolerance after 40 steps). From results/cost_study/*_SS_v2.csv: at 5 % tolerance no fallback in
   any of the 320 designs for any start; network starts 3-15 steps (mean 7.0-7.6), random 5-18 (mean 9.7); largest
   true error 2.51 % (0 labels) / 1.83 % (120 labels), always above full GBT (min +0.13 %). 500 words.
+- 26 Nov (evening): abstract rewritten in technical terms (Aya): reduced basis (energy-weighted POD on a fixed nodal
+  layout + dictionary of harmonics and end-zone splines), elastic/geometric stiffness matrices, function decoder,
+  Rayleigh quotient, hybrid loss, energy whitening (condition numbers 1e9-1e19), natural-gradient updates, block
+  LOBPCG, generalized eigenvalue problem, a posteriori error estimate, out-of-sample designs, fallback after 40
+  iterations. Same facts and maxima as before. 498 words.
