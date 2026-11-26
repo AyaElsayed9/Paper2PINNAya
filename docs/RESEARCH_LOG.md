@@ -2563,3 +2563,11 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   Cost view: one iteration ~0.2 s, fixed part of a check ~5.8 s (7.36 s - 7.6 x 0.2 s), full GBT 10.7 s -> beyond
   ~25 iterations the check costs more than full GBT. So 40 is a loose safety cap that never acted, not an optimum.
   Abstract unchanged until Aya decides.
+* 26 Nov, 18:40 (Aya: "are u sure of every number here? it was 14 for the other paper and also no need to mention
+  the one network that failed"): results paragraph re-checked with scripts/audit_abstract.py, all values confirmed
+  (320; 4.918 %; 319/320 above GBT; 3800/3800; 3-15 iterations, 0/320 fallbacks; 2.51 %; 7.36 vs 10.71 s; 22 points
+  L120 1.19 %, L0 0.67 %; Paper 1 Table 2 max 10.80 %). 14.54 % is Paper 1's maximum in its Table 1 beta sweep
+  (b_s 124.25, beta 0.58), a different set of points; beta 0.58 lies outside the Paper-2 design space (0.75-3.5), so
+  no checked result exists there and the comparison stays at the 22 common points ("at the same points" added).
+  Removed the sentence on the single all-lay-up network; added "in 319 of 320 designs"; "3800 checks" -> "3800
+  comparisons" (760 checked runs x 5 iteration counts, not 3800 designs).
