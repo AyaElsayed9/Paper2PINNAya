@@ -2515,3 +2515,8 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
 - 26 Nov (evening): abstract balanced (Aya: technical version too heavy, earlier one too casual): standard technical
   terms (reduced basis, POD, Rayleigh quotient, LOBPCG, upper bound, residual error estimate) in plain sentences,
   passive present for the method, past for results; condition-number figure dropped for length. 499 words (ambiguous "It stops" fixed).
+- 26 Nov (evening): abstract in short, direct sentences ("we" for the method, past tense for results). Added the
+  network layers (encoder 4 x 256, function decoder 2 x 256; checked in runs/experts/*.pt args and epinn defaults),
+  the longitudinal basis in words (sine waves of fixed wavelengths + local splines near the loaded ends), and the
+  training fix in words (each round improves the predicted modes by one GBT eigenvalue iteration per design and
+  fits the network to them). GP sentence dropped for length. 500 words.
