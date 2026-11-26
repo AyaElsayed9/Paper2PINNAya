@@ -2465,4 +2465,4 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   the Abaqus check. 494 words.
 - 26 Nov: abstract states that Abaqus is replaced by the GBT code and that the new PINN is built entirely on GBT
   (energy for learning, training/test results, check of every prediction); first and last sentences shortened.
-  499 words.
+  498 words.
