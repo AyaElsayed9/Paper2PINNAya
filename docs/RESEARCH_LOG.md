@@ -2581,3 +2581,4 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
 * 26 Nov, 19:35 (Aya: no "draft for approval", no underline under her name; she counted 493 words): PDF rebuilt
   without both. Word count: 493 words; my count of 500 also counted the 7 "%" signs (written with a space, "1.52 %")
   as words. Text unchanged.
+* 26 Nov, 19:40 (Aya): "Presentation: oral" removed from the abstract PDF footer.
