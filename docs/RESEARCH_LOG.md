@@ -2483,3 +2483,9 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   the expert range beta >= 0.75 (extrapolation). (3) The physics-only head is far off (+14 %), as on the test sets.
 - Abstract: the GBT-vs-Abaqus sentence replaced by the new-PINN-with-check result (0.33-0.38 % vs 2.53 %), moved to
   the results paragraph; small trims. 499 words.
+- 26 Nov: Aya caught a wrong statement: in chat I called 8.08 % (mean of the 4 tight-pitch points of Paper 1, Table 2)
+  Paper 1's "largest error". Paper 1's largest error is 14.54 % (Table 1, beta sweep, b_s 124.25, beta 0.58); in its
+  independent Abaqus test (Table 2) the largest is 10.80 %. Audit of Paper-1 numbers: abstract (2.53 % = mean over the
+  22 Table-2 points, computed) is correct; report Sec. 1 said "reached 10.8 %" (incomplete) -> now 10.30 % mean /
+  14.54 % max in the beta sweep and 10.80 % in the independent test; report Table 3 caption says the means are
+  computed from Paper 1 Table 2. PAPER1_SUMMARY updated. Report recompiled (9 pages).

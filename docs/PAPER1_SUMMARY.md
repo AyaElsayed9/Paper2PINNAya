@@ -16,7 +16,7 @@ Composite Structures 399 (2026) 120959. (PDF uploaded by Aya: `1-s2_0-S026382232
 | if violated | deep ensemble (E = 10), CoV; CoV > 5 % → Abaqus (≈ 41 s per panel) |
 | data term | γ·SmoothL1(N_cr/N_FEA, 1) when Abaqus was called |
 | labels of 144 panels | 84 % fast PINN, 10.4 % re-solved PINN, 5.6 % Abaqus |
-| accuracy vs Abaqus | 16 regular/transition points: mean 1.34 %, max 3.54 %; tight pitch b_s = 124.25: **10.3–10.8 %** (RBS / 1D limit) |
+| accuracy vs Abaqus | 16 regular/transition points: mean 1.34 %, max 3.54 %; tight pitch b_s = 124.25: **10.3–10.8 %** (RBS / 1D limit); Table 1 (beta sweep, Fig. 6): b_s 124.25 mean 10.30 %, **max 14.54 % at beta 0.58**; b_s 285.5 max 7.11 % at beta 0.58 (Paper 1's overall largest error is 14.54 %, not 10.80 %) |
 | ensemble check | missed triggers 11 % vs closed form, **35 % vs Abaqus** (cannot see the RBS model error) |
 | cost | 3.31 h for 144 panels (all-Abaqus 1.64 h) |
 | fast tool | separate MLP surrogate (b_s, β → N_cr), 0.818 ms, R² 0.9998, all held-out points within 5 % |

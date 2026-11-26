@@ -58,7 +58,7 @@
 
 In Paper~1 \cite{p1} I predicted the local buckling of omega-stringer panels with a hybrid physics-informed neural network (PINN). Two small one-dimensional networks described the skin and the foot strips with one sine wave along the panel, the plate energy used the reduced bending stiffness (RBS) approximation, and each panel was trained on its own. Suspicious answers, flagged when the load left a window of $-15\pc{}/{+3}\pc{}$ around the previous panel, were checked with Abaqus, and an MLP on the stringer pitch $b_s$ and the aspect ratio $\beta$ gave fast answers for one cross-ply lay-up.
 
-The paper worked, but it left four weak points: the RBS error reached 10.8\pc{} against Abaqus at the tight pitch $b_s = 124.25$\,mm; Abaqus as oracle is expensive and lies outside the framework; the window depends on the order in which panels are asked; and the tool covered one lay-up only. For Paper~2 I set five goals: (1)~GBT as the physics, (2)~the GBT code instead of Abaqus, (3)~a reasonable check instead of the window, (4)~the lay-up as part of the tool, and (5)~a fast tool. Two rules were fixed from the start: the network must remain a PINN, with labels only as support, and every answer may depend only on the design itself.
+The paper worked, but it left four weak points: at the tight pitch $b_s = 124.25$\,mm the error against Abaqus grew to 10.30\pc{} on average and 14.54\pc{} at most in its $\beta$ sweep (Paper~1, Table~1) and to 10.80\pc{} in its independent Abaqus test (Table~2), because of the RBS approximation; Abaqus as oracle is expensive and lies outside the framework; the window depends on the order in which panels are asked; and the tool covered one lay-up only. For Paper~2 I set five goals: (1)~GBT as the physics, (2)~the GBT code instead of Abaqus, (3)~a reasonable check instead of the window, (4)~the lay-up as part of the tool, and (5)~a fast tool. Two rules were fixed from the start: the network must remain a PINN, with labels only as support, and every answer may depend only on the design itself.
 
 \begin{figure}[t]
 \centering
@@ -157,7 +157,7 @@ Before going further I tested the first goal directly: I ran the full GBT code a
 
 \begin{table}[h]
 \centering\small
-\caption{Error against Abaqus at the 22 points of Paper~1, mean / maximum.}
+\caption{Error against Abaqus at the 22 independent test points of Paper~1 (its Table~2; means and maxima computed from that table), mean / maximum.}
 \label{tab:abq}
 \begin{tabular}{@{}lrr@{}}
 \toprule
