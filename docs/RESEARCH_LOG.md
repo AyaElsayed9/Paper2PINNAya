@@ -2512,3 +2512,6 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   Rayleigh quotient, hybrid loss, energy whitening (condition numbers 1e9-1e19), natural-gradient updates, block
   LOBPCG, generalized eigenvalue problem, a posteriori error estimate, out-of-sample designs, fallback after 40
   iterations. Same facts and maxima as before. 498 words.
+- 26 Nov (evening): abstract balanced (Aya: technical version too heavy, earlier one too casual): standard technical
+  terms (reduced basis, POD, Rayleigh quotient, LOBPCG, upper bound, residual error estimate) in plain sentences,
+  passive present for the method, past for results; condition-number figure dropped for length. 498 words.
