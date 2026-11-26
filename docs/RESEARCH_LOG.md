@@ -2520,3 +2520,10 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   the longitudinal basis in words (sine waves of fixed wavelengths + local splines near the loaded ends), and the
   training fix in words (each round improves the predicted modes by one GBT eigenvalue iteration per design and
   fits the network to them). GP sentence dropped for length. 500 words.
+- 26 Nov (evening): Aya asked what "this basis changes the critical load by at most 0.3 %" means. Checking it showed
+  the 0.3 % came from the first (v1) design space (dictionary study 0.05-0.27 %). In the final (v2) space the logged
+  value over the 1064 labelled designs is 0.061 % mean, 0.49 % max (general lay-ups; industrial max 0.22 %); at the
+  22 Paper-1 points, 40 check steps give 0.04-0.05 % mean, 0.26 % max vs full GBT (min -0.005 %: the basis is not a
+  strict subspace of full GBT, as already seen for 7 of 1064 designs). Abstract now: "In 1064 designs, this basis
+  changed the critical load by at most 0.5 %" (500 words). Report: conclusions, tool section and check limit now
+  quote 0.49 % max / 0.06 % mean over 1064 designs.
