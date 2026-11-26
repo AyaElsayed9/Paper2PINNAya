@@ -2527,3 +2527,27 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   strict subspace of full GBT, as already seen for 7 of 1064 designs). Abstract now: "In 1064 designs, this basis
   changed the critical load by at most 0.5 %" (500 words). Report: conclusions, tool section and check limit now
   quote 0.49 % max / 0.06 % mean over 1064 designs.
+
+### 26 Nov 2026, 18:00 — full number audit of the GAMM abstract and the report (Aya: "can u rechek all numbers again")
+* `scripts/audit_abstract.py` recomputes every abstract number from the result files; every report number was looked
+  up in its log entry or result file (all 209 distinct numbers exist in the sources; context checked sentence by
+  sentence). Full table: `docs/conferences/GAMM2027_number_audit.md`.
+* Abstract, rounded values replaced by exact ones: 1.6 % -> 1.52 % (60 GBT validation cases), 0.5 % -> 0.49 %
+  (basis, 1064 designs), 4.9 % -> 4.92 %, 2.5 % -> 2.51 %, "7 to 8 s versus 11 s" -> 7.4 s versus 10.7 s. "3800
+  checks" confirmed (760 runs x steps 0/1/3/5/12; my first count, 3040, used a wrong step list 1/3/5/8/12).
+* Abstract wording (Aya: "what does this mean with physics only or with up to 120 GBT results"): now "either with
+  physics only or with full GBT solutions for 120 of them" (src/pinnbuck/epinn.py, mode "hybrid": for the labelled
+  designs the head is fitted to the exact GBT loads and the modes also to the exact GBT modes; the other designs use
+  the physics step only). Still 500 words.
+* Architecture confirmed (Aya: "so we have 6 layers?"): encoder 4 x 256 (SiLU) on (b_s, beta); load head = one
+  linear layer on the encoder output (3 loads); decoder = a layer joining the encoder output with the code of each
+  longitudinal function (256) + one 256 x 256 layer + linear output (R x k values). 6 hidden layers on the path to
+  the modes, 4 on the path to the load.
+* Report errors fixed: (1) LOGIC ERROR: "training pays off only after about 2400 designs" was the break-even vs full
+  GBT, but the sentence compares with the random start; now vs full GBT 1900-4400 designs, vs random start
+  9000-25,000 designs (summary_tol5.csv per expert). The same misreading is in the 23 Nov entry above ("pays back
+  only after ~2400 designs"): read it as "vs full GBT". (2) "instant answer within 0.24-1.18 %" (abstract and
+  conclusion) were means; now "on average, at most 4.92 %". (3) "checked answer below 0.5 % in every test" -> "in
+  every test shown in the figure" (the 26 Oct clamped test had 0.54 %). (4) maxima added: GBT vs Abaqus 1.52 %,
+  industrial network 8.40 % / 0.74 %; data models "about 28 %" -> 27.0-29.7 %; MAC "against 0.29" -> 0.23-0.29;
+  "own 80 lowest modes" -> "own 80 modes, 1.6 % on average"; Table 2 caption "mean error". Report recompiled, 9 pages.
