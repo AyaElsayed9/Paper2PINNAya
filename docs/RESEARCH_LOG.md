@@ -2571,3 +2571,6 @@ Removing the MDPI section settings (bidi, line grid) took the LibreOffice page c
   no checked result exists there and the comparison stays at the 22 common points ("at the same points" added).
   Removed the sentence on the single all-lay-up network; added "in 319 of 320 designs"; "3800 checks" -> "3800
   comparisons" (760 checked runs x 5 iteration counts, not 3800 designs).
+* 26 Nov, 19:00 (Aya: "ok"): "In 3800 comparisons ... true error" -> "After 0 to 12 iterations, the error estimate was
+  never smaller than the actual error against full GBT (3800 comparisons)"; "7.4 s per design on average". 500 words
+  or fewer. Open for Aya: the 40-iteration sentence; the short description of Paper 1's model.
